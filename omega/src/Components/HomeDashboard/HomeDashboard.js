@@ -51,9 +51,7 @@ const HomeDashboard = () => {
 
     return (
         <div>
-            <h1 onBlur={keyPress} onInput={keyPress} onKeyPress={keyPress} className='center header'>Home Dashboard</h1>
-
-            
+            <h1 onBlur={keyPress} onInput={keyPress} onKeyPress={keyPress} className='center header'>Test Docker Dashboard</h1>
 
             <div className='row'>
                 <div className='col-lg-12'>
