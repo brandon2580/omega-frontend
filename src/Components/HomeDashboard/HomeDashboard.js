@@ -56,7 +56,7 @@ const HomeDashboard = () => {
         onKeyPress={keyPress}
         className="center header"
       >
-        Home Dashboard
+        Test Dashboard
       </h1>
 
       <div className="row">
