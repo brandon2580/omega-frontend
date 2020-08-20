@@ -51,6 +51,7 @@ const HomeDashboard = () => {
   return (
     <div>
       <h1
+        contentEditable="true"
         onBlur={keyPress}
         onInput={keyPress}
         onKeyPress={keyPress}
