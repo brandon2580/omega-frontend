@@ -3,13 +3,11 @@ import "./App.scss";
 import AutoSuggest from "react-autosuggest";
 import DarkModeToggle from "./DarkModeToggle";
 import HomeDashboard from "./Components/HomeDashboard/HomeDashboard";
-import FirstTestCard from "./Components/TestComponents/FirstTestCard";
 import { Modal } from "antd";
 import "antd/dist/antd.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
-import SecondTestCard from "./Components/TestComponents/SecondTestCard";
 
 // List of components to auto-suggest
 const components = [
@@ -46,11 +44,7 @@ function App() {
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [visible, setVisible] = React.useState(false);
-
-  const cards = {
-    FirstTestCard: <FirstTestCard />,
-    SecondTestCard: <SecondTestCard />,
-  };
+  const [selectedCard, setSelectedCard] = useState();
 
   const showModal = () => {
     setVisible(true);
@@ -66,11 +60,8 @@ function App() {
     setVisible(false);
   };
 
-  const handleClick = (e) => {
-    let selectedCardIdentifier = e.target.value;
-    if (selectedCardIdentifier in cards) {
-      console.log("Success, " + selectedCardIdentifier + " was clicked");
-    }
+  const handleClick = (event) => {
+    setSelectedCard(event.target.name);
   };
 
   function getSuggestions(value) {
@@ -149,12 +140,12 @@ function App() {
               <div className="add-card-container">
                 <div className="row center">
                   <div className="col-lg-4">
-                    <button value="FirstTestCard" onClick={handleClick}>
+                    <button name="FirstTestCard" onClick={handleClick}>
                       First Test Card
                     </button>
                   </div>
                   <div className="col-lg-4">
-                    <button value="SecondTestCard" onClick={handleClick}>
+                    <button name="SecondTestCard" onClick={handleClick}>
                       Second Test Card
                     </button>
                   </div>
@@ -191,8 +182,7 @@ function App() {
           </form>
         </div>
       </nav>
-
-      <HomeDashboard />
+      <HomeDashboard selectedCard={selectedCard} />
     </div>
   );
 }

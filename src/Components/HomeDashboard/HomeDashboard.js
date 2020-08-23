@@ -11,14 +11,22 @@ import ChartCard from "./ChartCard";
 import SentimentCard from "./SentimentCard";
 import RiskCard from "./RiskCard";
 import FirstTestCard from "../TestComponents/FirstTestCard";
+import SecondTestCard from "../TestComponents/SecondTestCard";
+
 import { Card } from "antd";
 import { Responsive, WidthProvider } from "react-grid-layout";
 var company_logo = require("../../images/msft_logo.png");
 
 const GridLayout = WidthProvider(Responsive);
 
-const HomeDashboard = () => {
+const cards = {
+  FirstTestCard,
+  SecondTestCard,
+};
+
+const HomeDashboard = (props) => {
   const [value, setValue] = useState({ value: true });
+  const AddedCard = cards[props.selectedCard];
 
   const keyPress = (event) => {
     if (event.charCode == 13) {
@@ -48,6 +56,8 @@ const HomeDashboard = () => {
   ];
 
   var layout = { lg: value === true ? defaultLayout : backupLayout };
+
+  console.log(props.selectedCard);
 
   return (
     <div>
@@ -154,7 +164,7 @@ const HomeDashboard = () => {
         </SideNav.Nav>
       </SideNav>
 
-      {5 < 10 ? <h1>True</h1> : <h1>False</h1>}
+      {AddedCard && <AddedCard />}
 
       <GridLayout
         className="layout"
