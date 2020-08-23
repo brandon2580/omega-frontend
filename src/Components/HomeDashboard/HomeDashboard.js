@@ -10,6 +10,7 @@ import DividendCard from "./DividendCard";
 import ChartCard from "./ChartCard";
 import SentimentCard from "./SentimentCard";
 import RiskCard from "./RiskCard";
+import FirstTestCard from "../TestComponents/FirstTestCard";
 import { Card } from "antd";
 import { Responsive, WidthProvider } from "react-grid-layout";
 var company_logo = require("../../images/msft_logo.png");
@@ -152,6 +153,8 @@ const HomeDashboard = () => {
           </NavItem>
         </SideNav.Nav>
       </SideNav>
+
+      {5 < 10 ? <h1>True</h1> : <h1>False</h1>}
 
       <GridLayout
         className="layout"

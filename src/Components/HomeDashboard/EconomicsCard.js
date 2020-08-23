@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import { Rnd } from "react-rnd";
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,

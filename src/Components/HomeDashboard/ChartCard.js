@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import { Rnd } from "react-rnd";
 import {
-  AreaChart,
-  Area,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   ResponsiveContainer,
   LineChart,

@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import { Rnd } from "react-rnd";
 import {
   PieChart,
   Pie,
-  Sector,
   Tooltip,
   Cell,
   ResponsiveContainer,
