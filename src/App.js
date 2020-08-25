@@ -3,6 +3,7 @@ import "./App.scss";
 import AutoSuggest from "react-autosuggest";
 import DarkModeToggle from "./DarkModeToggle";
 import HomeDashboard from "./Components/HomeDashboard/HomeDashboard";
+import EarningsCard from "./Components/HomeDashboard/EarningsCard";
 import { Modal } from "antd";
 import "antd/dist/antd.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -138,43 +139,41 @@ function App() {
               </form>
 
               <div className="add-card-container">
-                <div className="row center">
-                  <div className="col-lg-4">
-                    <button name="FirstTestCard" onClick={handleClick}>
-                      First Test Card
-                    </button>
+                <div className="row">
+                  <div className="col-lg-4 modal-card">
+                    <EarningsCard />
+
                   </div>
-                  <div className="col-lg-4">
-                    <button name="SecondTestCard" onClick={handleClick}>
-                      Second Test Card
-                    </button>
+                  <div className="col-lg-4 modal-card">
+                    <EarningsCard />
+
                   </div>
-                  <div className="col-lg-4">
-                    <h1>Card</h1>
+                  <div className="col-lg-4 modal-card">
+                    <EarningsCard />
                   </div>
                 </div>
 
-                <div className="row center">
-                  <div className="col-lg-4">
-                    <h1>Card</h1>
+                <div className="row">
+                  <div className="col-lg-4 modal-card">
+                    <EarningsCard />
                   </div>
-                  <div className="col-lg-4">
-                    <h1>Card</h1>
+                  <div className="col-lg-4 modal-card">
+                    <EarningsCard />
                   </div>
-                  <div className="col-lg-4">
-                    <h1>Card</h1>
+                  <div className="col-lg-4 modal-card">
+                    <EarningsCard />
                   </div>
                 </div>
 
-                <div className="row center">
-                  <div className="col-lg-4">
-                    <h1>Card</h1>
+                <div className="row">
+                  <div className="col-lg-4 modal-card">
+                    <EarningsCard />
                   </div>
-                  <div className="col-lg-4">
-                    <h1>Card</h1>
+                  <div className="col-lg-4 modal-card">
+                    <EarningsCard />
                   </div>
-                  <div className="col-lg-4">
-                    <h1>Card</h1>
+                  <div className="col-lg-4 modal-card">
+                    <EarningsCard />
                   </div>
                 </div>
               </div>
