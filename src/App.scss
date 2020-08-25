@@ -66,28 +66,8 @@ body.light-mode svg {
   fill: black;
 }
 
-body.light-mode
-  .sidenav---sidenav-nav---3tvij
-  > .sidenav---sidenav-navitem---uwIJ-:hover
-  > .sidenav---navitem---9uL5T
-  .sidenav---navicon---3gCRo
-  > *,
-.sidenav---sidenav-nav---3tvij
-  > .sidenav---sidenav-navitem---uwIJ-:hover
-  > .sidenav---navitem---9uL5T
-  .sidenav---navtext---1AE_f
-  > *,
-.sidenav---sidenav-nav---3tvij
-  > .sidenav---sidenav-navitem---uwIJ-.sidenav---highlighted---oUx9u
-  > .sidenav---navitem---9uL5T
-  .sidenav---navicon---3gCRo
-  > *,
-.sidenav---sidenav-nav---3tvij
-  > .sidenav---sidenav-navitem---uwIJ-.sidenav---highlighted---oUx9u
-  > .sidenav---navitem---9uL5T
-  .sidenav---navtext---1AE_f
-  > * {
-  color: black;
+body.light-mode .sidenav---navtext---1AE_f {
+  color: black !important;
 }
 
 body.dark-mode .header {
@@ -104,6 +84,15 @@ body.light-mode .header {
   margin-top: 2.5%;
   margin-bottom: 2.5%;
   color: black;
+}
+
+body.light-mode
+  .sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-.sidenav---highlighted---oUx9u
+  > .sidenav---navitem---9uL5T
+  .sidenav---navtext---1AE_f
+  > * {
+  color: black !important;
 }
 
 body.dark-mode .ant-card {
@@ -128,6 +117,38 @@ body.dark-mode .ant-card-body {
 
 body.light-mode .ant-card-body {
   color: black;
+}
+
+body.dark-mode .ant-modal-body {
+  background-color: #1a1a1f;
+}
+
+body.dark-mode .ant-modal-header {
+  background: #1a1a1f !important;
+}
+
+body.dark-mode .ant-modal-title {
+  color: white !important;
+}
+
+body.dark-mode .ant-modal-footer {
+  background: #1a1a1f !important;
+}
+
+body.light-mode .ant-modal-body {
+  background-color: #eaeaea;
+}
+
+body.light-mode .ant-modal-header {
+  background: #eaeaea !important;
+}
+
+body.light-mode .ant-modal-title {
+  color: black !important;
+}
+
+body.light-mode .ant-modal-footer {
+  background: #eaeaea !important;
 }
 
 .center {
@@ -181,6 +202,11 @@ body.light-mode .ant-card-body {
 
 .modal-header {
   color: black;
+}
+
+.modal-card {
+  margin-bottom: 5%;
+  height: 70%;
 }
 
 .ticker-header {
