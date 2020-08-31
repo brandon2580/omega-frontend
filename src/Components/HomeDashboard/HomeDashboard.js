@@ -19,15 +19,18 @@ var company_logo = require("../../images/msft_logo.png");
 
 const GridLayout = WidthProvider(Responsive);
 
+// Put selectable cards in an object
 const cards = {
   FirstTestCard,
   SecondTestCard,
 };
 
 const HomeDashboard = (props) => {
-  const [value, setValue] = useState({ value: true });
+  // The value of AddedCard is the value of whatever the inherited value (as a prop) of selectedCard is
   const AddedCard = cards[props.selectedCard];
+  const [value, setValue] = useState({ value: true });
 
+  // If the user clicks enter, just blur the input instead of refreshing
   const keyPress = (event) => {
     if (event.charCode == 13) {
       event.preventDefault();

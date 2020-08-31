@@ -51,16 +51,19 @@ function App() {
     setVisible(true);
   };
 
+  // Handles the click of the "Ok" button in the modal
   const handleOk = (e) => {
     console.log(e);
     setVisible(false);
   };
 
+  // Handles the click of the "Cancel" button in the modal
   const handleCancel = (e) => {
     console.log(e);
     setVisible(false);
   };
 
+  // Sets value of selectedCard to the name attribute which is assigned to the button
   const handleClick = (event) => {
     setSelectedCard(event.target.name);
   };
@@ -142,11 +145,15 @@ function App() {
                 <div className="row">
                   <div className="col-lg-4 modal-card">
                     <EarningsCard />
-
+                    <button name="FirstTestCard" onClick={handleClick}>
+                      First
+                    </button>
                   </div>
                   <div className="col-lg-4 modal-card">
                     <EarningsCard />
-
+                    <button name="SecondTestCard" onClick={handleClick}>
+                      Second
+                    </button>
                   </div>
                   <div className="col-lg-4 modal-card">
                     <EarningsCard />
@@ -181,6 +188,10 @@ function App() {
           </form>
         </div>
       </nav>
+
+      {/* selectedCard is the value of the name attribute on
+       whatever button the user clicks. That value is passed 
+       down to HomeDashboard as a prop */}
       <HomeDashboard selectedCard={selectedCard} />
     </div>
   );
