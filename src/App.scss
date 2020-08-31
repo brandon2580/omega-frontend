@@ -80,6 +80,10 @@ body.light-mode .main-svg {
   background: white;
 }
 
+svg {
+  color: white;
+}
+
 body.light-mode .header {
   margin-top: 2.5%;
   margin-bottom: 2.5%;
@@ -162,6 +166,14 @@ body.light-mode .ant-modal-footer {
 
 .ant-modal {
   width: 75% !important;
+}
+
+.ant-modal-header {
+  border-radius: 0px !important;
+}
+
+.ant-modal-footer {
+  border-radius: 0px !important;
 }
 
 .add-card-container {
