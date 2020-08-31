@@ -80,7 +80,7 @@ const HomeDashboard = (props) => {
             <div className="ticker-information">
               <div className="row">
                 <div className="col-lg-3 justify-content">
-                  <h1 className='ticker-title'>Microsoft Corp.</h1>
+                  <h1 className="ticker-title">Microsoft Corp.</h1>
                 </div>
               </div>
 
@@ -164,7 +164,6 @@ const HomeDashboard = (props) => {
           </NavItem>
         </SideNav.Nav>
       </SideNav>
-
       {AddedCard && <AddedCard />}
 
       <GridLayout
