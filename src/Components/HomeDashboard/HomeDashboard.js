@@ -60,8 +60,6 @@ const HomeDashboard = (props) => {
 
   var layout = { lg: value === true ? defaultLayout : backupLayout };
 
-  console.log(props.selectedCard);
-
   return (
     <div>
       <h1
@@ -82,7 +80,7 @@ const HomeDashboard = (props) => {
             <div className="ticker-information">
               <div className="row">
                 <div className="col-lg-3 justify-content">
-                  <h1>Microsoft Corp.</h1>
+                  <h1 className='ticker-title'>Microsoft Corp.</h1>
                 </div>
               </div>
 
@@ -91,7 +89,7 @@ const HomeDashboard = (props) => {
                   <img style={{ borderRadius: "1000px" }} src={company_logo} />
                 </div>
                 <div className="col-lg-3 ">
-                  <p>Software—Infrastructure</p>
+                  <p>Software-Infrastructure</p>
 
                   <p>
                     United States
