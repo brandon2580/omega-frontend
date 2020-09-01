@@ -19,20 +19,11 @@ var company_logo = require("../../images/msft_logo.png");
 
 const GridLayout = WidthProvider(Responsive);
 
-// Put selectable cards in an object
-const cards = {
-  FirstTestCard,
-  SecondTestCard,
-};
-
 const HomeDashboard = (props) => {
-  // The value of AddedCard is the value of whatever the inherited value (as a prop) of selectedCard is
-  const AddedCard = cards[props.selectedCard];
   const [value, setValue] = useState({ value: true });
   const [availableCards, setAvailableCards] = useState([
-    { id: "1", title: 'first title', name: "card 1" },
-    { id: "2", title: 'second title', name: "card 2" },
-    
+    { id: "1", title: "first title", name: "card 1" },
+    { id: "2", title: "second title", name: "card 2" },
   ]);
   const [selectedCardsIndex, setSelectedCardIndex] = useState([]);
 
@@ -50,7 +41,7 @@ const HomeDashboard = (props) => {
     }
   }
 
-  console.log(selectedCardsIndex)
+  console.log(selectedCardsIndex);
 
   // If the user clicks enter, just blur the input instead of refreshing
   const keyPress = (event) => {
@@ -189,7 +180,7 @@ const HomeDashboard = (props) => {
 
       {availableCards.map((card) => {
         return (
-          <FirstTestCard key={card.id} name={card.name} />
+          <FirstTestCard key={card.id} name={card.name} title={card.title} />
         );
       })}
 
