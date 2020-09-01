@@ -64,8 +64,8 @@ function App() {
   };
 
   // Sets value of selectedCard to the name attribute which is assigned to the button
-  const handleClick = (event) => {
-    setSelectedCard(event.target.name);
+  const handleClick = (e) => {
+    setSelectedCard(e.target.name);
   };
 
   function getSuggestions(value) {
