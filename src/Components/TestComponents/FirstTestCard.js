@@ -5,7 +5,7 @@ import { Card } from "antd";
 const FirstTestCard = (props) => {
   return (
     <Card
-      title="First Test Card"
+      title={props.title}
       style={{
         height: "100%",
         overflow: "auto",
@@ -14,7 +14,7 @@ const FirstTestCard = (props) => {
     >
       <hr className="card-hr" />
 
-      <h1>First Test Card</h1>
+      <h1>{props.name}</h1>
     </Card>
   );
 };

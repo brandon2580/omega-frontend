@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, cloneElement } from "react";
 import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
@@ -29,17 +29,28 @@ const HomeDashboard = (props) => {
   // The value of AddedCard is the value of whatever the inherited value (as a prop) of selectedCard is
   const AddedCard = cards[props.selectedCard];
   const [value, setValue] = useState({ value: true });
-  const [addedCards, setAddedCards] = useState([]);
+  const [availableCards, setAvailableCards] = useState([
+    { id: "1", title: 'first title', name: "card 1" },
+    { id: "2", title: 'second title', name: "card 2" },
+    
+  ]);
+  const [selectedCardsIndex, setSelectedCardIndex] = useState([]);
 
-  if (addedCards.indexOf(AddedCard) === -1) {
-    if (AddedCard) {
-      setAddedCards((prevCards) => [...prevCards, AddedCard]);
-    } else {
-      console.log("Nothing to render");
+  function selectCard(id) {
+    // card was selected, remove it
+    if (selectedCardsIndex.includes(id)) {
+      setSelectedCardIndex((prevSelected) =>
+        prevSelected.filter((cardId) => cardId !== id)
+      );
+    }
+
+    // card was not selected, add it
+    else {
+      setSelectedCardIndex((prevSelected) => [...prevSelected, id]);
     }
   }
 
-  console.log(addedCards);
+  console.log(selectedCardsIndex)
 
   // If the user clicks enter, just blur the input instead of refreshing
   const keyPress = (event) => {
@@ -176,6 +187,12 @@ const HomeDashboard = (props) => {
         </SideNav.Nav>
       </SideNav>
 
+      {availableCards.map((card) => {
+        return (
+          <FirstTestCard key={card.id} name={card.name} />
+        );
+      })}
+
       <GridLayout
         className="layout"
         layouts={layout}
@@ -207,13 +224,6 @@ const HomeDashboard = (props) => {
         <div key={7}>
           <EconomicsCard />
         </div>
-        {addedCards.map((card) => {
-          return (
-            <div key={8}>
-              <AddedCard key={card.id} />;
-            </div>
-          );
-        })}
       </GridLayout>
     </div>
   );
