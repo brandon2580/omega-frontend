@@ -4,14 +4,7 @@ import { Card } from "antd";
 
 const FirstTestCard = (props) => {
   return (
-    <Card
-      title={props.title}
-      style={{
-        height: "100%",
-        overflow: "auto",
-        scrollbarColor: "#152233 #131722",
-      }}
-    >
+    <Card title={props.title}>
       <hr className="card-hr" />
 
       <h1>{props.name}</h1>

@@ -45,7 +45,7 @@ function App() {
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [visible, setVisible] = React.useState(false);
-  const [selectedCard, setSelectedCard] = useState();
+  const [selectedCard, setSelectedCard] = useState([]);
 
   const showModal = () => {
     setVisible(true);
@@ -64,9 +64,11 @@ function App() {
   };
 
   // Sets value of selectedCard to the name attribute which is assigned to the button
-  const handleClick = (e) => {
-    setSelectedCard(e.target.name);
+  const handleClick = (e, id) => {
+    setSelectedCard((prev) => [...prev, id]);
   };
+
+  console.log(selectedCard)
 
   function getSuggestions(value) {
     return lowerCasedComponents.filter((components) =>

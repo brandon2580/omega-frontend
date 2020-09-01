@@ -180,7 +180,25 @@ const HomeDashboard = (props) => {
 
       {availableCards.map((card) => {
         return (
-          <FirstTestCard key={card.id} name={card.name} title={card.title} />
+          <div>
+            <button
+              onClick={() => {
+                selectCard(card.id);
+              }}
+            />
+          </div>
+        );
+      })}
+
+      {selectedCardsIndex.map((cardId) => {
+        const card = availableCards.find((c) => c.id === cardId);
+        return (
+          <FirstTestCard
+            key={card.id}
+            name={card.name}
+            title={card.title}
+            card={availableCards[card.id]}
+          />
         );
       })}
 
