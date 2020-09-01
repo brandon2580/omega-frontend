@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
@@ -12,7 +12,7 @@ import SentimentCard from "./SentimentCard";
 import RiskCard from "./RiskCard";
 import FirstTestCard from "../TestComponents/FirstTestCard";
 import SecondTestCard from "../TestComponents/SecondTestCard";
-
+import _ from "lodash";
 import { Card } from "antd";
 import { Responsive, WidthProvider } from "react-grid-layout";
 var company_logo = require("../../images/msft_logo.png");
@@ -29,6 +29,17 @@ const HomeDashboard = (props) => {
   // The value of AddedCard is the value of whatever the inherited value (as a prop) of selectedCard is
   const AddedCard = cards[props.selectedCard];
   const [value, setValue] = useState({ value: true });
+  const [addedCards, setAddedCards] = useState([]);
+
+  if (addedCards.indexOf(AddedCard) === -1) {
+    if (AddedCard) {
+      setAddedCards((prevCards) => [...prevCards, AddedCard]);
+    } else {
+      console.log("Nothing to render");
+    }
+  }
+
+  console.log(addedCards);
 
   // If the user clicks enter, just blur the input instead of refreshing
   const keyPress = (event) => {
@@ -39,23 +50,23 @@ const HomeDashboard = (props) => {
   };
 
   var defaultLayout = [
-    { i: "a", x: 0, y: 0, w: 6, h: 1 },
-    { i: "b", x: 12, y: 0, w: 6, h: 1 },
-    { i: "c", x: 0, y: 0, w: 4, h: 1 },
-    { i: "d", x: 4, y: 0, w: 4, h: 1 },
-    { i: "e", x: 12, y: 0, w: 4, h: 1 },
-    { i: "f", x: 0, y: 0, w: 6, h: 1 },
-    { i: "g", x: 12, y: 0, w: 6, h: 1 },
+    { i: "1", x: 0, y: 0, w: 6, h: 1 },
+    { i: "2", x: 12, y: 0, w: 6, h: 1 },
+    { i: "3", x: 0, y: 0, w: 4, h: 1 },
+    { i: "4", x: 4, y: 0, w: 4, h: 1 },
+    { i: "5", x: 12, y: 0, w: 4, h: 1 },
+    { i: "6", x: 0, y: 0, w: 6, h: 1 },
+    { i: "7", x: 12, y: 0, w: 6, h: 1 },
   ];
 
   var backupLayout = [
-    { i: "a", x: 0, y: 0, w: 6, h: 1 },
-    { i: "b", x: 12, y: 0, w: 6, h: 1 },
-    { i: "c", x: 0, y: 0, w: 4, h: 1 },
-    { i: "d", x: 4, y: 0, w: 4, h: 1 },
-    { i: "e", x: 12, y: 0, w: 4, h: 1 },
-    { i: "f", x: 0, y: 0, w: 6, h: 1 },
-    { i: "g", x: 12, y: 0, w: 6, h: 1 },
+    { i: "1", x: 0, y: 0, w: 6, h: 1 },
+    { i: "2", x: 12, y: 0, w: 6, h: 1 },
+    { i: "3", x: 0, y: 0, w: 4, h: 1 },
+    { i: "4", x: 4, y: 0, w: 4, h: 1 },
+    { i: "5", x: 12, y: 0, w: 4, h: 1 },
+    { i: "6", x: 0, y: 0, w: 6, h: 1 },
+    { i: "7", x: 12, y: 0, w: 6, h: 1 },
   ];
 
   var layout = { lg: value === true ? defaultLayout : backupLayout };
@@ -164,7 +175,6 @@ const HomeDashboard = (props) => {
           </NavItem>
         </SideNav.Nav>
       </SideNav>
-      {AddedCard && <AddedCard />}
 
       <GridLayout
         className="layout"
@@ -176,27 +186,34 @@ const HomeDashboard = (props) => {
         rowHeight={600}
         width={1200}
       >
-        <div key="a">
+        <div key={1}>
           <EarningsCard />
         </div>
-        <div key="b">
+        <div key={2}>
           <AnalystCard />
         </div>
-        <div key="c">
+        <div key={3}>
           <DividendCard />
         </div>
-        <div key="d">
+        <div key={4}>
           <ChartCard />
         </div>
-        <div key="e">
+        <div key={5}>
           <SentimentCard />
         </div>
-        <div key="f">
+        <div key={6}>
           <RiskCard />
         </div>
-        <div key="g">
+        <div key={7}>
           <EconomicsCard />
         </div>
+        {addedCards.map((card) => {
+          return (
+            <div key={8}>
+              <AddedCard key={card.id} />;
+            </div>
+          );
+        })}
       </GridLayout>
     </div>
   );
