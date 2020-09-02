@@ -4,12 +4,14 @@ import AutoSuggest from "react-autosuggest";
 import DarkModeToggle from "./DarkModeToggle";
 import HomeDashboard from "./Components/HomeDashboard/HomeDashboard";
 import { Modal } from "antd";
-import "antd/dist/antd.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/js/src/collapse.js";
+import "antd/dist/antd.css";
 import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
 import LineChartCard from "./Components/TestComponents/LineChartCard";
 import PieChartCard from "./Components/TestComponents/PieChartCard";
+import BarChartCard from "./Components/TestComponents/BarChartCard";
 
 // List of components to auto-suggest
 const components = [
@@ -89,9 +91,25 @@ function App() {
       ],
       PieChartCard: true,
     },
+
+    //3rd item
+    {
+      id: 11,
+      title: "fourth title",
+      data: [
+        { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
+        { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
+        { name: "Page C", uv: 1000, pv: 9800, amt: 2290 },
+        { name: "Page D", uv: 1500, pv: 3908, amt: 2000 },
+        { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
+        { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
+        { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
+      ],
+      BarChartCard: true,
+    },
   ]);
 
-  // This gets all of the data for the specified object in the availableCards array
+  // This gets all of the data for the specified object in the availableCards array (CORS required)
   useEffect(() => {
     const reqOne = fetch("https://postman-echo.com/get?foo1=bar1&foo2=bar2");
     const reqTwo = fetch("https://postman-echo.com/get?foo1=bar1&jibberjabber");
@@ -165,7 +183,18 @@ function App() {
 
   return (
     <div className="side-margin">
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item active">
@@ -238,7 +267,7 @@ function App() {
                     }
                     if (card.PieChartCard) {
                       return (
-                        <div className="col-lg-4 modal-card">
+                        <div className="col-xl-4 modal-card">
                           <PieChartCard
                             key={card.id}
                             title={card.title}
@@ -247,7 +276,11 @@ function App() {
                             <p>{card.title}</p>
                           </PieChartCard>
 
-                          <button onClick={() => selectCard(card.id)}>
+                          <button
+                            className="btn btn-primary search-button add-card-button"
+                            type="button"
+                            onClick={() => selectCard(card.id)}
+                          >
                             Add
                           </button>
                         </div>
@@ -259,7 +292,7 @@ function App() {
                     }
                     if (card.LineChartCard) {
                       return (
-                        <div className="col-lg-4 modal-card">
+                        <div className="col-xl-4 modal-card">
                           <LineChartCard
                             key={card.id}
                             title={card.title}
@@ -268,7 +301,36 @@ function App() {
                             <p>{card.title}</p>
                           </LineChartCard>
 
-                          <button onClick={() => selectCard(card.id)}>
+                          <button
+                            className="btn btn-primary search-button add-card-button"
+                            type="button"
+                            onClick={() => selectCard(card.id)}
+                          >
+                            Add
+                          </button>
+                        </div>
+                      );
+                    }
+
+                    {
+                      /* If the user clicked on a card, and it had {BarChartCard: true}, return JSX */
+                    }
+                    if (card.BarChartCard) {
+                      return (
+                        <div className="col-xl-4 modal-card">
+                          <BarChartCard
+                            key={card.id}
+                            title={card.title}
+                            data={card.data}
+                          >
+                            <p>{card.title}</p>
+                          </BarChartCard>
+
+                          <button
+                            className="btn btn-primary search-button add-card-button"
+                            type="button"
+                            onClick={() => selectCard(card.id)}
+                          >
                             Add
                           </button>
                         </div>
