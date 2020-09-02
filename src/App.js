@@ -3,12 +3,15 @@ import "./App.scss";
 import AutoSuggest from "react-autosuggest";
 import DarkModeToggle from "./DarkModeToggle";
 import HomeDashboard from "./Components/HomeDashboard/HomeDashboard";
-import FirstTestCard from "./Components/TestComponents/FirstTestCard";
+import FirstTestCard from "./Components/TestComponents/PieChartCard";
 import { Modal } from "antd";
 import "antd/dist/antd.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
+import SecondTestCard from "./Components/TestComponents/LineChartCard";
+import LineChartCard from "./Components/TestComponents/LineChartCard";
+import PieChartCard from "./Components/TestComponents/PieChartCard";
 
 // List of components to auto-suggest
 const components = [
@@ -47,8 +50,38 @@ function App() {
   const [visible, setVisible] = React.useState(false);
   const [selectedCardsIndex, setSelectedCardIndex] = useState([]);
   const [availableCards, setAvailableCards] = useState([
-    { id: "8", title: "first title", data: "card 8" },
-    { id: "9", title: "second title", data: "card 9" },
+    {
+      id: "8",
+      title: "first title",
+      data: [
+        { name: "Group A", value: 70 },
+        { name: "Group B", value: 30 },
+      ],
+      PieChartCard: true,
+    },
+    {
+      id: "9",
+      title: "second title",
+      data: [
+        { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
+        { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
+        { name: "Page C", uv: 1000, pv: 9800, amt: 2290 },
+        { name: "Page D", uv: 1500, pv: 3908, amt: 2000 },
+        { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
+        { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
+        { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
+      ],
+      LineChartCard: true,
+    },
+    {
+      id: "10",
+      title: "third title",
+      data: [
+        { name: "Group A", value: 50 },
+        { name: "Group B", value: 50 },
+      ],
+      PieChartCard: true,
+    },
   ]);
 
   function selectCard(id) {
@@ -64,6 +97,8 @@ function App() {
       setSelectedCardIndex((prevSelected) => [...prevSelected, id]);
     }
   }
+
+  console.log(selectedCardsIndex);
 
   const showModal = () => {
     setVisible(true);
@@ -157,19 +192,40 @@ function App() {
               <div className="add-card-container">
                 <div className="row">
                   {availableCards.map((card) => {
-                    return (
-                      <div className="col-lg-4 modal-card">
-                        <FirstTestCard
-                          key={card.id}
-                          title={card.title}
-                          data={card.data}
-                        >
-                          <p>{card.title}</p>
-                        </FirstTestCard>
+                    if (card.PieChartCard) {
+                      return (
+                        <div className="col-lg-4 modal-card">
+                          <PieChartCard
+                            key={card.id}
+                            title={card.title}
+                            data={card.data}
+                          >
+                            <p>{card.title}</p>
+                          </PieChartCard>
 
-                        <button onClick={() => selectCard(card.id)}>Add</button>
-                      </div>
-                    );
+                          <button onClick={() => selectCard(card.id)}>
+                            Add
+                          </button>
+                        </div>
+                      );
+                    }
+                    if (card.LineChartCard) {
+                      return (
+                        <div className="col-lg-4 modal-card">
+                          <LineChartCard
+                            key={card.id}
+                            title={card.title}
+                            data={card.data}
+                          >
+                            <p>{card.title}</p>
+                          </LineChartCard>
+
+                          <button onClick={() => selectCard(card.id)}>
+                            Add
+                          </button>
+                        </div>
+                      );
+                    }
                   })}
                 </div>
               </div>

@@ -10,10 +10,12 @@ import DividendCard from "./DividendCard";
 import ChartCard from "./ChartCard";
 import SentimentCard from "./SentimentCard";
 import RiskCard from "./RiskCard";
-import FirstTestCard from "../TestComponents/FirstTestCard";
+import FirstTestCard from "../TestComponents/PieChartCard";
 import _ from "lodash";
 import { Card } from "antd";
 import { Responsive, WidthProvider } from "react-grid-layout";
+import LineChartCard from "../TestComponents/LineChartCard";
+import PieChartCard from "../TestComponents/PieChartCard";
 var company_logo = require("../../images/msft_logo.png");
 
 const GridLayout = WidthProvider(Responsive);
@@ -189,16 +191,35 @@ const HomeDashboard = (props) => {
         </div>
         {props.selectedCardsIndex.map((cardId, index, i) => {
           const card = props.availableCards.find((c) => c.id === cardId);
-          return (
-            <div
-              key={card.id}
-              data-grid={{ i: i.toString(), w: 6, h: 1, x: 0, y: 5 }}
-            >
-              <FirstTestCard key={card.id} data={card.data} title={card.title}>
-                <p>{card.title}</p>
-              </FirstTestCard>
-            </div>
-          );
+          console.log("CARD: " + card);
+          if (card.PieChartCard) {
+            return (
+              <div
+                key={card.id}
+                data-grid={{ i: i.toString(), w: 6, h: 1, x: 0, y: 5 }}
+              >
+                <PieChartCard
+                  key={card.id}
+                  data={card.data}
+                  title={card.title}
+                />
+              </div>
+            );
+          }
+          if (card.LineChartCard) {
+            return (
+              <div
+                key={card.id}
+                data-grid={{ i: i.toString(), w: 6, h: 1, x: 0, y: 5 }}
+              >
+                <LineChartCard
+                  key={card.id}
+                  data={card.data}
+                  title={card.title}
+                />
+              </div>
+            );
+          }
         })}
       </GridLayout>
     </div>
