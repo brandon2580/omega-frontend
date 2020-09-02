@@ -10,12 +10,12 @@ import DividendCard from "./DividendCard";
 import ChartCard from "./ChartCard";
 import SentimentCard from "./SentimentCard";
 import RiskCard from "./RiskCard";
-import FirstTestCard from "../TestComponents/PieChartCard";
+import LineChartCard from "../TestComponents/LineChartCard";
+import PieChartCard from "../TestComponents/PieChartCard";
 import _ from "lodash";
 import { Card } from "antd";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import LineChartCard from "../TestComponents/LineChartCard";
-import PieChartCard from "../TestComponents/PieChartCard";
+
 var company_logo = require("../../images/msft_logo.png");
 
 const GridLayout = WidthProvider(Responsive);
@@ -41,17 +41,7 @@ const HomeDashboard = (props) => {
     { i: "7", x: 12, y: 0, w: 6, h: 1 },
   ];
 
-  var backupLayout = [
-    { i: "1", x: 0, y: 0, w: 6, h: 1 },
-    { i: "2", x: 12, y: 0, w: 6, h: 1 },
-    { i: "3", x: 0, y: 0, w: 4, h: 1 },
-    { i: "4", x: 4, y: 0, w: 4, h: 1 },
-    { i: "5", x: 12, y: 0, w: 4, h: 1 },
-    { i: "6", x: 0, y: 0, w: 6, h: 1 },
-    { i: "7", x: 12, y: 0, w: 6, h: 1 },
-  ];
-
-  var layout = { lg: value === true ? defaultLayout : backupLayout };
+  var layout = { lg: value === true ? defaultLayout : defaultLayout };
 
   return (
     <div>
@@ -189,9 +179,18 @@ const HomeDashboard = (props) => {
         <div key={7}>
           <EconomicsCard />
         </div>
-        {props.selectedCardsIndex.map((cardId, index, i) => {
+
+        {/*
+          For reference, if we console.log(props.selectedCardsIndex), at first an empty array is returned. However if we 
+          were to select a card that has an id value of 9 {id: 9}, then Array [9] would be logged. If we were to then 
+          select a card with an id of 10 {id: 10}, it would return Array [9, 10]. 
+        */}
+        {props.selectedCardsIndex.map((cardId, i) => {
           const card = props.availableCards.find((c) => c.id === cardId);
-          console.log("CARD: " + card);
+
+          {
+            /* If the user clicked on a card, and it had {PieChartCard: true}, return JSX */
+          }
           if (card.PieChartCard) {
             return (
               <div
@@ -205,6 +204,10 @@ const HomeDashboard = (props) => {
                 />
               </div>
             );
+          }
+
+          {
+            /* If the user clicked on a card, and it had {LineChartCard: true}, return JSX */
           }
           if (card.LineChartCard) {
             return (

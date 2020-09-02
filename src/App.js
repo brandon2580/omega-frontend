@@ -49,10 +49,14 @@ function App() {
   const [suggestions, setSuggestions] = useState([]);
   const [visible, setVisible] = React.useState(false);
   const [selectedCardsIndex, setSelectedCardIndex] = useState([]);
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+
+  // availableCards is an array of objects.
+  // Each object contains properties - id (int), title (string), data (array), (PieChartCard (bool) || LineChartCard (bool))
   const [availableCards, setAvailableCards] = useState([
+    // 0th item
     {
-      id: "8",
+      id: 8,
       title: "first title",
       data: [
         { name: "Group A", value: 70 },
@@ -60,8 +64,10 @@ function App() {
       ],
       PieChartCard: true,
     },
+
+    //1st item
     {
-      id: "9",
+      id: 9,
       title: "second title",
       data: [
         { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
@@ -74,8 +80,10 @@ function App() {
       ],
       LineChartCard: true,
     },
+
+    //2nd item
     {
-      id: "10",
+      id: 10,
       title: "third title",
       data: [
         { name: "Group A", value: 50 },
@@ -90,11 +98,11 @@ function App() {
     fetch("https://postman-echo.com/get?foo1=bar1&foo2=bar2")
       .then((res) => res.json())
       .then((data) => {
-        // function syntax of setState to use the previous value from the state, as recommended by React
+        // Function syntax of setState to use the previous value from the state, as recommended by React
         setAvailableCards((prevCards) => {
-          // for each cards, return a new modified version of that card
+          // For each cards, return a new modified version of that card
           return prevCards.map((card, index) => {
-            // if it's index 0, return a modified version
+            // If it's index 0, return a modified version (in this case, change the title to data.url)
             if (index === 0) {
               return {
                 ...card,
@@ -102,7 +110,7 @@ function App() {
               };
             }
 
-            // otherwise return the original card
+            // Otherwise return the original card
             return card;
           });
         });
@@ -110,35 +118,36 @@ function App() {
   }, [count]);
 
   function selectCard(id) {
-    // card was selected, remove it
+    // Card was selected, remove it
     if (selectedCardsIndex.includes(id)) {
       setSelectedCardIndex((prevSelected) =>
         prevSelected.filter((cardId) => cardId !== id)
       );
     }
 
-    // card was not selected, add it
+    // Card was not selected, add it
     else {
       setSelectedCardIndex((prevSelected) => [...prevSelected, id]);
     }
   }
 
+  // Shows modal
   const showModal = () => {
     setVisible(true);
   };
 
   // Handles the click of the "Ok" button in the modal
   const handleOk = (e) => {
-    console.log(e);
     setVisible(false);
   };
 
   // Handles the click of the "Cancel" button in the modal
   const handleCancel = (e) => {
-    console.log(e);
     setVisible(false);
   };
 
+  // Filters through the name of available components
+  // for when the user searches it in the modal
   function getSuggestions(value) {
     return lowerCasedComponents.filter((components) =>
       components.name.includes(value.trim().toLowerCase())
@@ -215,6 +224,9 @@ function App() {
               <div className="add-card-container">
                 <div className="row">
                   {availableCards.map((card) => {
+                    {
+                      /* If the user clicked on a card, and it had {PieChartCard: true}, return JSX */
+                    }
                     if (card.PieChartCard) {
                       return (
                         <div className="col-lg-4 modal-card">
@@ -231,6 +243,10 @@ function App() {
                           </button>
                         </div>
                       );
+                    }
+
+                    {
+                      /* If the user clicked on a card, and it had {LineChartCard: true}, return JSX */
                     }
                     if (card.LineChartCard) {
                       return (
