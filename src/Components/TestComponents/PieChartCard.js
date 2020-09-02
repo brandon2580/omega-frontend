@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../../App.scss";
 import { Card } from "antd";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
