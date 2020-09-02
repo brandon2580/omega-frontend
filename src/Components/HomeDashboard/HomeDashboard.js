@@ -15,6 +15,7 @@ import PieChartCard from "../TestComponents/PieChartCard";
 import _ from "lodash";
 import { Card } from "antd";
 import { Responsive, WidthProvider } from "react-grid-layout";
+import BarChartCard from "../TestComponents/BarChartCard";
 
 var company_logo = require("../../images/msft_logo.png");
 
@@ -216,6 +217,24 @@ const HomeDashboard = (props) => {
                 data-grid={{ i: i.toString(), w: 6, h: 1, x: 0, y: 5 }}
               >
                 <LineChartCard
+                  key={card.id}
+                  data={card.data}
+                  title={card.title}
+                />
+              </div>
+            );
+          }
+
+          {
+            /* If the user clicked on a card, and it had {BarChartCard: true}, return JSX */
+          }
+          if (card.BarChartCard) {
+            return (
+              <div
+                key={card.id}
+                data-grid={{ i: i.toString(), w: 6, h: 1, x: 0, y: 5 }}
+              >
+                <BarChartCard
                   key={card.id}
                   data={card.data}
                   title={card.title}
