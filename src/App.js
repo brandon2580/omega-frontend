@@ -3,13 +3,11 @@ import "./App.scss";
 import AutoSuggest from "react-autosuggest";
 import DarkModeToggle from "./DarkModeToggle";
 import HomeDashboard from "./Components/HomeDashboard/HomeDashboard";
-import FirstTestCard from "./Components/TestComponents/PieChartCard";
 import { Modal } from "antd";
 import "antd/dist/antd.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
-import SecondTestCard from "./Components/TestComponents/LineChartCard";
 import LineChartCard from "./Components/TestComponents/LineChartCard";
 import PieChartCard from "./Components/TestComponents/PieChartCard";
 
