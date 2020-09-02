@@ -49,6 +49,7 @@ function App() {
   const [suggestions, setSuggestions] = useState([]);
   const [visible, setVisible] = React.useState(false);
   const [selectedCardsIndex, setSelectedCardIndex] = useState([]);
+  const [count, setCount] = useState(0)
   const [availableCards, setAvailableCards] = useState([
     {
       id: "8",
@@ -84,6 +85,30 @@ function App() {
     },
   ]);
 
+  // Changing title of 0th item in array (just testing fetch requests)
+  useEffect(() => {
+    fetch("https://postman-echo.com/get?foo1=bar1&foo2=bar2")
+      .then((res) => res.json())
+      .then((data) => {
+        // function syntax of setState to use the previous value from the state, as recommended by React
+        setAvailableCards((prevCards) => {
+          // for each cards, return a new modified version of that card
+          return prevCards.map((card, index) => {
+            // if it's index 0, return a modified version
+            if (index === 0) {
+              return {
+                ...card,
+                title: data.url,
+              };
+            }
+
+            // otherwise return the original card
+            return card;
+          });
+        });
+      });
+  }, [count]);
+
   function selectCard(id) {
     // card was selected, remove it
     if (selectedCardsIndex.includes(id)) {
@@ -97,8 +122,6 @@ function App() {
       setSelectedCardIndex((prevSelected) => [...prevSelected, id]);
     }
   }
-
-  console.log(selectedCardsIndex);
 
   const showModal = () => {
     setVisible(true);
