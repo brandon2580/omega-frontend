@@ -70,13 +70,28 @@ body.light-mode .sidenav---navtext---1AE_f {
   color: black !important;
 }
 
+body.light-mode .navbar-toggler-icon {
+  background-color: white !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+body.dark-mode .navbar-dark .navbar-toggler {
+  color: black;
+  border-color: black;
+}
+
+body.light-mode .navbar-dark .navbar-toggler {
+  color: white ;
+  border-color: white ;
+}
+
 body.dark-mode .header {
-  margin-top: 2.5%;
-  margin-bottom: 2.5%;
+  margin-top: 100px;
+  margin-bottom: 50px;
   color: white;
 }
 
-body.dark-mode .ticker-title{
+body.dark-mode .ticker-title {
   color: white;
 }
 
@@ -84,13 +99,17 @@ body.light-mode .main-svg {
   background: white;
 }
 
+.sidenav {
+  margin-top: 60px;
+}
+
 svg {
   color: white;
 }
 
 body.light-mode .header {
-  margin-top: 2.5%;
-  margin-bottom: 2.5%;
+  margin-top: 100px;
+  margin-bottom: 50px;
   color: black;
 }
 
@@ -169,7 +188,7 @@ body.light-mode .ant-modal-footer {
 }
 
 .ant-modal {
-  width: 75% !important;
+  width: 80% !important;
 }
 
 .ant-modal-header {
@@ -223,6 +242,12 @@ body.light-mode .ant-modal-footer {
 .modal-card {
   margin-bottom: 5%;
   height: 70%;
+}
+
+.add-card-button {
+  margin-top: 10px;
+  width: 50%;
+  margin-left: 25%;
 }
 
 .ticker-header {
