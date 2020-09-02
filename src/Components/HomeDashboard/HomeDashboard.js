@@ -11,7 +11,6 @@ import ChartCard from "./ChartCard";
 import SentimentCard from "./SentimentCard";
 import RiskCard from "./RiskCard";
 import FirstTestCard from "../TestComponents/FirstTestCard";
-import SecondTestCard from "../TestComponents/SecondTestCard";
 import _ from "lodash";
 import { Card } from "antd";
 import { Responsive, WidthProvider } from "react-grid-layout";
@@ -21,27 +20,6 @@ const GridLayout = WidthProvider(Responsive);
 
 const HomeDashboard = (props) => {
   const [value, setValue] = useState({ value: true });
-  const [availableCards, setAvailableCards] = useState([
-    { id: "1", title: "first title", name: "card 1" },
-    { id: "2", title: "second title", name: "card 2" },
-  ]);
-  const [selectedCardsIndex, setSelectedCardIndex] = useState([]);
-
-  function selectCard(id) {
-    // card was selected, remove it
-    if (selectedCardsIndex.includes(id)) {
-      setSelectedCardIndex((prevSelected) =>
-        prevSelected.filter((cardId) => cardId !== id)
-      );
-    }
-
-    // card was not selected, add it
-    else {
-      setSelectedCardIndex((prevSelected) => [...prevSelected, id]);
-    }
-  }
-
-  console.log(selectedCardsIndex);
 
   // If the user clicks enter, just blur the input instead of refreshing
   const keyPress = (event) => {
@@ -178,30 +156,6 @@ const HomeDashboard = (props) => {
         </SideNav.Nav>
       </SideNav>
 
-      {availableCards.map((card) => {
-        return (
-          <div>
-            <button
-              onClick={() => {
-                selectCard(card.id);
-              }}
-            />
-          </div>
-        );
-      })}
-
-      {selectedCardsIndex.map((cardId) => {
-        const card = availableCards.find((c) => c.id === cardId);
-        return (
-          <FirstTestCard
-            key={card.id}
-            name={card.name}
-            title={card.title}
-            card={availableCards[card.id]}
-          />
-        );
-      })}
-
       <GridLayout
         className="layout"
         layouts={layout}
@@ -233,6 +187,19 @@ const HomeDashboard = (props) => {
         <div key={7}>
           <EconomicsCard />
         </div>
+        {props.selectedCardsIndex.map((cardId, index, i) => {
+          const card = props.availableCards.find((c) => c.id === cardId);
+          return (
+            <div
+              key={card.id}
+              data-grid={{ i: i.toString(), w: 6, h: 1, x: 0, y: 5 }}
+            >
+              <FirstTestCard key={card.id} data={card.data} title={card.title}>
+                <p>{card.title}</p>
+              </FirstTestCard>
+            </div>
+          );
+        })}
       </GridLayout>
     </div>
   );

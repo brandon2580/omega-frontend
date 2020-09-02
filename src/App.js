@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.scss";
 import AutoSuggest from "react-autosuggest";
 import DarkModeToggle from "./DarkModeToggle";
 import HomeDashboard from "./Components/HomeDashboard/HomeDashboard";
-import EarningsCard from "./Components/HomeDashboard/EarningsCard";
+import FirstTestCard from "./Components/TestComponents/FirstTestCard";
 import { Modal } from "antd";
 import "antd/dist/antd.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -45,7 +45,25 @@ function App() {
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [visible, setVisible] = React.useState(false);
-  const [selectedCard, setSelectedCard] = useState([]);
+  const [selectedCardsIndex, setSelectedCardIndex] = useState([]);
+  const [availableCards, setAvailableCards] = useState([
+    { id: "8", title: "first title", data: "card 8" },
+    { id: "9", title: "second title", data: "card 9" },
+  ]);
+
+  function selectCard(id) {
+    // card was selected, remove it
+    if (selectedCardsIndex.includes(id)) {
+      setSelectedCardIndex((prevSelected) =>
+        prevSelected.filter((cardId) => cardId !== id)
+      );
+    }
+
+    // card was not selected, add it
+    else {
+      setSelectedCardIndex((prevSelected) => [...prevSelected, id]);
+    }
+  }
 
   const showModal = () => {
     setVisible(true);
@@ -62,13 +80,6 @@ function App() {
     console.log(e);
     setVisible(false);
   };
-
-  // Sets value of selectedCard to the name attribute which is assigned to the button
-  const handleClick = (e, id) => {
-    setSelectedCard((prev) => [...prev, id]);
-  };
-
-  console.log(selectedCard)
 
   function getSuggestions(value) {
     return lowerCasedComponents.filter((components) =>
@@ -145,45 +156,21 @@ function App() {
 
               <div className="add-card-container">
                 <div className="row">
-                  <div className="col-lg-4 modal-card">
-                    <EarningsCard />
-                    <button name="FirstTestCard" onClick={handleClick}>
-                      First
-                    </button>
-                  </div>
-                  <div className="col-lg-4 modal-card">
-                    <EarningsCard />
-                    <button name="SecondTestCard" onClick={handleClick}>
-                      Second
-                    </button>
-                  </div>
-                  <div className="col-lg-4 modal-card">
-                    <EarningsCard />
-                  </div>
-                </div>
+                  {availableCards.map((card) => {
+                    return (
+                      <div className="col-lg-4 modal-card">
+                        <FirstTestCard
+                          key={card.id}
+                          title={card.title}
+                          data={card.data}
+                        >
+                          <p>{card.title}</p>
+                        </FirstTestCard>
 
-                <div className="row">
-                  <div className="col-lg-4 modal-card">
-                    <EarningsCard />
-                  </div>
-                  <div className="col-lg-4 modal-card">
-                    <EarningsCard />
-                  </div>
-                  <div className="col-lg-4 modal-card">
-                    <EarningsCard />
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="col-lg-4 modal-card">
-                    <EarningsCard />
-                  </div>
-                  <div className="col-lg-4 modal-card">
-                    <EarningsCard />
-                  </div>
-                  <div className="col-lg-4 modal-card">
-                    <EarningsCard />
-                  </div>
+                        <button onClick={() => selectCard(card.id)}>Add</button>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </Modal>
@@ -191,10 +178,10 @@ function App() {
         </div>
       </nav>
 
-      {/* selectedCard is the value of the name attribute on
-       whatever button the user clicks. That value is passed 
-       down to HomeDashboard as a prop */}
-      <HomeDashboard selectedCard={selectedCard} />
+      <HomeDashboard
+        availableCards={availableCards}
+        selectedCardsIndex={selectedCardsIndex}
+      />
     </div>
   );
 }
