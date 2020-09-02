@@ -91,29 +91,40 @@ function App() {
     },
   ]);
 
-  // Changing title of 0th item in array (just testing fetch requests)
+  // This gets all of the data for the specified object in the availableCards array
   useEffect(() => {
-    fetch("https://postman-echo.com/get?foo1=bar1&foo2=bar2")
-      .then((res) => res.json())
-      .then((data) => {
-        // Function syntax of setState to use the previous value from the state, as recommended by React
-        setAvailableCards((prevCards) => {
-          // For each cards, return a new modified version of that card
-          return prevCards.map((card, index) => {
-            // If it's index 0, return a modified version (in this case, change the title to data.url)
-            if (index === 0) {
-              return {
-                ...card,
-                title: data.url,
-              };
-            }
+    const reqOne = fetch("https://postman-echo.com/get?foo1=bar1&foo2=bar2");
+    const reqTwo = fetch("https://postman-echo.com/get?foo1=bar1&jibberjabber");
+    // ..
+    const allReqs = [reqOne, reqTwo];
+    Promise.all(allReqs).then((allResp) => {
+      const [resOne, resTwo] = allResp;
+      console.log(allReqs);
+      // Function syntax of setState to use the previous value from the state, as recommended by React
+      setAvailableCards((prevCards) => {
+        // For each cards, return a new modified version of that card
+        return prevCards.map((card, index) => {
+          // If it's index 0, return a modified version (in this case, change the title to data.url)
+          if (index === 0) {
+            return {
+              ...card,
+              title: resOne.url,
+            };
+          }
 
-            // Otherwise return the original card
-            return card;
-          });
+          if (index === 1) {
+            return {
+              ...card,
+              title: resTwo.url,
+            };
+          }
+
+          // Otherwise return the original card
+          return card;
         });
       });
-  }, [count]);
+    });
+  }, []);
 
   function selectCard(id) {
     // Card was selected, remove it
