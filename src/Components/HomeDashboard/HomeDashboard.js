@@ -1,8 +1,6 @@
-import React, { useState, useEffect, cloneElement } from "react";
+import React, { useState } from "react";
 import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
-import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
-import { HomeOutlined, LineChartOutlined } from "@ant-design/icons";
 import EarningsCard from "./EarningsCard";
 import AnalystCard from "./AnalystCard";
 import EconomicsCard from "./EconomicsCard";
@@ -16,6 +14,7 @@ import _ from "lodash";
 import { Card } from "antd";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import BarChartCard from "../TestComponents/BarChartCard";
+import Sidenavbar from "../Navbars/Sidenavbar";
 
 var company_logo = require("../../images/msft_logo.png");
 
@@ -121,33 +120,7 @@ const HomeDashboard = (props) => {
         </div>
       </div>
 
-      <SideNav
-        style={{
-          backgroundImage: "linear-gradient(315deg, #121516 0%, #000000 74%)",
-          position: "fixed",
-        }}
-        className="sidenav"
-      >
-        <SideNav.Toggle />
-        <SideNav.Nav defaultSelected="home">
-          <NavItem eventKey="home">
-            <NavIcon>
-              <HomeOutlined />
-            </NavIcon>
-            <NavText>
-              <a href="/">Home</a>
-            </NavText>
-          </NavItem>
-          <NavItem eventKey="home">
-            <NavIcon>
-              <LineChartOutlined />
-            </NavIcon>
-            <NavText>
-              <a href="/">Data</a>
-            </NavText>
-          </NavItem>
-        </SideNav.Nav>
-      </SideNav>
+      <Sidenavbar />
 
       <GridLayout
         className="layout"

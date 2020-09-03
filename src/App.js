@@ -1,55 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./App.scss";
-import AutoSuggest from "react-autosuggest";
-import DarkModeToggle from "./DarkModeToggle";
+import Navbar from "./Components/Navbars/TopNavbar";
 import HomeDashboard from "./Components/HomeDashboard/HomeDashboard";
-import { Modal } from "antd";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/js/src/collapse.js";
 import "antd/dist/antd.css";
 import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
-import LineChartCard from "./Components/TestComponents/LineChartCard";
-import PieChartCard from "./Components/TestComponents/PieChartCard";
-import BarChartCard from "./Components/TestComponents/BarChartCard";
-
-// List of components to auto-suggest
-const components = [
-  {
-    id: 1,
-    name: "Equities",
-  },
-  {
-    id: 2,
-    name: "Portfolio",
-  },
-  {
-    id: 3,
-    name: "Random",
-  },
-  {
-    id: 4,
-    name: "Analytics",
-  },
-  {
-    id: 5,
-    name: "Efficient frontier",
-  },
-];
-
-const lowerCasedComponents = components.map((components) => {
-  return {
-    id: components.id,
-    name: components.name.toLowerCase(),
-  };
-});
 
 function App() {
-  const [value, setValue] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const [visible, setVisible] = React.useState(false);
   const [selectedCardsIndex, setSelectedCardIndex] = useState([]);
-  const [count, setCount] = useState(0);
 
   // availableCards is an array of objects.
   // Each object contains properties - id (int), title (string), data (array), (PieChartCard (bool) || LineChartCard (bool))
@@ -57,18 +17,19 @@ function App() {
     // 0th item
     {
       id: 8,
-      title: "first title",
+      title: "First Title",
       data: [
         { name: "Group A", value: 70 },
         { name: "Group B", value: 30 },
       ],
       PieChartCard: true,
+      wasClicked: false,
     },
 
     //1st item
     {
       id: 9,
-      title: "second title",
+      title: "Second Title",
       data: [
         { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
         { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
@@ -84,7 +45,7 @@ function App() {
     //2nd item
     {
       id: 10,
-      title: "third title",
+      title: "Third Title",
       data: [
         { name: "Group A", value: 50 },
         { name: "Group B", value: 50 },
@@ -95,7 +56,7 @@ function App() {
     //3rd item
     {
       id: 11,
-      title: "fourth title",
+      title: "Fourth Title",
       data: [
         { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
         { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
@@ -144,206 +105,13 @@ function App() {
     });
   }, []);
 
-  function selectCard(id) {
-    // Card was selected, remove it
-    if (selectedCardsIndex.includes(id)) {
-      setSelectedCardIndex((prevSelected) =>
-        prevSelected.filter((cardId) => cardId !== id)
-      );
-    }
-
-    // Card was not selected, add it
-    else {
-      setSelectedCardIndex((prevSelected) => [...prevSelected, id]);
-    }
-  }
-
-  // Shows modal
-  const showModal = () => {
-    setVisible(true);
-  };
-
-  // Handles the click of the "Ok" button in the modal
-  const handleOk = (e) => {
-    setVisible(false);
-  };
-
-  // Handles the click of the "Cancel" button in the modal
-  const handleCancel = (e) => {
-    setVisible(false);
-  };
-
-  // Filters through the name of available components
-  // for when the user searches it in the modal
-  function getSuggestions(value) {
-    return lowerCasedComponents.filter((components) =>
-      components.name.includes(value.trim().toLowerCase())
-    );
-  }
-
   return (
     <div className="side-margin">
-      <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">
-                Home <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Features
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Pricing
-              </a>
-            </li>
-          </ul>
-
-          <DarkModeToggle />
-
-          <form className="form-inline ml-auto">
-            <button
-              className="btn btn-primary search-button"
-              type="button"
-              onClick={showModal}
-            >
-              Add Card
-            </button>
-            <Modal
-              title="Add Card"
-              visible={visible}
-              onOk={handleOk}
-              onCancel={handleCancel}
-            >
-              <form className="form-inline ml-auto col-lg-7">
-                <AutoSuggest
-                  suggestions={suggestions}
-                  onSuggestionsClearRequested={() => setSuggestions([])}
-                  onSuggestionsFetchRequested={({ value }) => {
-                    setValue(value);
-                    setSuggestions(getSuggestions(value));
-                  }}
-                  getSuggestionValue={(suggestion) => suggestion.name}
-                  renderSuggestion={(suggestion) => (
-                    <span>
-                      {suggestion.name.charAt(0).toUpperCase() +
-                        suggestion.name.slice(1)}
-                    </span>
-                  )}
-                  inputProps={{
-                    placeholder: "Add card",
-                    value: value,
-                    onChange: (_, { newValue, method }) => {
-                      setValue(newValue);
-                    },
-                  }}
-                  highlightFirstSuggestion={true}
-                />
-                <button className="btn btn-primary search-button" type="submit">
-                  Add
-                </button>
-              </form>
-
-              <div className="add-card-container">
-                <div className="row">
-                  {availableCards.map((card) => {
-                    {
-                      /* If the user clicked on a card, and it had {PieChartCard: true}, return JSX */
-                    }
-                    if (card.PieChartCard) {
-                      return (
-                        <div className="col-xl-4 modal-card">
-                          <PieChartCard
-                            key={card.id}
-                            title={card.title}
-                            data={card.data}
-                          >
-                            <p>{card.title}</p>
-                          </PieChartCard>
-
-                          <button
-                            className="btn btn-primary search-button add-card-button"
-                            type="button"
-                            onClick={() => selectCard(card.id)}
-                          >
-                            Add
-                          </button>
-                        </div>
-                      );
-                    }
-
-                    {
-                      /* If the user clicked on a card, and it had {LineChartCard: true}, return JSX */
-                    }
-                    if (card.LineChartCard) {
-                      return (
-                        <div className="col-xl-4 modal-card">
-                          <LineChartCard
-                            key={card.id}
-                            title={card.title}
-                            data={card.data}
-                          >
-                            <p>{card.title}</p>
-                          </LineChartCard>
-
-                          <button
-                            className="btn btn-primary search-button add-card-button"
-                            type="button"
-                            onClick={() => selectCard(card.id)}
-                          >
-                            Add
-                          </button>
-                        </div>
-                      );
-                    }
-
-                    {
-                      /* If the user clicked on a card, and it had {BarChartCard: true}, return JSX */
-                    }
-                    if (card.BarChartCard) {
-                      return (
-                        <div className="col-xl-4 modal-card">
-                          <BarChartCard
-                            key={card.id}
-                            title={card.title}
-                            data={card.data}
-                          >
-                            <p>{card.title}</p>
-                          </BarChartCard>
-
-                          <button
-                            className="btn btn-primary search-button add-card-button"
-                            type="button"
-                            onClick={() => selectCard(card.id)}
-                          >
-                            Add
-                          </button>
-                        </div>
-                      );
-                    }
-                  })}
-                </div>
-              </div>
-            </Modal>
-          </form>
-        </div>
-      </nav>
-
+      <Navbar
+        availableCards={availableCards}
+        selectedCardsIndex={selectedCardsIndex}
+        setSelectedCardIndex={setSelectedCardIndex}
+      />
       <HomeDashboard
         availableCards={availableCards}
         selectedCardsIndex={selectedCardsIndex}
