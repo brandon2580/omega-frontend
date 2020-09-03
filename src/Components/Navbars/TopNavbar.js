@@ -10,7 +10,7 @@ import BarChartCard from "../TestComponents/BarChartCard";
 const Navbar = (props) => {
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   function selectCard(id) {
     // Card was selected, remove it
@@ -31,15 +31,9 @@ const Navbar = (props) => {
     setModalVisible(true);
   };
 
-  // Handles the click of the "Ok" button in the modal
-  const handleOk = (e) => {
+  // Handles exit of modal
+  const handleExit = (e) => {
     setModalVisible(false);
-  };
-
-  // Handles the click of the "Cancel" button in the modal
-  const handleCancel = (e, id) => {
-    setModalVisible(false);
-    props.setSelectedCardIndex((prevSelected) => [...prevSelected])
   };
 
   const lowerCasedComponents = props.availableCards.map((components) => {
@@ -101,8 +95,8 @@ const Navbar = (props) => {
           <Modal
             title="Add Card"
             visible={modalVisible}
-            onOk={handleOk}
-            onCancel={handleCancel}
+            footer={null}
+            onCancel={handleExit}
           >
             <form className="form-inline ml-auto col-lg-7">
               <AutoSuggest
@@ -135,10 +129,11 @@ const Navbar = (props) => {
 
             <div className="add-card-container">
               <div className="row">
-                {props.availableCards.map((card) => {
+                {props.availableCards.map((card, prev) => {
                   {
                     /* If the user clicked on a card, and it had {PieChartCard: true}, return JSX */
                   }
+
                   if (card.PieChartCard) {
                     return (
                       <div className="col-xl-4 modal-card">
