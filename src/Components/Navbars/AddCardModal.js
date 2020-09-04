@@ -89,12 +89,11 @@ const AddCardModal = (props) => {
 
         <div className="add-card-container">
           <div className="row">
-            {props.availableCards.map((card, prev) => {
+            {props.availableCards.map((card) => {
               {
                 /* If the user clicked on a card, and it had {PieChartCard: true}, return JSX */
               }
-
-              if (card.PieChartCard) {
+              if (card.PieChartCard && card.visible) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <PieChartCard
@@ -110,6 +109,7 @@ const AddCardModal = (props) => {
                       type="button"
                       onClick={() => {
                         selectCard(card.id);
+                        card.visible = false;
                       }}
                     >
                       Add
@@ -121,7 +121,7 @@ const AddCardModal = (props) => {
               {
                 /* If the user clicked on a card, and it had {LineChartCard: true}, return JSX */
               }
-              if (card.LineChartCard) {
+              if (card.LineChartCard && card.visible) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <LineChartCard
@@ -135,7 +135,10 @@ const AddCardModal = (props) => {
                     <button
                       className="btn btn-primary search-button add-card-button"
                       type="button"
-                      onClick={() => selectCard(card.id)}
+                      onClick={() => {
+                        selectCard(card.id);
+                        card.visible = false;
+                      }}
                     >
                       Add
                     </button>
@@ -146,7 +149,7 @@ const AddCardModal = (props) => {
               {
                 /* If the user clicked on a card, and it had {BarChartCard: true}, return JSX */
               }
-              if (card.BarChartCard) {
+              if (card.BarChartCard && card.visible) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <BarChartCard
@@ -160,7 +163,10 @@ const AddCardModal = (props) => {
                     <button
                       className="btn btn-primary search-button add-card-button"
                       type="button"
-                      onClick={() => selectCard(card.id)}
+                      onClick={() => {
+                        selectCard(card.id);
+                        card.visible = false;
+                      }}
                     >
                       Add
                     </button>

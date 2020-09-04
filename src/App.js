@@ -23,7 +23,7 @@ function App() {
         { name: "Group B", value: 30 },
       ],
       PieChartCard: true,
-      wasClicked: false,
+      visible: true
     },
 
     //1st item
@@ -40,6 +40,7 @@ function App() {
         { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
       ],
       LineChartCard: true,
+      visible: true
     },
 
     //2nd item
@@ -51,6 +52,7 @@ function App() {
         { name: "Group B", value: 50 },
       ],
       PieChartCard: true,
+      visible: true
     },
 
     //3rd item
@@ -67,6 +69,7 @@ function App() {
         { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
       ],
       BarChartCard: true,
+      visible: true
     },
   ]);
 
@@ -74,11 +77,10 @@ function App() {
   useEffect(() => {
     const reqOne = fetch("https://postman-echo.com/get?foo1=bar1&foo2=bar2");
     const reqTwo = fetch("https://postman-echo.com/get?foo1=bar1&jibberjabber");
-    // ..
     const allReqs = [reqOne, reqTwo];
     Promise.all(allReqs).then((allResp) => {
       const [resOne, resTwo] = allResp;
-      console.log(allReqs);
+
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
         // For each cards, return a new modified version of that card
