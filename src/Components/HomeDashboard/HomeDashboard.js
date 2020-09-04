@@ -128,7 +128,6 @@ const HomeDashboard = (props) => {
         className="layout"
         layouts={layout}
         breakpoints={{ lg: 1200, s: 300 }}
-        measureBeforeMount={true}
         draggableHandle={".ant-card-head"}
         cols={{ lg: 12, s: 1 }}
         rowHeight={600}
