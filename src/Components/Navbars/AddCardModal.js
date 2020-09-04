@@ -7,8 +7,6 @@ import PieChartCard from "../TestComponents/PieChartCard";
 import BarChartCard from "../TestComponents/BarChartCard";
 
 const AddCardModal = (props) => {
-  const [value, setValue] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
   function selectCard(id) {
@@ -35,58 +33,17 @@ const AddCardModal = (props) => {
     setModalVisible(false);
   };
 
-  const lowerCasedComponents = props.availableCards.map((components) => {
-    return {
-      id: components.id,
-      name: components.title.toLowerCase(),
-    };
-  });
-
-  // Filters through the name of available components
-  // for when the user searches it in the modal
-  function getSuggestions(value) {
-    return lowerCasedComponents.filter((components) =>
-      components.name.includes(value.trim().toLowerCase())
-    );
-  }
-
   return (
     <div>
+      <button className="btn btn-primary" type="button" onClick={showModal}>
+        Add Card
+      </button>
       <Modal
         title="Add Card"
         visible={modalVisible}
         footer={null}
         onCancel={handleExit}
       >
-        <form className="form-inline ml-auto col-lg-7">
-          <AutoSuggest
-            suggestions={suggestions}
-            onSuggestionsClearRequested={() => setSuggestions([])}
-            onSuggestionsFetchRequested={({ value }) => {
-              setValue(value);
-              setSuggestions(getSuggestions(value));
-            }}
-            getSuggestionValue={(suggestion) => suggestion.name}
-            renderSuggestion={(suggestion) => (
-              <span>
-                {suggestion.name.charAt(0).toUpperCase() +
-                  suggestion.name.slice(1)}
-              </span>
-            )}
-            inputProps={{
-              placeholder: "Add card",
-              value: value,
-              onChange: (_, { newValue, method }) => {
-                setValue(newValue);
-              },
-            }}
-            highlightFirstSuggestion={true}
-          />
-          <button className="btn btn-primary search-button" type="submit">
-            Add
-          </button>
-        </form>
-
         <div className="add-card-container">
           <div className="row">
             {props.availableCards.map((card) => {
@@ -177,15 +134,6 @@ const AddCardModal = (props) => {
           </div>
         </div>
       </Modal>
-      <form className="form-inline ml-auto">
-        <button
-          className="btn btn-primary search-button"
-          type="button"
-          onClick={showModal}
-        >
-          Add Card
-        </button>
-      </form>
     </div>
   );
 };

@@ -38,11 +38,13 @@ const Navbar = (props) => {
 
         <DarkModeToggle />
 
-        <AddCardModal
-          availableCards={props.availableCards}
-          selectedCardsIndex={props.selectedCardsIndex}
-          setSelectedCardIndex={props.setSelectedCardIndex}
-        />
+        <div className="ml-auto">
+          <AddCardModal
+            availableCards={props.availableCards}
+            selectedCardsIndex={props.selectedCardsIndex}
+            setSelectedCardIndex={props.setSelectedCardIndex}
+          />
+        </div>
       </div>
     </nav>
   );
