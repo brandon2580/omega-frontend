@@ -91,9 +91,9 @@ const AddCardModal = (props) => {
           <div className="row">
             {props.availableCards.map((card) => {
               {
-                /* If the user clicked on a card, and it had {PieChartCard: true}, return JSX */
+                /* If the user clicked on a card, and it had {PieChartCard: true} AND it's selectable, return JSX */
               }
-              if (card.PieChartCard && card.visible) {
+              if (card.PieChartCard && card.selectable) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <PieChartCard
@@ -109,7 +109,7 @@ const AddCardModal = (props) => {
                       type="button"
                       onClick={() => {
                         selectCard(card.id);
-                        card.visible = false;
+                        card.selectable = false;
                       }}
                     >
                       Add
@@ -119,9 +119,9 @@ const AddCardModal = (props) => {
               }
 
               {
-                /* If the user clicked on a card, and it had {LineChartCard: true}, return JSX */
+                /* If the user clicked on a card, and it had {LineChartCard: true} AND it's selectable, return JSX */
               }
-              if (card.LineChartCard && card.visible) {
+              if (card.LineChartCard && card.selectable) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <LineChartCard
@@ -137,7 +137,7 @@ const AddCardModal = (props) => {
                       type="button"
                       onClick={() => {
                         selectCard(card.id);
-                        card.visible = false;
+                        card.selectable = false;
                       }}
                     >
                       Add
@@ -147,9 +147,9 @@ const AddCardModal = (props) => {
               }
 
               {
-                /* If the user clicked on a card, and it had {BarChartCard: true}, return JSX */
+                /* If the user clicked on a card, and it had {BarChartCard: true} AND it's selectable, return JSX */
               }
-              if (card.BarChartCard && card.visible) {
+              if (card.BarChartCard && card.selectable) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <BarChartCard
@@ -165,7 +165,7 @@ const AddCardModal = (props) => {
                       type="button"
                       onClick={() => {
                         selectCard(card.id);
-                        card.visible = false;
+                        card.selectable = false;
                       }}
                     >
                       Add

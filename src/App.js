@@ -9,27 +9,40 @@ import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
 
 function App() {
-  const [selectedCardsIndex, setSelectedCardIndex] = useState([]);
+  const [selectedCardsIndex, setSelectedCardIndex] = useState([1, 2, 3, 4, 5, 6, 7]);
 
   // availableCards is an array of objects.
   // Each object contains properties - id (int), title (string), data (array), (PieChartCard (bool) || LineChartCard (bool))
   const [availableCards, setAvailableCards] = useState([
-    // 0th item
     {
-      id: 8,
-      title: "First Title",
+      id: 1,
+      title: "Earnings",
       data: [
         { name: "Group A", value: 70 },
         { name: "Group B", value: 30 },
       ],
       PieChartCard: true,
-      visible: true
+      selectable: true,
+      defaultCard: true,
     },
 
-    //1st item
     {
-      id: 9,
-      title: "Second Title",
+      id: 2,
+      title: "Analyst Recommendations",
+      data: [
+        { name: "Group A", value: 30 },
+        { name: "Group B", value: 40 },
+        { name: "Group C", value: 20 },
+        { name: "Group D", value: 10 },
+      ],
+      PieChartCard: true,
+      selectable: true,
+      defaultCard: true,
+    },
+
+    {
+      id: 3,
+      title: "Dividend",
       data: [
         { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
         { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
@@ -40,25 +53,61 @@ function App() {
         { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
       ],
       LineChartCard: true,
-      visible: true
+      selectable: true,
+      defaultCard: true,
     },
 
-    //2nd item
     {
-      id: 10,
-      title: "Third Title",
+      id: 4,
+      title: "Chart",
       data: [
-        { name: "Group A", value: 50 },
-        { name: "Group B", value: 50 },
+        { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
+        { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
+        { name: "Page C", uv: 1000, pv: 9800, amt: 2290 },
+        { name: "Page D", uv: 1500, pv: 3908, amt: 2000 },
+        { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
+        { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
+        { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
       ],
-      PieChartCard: true,
-      visible: true
+      LineChartCard: true,
+      selectable: true,
+      defaultCard: true,
     },
 
-    //3rd item
     {
-      id: 11,
-      title: "Fourth Title",
+      id: 5,
+      title: "Sentiment",
+      data: [
+        { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
+        { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
+        { name: "Page C", uv: 1000, pv: 9800, amt: 2290 },
+        { name: "Page D", uv: 1500, pv: 3908, amt: 2000 },
+        { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
+        { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
+        { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
+      ],
+      LineChartCard: true,
+      selectable: true,
+      defaultCard: true,
+    },
+
+    {
+      id: 6,
+      title: "Risk Analysis",
+      data: [
+        { name: "Page A", uv: 4000 },
+        { name: "Page B", uv: 3000, amt: 2210 },
+        { name: "Page C", uv: 2000, amt: 2290 },
+        { name: "Page D", uv: 2780, amt: 2000 },
+      ],
+      BarChartCard: true,
+      selectable: true,
+      defaultCard: true,
+    },
+
+    {
+      id: 7,
+      title: "Economics",
       data: [
         { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
         { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
@@ -69,7 +118,62 @@ function App() {
         { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
       ],
       BarChartCard: true,
-      visible: true
+      selectable: true,
+      defaultCard: true,
+    },
+
+    {
+      id: 8,
+      title: "Eighth Title",
+      data: [
+        { name: "Group A", value: 70 },
+        { name: "Group B", value: 30 },
+      ],
+      PieChartCard: true,
+      selectable: true,
+    },
+
+    {
+      id: 9,
+      title: "Ninth Title",
+      data: [
+        { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
+        { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
+        { name: "Page C", uv: 1000, pv: 9800, amt: 2290 },
+        { name: "Page D", uv: 1500, pv: 3908, amt: 2000 },
+        { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
+        { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
+        { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
+      ],
+      LineChartCard: true,
+      selectable: true,
+    },
+
+    {
+      id: 10,
+      title: "Tenth Title",
+      data: [
+        { name: "Group A", value: 50 },
+        { name: "Group B", value: 50 },
+      ],
+      PieChartCard: true,
+      selectable: true,
+    },
+
+    {
+      id: 11,
+      title: "Eleventh Title",
+      data: [
+        { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
+        { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
+        { name: "Page C", uv: 1000, pv: 9800, amt: 2290 },
+        { name: "Page D", uv: 1500, pv: 3908, amt: 2000 },
+        { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
+        { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
+        { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
+      ],
+      BarChartCard: true,
+      selectable: true,
     },
   ]);
 
@@ -114,9 +218,11 @@ function App() {
         selectedCardsIndex={selectedCardsIndex}
         setSelectedCardIndex={setSelectedCardIndex}
       />
+
       <HomeDashboard
         availableCards={availableCards}
         selectedCardsIndex={selectedCardsIndex}
+        setSelectedCardIndex={setSelectedCardIndex}
       />
     </div>
   );

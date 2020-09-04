@@ -1,16 +1,9 @@
 import React, { useState } from "react";
+import _ from "lodash";
 import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
-import EarningsCard from "./EarningsCard";
-import AnalystCard from "./AnalystCard";
-import EconomicsCard from "./EconomicsCard";
-import DividendCard from "./DividendCard";
-import ChartCard from "./ChartCard";
-import SentimentCard from "./SentimentCard";
-import RiskCard from "./RiskCard";
 import LineChartCard from "../TestComponents/LineChartCard";
 import PieChartCard from "../TestComponents/PieChartCard";
-import _ from "lodash";
 import { Card } from "antd";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import BarChartCard from "../TestComponents/BarChartCard";
@@ -30,6 +23,15 @@ const HomeDashboard = (props) => {
       event.target.blur();
     }
   };
+
+  function removeCardFromLayout(id) {
+    // Card was selected, remove it
+    if (props.selectedCardsIndex.includes(id)) {
+      props.setSelectedCardIndex((prevSelected) =>
+        prevSelected.filter((cardId) => cardId !== id)
+      );
+    }
+  }
 
   var defaultLayout = [
     { i: "1", x: 0, y: 0, w: 6, h: 1 },
@@ -132,34 +134,13 @@ const HomeDashboard = (props) => {
         rowHeight={600}
         width={1200}
       >
-        <div key={1}>
-          <EarningsCard />
-        </div>
-        <div key={2}>
-          <AnalystCard />
-        </div>
-        <div key={3}>
-          <DividendCard />
-        </div>
-        <div key={4}>
-          <ChartCard />
-        </div>
-        <div key={5}>
-          <SentimentCard />
-        </div>
-        <div key={6}>
-          <RiskCard />
-        </div>
-        <div key={7}>
-          <EconomicsCard />
-        </div>
 
         {/*
           For reference, if we console.log(props.selectedCardsIndex), at first an empty array is returned. However if we 
           were to select a card that has an id value of 9 {id: 9}, then Array [9] would be logged. If we were to then 
           select a card with an id of 10 {id: 10}, it would return Array [9, 10]. 
         */}
-        {props.selectedCardsIndex.map((cardId, i) => {
+        {props.selectedCardsIndex.map((cardId, i, selectedCard) => {
           const card = props.availableCards.find((c) => c.id === cardId);
 
           {
@@ -176,6 +157,14 @@ const HomeDashboard = (props) => {
                   data={card.data}
                   title={card.title}
                 />
+                <button
+                  onClick={() => {
+                    card.selectable = true;
+                    removeCardFromLayout(card.id);
+                  }}
+                >
+                  Delete
+                </button>
               </div>
             );
           }
@@ -194,6 +183,14 @@ const HomeDashboard = (props) => {
                   data={card.data}
                   title={card.title}
                 />
+                <button
+                  onClick={() => {
+                    card.selectable = true;
+                    removeCardFromLayout(card.id);
+                  }}
+                >
+                  Delete
+                </button>
               </div>
             );
           }
@@ -212,6 +209,14 @@ const HomeDashboard = (props) => {
                   data={card.data}
                   title={card.title}
                 />
+                <button
+                  onClick={() => {
+                    card.selectable = true;
+                    removeCardFromLayout(card.id);
+                  }}
+                >
+                  Delete
+                </button>
               </div>
             );
           }
