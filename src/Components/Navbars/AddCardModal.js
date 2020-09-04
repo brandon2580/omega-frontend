@@ -7,6 +7,8 @@ import PieChartCard from "../TestComponents/PieChartCard";
 import BarChartCard from "../TestComponents/BarChartCard";
 
 const AddCardModal = (props) => {
+  const [value, setValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
   function selectCard(id) {
@@ -33,6 +35,13 @@ const AddCardModal = (props) => {
     setModalVisible(false);
   };
 
+  const lowerCasedComponents = props.availableCards.map((components) => {
+    return {
+      id: components.id,
+      name: components.title.toLowerCase(),
+    };
+  });
+
   return (
     <div>
       <button className="btn btn-primary" type="button" onClick={showModal}>
@@ -44,13 +53,34 @@ const AddCardModal = (props) => {
         footer={null}
         onCancel={handleExit}
       >
+        <form className="form-inline ml-auto col-lg-7" onSubmit={(e) => e.preventDefault()}>
+          <AutoSuggest
+            suggestions={suggestions}
+            onSuggestionsClearRequested={() => setSuggestions([])}
+            onSuggestionsFetchRequested={({ value }) => {
+              setValue(value);
+            }}
+            inputProps={{
+              placeholder: "Search card",
+              value: value,
+              onChange: (_, { newValue, method }) => {
+                setValue(newValue);
+              },
+            }}
+          />
+        </form>
+
         <div className="add-card-container">
           <div className="row">
             {props.availableCards.map((card) => {
               {
                 /* If the user clicked on a card, and it had PieChartCard is true, and it's selectable, return JSX */
               }
-              if (card.PieChartCard && card.selectable) {
+              if (
+                card.PieChartCard &&
+                card.selectable &&
+                card.title.toLowerCase().includes(value.toLowerCase())
+              ) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <PieChartCard
@@ -78,7 +108,11 @@ const AddCardModal = (props) => {
               {
                 /* If the user clicked on a card, and it had LineChartCard is true, and it's selectable, return JSX */
               }
-              if (card.LineChartCard && card.selectable) {
+              if (
+                card.LineChartCard &&
+                card.selectable &&
+                card.title.toLowerCase().includes(value.toLowerCase())
+              ) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <LineChartCard
@@ -106,7 +140,11 @@ const AddCardModal = (props) => {
               {
                 /* If the user clicked on a card, and it had BarChartCard is true, and it's selectable,  return JSX */
               }
-              if (card.BarChartCard && card.selectable) {
+              if (
+                card.BarChartCard &&
+                card.selectable &&
+                card.title.toLowerCase().includes(value.toLowerCase())
+              ) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <BarChartCard

@@ -17,10 +17,10 @@ const HomeDashboard = (props) => {
   const [value, setValue] = useState({ value: true });
 
   // If the user clicks enter, just blur the input instead of refreshing
-  const keyPress = (event) => {
-    if (event.charCode == 13) {
-      event.preventDefault();
-      event.target.blur();
+  const keyPress = (e) => {
+    if (e.charCode == 13) {
+      e.preventDefault();
+      e.target.blur();
     }
   };
 
