@@ -9,6 +9,7 @@ import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
 
 function App() {
+  // The 7 values in the state array are the id's of the cards that render on the dashboard by default
   const [selectedCardsIndex, setSelectedCardIndex] = useState([1, 2, 3, 4, 5, 6, 7]);
 
   // availableCards is an array of objects.

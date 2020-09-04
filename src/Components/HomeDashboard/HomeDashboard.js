@@ -134,13 +134,12 @@ const HomeDashboard = (props) => {
         rowHeight={600}
         width={1200}
       >
-
         {/*
           For reference, if we console.log(props.selectedCardsIndex), at first an empty array is returned. However if we 
           were to select a card that has an id value of 9 {id: 9}, then Array [9] would be logged. If we were to then 
           select a card with an id of 10 {id: 10}, it would return Array [9, 10]. 
         */}
-        {props.selectedCardsIndex.map((cardId, i, selectedCard) => {
+        {props.selectedCardsIndex.map((cardId, i) => {
           const card = props.availableCards.find((c) => c.id === cardId);
 
           {
