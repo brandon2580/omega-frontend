@@ -1,7 +1,8 @@
 import React from "react";
 import "../../App.scss";
-import DarkModeToggle from "../../DarkModeToggle";
+import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "./AddCardModal";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const Navbar = (props) => {
   return (
@@ -19,26 +20,33 @@ const Navbar = (props) => {
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">
-              Home <span class="sr-only">(current)</span>
-            </a>
+          <li className="nav-item active">
+            <Link to="/dashboard" className="nav-link">
+              Dashboard
+            </Link>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              Features
-            </a>
+          <li className="nav-item">
+            <Link to="/portfolio" className="nav-link">
+              Portfolio
+            </Link>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              Pricing
-            </a>
+          <li className="nav-item">
+            <Link to="" className="nav-link">
+              Financials
+            </Link>
+          </li>
+          <li className="nav-item">
+            <Link to="" className="nav-link">
+              Analytics
+            </Link>
           </li>
         </ul>
 
-        <DarkModeToggle />
+        <div className="ml-auto row">
+          <div className="col-lg-6">
+            <DarkModeToggle />
+          </div>
 
-        <div className="ml-auto">
           <AddCardModal
             availableCards={props.availableCards}
             selectedCardsIndex={props.selectedCardsIndex}

@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import _ from "lodash";
 import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
-import LineChartCard from "../TestComponents/LineChartCard";
-import PieChartCard from "../TestComponents/PieChartCard";
+import LineChartCard from "../TemplateComponents/LineChartCard";
+import PieChartCard from "../TemplateComponents/PieChartCard";
 import { Card } from "antd";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import BarChartCard from "../TestComponents/BarChartCard";
+import BarChartCard from "../TemplateComponents/BarChartCard";
 import Sidenavbar from "../Navbars/Sidenavbar";
 
 var company_logo = require("../../images/msft_logo.png");

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import "../../App.scss";
 import { Modal } from "antd";
 import AutoSuggest from "react-autosuggest";
-import LineChartCard from "../TestComponents/LineChartCard";
-import PieChartCard from "../TestComponents/PieChartCard";
-import BarChartCard from "../TestComponents/BarChartCard";
+import LineChartCard from "../TemplateComponents/LineChartCard";
+import PieChartCard from "../TemplateComponents/PieChartCard";
+import BarChartCard from "../TemplateComponents/BarChartCard";
 
 const AddCardModal = (props) => {
   const [value, setValue] = useState("");

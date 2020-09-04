@@ -7,7 +7,14 @@ import "bootstrap/js/src/collapse.js";
 import "antd/dist/antd.css";
 import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Index,
+} from "react-router-dom";
+import Portfolio from "./Components/Portfolio/Portfolio";
 function App() {
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default
   const [selectedCardsIndex, setSelectedCardIndex] = useState([
@@ -222,17 +229,28 @@ function App() {
 
   return (
     <div className="side-margin">
-      <Navbar
-        availableCards={availableCards}
-        selectedCardsIndex={selectedCardsIndex}
-        setSelectedCardIndex={setSelectedCardIndex}
-      />
+      <Router>
+          <Navbar
+            availableCards={availableCards}
+            selectedCardsIndex={selectedCardsIndex}
+            setSelectedCardIndex={setSelectedCardIndex}
+          />
 
-      <HomeDashboard
-        availableCards={availableCards}
-        selectedCardsIndex={selectedCardsIndex}
-        setSelectedCardIndex={setSelectedCardIndex}
-      />
+          {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+          <Switch>
+            <Route path="/dashboard">
+              <HomeDashboard
+                availableCards={availableCards}
+                selectedCardsIndex={selectedCardsIndex}
+                setSelectedCardIndex={setSelectedCardIndex}
+              />
+            </Route>
+            <Route path="/portfolio">
+              <Portfolio />
+            </Route>
+          </Switch>
+      </Router>
     </div>
   );
 }
