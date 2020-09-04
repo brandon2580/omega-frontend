@@ -141,10 +141,10 @@ function App() {
 
     {
       id: 8,
-      title: "Eighth Title",
+      title: "Volume Today",
       data: [
-        { name: "Group A", value: 70 },
-        { name: "Group B", value: 30 },
+        { name: "Bought", value: 92 },
+        { name: "Sold", value: 8 },
       ],
       PieChartCard: true,
       selectable: true,
@@ -152,15 +152,15 @@ function App() {
 
     {
       id: 9,
-      title: "Ninth Title",
+      title: "Historical P/E",
       data: [
-        { name: "Page A", data: 1500, pv: 2400, amt: 2400 },
-        { name: "Page B", data: 3000, pv: 1398, amt: 2210 },
-        { name: "Page C", data: 1000, pv: 9800, amt: 2290 },
-        { name: "Page D", data: 1500, pv: 3908, amt: 2000 },
-        { name: "Page E", data: 1890, pv: 4800, amt: 2181 },
-        { name: "Page F", data: 2390, pv: 3800, amt: 2500 },
-        { name: "Page G", data: 1900, pv: 4300, amt: 2100 },
+        { name: "2014", data: 13.76 },
+        { name: "2015", data: 15.51 },
+        { name: "2016", data: 39.27 },
+        { name: "2017", data: 20.60 },
+        { name: "2018", data: 44.87 },
+        { name: "2019", data: 26.09 },
+        { name: "2020", data: 26.33 },
       ],
       LineChartCard: true,
       selectable: true,
@@ -168,30 +168,20 @@ function App() {
 
     {
       id: 10,
-      title: "Tenth Title",
+      title: "Buybacks",
       data: [
-        { name: "Group A", value: 50 },
-        { name: "Group B", value: 50 },
-      ],
-      PieChartCard: true,
-      selectable: true,
-    },
-
-    {
-      id: 11,
-      title: "Eleventh Title",
-      data: [
-        { name: "Page A", data: 1500, pv: 2400, amt: 2400 },
-        { name: "Page B", data: 3000, pv: 1398, amt: 2210 },
-        { name: "Page C", data: 1000, pv: 9800, amt: 2290 },
-        { name: "Page D", data: 1500, pv: 3908, amt: 2000 },
-        { name: "Page E", data: 1890, pv: 4800, amt: 2181 },
-        { name: "Page F", data: 2390, pv: 3800, amt: 2500 },
-        { name: "Page G", data: 1900, pv: 4300, amt: 2100 },
+        { name: "2014", data: 20 },
+        { name: "2015", data: 25 },
+        { name: "2016", data: 37 },
+        { name: "2017", data: 43 },
+        { name: "2018", data: 43.5 },
+        { name: "2019", data: 56 },
+        { name: "2020", data: 60.5 },
       ],
       BarChartCard: true,
       selectable: true,
     },
+
   ]);
 
   // This gets all of the data for the specified object in the availableCards array (CORS required)
