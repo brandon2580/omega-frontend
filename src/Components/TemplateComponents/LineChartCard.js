@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
   LineChart,
   Line,
+  Legend,
 } from "recharts";
 
 const LineChartCard = (props) => {
@@ -34,13 +35,13 @@ const LineChartCard = (props) => {
             }}
           >
             <XAxis dataKey="name" />
-            <YAxis />
+            <YAxis tickCount={props.tickCount} />
             <Tooltip />
             <Line
               type="monotone"
-              dataKey="uv"
+              dataKey="data"
               stroke="#1F77B4"
-              fill="#1F77B4"
+              fill="#007bff"
             />
           </LineChart>
         </ResponsiveContainer>

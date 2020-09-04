@@ -27,7 +27,7 @@ const Sidenavbar = () => {
             <LineChartOutlined />
           </NavIcon>
           <NavText>
-            <a href="/">Data</a>
+            <a href="/">Portfolio</a>
           </NavText>
         </NavItem>
       </SideNav.Nav>

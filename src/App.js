@@ -34,8 +34,8 @@ function App() {
       id: 1,
       title: "Earnings",
       data: [
-        { name: "Group A", value: 70 },
-        { name: "Group B", value: 30 },
+        { name: "% Beat Estimates", value: 65 },
+        { name: "% Below Estimates", value: 35 },
       ],
       PieChartCard: true,
       selectable: false,
@@ -46,10 +46,11 @@ function App() {
       id: 2,
       title: "Analyst Recommendations",
       data: [
-        { name: "Group A", value: 30 },
-        { name: "Group B", value: 40 },
-        { name: "Group C", value: 20 },
-        { name: "Group D", value: 10 },
+        { name: "Strong Buy", value: 25 },
+        { name: "Buy", value: 40 },
+        { name: "Hold", value: 10 },
+        { name: "Sell", value: 20 },
+        { name: "Strong Sell", value: 5 },
       ],
       PieChartCard: true,
       selectable: false,
@@ -60,13 +61,13 @@ function App() {
       id: 3,
       title: "Dividend",
       data: [
-        { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
-        { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-        { name: "Page C", uv: 1000, pv: 9800, amt: 2290 },
-        { name: "Page D", uv: 1500, pv: 3908, amt: 2000 },
-        { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-        { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-        { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
+        { name: "2014", data: 0.28 },
+        { name: "2015", data: 0.31 },
+        { name: "2016", data: 0.36 },
+        { name: "2017", data: 0.39 },
+        { name: "2018", data: 0.42 },
+        { name: "2019", data: 0.46 },
+        { name: "2020", data: 0.51 },
       ],
       LineChartCard: true,
       selectable: false,
@@ -77,15 +78,16 @@ function App() {
       id: 4,
       title: "Chart",
       data: [
-        { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
-        { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-        { name: "Page C", uv: 1000, pv: 9800, amt: 2290 },
-        { name: "Page D", uv: 1500, pv: 3908, amt: 2000 },
-        { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-        { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-        { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
+        { name: "2014", data: 38.72 },
+        { name: "2015", data: 43.29 },
+        { name: "2016", data: 56.05 },
+        { name: "2017", data: 73.71 },
+        { name: "2018", data: 113.37 },
+        { name: "2019", data: 139.44 },
+        { name: "2020", data: 214.25 },
       ],
       LineChartCard: true,
+      tickCount: 10,
       selectable: false,
       defaultCard: true,
     },
@@ -94,15 +96,14 @@ function App() {
       id: 5,
       title: "Sentiment",
       data: [
-        { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
-        { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-        { name: "Page C", uv: 1000, pv: 9800, amt: 2290 },
-        { name: "Page D", uv: 1500, pv: 3908, amt: 2000 },
-        { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-        { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-        { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
+        { name: "8/31", data: 2 },
+        { name: "9/1", data: 2 },
+        { name: "9/2", data: 3 },
+        { name: "9/3", data: 1 },
+        { name: "9/4", data: 2 },
       ],
       LineChartCard: true,
+      tickCount: 4,
       selectable: false,
       defaultCard: true,
     },
@@ -111,10 +112,10 @@ function App() {
       id: 6,
       title: "Risk Analysis",
       data: [
-        { name: "Page A", uv: 4000 },
-        { name: "Page B", uv: 3000, amt: 2210 },
-        { name: "Page C", uv: 2000, amt: 2290 },
-        { name: "Page D", uv: 2780, amt: 2000 },
+        { name: "2017", data: 3 },
+        { name: "2018", data: 3 },
+        { name: "2019", data: 4 },
+        { name: "2020", data: 5 },
       ],
       BarChartCard: true,
       selectable: false,
@@ -125,13 +126,13 @@ function App() {
       id: 7,
       title: "Economics",
       data: [
-        { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
-        { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-        { name: "Page C", uv: 1000, pv: 9800, amt: 2290 },
-        { name: "Page D", uv: 1500, pv: 3908, amt: 2000 },
-        { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-        { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-        { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
+        { name: "2014", data: 2.45 },
+        { name: "2015", data: 2.88 },
+        { name: "2016", data: 1.57 },
+        { name: "2017", data: 2.22 },
+        { name: "2018", data: 3.18 },
+        { name: "2019", data: 2.33 },
+        { name: "2020", data: -5.9 },
       ],
       BarChartCard: true,
       selectable: false,
@@ -153,13 +154,13 @@ function App() {
       id: 9,
       title: "Ninth Title",
       data: [
-        { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
-        { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-        { name: "Page C", uv: 1000, pv: 9800, amt: 2290 },
-        { name: "Page D", uv: 1500, pv: 3908, amt: 2000 },
-        { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-        { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-        { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
+        { name: "Page A", data: 1500, pv: 2400, amt: 2400 },
+        { name: "Page B", data: 3000, pv: 1398, amt: 2210 },
+        { name: "Page C", data: 1000, pv: 9800, amt: 2290 },
+        { name: "Page D", data: 1500, pv: 3908, amt: 2000 },
+        { name: "Page E", data: 1890, pv: 4800, amt: 2181 },
+        { name: "Page F", data: 2390, pv: 3800, amt: 2500 },
+        { name: "Page G", data: 1900, pv: 4300, amt: 2100 },
       ],
       LineChartCard: true,
       selectable: true,
@@ -180,13 +181,13 @@ function App() {
       id: 11,
       title: "Eleventh Title",
       data: [
-        { name: "Page A", uv: 1500, pv: 2400, amt: 2400 },
-        { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-        { name: "Page C", uv: 1000, pv: 9800, amt: 2290 },
-        { name: "Page D", uv: 1500, pv: 3908, amt: 2000 },
-        { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-        { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-        { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
+        { name: "Page A", data: 1500, pv: 2400, amt: 2400 },
+        { name: "Page B", data: 3000, pv: 1398, amt: 2210 },
+        { name: "Page C", data: 1000, pv: 9800, amt: 2290 },
+        { name: "Page D", data: 1500, pv: 3908, amt: 2000 },
+        { name: "Page E", data: 1890, pv: 4800, amt: 2181 },
+        { name: "Page F", data: 2390, pv: 3800, amt: 2500 },
+        { name: "Page G", data: 1900, pv: 4300, amt: 2100 },
       ],
       BarChartCard: true,
       selectable: true,
@@ -230,26 +231,26 @@ function App() {
   return (
     <div className="side-margin">
       <Router>
-          <Navbar
-            availableCards={availableCards}
-            selectedCardsIndex={selectedCardsIndex}
-            setSelectedCardIndex={setSelectedCardIndex}
-          />
+        <Navbar
+          availableCards={availableCards}
+          selectedCardsIndex={selectedCardsIndex}
+          setSelectedCardIndex={setSelectedCardIndex}
+        />
 
-          {/* A <Switch> looks through its children <Route>s and
+        {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path="/dashboard">
-              <HomeDashboard
-                availableCards={availableCards}
-                selectedCardsIndex={selectedCardsIndex}
-                setSelectedCardIndex={setSelectedCardIndex}
-              />
-            </Route>
-            <Route path="/portfolio">
-              <Portfolio />
-            </Route>
-          </Switch>
+        <Switch>
+          <Route path="/dashboard">
+            <HomeDashboard
+              availableCards={availableCards}
+              selectedCardsIndex={selectedCardsIndex}
+              setSelectedCardIndex={setSelectedCardIndex}
+            />
+          </Route>
+          <Route path="/portfolio">
+            <Portfolio />
+          </Route>
+        </Switch>
       </Router>
     </div>
   );

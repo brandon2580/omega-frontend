@@ -38,7 +38,7 @@ const BarChartCard = (props) => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="uv" fill="#1F77B4" />
+            <Bar dataKey="data" fill="#1F77B4" />
           </BarChart>
         </ResponsiveContainer>
       </div>

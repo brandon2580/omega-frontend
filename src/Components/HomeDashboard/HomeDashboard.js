@@ -86,13 +86,19 @@ const HomeDashboard = (props) => {
 
               <div className="row">
                 <div className="col-lg-1 justify-content">
-                  <p>Financial Data: 1,000,000</p>
+                  <p className="center">
+                    P/E: <br /> 37.20
+                  </p>
                 </div>
                 <div className="col-lg-1 justify-content">
-                  <p>Financial Data: 1,000,000</p>
+                  <p className="center">
+                    P/B: <br /> 15.63
+                  </p>
                 </div>
                 <div className="col-lg-1 justify-content">
-                  <p>Financial Data: 1,000,000</p>
+                  <p className="center">
+                    P/S: <br /> 18.79
+                  </p>
                 </div>
                 <div className="col-lg-9 justify-content">
                   <p>
@@ -196,6 +202,7 @@ const HomeDashboard = (props) => {
                   key={card.id}
                   title={card.title}
                   data={card.data}
+                  tickCount={card.tickCount}
                   button={
                     <span
                       onClick={() => {

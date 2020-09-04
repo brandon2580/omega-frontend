@@ -119,6 +119,7 @@ const AddCardModal = (props) => {
                       key={card.id}
                       title={card.title}
                       data={card.data}
+                      tickCount={card.tickCount}
                     >
                       <p>{card.title}</p>
                     </LineChartCard>
