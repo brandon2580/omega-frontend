@@ -10,7 +10,15 @@ import "../node_modules/react-resizable/css/styles.css";
 
 function App() {
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default
-  const [selectedCardsIndex, setSelectedCardIndex] = useState([1, 2, 3, 4, 5, 6, 7]);
+  const [selectedCardsIndex, setSelectedCardIndex] = useState([
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+  ]);
 
   // availableCards is an array of objects.
   // Each object contains properties - id (int), title (string), data (array), (PieChartCard (bool) || LineChartCard (bool))
@@ -23,7 +31,7 @@ function App() {
         { name: "Group B", value: 30 },
       ],
       PieChartCard: true,
-      selectable: true,
+      selectable: false,
       defaultCard: true,
     },
 
@@ -37,7 +45,7 @@ function App() {
         { name: "Group D", value: 10 },
       ],
       PieChartCard: true,
-      selectable: true,
+      selectable: false,
       defaultCard: true,
     },
 
@@ -54,7 +62,7 @@ function App() {
         { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
       ],
       LineChartCard: true,
-      selectable: true,
+      selectable: false,
       defaultCard: true,
     },
 
@@ -71,7 +79,7 @@ function App() {
         { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
       ],
       LineChartCard: true,
-      selectable: true,
+      selectable: false,
       defaultCard: true,
     },
 
@@ -88,7 +96,7 @@ function App() {
         { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
       ],
       LineChartCard: true,
-      selectable: true,
+      selectable: false,
       defaultCard: true,
     },
 
@@ -102,7 +110,7 @@ function App() {
         { name: "Page D", uv: 2780, amt: 2000 },
       ],
       BarChartCard: true,
-      selectable: true,
+      selectable: false,
       defaultCard: true,
     },
 
@@ -119,7 +127,7 @@ function App() {
         { name: "Page G", uv: 1900, pv: 4300, amt: 2100 },
       ],
       BarChartCard: true,
-      selectable: true,
+      selectable: false,
       defaultCard: true,
     },
 

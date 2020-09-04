@@ -216,7 +216,11 @@ body.light-mode .ant-modal-footer {
 }
 
 .ant-card-head:hover {
-  cursor: move;
+  cursor: grab;
+}
+
+.ant-card-head:active {
+  cursor: grabbing;
 }
 
 .react-autosuggest__input {
@@ -233,6 +237,10 @@ body.light-mode .ant-modal-footer {
   padding: 20px;
   border-bottom: 0px !important;
   margin-bottom: -20px !important;
+}
+
+.anticon:hover{
+  cursor: pointer;
 }
 
 .modal-header {

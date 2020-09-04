@@ -91,14 +91,9 @@ const AddCardModal = (props) => {
           <div className="row">
             {props.availableCards.map((card) => {
               {
-                /* If the user clicked on a card, and it had PieChartCard is true, and it's selectable,
-                 and it's id is not found in selectedCardsIndex, return JSX */
+                /* If the user clicked on a card, and it had PieChartCard is true, and it's selectable, return JSX */
               }
-              if (
-                card.PieChartCard &&
-                card.selectable &&
-                !props.selectedCardsIndex.includes(card.id)
-              ) {
+              if (card.PieChartCard && card.selectable) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <PieChartCard
@@ -124,14 +119,9 @@ const AddCardModal = (props) => {
               }
 
               {
-                /* If the user clicked on a card, and it had LineChartCard is true, and it's selectable,
-                 and it's id is not found in selectedCardsIndex, return JSX */
+                /* If the user clicked on a card, and it had LineChartCard is true, and it's selectable, return JSX */
               }
-              if (
-                card.LineChartCard &&
-                card.selectable &&
-                !props.selectedCardsIndex.includes(card.id)
-              ) {
+              if (card.LineChartCard && card.selectable) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <LineChartCard
@@ -157,14 +147,9 @@ const AddCardModal = (props) => {
               }
 
               {
-                /* If the user clicked on a card, and it had BarChartCard is true, and it's selectable,
-                 and it's id is not found in selectedCardsIndex, return JSX */
+                /* If the user clicked on a card, and it had BarChartCard is true, and it's selectable,  return JSX */
               }
-              if (
-                card.BarChartCard &&
-                card.selectable &&
-                !props.selectedCardsIndex.includes(card.id)
-              ) {
+              if (card.BarChartCard && card.selectable) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <BarChartCard

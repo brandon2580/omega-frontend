@@ -9,6 +9,7 @@ const PieChartCard = (props) => {
   return (
     <Card
       title={props.title}
+      extra={props.button}
       style={{
         height: "100%",
         overflow: "auto",
