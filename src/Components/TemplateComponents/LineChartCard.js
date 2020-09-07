@@ -35,10 +35,11 @@ const LineChartCard = (props) => {
             }}
           >
             <XAxis dataKey="name" />
-            <YAxis tickCount={props.tickCount} />
+            <YAxis />
             <Tooltip />
             <Line
               type="monotone"
+              name={props.dataLabel}
               dataKey="data"
               stroke="#1F77B4"
               fill="#007bff"

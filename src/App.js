@@ -72,6 +72,7 @@ function App() {
       LineChartCard: true,
       selectable: false,
       defaultCard: true,
+      dataLabel: "Dividend/Share",
     },
 
     {
@@ -90,6 +91,7 @@ function App() {
       tickCount: 10,
       selectable: false,
       defaultCard: true,
+      dataLabel: "Price",
     },
 
     {
@@ -106,6 +108,7 @@ function App() {
       tickCount: 4,
       selectable: false,
       defaultCard: true,
+      dataLabel: "Sentiment",
     },
 
     {
@@ -120,6 +123,7 @@ function App() {
       BarChartCard: true,
       selectable: false,
       defaultCard: true,
+      dataLabel: "Risk",
     },
 
     {
@@ -137,6 +141,7 @@ function App() {
       BarChartCard: true,
       selectable: false,
       defaultCard: true,
+      dataLabel: "GDP",
     },
 
     {
@@ -157,7 +162,7 @@ function App() {
         { name: "2014", data: 13.76 },
         { name: "2015", data: 15.51 },
         { name: "2016", data: 39.27 },
-        { name: "2017", data: 20.60 },
+        { name: "2017", data: 20.6 },
         { name: "2018", data: 44.87 },
         { name: "2019", data: 26.09 },
         { name: "2020", data: 26.33 },
@@ -181,7 +186,6 @@ function App() {
       BarChartCard: true,
       selectable: true,
     },
-
   ]);
 
   // This gets all of the data for the specified object in the availableCards array (CORS required)

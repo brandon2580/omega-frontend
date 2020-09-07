@@ -202,7 +202,7 @@ const HomeDashboard = (props) => {
                   key={card.id}
                   title={card.title}
                   data={card.data}
-                  tickCount={card.tickCount}
+                  dataLabel={card.dataLabel}
                   button={
                     <span
                       onClick={() => {
@@ -245,6 +245,7 @@ const HomeDashboard = (props) => {
                   key={card.id}
                   title={card.title}
                   data={card.data}
+                  dataLabel={card.dataLabel}
                   button={
                     <span
                       onClick={() => {
