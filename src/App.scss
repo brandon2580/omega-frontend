@@ -186,10 +186,9 @@ body.light-mode .ant-modal-footer {
   margin-left: 75px;
   margin-right: 15px;
   margin-bottom: 40px;
-
 }
 
-.nav-link{
+.nav-link {
   font-size: 16px;
 }
 
@@ -245,7 +244,7 @@ body.light-mode .ant-modal-footer {
   margin-bottom: -20px !important;
 }
 
-.anticon:hover{
+.anticon:hover {
   cursor: pointer;
 }
 
@@ -262,6 +261,74 @@ body.light-mode .ant-modal-footer {
   margin-top: 20px;
   width: 50%;
   margin-left: 25%;
+}
+
+body.dark-mode .undo-button-container {
+  width: 200px;
+  position: fixed;
+  bottom: 1%;
+  z-index: 10;
+  background-color: white;
+  border-radius: 10px;
+}
+
+body.dark-mode .undo-button {
+  background-color: white !important;
+  color: #007bff !important;
+  font-size: 20px !important;
+  border-color: white !important;
+  text-align: center;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+body.dark-mode .removed-text {
+  color: black;
+  margin-left: 10px;
+  font-size: 20px;
+  text-align: center;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+body.light-mode .undo-button-container {
+  width: 200px;
+  position: fixed;
+  bottom: 1%;
+  z-index: 10;
+  background-color: black;
+  border-radius: 10px;
+}
+
+body.light-mode .undo-button {
+  background-color: black !important;
+  color: #007bff !important;
+  font-size: 20px !important;
+  border-color: black !important;
+  text-align: center;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+body.light-mode .removed-text {
+  color: white;
+  margin-left: 10px;
+  font-size: 20px;
+  text-align: center;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .ticker-header {

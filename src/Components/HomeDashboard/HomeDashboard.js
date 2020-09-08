@@ -8,13 +8,16 @@ import { Card } from "antd";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import BarChartCard from "../TemplateComponents/BarChartCard";
 import Sidenavbar from "../Navbars/Sidenavbar";
+import UndoPrompt from "./UndoPrompt";
 
 var company_logo = require("../../images/msft_logo.png");
 
 const GridLayout = WidthProvider(Responsive);
 
 const HomeDashboard = (props) => {
-  const [value, setValue] = useState({ value: true });
+  const [value, setValue] = useState(true);
+  const [wasRemoved, setWasRemoved] = useState(false);
+  const [removedCard, setRemovedCard] = useState();
 
   // If the user clicks enter, just blur the input instead of refreshing
   const keyPress = (e) => {
@@ -30,7 +33,21 @@ const HomeDashboard = (props) => {
       props.setSelectedCardIndex((prevSelected) =>
         prevSelected.filter((cardId) => cardId !== id)
       );
+      setWasRemoved(true);
+      setRemovedCard(id);
     }
+  }
+
+  let undoPrompt;
+  if (wasRemoved) {
+    undoPrompt = (
+      <UndoPrompt
+        selectedCardsIndex={props.selectedCardsIndex}
+        setSelectedCardIndex={props.setSelectedCardIndex}
+        setWasRemoved={setWasRemoved}
+        removedCardId={removedCard}
+      />
+    );
   }
 
   var defaultLayout = [
@@ -129,6 +146,8 @@ const HomeDashboard = (props) => {
       </div>
 
       <Sidenavbar />
+
+      {undoPrompt}
 
       <GridLayout
         className="layout"
