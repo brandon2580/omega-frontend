@@ -1,7 +1,13 @@
-function sum(a, b) {
-    return a + b;
-  }
+import React from "react";
+import Enzyme, { shallow } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
+import AddCardModal from "../Components/Navbars/AddCardModal";
+Enzyme.configure({ adapter: new Adapter() });
 
-  test('adds 1 + 2 to equal 3', () => {
-    expect(sum(1, 2)).toBe(3)
-  });
+describe('AddCardModal', () => {
+  it('should do something', () => {
+    const wrapper = shallow(<AddCardModal />);
+    const text = wrapper.find('div div');
+    expect(text.text()).toBe('Text goes here')
+  })
+})
