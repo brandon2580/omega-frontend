@@ -225,7 +225,11 @@ function App() {
   return (
     <div className="side-margin">
       <Router>
-
+      <TopNavbar
+        availableCards={availableCards}
+        selectedCardsIndex={selectedCardsIndex}
+        setSelectedCardIndex={setSelectedCardIndex}
+      />
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}

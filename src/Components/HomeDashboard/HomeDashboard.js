@@ -69,12 +69,6 @@ const HomeDashboard = (props) => {
 
   return (
     <div>
-      <TopNavbar
-        availableCards={props.availableCards}
-        selectedCardsIndex={props.selectedCardsIndex}
-        setSelectedCardIndex={props.setSelectedCardIndex}
-        removedCardId={removedCard}
-      />
       <h1
         contentEditable="true"
         onBlur={keyPress}

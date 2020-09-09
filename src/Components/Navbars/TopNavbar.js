@@ -51,7 +51,6 @@ const TopNavbar = (props) => {
             availableCards={props.availableCards}
             selectedCardsIndex={props.selectedCardsIndex}
             setSelectedCardIndex={props.setSelectedCardIndex}
-            removedCardId={props.removedCardId}
           />
         </div>
       </div>
