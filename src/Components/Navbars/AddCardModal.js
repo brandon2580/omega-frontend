@@ -35,13 +35,6 @@ const AddCardModal = (props) => {
     setModalVisible(false);
   };
 
-  const lowerCasedComponents = props.availableCards.map((components) => {
-    return {
-      id: components.id,
-      name: components.title.toLowerCase(),
-    };
-  });
-
   return (
     <div>
       <button className="btn btn-primary" type="button" onClick={showModal}>
