@@ -9,7 +9,6 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 import BarChartCard from "../TemplateComponents/BarChartCard";
 import Sidenavbar from "../Navbars/Sidenavbar";
 import UndoPrompt from "./UndoPrompt";
-import TopNavbar from "../Navbars/TopNavbar";
 
 var company_logo = require("../../images/msft_logo.png");
 
