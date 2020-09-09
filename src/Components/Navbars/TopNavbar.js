@@ -4,7 +4,7 @@ import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "./AddCardModal";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-const Navbar = (props) => {
+const TopNavbar = (props) => {
   return (
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
       <button
@@ -51,6 +51,7 @@ const Navbar = (props) => {
             availableCards={props.availableCards}
             selectedCardsIndex={props.selectedCardsIndex}
             setSelectedCardIndex={props.setSelectedCardIndex}
+            removedCardId={props.removedCardId}
           />
         </div>
       </div>
@@ -58,4 +59,4 @@ const Navbar = (props) => {
   );
 };
 
-export default Navbar;
+export default TopNavbar;

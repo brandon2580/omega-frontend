@@ -20,6 +20,11 @@ const UndoPrompt = (props) => {
                 ]);
                 props.setWasRemoved(false);
               }
+              props.availableCards.map((card) => {
+                if (card.id == props.removedCardId) {
+                  card.selectable = false;
+                }
+              });
             }}
           >
             Undo

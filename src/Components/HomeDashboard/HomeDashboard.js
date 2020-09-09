@@ -9,6 +9,7 @@ import { Responsive, WidthProvider } from "react-grid-layout";
 import BarChartCard from "../TemplateComponents/BarChartCard";
 import Sidenavbar from "../Navbars/Sidenavbar";
 import UndoPrompt from "./UndoPrompt";
+import TopNavbar from "../Navbars/TopNavbar";
 
 var company_logo = require("../../images/msft_logo.png");
 
@@ -44,6 +45,7 @@ const HomeDashboard = (props) => {
       <UndoPrompt
         selectedCardsIndex={props.selectedCardsIndex}
         setSelectedCardIndex={props.setSelectedCardIndex}
+        availableCards={props.availableCards}
         setWasRemoved={setWasRemoved}
         removedCardId={removedCard}
       />
@@ -67,6 +69,12 @@ const HomeDashboard = (props) => {
 
   return (
     <div>
+      <TopNavbar
+        availableCards={props.availableCards}
+        selectedCardsIndex={props.selectedCardsIndex}
+        setSelectedCardIndex={props.setSelectedCardIndex}
+        removedCardId={removedCard}
+      />
       <h1
         contentEditable="true"
         onBlur={keyPress}

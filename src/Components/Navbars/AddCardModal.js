@@ -46,7 +46,10 @@ const AddCardModal = (props) => {
         footer={null}
         onCancel={handleExit}
       >
-        <form className="form-inline ml-auto col-lg-7" onSubmit={(e) => e.preventDefault()}>
+        <form
+          className="form-inline ml-auto col-lg-7"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <AutoSuggest
             suggestions={suggestions}
             onSuggestionsClearRequested={() => setSuggestions([])}
@@ -66,6 +69,7 @@ const AddCardModal = (props) => {
         <div className="add-card-container">
           <div className="row">
             {props.availableCards.map((card) => {
+
               {
                 /* If the user clicked on a card, and it had PieChartCard is true, and it's selectable, return JSX */
               }

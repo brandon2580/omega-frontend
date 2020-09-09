@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.scss";
-import Navbar from "./Components/Navbars/TopNavbar";
+import TopNavbar from "./Components/Navbars/TopNavbar";
 import HomeDashboard from "./Components/HomeDashboard/HomeDashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/js/src/collapse.js";
@@ -225,11 +225,7 @@ function App() {
   return (
     <div className="side-margin">
       <Router>
-        <Navbar
-          availableCards={availableCards}
-          selectedCardsIndex={selectedCardsIndex}
-          setSelectedCardIndex={setSelectedCardIndex}
-        />
+
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
