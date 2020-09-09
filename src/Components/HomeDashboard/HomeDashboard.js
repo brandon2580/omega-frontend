@@ -48,6 +48,9 @@ const HomeDashboard = (props) => {
         removedCardId={removedCard}
       />
     );
+
+    // Removes UndoPrompt after 5 seconds
+    setTimeout(() => setWasRemoved(false), 5000);
   }
 
   var defaultLayout = [
@@ -147,15 +150,13 @@ const HomeDashboard = (props) => {
 
       <Sidenavbar />
 
-      {undoPrompt}
-
       <GridLayout
         className="layout"
         layouts={layout}
         breakpoints={{ lg: 1200, s: 300 }}
         draggableHandle={".ant-card-head"}
         cols={{ lg: 12, s: 1 }}
-        rowHeight={600}
+        rowHeight={575}
         width={1200}
       >
         {/*
@@ -295,6 +296,9 @@ const HomeDashboard = (props) => {
           }
         })}
       </GridLayout>
+
+      {/* Only renders when the user deletes a card from the page (for 5 seconds) */}
+      {undoPrompt}
     </div>
   );
 };
