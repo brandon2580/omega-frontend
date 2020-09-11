@@ -37,7 +37,7 @@ const HomeDashboard = (props) => {
       setRemovedCard(id);
     }
   }
-  
+
   // Removes UndoPrompt after 5 seconds
   if (wasRemoved) {
     setTimeout(() => setWasRemoved(false), 5000);
