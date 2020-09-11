@@ -223,29 +223,31 @@ function App() {
   }, []);
 
   return (
-    <div className="side-margin">
-      <Router>
-      <TopNavbar
-        availableCards={availableCards}
-        selectedCardsIndex={selectedCardsIndex}
-        setSelectedCardIndex={setSelectedCardIndex}
-      />
+    <div className="app">
+      <div className="side-margin">
+        <Router>
+          <TopNavbar
+            availableCards={availableCards}
+            selectedCardsIndex={selectedCardsIndex}
+            setSelectedCardIndex={setSelectedCardIndex}
+          />
 
-        {/* A <Switch> looks through its children <Route>s and
+          {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/dashboard">
-            <HomeDashboard
-              availableCards={availableCards}
-              selectedCardsIndex={selectedCardsIndex}
-              setSelectedCardIndex={setSelectedCardIndex}
-            />
-          </Route>
-          <Route path="/portfolio">
-            <Portfolio />
-          </Route>
-        </Switch>
-      </Router>
+          <Switch>
+            <Route path="/dashboard">
+              <HomeDashboard
+                availableCards={availableCards}
+                selectedCardsIndex={selectedCardsIndex}
+                setSelectedCardIndex={setSelectedCardIndex}
+              />
+            </Route>
+            <Route path="/portfolio">
+              <Portfolio />
+            </Route>
+          </Switch>
+        </Router>
+      </div>
     </div>
   );
 }
