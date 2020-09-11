@@ -37,31 +37,20 @@ const HomeDashboard = (props) => {
       setRemovedCard(id);
     }
   }
-
-  let undoPrompt;
+  
+  // Removes UndoPrompt after 5 seconds
   if (wasRemoved) {
-    undoPrompt = (
-      <UndoPrompt
-        selectedCardsIndex={props.selectedCardsIndex}
-        setSelectedCardIndex={props.setSelectedCardIndex}
-        availableCards={props.availableCards}
-        setWasRemoved={setWasRemoved}
-        removedCardId={removedCard}
-      />
-    );
-
-    // Removes UndoPrompt after 5 seconds
     setTimeout(() => setWasRemoved(false), 5000);
   }
 
   var defaultLayout = [
-    { i: "1", x: 0, y: 0, w: 6, h: 1 },
-    { i: "2", x: 12, y: 0, w: 6, h: 1 },
-    { i: "3", x: 0, y: 0, w: 4, h: 1 },
-    { i: "4", x: 4, y: 0, w: 4, h: 1 },
-    { i: "5", x: 12, y: 0, w: 4, h: 1 },
-    { i: "6", x: 0, y: 0, w: 6, h: 1 },
-    { i: "7", x: 12, y: 0, w: 6, h: 1 },
+    { i: "1", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+    { i: "2", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+    { i: "3", x: 0, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
+    { i: "4", x: 4, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
+    { i: "5", x: 12, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
+    { i: "6", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+    { i: "7", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
   ];
 
   var layout = { lg: value === true ? defaultLayout : defaultLayout };
@@ -175,7 +164,15 @@ const HomeDashboard = (props) => {
             return (
               <div
                 key={card.id}
-                data-grid={{ i: i.toString(), w: 6, h: 1, x: 0, y: 5 }}
+                data-grid={{
+                  i: i.toString(),
+                  w: 6,
+                  h: 1,
+                  x: 0,
+                  y: 5,
+                  minW: 3,
+                  maxH: 1,
+                }}
               >
                 <PieChartCard
                   key={card.id}
@@ -217,7 +214,15 @@ const HomeDashboard = (props) => {
             return (
               <div
                 key={card.id}
-                data-grid={{ i: i.toString(), w: 6, h: 1, x: 0, y: 5 }}
+                data-grid={{
+                  i: i.toString(),
+                  w: 6,
+                  h: 1,
+                  x: 0,
+                  y: 5,
+                  minW: 3,
+                  maxH: 1,
+                }}
               >
                 <LineChartCard
                   key={card.id}
@@ -260,7 +265,15 @@ const HomeDashboard = (props) => {
             return (
               <div
                 key={card.id}
-                data-grid={{ i: i.toString(), w: 6, h: 1, x: 0, y: 5 }}
+                data-grid={{
+                  i: i.toString(),
+                  w: 6,
+                  h: 1,
+                  x: 0,
+                  y: 5,
+                  minW: 3,
+                  maxH: 1,
+                }}
               >
                 <BarChartCard
                   key={card.id}
@@ -299,7 +312,15 @@ const HomeDashboard = (props) => {
       </GridLayout>
 
       {/* Only renders when the user deletes a card from the page (for 5 seconds) */}
-      {undoPrompt}
+      {wasRemoved && (
+        <UndoPrompt
+          selectedCardsIndex={props.selectedCardsIndex}
+          setSelectedCardIndex={props.setSelectedCardIndex}
+          availableCards={props.availableCards}
+          setWasRemoved={setWasRemoved}
+          removedCardId={removedCard}
+        />
+      )}
     </div>
   );
 };
