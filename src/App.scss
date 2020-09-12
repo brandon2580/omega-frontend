@@ -298,6 +298,10 @@ body.light-mode .removed-text {
   cursor: default;
 }
 
+.ticker-header .ant-card-head:hover{
+  cursor: default;
+}
+
 .ant-card-head:active {
   cursor: grabbing;
 }
