@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.scss";
 import TopNavbar from "./Components/Navbars/TopNavbar";
-import HomeDashboard from "./Components/HomeDashboard/HomeDashboard";
+import EquityDashboard from "./Components/EquityDashboard/EquityDashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/js/src/collapse.js";
 import "antd/dist/antd.css";
@@ -236,7 +236,7 @@ function App() {
             renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/dashboard">
-              <HomeDashboard
+              <EquityDashboard
                 availableCards={availableCards}
                 selectedCardsIndex={selectedCardsIndex}
                 setSelectedCardIndex={setSelectedCardIndex}
