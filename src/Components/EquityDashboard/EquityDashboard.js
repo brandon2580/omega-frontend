@@ -4,7 +4,7 @@ import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import LineChartCard from "../TemplateComponents/LineChartCard";
 import PieChartCard from "../TemplateComponents/PieChartCard";
-import { Card } from "antd";
+import { Card, Popover } from "antd";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import BarChartCard from "../TemplateComponents/BarChartCard";
 import Sidenavbar from "../Navbars/Sidenavbar";
@@ -13,7 +13,6 @@ import UndoPrompt from "./UndoPrompt";
 var company_logo = require("../../images/msft_logo.png");
 
 const GridLayout = WidthProvider(Responsive);
-const savedLayout = getFromLS("layout") || [];
 
 const HomeDashboard = (props) => {
   const [mainLayout, setMainLayout] = useState([
@@ -25,10 +24,13 @@ const HomeDashboard = (props) => {
     { i: "6", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
     { i: "7", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
   ]);
-  const [newLayout, setNewLayout] = useState()
+  const [newLayout, setNewLayout] = useState();
+  const [savedLayoutName, setSavedLayoutName] = useState([]);
+  const [newLayoutName, setNewLayoutName] = useState();
   const [value, setValue] = useState(true);
   const [wasRemoved, setWasRemoved] = useState(false);
   const [removedCard, setRemovedCard] = useState();
+  const savedLayout = getFromLS(savedLayoutName) || mainLayout;
 
   // If the user clicks enter, just blur the input instead of refreshing
   const keyPress = (e) => {
@@ -38,16 +40,25 @@ const HomeDashboard = (props) => {
     }
   };
 
+  const handleChange = (e) => {
+    setNewLayoutName(e.target.value);
+  };
+
   // Handles onDragStop
   const handleLayoutChange = (layout) => {
-    setNewLayout(layout)
-    setMainLayout(JSON.parse(JSON.stringify(savedLayout)))
+    setNewLayout(layout);
+    setMainLayout(JSON.parse(JSON.stringify(savedLayout)));
   };
 
   // Saves layout
-  const saveLayout = () => {
-    saveToLS("layout", newLayout);
+  const saveLayout = (e) => {
+    e.preventDefault();
+    setSavedLayoutName([...savedLayoutName, newLayoutName]);
+    saveToLS(savedLayoutName, newLayout);
+    e.target.reset();
   };
+
+  console.log(savedLayoutName);
 
   const removeCardFromLayout = (id) => {
     // Card was selected, remove it
@@ -150,11 +161,19 @@ const HomeDashboard = (props) => {
         </div>
       </div>
 
-      <Sidenavbar />
+      <Sidenavbar savedLayoutName={savedLayoutName} />
 
-      <button className="btn btn-primary" onClick={saveLayout}>
-        Save Layout
-      </button>
+      <Popover
+        content={
+          <form onSubmit={saveLayout}>
+            <input type="text" onChange={handleChange} />
+          </form>
+        }
+        title="Layout Name"
+        trigger="click"
+      >
+        <button className="btn btn-primary">Save Layout</button>
+      </Popover>
 
       <GridLayout
         className="layout"
@@ -340,9 +359,8 @@ const HomeDashboard = (props) => {
       )}
     </div>
   );
-
-
 };
+
 function getFromLS(key) {
   let ls = {};
   if (global.localStorage) {
