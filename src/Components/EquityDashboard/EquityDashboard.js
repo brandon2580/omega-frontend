@@ -42,13 +42,11 @@ const HomeDashboard = (props) => {
   const handleLayoutChange = (layout) => {
     setNewLayout(layout)
     setMainLayout(JSON.parse(JSON.stringify(savedLayout)))
-    console.log(layout);
   };
 
   // Saves layout
   const saveLayout = () => {
     saveToLS("layout", newLayout);
-    console.log("Layout saved");
   };
 
   const removeCardFromLayout = (id) => {
