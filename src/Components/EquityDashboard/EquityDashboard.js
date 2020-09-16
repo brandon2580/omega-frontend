@@ -16,7 +16,7 @@ const GridLayout = WidthProvider(Responsive);
 const savedLayout = getFromLS("layout") || [];
 
 const HomeDashboard = (props) => {
-  const [defaultLayout, setDefaultLayout] = useState([
+  const [mainLayout, setMainLayout] = useState([
     { i: "1", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
     { i: "2", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
     { i: "3", x: 0, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
@@ -41,7 +41,7 @@ const HomeDashboard = (props) => {
   // Handles onDragStop
   const handleLayoutChange = (layout) => {
     setNewLayout(layout)
-    setDefaultLayout(JSON.parse(JSON.stringify(savedLayout)))
+    setMainLayout(JSON.parse(JSON.stringify(savedLayout)))
     console.log(layout);
   };
 
@@ -67,7 +67,7 @@ const HomeDashboard = (props) => {
     setTimeout(() => setWasRemoved(false), 5000);
   }
 
-  var layout = { lg: value === true ? defaultLayout : defaultLayout };
+  var layout = { lg: value === true ? mainLayout : mainLayout };
 
   return (
     <div>
