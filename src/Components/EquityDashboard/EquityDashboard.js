@@ -13,8 +13,19 @@ import UndoPrompt from "./UndoPrompt";
 var company_logo = require("../../images/msft_logo.png");
 
 const GridLayout = WidthProvider(Responsive);
+const savedLayout = getFromLS("layout") || [];
 
 const HomeDashboard = (props) => {
+  const [defaultLayout, setDefaultLayout] = useState([
+    { i: "1", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+    { i: "2", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+    { i: "3", x: 0, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
+    { i: "4", x: 4, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
+    { i: "5", x: 12, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
+    { i: "6", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+    { i: "7", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+  ]);
+  const [newLayout, setNewLayout] = useState()
   const [value, setValue] = useState(true);
   const [wasRemoved, setWasRemoved] = useState(false);
   const [removedCard, setRemovedCard] = useState();
@@ -27,7 +38,20 @@ const HomeDashboard = (props) => {
     }
   };
 
-  function removeCardFromLayout(id) {
+  // Handles onDragStop
+  const handleLayoutChange = (layout) => {
+    setNewLayout(layout)
+    setDefaultLayout(JSON.parse(JSON.stringify(savedLayout)))
+    console.log(layout);
+  };
+
+  // Saves layout
+  const saveLayout = () => {
+    saveToLS("layout", newLayout);
+    console.log("Layout saved");
+  };
+
+  const removeCardFromLayout = (id) => {
     // Card was selected, remove it
     if (props.selectedCardsIndex.includes(id)) {
       props.setSelectedCardIndex((prevSelected) =>
@@ -36,22 +60,12 @@ const HomeDashboard = (props) => {
       setWasRemoved(true);
       setRemovedCard(id);
     }
-  }
+  };
 
   // Removes UndoPrompt after 5 seconds
   if (wasRemoved) {
     setTimeout(() => setWasRemoved(false), 5000);
   }
-
-  var defaultLayout = [
-    { i: "1", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
-    { i: "2", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
-    { i: "3", x: 0, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
-    { i: "4", x: 4, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
-    { i: "5", x: 12, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
-    { i: "6", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
-    { i: "7", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
-  ];
 
   var layout = { lg: value === true ? defaultLayout : defaultLayout };
 
@@ -140,10 +154,15 @@ const HomeDashboard = (props) => {
 
       <Sidenavbar />
 
+      <button className="btn btn-primary" onClick={saveLayout}>
+        Save Layout
+      </button>
+
       <GridLayout
         className="layout"
         layouts={layout}
         breakpoints={{ lg: 1200, s: 300 }}
+        onLayoutChange={handleLayoutChange}
         draggableHandle={".ant-card-head"}
         cols={{ lg: 12, s: 1 }}
         rowHeight={575}
@@ -323,6 +342,29 @@ const HomeDashboard = (props) => {
       )}
     </div>
   );
-};
 
+
+};
+function getFromLS(key) {
+  let ls = {};
+  if (global.localStorage) {
+    try {
+      ls = JSON.parse(global.localStorage.getItem("rgl-7")) || {};
+    } catch (e) {
+      /*Ignore*/
+    }
+  }
+  return ls[key];
+}
+
+function saveToLS(key, value) {
+  if (global.localStorage) {
+    global.localStorage.setItem(
+      "rgl-7",
+      JSON.stringify({
+        [key]: value,
+      })
+    );
+  }
+}
 export default HomeDashboard;
