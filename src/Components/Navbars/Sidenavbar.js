@@ -1,7 +1,11 @@
 import React from "react";
 import "../../App.scss";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
-import { HomeOutlined, LineChartOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  LineChartOutlined,
+  LayoutOutlined,
+} from "@ant-design/icons";
 
 const Sidenavbar = (props) => {
   return (
@@ -30,19 +34,19 @@ const Sidenavbar = (props) => {
             <a href="/">Portfolio</a>
           </NavText>
         </NavItem>
-            {props.savedLayoutName.map((name) => {
-              return (
-                <NavItem eventKey="home">
-                <NavIcon>
-                  <LineChartOutlined />
-                </NavIcon>
-                <NavText>
-                  <a href="/">{name}</a>
-                </NavText>
-              </NavItem>
-              )
-            })}
 
+        {props.savedLayoutName.map((name) => {
+          return (
+            <NavItem eventKey="home">
+              <NavIcon>
+                <LayoutOutlined />
+              </NavIcon>
+              <NavText>
+                <a href="/">{name}</a>
+              </NavText>
+            </NavItem>
+          );
+        })}
       </SideNav.Nav>
     </SideNav>
   );
