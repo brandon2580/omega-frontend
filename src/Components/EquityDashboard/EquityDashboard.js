@@ -24,13 +24,14 @@ const HomeDashboard = (props) => {
     { i: "6", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
     { i: "7", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
   ]);
-  const [newLayout, setNewLayout] = useState([]);
-  const [savedLayoutName, setSavedLayoutName] = useState([]);
+  const [newLayout, setNewLayout] = useState();
   const [newLayoutName, setNewLayoutName] = useState();
+  const [storedLayouts, setStoredLayouts] = useState([]);
+  const [storedLayoutNames, setStoredLayoutNames] = useState([]);
   const [value, setValue] = useState(true);
   const [wasRemoved, setWasRemoved] = useState(false);
   const [removedCard, setRemovedCard] = useState();
-  const savedLayout = getFromLS(savedLayoutName) || mainLayout;
+  const savedLayout = getFromLS(storedLayoutNames);
 
   // If the user clicks enter, just blur the input instead of refreshing
   const keyPress = (e) => {
@@ -45,17 +46,24 @@ const HomeDashboard = (props) => {
   };
 
   const handleLayoutChange = (layout) => {
-    setNewLayout([...newLayout, layout]);
-    setMainLayout(JSON.parse(JSON.stringify(savedLayout)));
+    setNewLayout(layout);
   };
 
   // Saves layout
   const saveLayout = (e) => {
     e.preventDefault();
-    setSavedLayoutName([...savedLayoutName, newLayoutName]);
-    saveToLS(savedLayoutName, newLayout);
+    setStoredLayouts([...storedLayouts, newLayout]);
+    setStoredLayoutNames([...storedLayoutNames, newLayoutName]);
+
+    // Saved MOST RECENT layout name and layout to local storage
+    saveToLS(
+      storedLayoutNames[storedLayoutNames.length - 1],
+      storedLayouts[storedLayouts.length - 1]
+    );
     e.target.reset();
   };
+
+  console.log(storedLayoutNames[storedLayoutNames.length - 1]);
 
   const removeCardFromLayout = (id) => {
     // Card was selected, remove it
@@ -158,7 +166,10 @@ const HomeDashboard = (props) => {
         </div>
       </div>
 
-      <Sidenavbar savedLayoutName={savedLayoutName} />
+      <Sidenavbar
+        storedLayoutNames={storedLayoutNames}
+        storedLayouts={storedLayouts}
+      />
 
       <Popover
         content={
@@ -358,11 +369,12 @@ const HomeDashboard = (props) => {
   );
 };
 
+// WORK ON THIS NEXT
 function getFromLS(key) {
   let ls = {};
   if (global.localStorage) {
     try {
-      ls = JSON.parse(global.localStorage.getItem("rgl-7")) || {};
+      ls = JSON.parse(global.localStorage.getItem(key)) || {};
     } catch (e) {
       /*Ignore*/
     }
@@ -371,13 +383,13 @@ function getFromLS(key) {
 }
 
 function saveToLS(key, value) {
-  if (global.localStorage) {
-    global.localStorage.setItem(
-      "rgl-7",
-      JSON.stringify({
-        [key]: value,
-      })
-    );
+  const prevStorageData = localStorage.getItem("rgl");
+
+  if (prevStorageData) {
+    const prevData = JSON.parse(prevStorageData);
+    localStorage.setItem("rgl", JSON.stringify({ ...prevData, [key]: value }));
+  } else {
+    localStorage.setItem("rgl", JSON.stringify({ [key]: value }));
   }
 }
 export default HomeDashboard;
