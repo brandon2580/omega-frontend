@@ -24,7 +24,7 @@ const HomeDashboard = (props) => {
     { i: "6", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
     { i: "7", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
   ]);
-  const [newLayout, setNewLayout] = useState();
+  const [newLayout, setNewLayout] = useState([]);
   const [savedLayoutName, setSavedLayoutName] = useState([]);
   const [newLayoutName, setNewLayoutName] = useState();
   const [value, setValue] = useState(true);
@@ -44,9 +44,8 @@ const HomeDashboard = (props) => {
     setNewLayoutName(e.target.value);
   };
 
-  // Handles onDragStop
   const handleLayoutChange = (layout) => {
-    setNewLayout(layout);
+    setNewLayout([...newLayout, layout]);
     setMainLayout(JSON.parse(JSON.stringify(savedLayout)));
   };
 
@@ -57,8 +56,6 @@ const HomeDashboard = (props) => {
     saveToLS(savedLayoutName, newLayout);
     e.target.reset();
   };
-
-  console.log(savedLayoutName);
 
   const removeCardFromLayout = (id) => {
     // Card was selected, remove it
