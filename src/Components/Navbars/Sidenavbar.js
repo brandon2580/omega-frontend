@@ -8,6 +8,10 @@ import {
 } from "@ant-design/icons";
 
 const Sidenavbar = (props) => {
+  const handleClick = () => {
+
+  }
+
   return (
     <SideNav
       style={{
@@ -35,14 +39,15 @@ const Sidenavbar = (props) => {
           </NavText>
         </NavItem>
 
-        {props.savedLayoutName.map((name) => {
+        {props.storedLayoutNames.map((name, index) => {
+          
           return (
             <NavItem eventKey="home">
               <NavIcon>
                 <LayoutOutlined />
               </NavIcon>
               <NavText>
-                <a href="/">{name}</a>
+                <a onClick={handleClick}>{name}</a>
               </NavText>
             </NavItem>
           );
