@@ -25,13 +25,33 @@ const HomeDashboard = (props) => {
     { i: "7", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
   ]);
   const [newLayout, setNewLayout] = useState();
-  const [newLayoutName, setNewLayoutName] = useState();
+  const [newLayoutName, setNewLayoutName] = useState("");
   const [storedLayouts, setStoredLayouts] = useState([]);
   const [storedLayoutNames, setStoredLayoutNames] = useState([]);
+  const [selectedLayoutName, setSelectedLayoutName] = useState("");
+  const [wasSelected, setWasSelected] = useState(false);
   const [value, setValue] = useState(true);
   const [wasRemoved, setWasRemoved] = useState(false);
   const [removedCard, setRemovedCard] = useState();
-  const savedLayout = getFromLS(storedLayoutNames);
+
+  function saveToLS(key, value) {
+    const prevStorageData = localStorage.getItem(key);
+
+    if (prevStorageData) {
+      const prevData = JSON.parse(prevStorageData);
+      localStorage.setItem(key, JSON.stringify({ ...prevData, [key]: value }));
+    } else {
+      localStorage.setItem(key, JSON.stringify({ [key]: value }));
+    }
+  }
+
+  // BIG ISSUE HERE ---> For some reason, this code only produces the desired result
+  // when the layout is in localstorage, otherwise it returns TypeError: can't convert null to object
+  if (wasSelected) {
+    let savedLayout = JSON.parse(global.localStorage.getItem(selectedLayoutName));
+    console.log(savedLayout[Object.keys(savedLayout)[0]])
+    setMainLayout(savedLayout[Object.keys(savedLayout)[0]], setWasSelected(false));
+  }
 
   // If the user clicks enter, just blur the input instead of refreshing
   const keyPress = (e) => {
@@ -62,8 +82,6 @@ const HomeDashboard = (props) => {
     );
     e.target.reset();
   };
-
-  console.log(storedLayoutNames[storedLayoutNames.length - 1]);
 
   const removeCardFromLayout = (id) => {
     // Card was selected, remove it
@@ -168,7 +186,8 @@ const HomeDashboard = (props) => {
 
       <Sidenavbar
         storedLayoutNames={storedLayoutNames}
-        storedLayouts={storedLayouts}
+        setSelectedLayoutName={setSelectedLayoutName}
+        setWasSelected={setWasSelected}
       />
 
       <Popover
@@ -369,27 +388,4 @@ const HomeDashboard = (props) => {
   );
 };
 
-// WORK ON THIS NEXT
-function getFromLS(key) {
-  let ls = {};
-  if (global.localStorage) {
-    try {
-      ls = JSON.parse(global.localStorage.getItem(key)) || {};
-    } catch (e) {
-      /*Ignore*/
-    }
-  }
-  return ls[key];
-}
-
-function saveToLS(key, value) {
-  const prevStorageData = localStorage.getItem("rgl");
-
-  if (prevStorageData) {
-    const prevData = JSON.parse(prevStorageData);
-    localStorage.setItem("rgl", JSON.stringify({ ...prevData, [key]: value }));
-  } else {
-    localStorage.setItem("rgl", JSON.stringify({ [key]: value }));
-  }
-}
 export default HomeDashboard;

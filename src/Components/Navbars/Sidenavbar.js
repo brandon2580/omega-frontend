@@ -8,17 +8,19 @@ import {
 } from "@ant-design/icons";
 
 const Sidenavbar = (props) => {
-  const handleClick = () => {
-
-  }
+  const handleClick = (e) => {
+    e.preventDefault();
+    props.setSelectedLayoutName(e.target.value);
+    props.setWasSelected(true);
+  };
 
   return (
     <SideNav
+      className="sidenav"
       style={{
         backgroundImage: "linear-gradient(315deg, #121516 0%, #000000 74%)",
         position: "fixed",
       }}
-      className="sidenav"
     >
       <SideNav.Toggle />
       <SideNav.Nav defaultSelected="home">
@@ -40,14 +42,19 @@ const Sidenavbar = (props) => {
         </NavItem>
 
         {props.storedLayoutNames.map((name, index) => {
-          
           return (
             <NavItem eventKey="home">
               <NavIcon>
                 <LayoutOutlined />
               </NavIcon>
               <NavText>
-                <a onClick={handleClick}>{name}</a>
+                <button
+                  className="btn btn-primary"
+                  value={name}
+                  onClick={handleClick}
+                >
+                  {name}
+                </button>
               </NavText>
             </NavItem>
           );
