@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useStorageState } from "../../hooks/useStorageState";
 import _ from "lodash";
 import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
@@ -25,32 +26,25 @@ const HomeDashboard = (props) => {
     { i: "7", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
   ]);
   const [newLayout, setNewLayout] = useState();
-  const [newLayoutName, setNewLayoutName] = useState("");
-  const [storedLayouts, setStoredLayouts] = useState([]);
-  const [storedLayoutNames, setStoredLayoutNames] = useState([]);
-  const [selectedLayoutName, setSelectedLayoutName] = useState("");
+  const [newLayoutName, setNewLayoutName] = useState();
+  const [storedLayouts, setStoredLayouts] = useStorageState([], "storedLayouts");
+  const [storedLayoutNames, setStoredLayoutNames] = useStorageState([], "storedLayoutNames");
+  const [selectedLayoutIndex, setSelectedLayoutIndex] = useState();
+  const [wasTaken, setWasTaken] = useState(false);
   const [wasSelected, setWasSelected] = useState(false);
   const [value, setValue] = useState(true);
   const [wasRemoved, setWasRemoved] = useState(false);
   const [removedCard, setRemovedCard] = useState();
 
-  function saveToLS(key, value) {
-    const prevStorageData = localStorage.getItem(key);
-
-    if (prevStorageData) {
-      const prevData = JSON.parse(prevStorageData);
-      localStorage.setItem(key, JSON.stringify({ ...prevData, [key]: value }));
-    } else {
-      localStorage.setItem(key, JSON.stringify({ [key]: value }));
-    }
+  if (localStorage.getItem("storedLayouts" && "storedLayoutNames") == null) {
+    localStorage.setItem("storedLayouts", JSON.stringify([]))
+    localStorage.setItem("storedLayoutNames", JSON.stringify([]))
   }
 
-  // BIG ISSUE HERE ---> For some reason, this code only produces the desired result
-  // when the layout is in localstorage, otherwise it returns TypeError: can't convert null to object
   if (wasSelected) {
-    let savedLayout = JSON.parse(global.localStorage.getItem(selectedLayoutName));
-    console.log(savedLayout[Object.keys(savedLayout)[0]])
-    setMainLayout(savedLayout[Object.keys(savedLayout)[0]], setWasSelected(false));
+    let localStorageLayouts = localStorage.getItem("storedLayouts")
+    let storedLayouts = JSON.parse(localStorageLayouts.split())
+    setMainLayout(storedLayouts[selectedLayoutIndex], setWasSelected(false))
   }
 
   // If the user clicks enter, just blur the input instead of refreshing
@@ -69,18 +63,23 @@ const HomeDashboard = (props) => {
     setNewLayout(layout);
   };
 
-  // Saves layout
   const saveLayout = (e) => {
     e.preventDefault();
-    setStoredLayouts([...storedLayouts, newLayout]);
-    setStoredLayoutNames([...storedLayoutNames, newLayoutName]);
 
-    // Saved MOST RECENT layout name and layout to local storage
-    saveToLS(
-      storedLayoutNames[storedLayoutNames.length - 1],
-      storedLayouts[storedLayouts.length - 1]
-    );
-    e.target.reset();
+    let localStorageLayoutNames = localStorage.getItem("storedLayoutNames")
+    let storedLayoutNames = JSON.parse(localStorageLayoutNames.split())
+    console.log(storedLayoutNames)
+    if (!storedLayoutNames.includes(newLayoutName)) {
+      // Add the new layout to storedLayouts and add the new layout name to storedLayoutNames
+      setStoredLayouts([...storedLayouts, newLayout]);
+      setStoredLayoutNames([...storedLayoutNames, newLayoutName]);
+      setWasTaken(false);
+      e.target.reset();
+
+    } else {
+      setWasTaken(true)
+      return;
+    }
   };
 
   const removeCardFromLayout = (id) => {
@@ -186,8 +185,9 @@ const HomeDashboard = (props) => {
 
       <Sidenavbar
         storedLayoutNames={storedLayoutNames}
-        setSelectedLayoutName={setSelectedLayoutName}
+        setSelectedLayoutIndex={setSelectedLayoutIndex}
         setWasSelected={setWasSelected}
+        wasSelected={wasSelected}
       />
 
       <Popover
@@ -201,6 +201,8 @@ const HomeDashboard = (props) => {
       >
         <button className="btn btn-primary">Save Layout</button>
       </Popover>
+
+      {wasTaken && <h1>Name already in use, please try another</h1>}
 
       <GridLayout
         className="layout"

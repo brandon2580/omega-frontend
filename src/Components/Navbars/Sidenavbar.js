@@ -8,9 +8,11 @@ import {
 } from "@ant-design/icons";
 
 const Sidenavbar = (props) => {
+  let localStorageIDs = localStorage.getItem("storedLayoutNames")
+  let storedLayoutNames = JSON.parse(localStorageIDs.split())
+
   const handleClick = (e) => {
-    e.preventDefault();
-    props.setSelectedLayoutName(e.target.value);
+    props.setSelectedLayoutIndex(e.target.getAttribute('data-index'))
     props.setWasSelected(true);
   };
 
@@ -40,8 +42,7 @@ const Sidenavbar = (props) => {
             <a href="/">Portfolio</a>
           </NavText>
         </NavItem>
-
-        {props.storedLayoutNames.map((name, index) => {
+        {storedLayoutNames.map((name, index) => {
           return (
             <NavItem eventKey="home">
               <NavIcon>
@@ -51,6 +52,7 @@ const Sidenavbar = (props) => {
                 <button
                   className="btn btn-primary"
                   value={name}
+                  data-index={index}
                   onClick={handleClick}
                 >
                   {name}
@@ -59,6 +61,7 @@ const Sidenavbar = (props) => {
             </NavItem>
           );
         })}
+
       </SideNav.Nav>
     </SideNav>
   );
