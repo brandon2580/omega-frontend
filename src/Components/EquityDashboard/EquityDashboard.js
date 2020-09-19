@@ -36,19 +36,15 @@ const HomeDashboard = (props) => {
   const [wasRemoved, setWasRemoved] = useState(false);
   const [removedCard, setRemovedCard] = useState();
 
+  // If the page is being loaded for the first time and
+  // storedLayouts && storedLayoutNames don't exist, make them exist
   if (localStorage.getItem("storedLayouts" && "storedLayoutNames") == null) {
     localStorage.setItem("storedLayouts", JSON.stringify([]))
     localStorage.setItem("storedLayoutNames", JSON.stringify([]))
   }
 
-  if (wasSelected) {
-    let localStorageLayouts = localStorage.getItem("storedLayouts")
-    let storedLayouts = JSON.parse(localStorageLayouts.split())
-    setMainLayout(storedLayouts[selectedLayoutIndex], setWasSelected(false))
-  }
-
   // If the user clicks enter, just blur the input instead of refreshing
-  const keyPress = (e) => {
+  const blurOnEnter = (e) => {
     if (e.charCode == 13) {
       e.preventDefault();
       e.target.blur();
@@ -65,11 +61,11 @@ const HomeDashboard = (props) => {
 
   const saveLayout = (e) => {
     e.preventDefault();
-
     let localStorageLayoutNames = localStorage.getItem("storedLayoutNames")
     let storedLayoutNames = JSON.parse(localStorageLayoutNames.split())
-    console.log(storedLayoutNames)
+
     if (!storedLayoutNames.includes(newLayoutName)) {
+
       // Add the new layout to storedLayouts and add the new layout name to storedLayoutNames
       setStoredLayouts([...storedLayouts, newLayout]);
       setStoredLayoutNames([...storedLayoutNames, newLayoutName]);
@@ -81,6 +77,14 @@ const HomeDashboard = (props) => {
       return;
     }
   };
+
+  // If a layout was selected, turn the item storedLayouts from localstorage into an array, then
+  // setMainLayout to storedLayouts at the index of whatever the index of the selected layout name was
+  if (wasSelected) {
+    let localStorageLayouts = localStorage.getItem("storedLayouts")
+    let storedLayouts = JSON.parse(localStorageLayouts.split())
+    setMainLayout(storedLayouts[selectedLayoutIndex], setWasSelected(false))
+  }
 
   const removeCardFromLayout = (id) => {
     // Card was selected, remove it
@@ -104,9 +108,9 @@ const HomeDashboard = (props) => {
     <div>
       <h1
         contentEditable="true"
-        onBlur={keyPress}
-        onInput={keyPress}
-        onKeyPress={keyPress}
+        onBlur={blurOnEnter}
+        onInput={blurOnEnter}
+        onKeyPress={blurOnEnter}
         className="center header"
       >
         Equity Dashboard
