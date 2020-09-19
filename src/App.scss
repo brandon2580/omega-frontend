@@ -320,6 +320,17 @@ body.light-mode .removed-text {
   margin-top: -5px;
 }
 
+.dashboards-text{
+  display: inline-block;
+}
+
+.dashboards-hr{
+  border-color: grey;
+  margin-top: -18px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
 .ant-card-head {
   padding: 20px;
   border-bottom: 0px !important;

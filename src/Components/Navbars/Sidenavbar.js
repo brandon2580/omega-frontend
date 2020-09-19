@@ -42,6 +42,14 @@ const Sidenavbar = (props) => {
             <a href="/">Portfolio</a>
           </NavText>
         </NavItem>
+        <NavItem eventKey="home">
+          <NavText>
+            <div className='col-lg-12'>
+              <p className='dashboards-text '>Dashboards</p>
+            </div>
+            <hr className='dashboards-hr' />
+          </NavText>
+        </NavItem>
         {storedLayoutNames.map((name, index) => {
           return (
             <NavItem eventKey="home">
@@ -49,14 +57,13 @@ const Sidenavbar = (props) => {
                 <LayoutOutlined />
               </NavIcon>
               <NavText>
-                <button
-                  className="btn btn-primary"
+                <a
                   value={name}
                   data-index={index}
                   onClick={handleClick}
                 >
                   {name}
-                </button>
+                </a>
               </NavText>
             </NavItem>
           );
