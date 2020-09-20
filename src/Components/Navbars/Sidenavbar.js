@@ -1,23 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../App.scss";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
-import {
-  HomeOutlined,
-  LineChartOutlined,
-  LayoutOutlined,
-} from "@ant-design/icons";
+import { HomeOutlined, LineChartOutlined, LayoutOutlined } from "@ant-design/icons";
 
 const Sidenavbar = (props) => {
-  let localStorageIDs = localStorage.getItem("storedLayoutNames")
-  let storedLayoutNames = JSON.parse(localStorageIDs.split())
+  const [sidenavHeaderStyle, setSidenavHeaderStyle] = useState("hidden");
 
   const handleClick = (e) => {
-    props.setSelectedLayoutIndex(e.target.getAttribute('data-index'))
+    props.setSelectedLayoutIndex(e.target.getAttribute('data-index'));
     props.setWasSelected(true);
   };
 
+  let localStorageIDs = localStorage.getItem("storedLayoutNames");
+  let storedLayoutNames = JSON.parse(localStorageIDs.split());
+
   return (
     <SideNav
+      onToggle={(isExpanded) => {
+        isExpanded ? setSidenavHeaderStyle("visible") : setSidenavHeaderStyle("hidden");
+      }}
       className="sidenav"
       style={{
         backgroundImage: "linear-gradient(315deg, #121516 0%, #000000 74%)",
@@ -27,11 +28,19 @@ const Sidenavbar = (props) => {
       <SideNav.Toggle />
       <SideNav.Nav defaultSelected="home">
         <NavItem eventKey="home">
+          <NavText>
+            <div className='col-lg-12'>
+              <p style={{ visibility: sidenavHeaderStyle }} className='dashboards-text'>Pages</p>
+            </div>
+            <hr className='dashboards-hr' />
+          </NavText>
+        </NavItem>
+        <NavItem eventKey="home">
           <NavIcon>
             <HomeOutlined />
           </NavIcon>
           <NavText>
-            <a href="/">Home</a>
+            <a href="/dashboard">Dashboard</a>
           </NavText>
         </NavItem>
         <NavItem eventKey="home">
@@ -39,13 +48,13 @@ const Sidenavbar = (props) => {
             <LineChartOutlined />
           </NavIcon>
           <NavText>
-            <a href="/">Portfolio</a>
+            <a href="/portfolio">Portfolio</a>
           </NavText>
         </NavItem>
         <NavItem eventKey="home">
           <NavText>
             <div className='col-lg-12'>
-              <p className='dashboards-text '>Dashboards</p>
+              <p style={{ visibility: sidenavHeaderStyle }} className='dashboards-text'>Dashboards</p>
             </div>
             <hr className='dashboards-hr' />
           </NavText>
