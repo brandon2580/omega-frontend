@@ -27,8 +27,8 @@ const HomeDashboard = (props) => {
   ]);
   const [newLayout, setNewLayout] = useState();
   const [newLayoutName, setNewLayoutName] = useState();
-  const [storedLayouts, setStoredLayouts] = useStorageState([], "storedLayouts");
-  const [storedLayoutNames, setStoredLayoutNames] = useStorageState([], "storedLayoutNames");
+  const [storedLayouts, setStoredLayouts] = useStorageState([mainLayout], "storedLayouts");
+  const [storedLayoutNames, setStoredLayoutNames] = useStorageState(["Default Layout"], "storedLayoutNames");
   const [selectedLayoutIndex, setSelectedLayoutIndex] = useState();
   const [wasTaken, setWasTaken] = useState(false);
   const [wasSelected, setWasSelected] = useState(false);
