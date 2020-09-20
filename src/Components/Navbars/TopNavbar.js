@@ -30,16 +30,6 @@ const TopNavbar = (props) => {
               Portfolio
             </Link>
           </li>
-          <li className="nav-item">
-            <Link to="" className="nav-link">
-              Financials
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="" className="nav-link">
-              Analytics
-            </Link>
-          </li>
         </ul>
 
         <div className="ml-auto row">
