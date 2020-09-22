@@ -5,6 +5,7 @@ import AutoSuggest from "react-autosuggest";
 import LineChartCard from "../TemplateComponents/LineChartCard";
 import PieChartCard from "../TemplateComponents/PieChartCard";
 import BarChartCard from "../TemplateComponents/BarChartCard";
+import CandleChartCard from "../TemplateComponents/CandleChartCard";
 
 const AddCardModal = (props) => {
   const [value, setValue] = useState("");
@@ -120,6 +121,39 @@ const AddCardModal = (props) => {
                     >
                       <p>{card.title}</p>
                     </LineChartCard>
+
+                    <button
+                      className="btn btn-primary search-button add-card-button"
+                      type="button"
+                      onClick={() => {
+                        selectCard(card.id);
+                        card.selectable = false;
+                      }}
+                    >
+                      Add
+                    </button>
+                  </div>
+                );
+              }
+
+              {
+                /* If the user clicked on a card, and it had CandleChartCard is true, and it's selectable, return JSX */
+              }
+              if (
+                card.CandleChartCard &&
+                card.selectable &&
+                card.title.toLowerCase().includes(value.toLowerCase())
+              ) {
+                return (
+                  <div className="col-xl-4 modal-card">
+                    <CandleChartCard
+                      key={card.id}
+                      title={card.title}
+                      data={card.data}
+                      dataLabel={card.dataLabel}
+                    >
+                      <p>{card.title}</p>
+                    </CandleChartCard>
 
                     <button
                       className="btn btn-primary search-button add-card-button"

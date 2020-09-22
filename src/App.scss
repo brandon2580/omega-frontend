@@ -249,6 +249,15 @@ body.light-mode .removed-text {
   transform: translateY(-50%);
 }
 
+body.dark-mode .apexcharts-menu-open {
+  background-color: black;
+  border-color: grey;
+}
+
+body.dark-mode .apexcharts-tooltip{
+  background-color: black;
+}
+
 .center {
   text-align: center;
 }

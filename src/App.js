@@ -77,17 +77,10 @@ function App() {
 
     {
       id: 4,
-      title: "Chart",
-      data: [
-        { name: "2014", data: 38.72 },
-        { name: "2015", data: 43.29 },
-        { name: "2016", data: 56.05 },
-        { name: "2017", data: 73.71 },
-        { name: "2018", data: 113.37 },
-        { name: "2019", data: 139.44 },
-        { name: "2020", data: 214.25 },
-      ],
-      LineChartCard: true,
+      title: "Price",
+      // data is empty for now until we get hooked up to the API
+      data: [],
+      CandleChartCard: true,
       tickCount: 10,
       selectable: false,
       defaultCard: true,
