@@ -26,9 +26,7 @@ const PieChartCard = (props) => {
               innerRadius={120}
               outerRadius={160}
               stroke={""}
-              fill="#8884d8"
               paddingAngle={5}
-              dataKey="value"
             >
               {props.data.map((entry, index) => (
                 <Cell

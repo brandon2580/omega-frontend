@@ -254,13 +254,25 @@ body.dark-mode .apexcharts-menu-open {
   border-color: grey;
 }
 
-body.dark-mode .apexcharts-tooltip{
+body.dark-mode .apexcharts-tooltip {
   background-color: black;
 }
 
-body.dark-mode .recharts-default-tooltip{
+body.dark-mode .recharts-default-tooltip {
   color: white !important;
-  background-color: black !important;
+  background: black !important;
+}
+
+body.dark-mode .recharts-tooltip-item-name {
+  color: white;
+}
+
+body.dark-mode .recharts-tooltip-item-separator {
+  color: #1F77B4;
+}
+
+body.dark-mode .recharts-tooltip-item-value {
+  color: #1F77B4;
 }
 
 .center {
@@ -309,11 +321,11 @@ body.dark-mode .recharts-default-tooltip{
   cursor: grab;
 }
 
-.modal-card .ant-card-head:hover{
+.modal-card .ant-card-head:hover {
   cursor: default;
 }
 
-.ticker-header .ant-card-head:hover{
+.ticker-header .ant-card-head:hover {
   cursor: default;
 }
 
@@ -331,11 +343,11 @@ body.dark-mode .recharts-default-tooltip{
   margin-top: -5px;
 }
 
-.dashboards-text{
+.dashboards-text {
   display: inline-block;
 }
 
-.dashboards-hr{
+.dashboards-hr {
   border-color: grey;
   margin-top: -18px;
   margin-left: 10px;

@@ -36,7 +36,7 @@ const BarChartCard = (props) => {
           >
             <XAxis dataKey="name" />
             <YAxis />
-            <Tooltip />
+            <Tooltip cursor={{fill: 'grey', opacity: "10%"}} />
             <Legend />
             <Bar name={props.dataLabel} dataKey="data" fill="#1F77B4" />
           </BarChart>
