@@ -227,9 +227,6 @@ const HomeDashboard = (props) => {
         {props.selectedCardsIndex.map((cardId, i) => {
           const card = props.availableCards.find((c) => c.id === cardId);
 
-          {
-            /* If the user clicked on a card, and it had {PieChartCard: true}, return JSX */
-          }
           if (card.PieChartCard) {
             return (
               <div
@@ -277,9 +274,6 @@ const HomeDashboard = (props) => {
             );
           }
 
-          {
-            /* If the user clicked on a card, and it had {LineChartCard: true}, return JSX */
-          }
           if (card.LineChartCard) {
             return (
               <div
@@ -328,9 +322,6 @@ const HomeDashboard = (props) => {
             );
           }
 
-          {
-            /* If the user clicked on a card, and it had {CandleChartCard: true}, return JSX */
-          }
           if (card.CandleChartCard) {
             return (
               <div
@@ -379,9 +370,6 @@ const HomeDashboard = (props) => {
             );
           }
 
-          {
-            /* If the user clicked on a card, and it had {BarChartCard: true}, return JSX */
-          }
           if (card.BarChartCard) {
             return (
               <div

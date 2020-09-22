@@ -71,9 +71,6 @@ const AddCardModal = (props) => {
           <div className="row">
             {props.availableCards.map((card) => {
 
-              {
-                /* If the user clicked on a card, and it had PieChartCard is true, and it's selectable, return JSX */
-              }
               if (
                 card.PieChartCard &&
                 card.selectable &&
@@ -103,9 +100,6 @@ const AddCardModal = (props) => {
                 );
               }
 
-              {
-                /* If the user clicked on a card, and it had LineChartCard is true, and it's selectable, return JSX */
-              }
               if (
                 card.LineChartCard &&
                 card.selectable &&
@@ -136,9 +130,6 @@ const AddCardModal = (props) => {
                 );
               }
 
-              {
-                /* If the user clicked on a card, and it had CandleChartCard is true, and it's selectable, return JSX */
-              }
               if (
                 card.CandleChartCard &&
                 card.selectable &&
@@ -169,9 +160,6 @@ const AddCardModal = (props) => {
                 );
               }
 
-              {
-                /* If the user clicked on a card, and it had BarChartCard is true, and it's selectable,  return JSX */
-              }
               if (
                 card.BarChartCard &&
                 card.selectable &&
