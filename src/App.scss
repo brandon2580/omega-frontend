@@ -258,6 +258,11 @@ body.dark-mode .apexcharts-tooltip{
   background-color: black;
 }
 
+body.dark-mode .recharts-default-tooltip{
+  color: white !important;
+  background-color: black !important;
+}
+
 .center {
   text-align: center;
 }
@@ -314,10 +319,6 @@ body.dark-mode .apexcharts-tooltip{
 
 .ant-card-head:active {
   cursor: grabbing;
-}
-
-.recharts-tooltip-wrapper{
-  color: black;
 }
 
 .react-autosuggest__input {
