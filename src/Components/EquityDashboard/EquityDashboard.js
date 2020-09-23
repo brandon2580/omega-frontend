@@ -26,7 +26,7 @@ const HomeDashboard = (props) => {
     { i: "6", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
     { i: "7", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
   ]);
-  const [newLayout, setNewLayout] = useState();
+  const [newLayout, setNewLayout] = useState({});
   const [newLayoutName, setNewLayoutName] = useState();
   const [storedLayouts, setStoredLayouts] = useStorageState([mainLayout], "storedLayouts");
   const [storedLayoutNames, setStoredLayoutNames] = useStorageState(["Default Layout"], "storedLayoutNames");
@@ -107,6 +107,7 @@ const HomeDashboard = (props) => {
 
   return (
     <div>
+
       <h1
         contentEditable="true"
         onBlur={blurOnEnter}
@@ -116,7 +117,19 @@ const HomeDashboard = (props) => {
       >
         Equity Dashboard
       </h1>
+      <Popover
+        content={
+          <form onSubmit={saveLayout}>
+            <input type="text" onChange={handleChange} />
+          </form>
+        }
+        title="Layout Name"
+        trigger="click"
+      >
+        <button className="btn btn-primary">Save Layout</button>
+      </Popover>
 
+      {wasTaken && <h1>Name already in use, please try another</h1>}
       <div className="row">
         <div className="col-lg-12">
           <Card title="Ticker" className="ticker-header">
@@ -195,20 +208,6 @@ const HomeDashboard = (props) => {
         wasSelected={wasSelected}
       />
 
-      <Popover
-        content={
-          <form onSubmit={saveLayout}>
-            <input type="text" onChange={handleChange} />
-          </form>
-        }
-        title="Layout Name"
-        trigger="click"
-      >
-        <button className="btn btn-primary">Save Layout</button>
-      </Popover>
-
-      {wasTaken && <h1>Name already in use, please try another</h1>}
-
       <GridLayout
         className="layout"
         layouts={layout}
@@ -233,10 +232,10 @@ const HomeDashboard = (props) => {
                 key={card.id}
                 data-grid={{
                   i: i.toString(),
-                  w: 6,
+                  w: 3,
                   h: 1,
                   x: 0,
-                  y: 5,
+                  y: 0,
                   minW: 3,
                   maxH: 1,
                 }}
@@ -280,10 +279,10 @@ const HomeDashboard = (props) => {
                 key={card.id}
                 data-grid={{
                   i: i.toString(),
-                  w: 6,
+                  w: 3,
                   h: 1,
                   x: 0,
-                  y: 5,
+                  y: 0,
                   minW: 3,
                   maxH: 1,
                 }}
@@ -328,10 +327,10 @@ const HomeDashboard = (props) => {
                 key={card.id}
                 data-grid={{
                   i: i.toString(),
-                  w: 6,
+                  w: 3,
                   h: 1,
                   x: 0,
-                  y: 5,
+                  y: 0,
                   minW: 3,
                   maxH: 1,
                 }}
@@ -376,10 +375,10 @@ const HomeDashboard = (props) => {
                 key={card.id}
                 data-grid={{
                   i: i.toString(),
-                  w: 6,
+                  w: 3,
                   h: 1,
                   x: 0,
-                  y: 5,
+                  y: 0,
                   minW: 3,
                   maxH: 1,
                 }}
