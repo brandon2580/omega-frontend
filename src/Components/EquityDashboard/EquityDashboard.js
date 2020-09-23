@@ -107,7 +107,6 @@ const HomeDashboard = (props) => {
 
   return (
     <div>
-
       <h1
         contentEditable="true"
         onBlur={blurOnEnter}
