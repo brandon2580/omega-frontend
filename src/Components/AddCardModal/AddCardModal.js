@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import "../../../App.scss";
+import "../../App.scss";
 import { Modal } from "antd";
 import AutoSuggest from "react-autosuggest";
-import LineChartCard from "../../TemplateComponents/LineChartCard";
-import PieChartCard from "../../TemplateComponents/PieChartCard";
-import BarChartCard from "../../TemplateComponents/BarChartCard";
-import CandleChartCard from "../../TemplateComponents/CandleChartCard";
+import LineChartCard from "../TemplateComponents/LineChartCard";
+import PieChartCard from "../TemplateComponents/PieChartCard";
+import BarChartCard from "../TemplateComponents/BarChartCard";
+import CandleChartCard from "../TemplateComponents/CandleChartCard";
 import AddToLayoutButton from "./AddToLayoutButton";
 
 const AddCardModal = (props) => {
