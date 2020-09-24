@@ -1,7 +1,7 @@
 import React from "react";
 import "../../App.scss";
 import DarkModeToggle from "../DarkModeToggle";
-import AddCardModal from "./AddCardModal";
+import AddCardModal from "./AddCardModal/AddCardModal";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const TopNavbar = (props) => {
