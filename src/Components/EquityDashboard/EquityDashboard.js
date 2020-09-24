@@ -3,16 +3,16 @@ import { useStorageState } from "../../hooks/useStorageState";
 import _ from "lodash";
 import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
+import { Responsive, WidthProvider } from "react-grid-layout";
 import LineChartCard from "../TemplateComponents/LineChartCard";
 import PieChartCard from "../TemplateComponents/PieChartCard";
-import { Card, Popover } from "antd";
-import { Responsive, WidthProvider } from "react-grid-layout";
 import BarChartCard from "../TemplateComponents/BarChartCard";
+import CandleChartCard from "../TemplateComponents/CandleChartCard";
 import Sidenavbar from "../Navbars/Sidenavbar";
 import UndoPrompt from "./UndoPrompt";
-import CandleChartCard from "../TemplateComponents/CandleChartCard";
 import XButton from "../XButton";
 import TickerHeader from "./TickerHeader";
+import SaveLayoutButton from "./SaveLayoutButton";
 
 const GridLayout = WidthProvider(Responsive);
 
@@ -71,10 +71,12 @@ const HomeDashboard = (props) => {
     setNewLayoutName(e.target.value);
   };
 
+  // Sets new layout when the user edits the current one
   const handleLayoutChange = (layout) => {
     setNewLayout(layout);
   };
 
+  //Saves layout to localstorage
   const saveLayout = (e) => {
     e.preventDefault();
     let localStorageLayoutNames = localStorage.getItem("storedLayoutNames");
@@ -129,19 +131,13 @@ const HomeDashboard = (props) => {
       >
         Equity Dashboard
       </h1>
-      <Popover
-        content={
-          <form onSubmit={saveLayout}>
-            <input type="text" onChange={handleChange} />
-          </form>
-        }
-        title="Layout Name"
-        trigger="click"
-      >
-        <button className="btn btn-primary">Save Layout</button>
-      </Popover>
 
-      {wasTaken && <h1>Name already in use, please try another</h1>}
+      {/* Button that allows user to save layout goes here */}
+      <SaveLayoutButton
+        wasTaken={wasTaken}
+        handleChange={handleChange}
+        saveLayout={saveLayout}
+      />
 
       {/* Ticker header goes here */}
       <TickerHeader />
