@@ -17,7 +17,7 @@ import {
 import Portfolio from "./Components/Portfolio/Portfolio";
 
 function App() {
-  const [activeTickerChangeValue, setActiveTickerChangeValue] = useState("")
+  const [activeTickerChangeValue, setActiveTickerChangeValue] = useState("");
   const [activeTicker, setActiveTicker] = useState("AAPL");
 
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default
@@ -203,6 +203,7 @@ function App() {
     ).then((res) => res.json());
 
     const allReqs = [company, analyst_recs, adv_stats];
+
     Promise.all(allReqs).then((allResp) => {
       const [company, analyst_recs, adv_stats] = allResp;
 
@@ -221,7 +222,7 @@ function App() {
                 phone: company.phone,
                 forward_pe_ratio: adv_stats.forward_pe_ratio.toFixed(2),
                 price_to_book: adv_stats.price_to_book.toFixed(2),
-                price_to_sales: adv_stats.price_to_sales.toFixed(2)
+                price_to_sales: adv_stats.price_to_sales.toFixed(2),
               };
 
             case "Analyst Recommendations":
