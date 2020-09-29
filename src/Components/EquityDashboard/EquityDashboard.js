@@ -140,7 +140,7 @@ const HomeDashboard = (props) => {
       />
 
       {/* Ticker header goes here */}
-      <TickerHeader />
+      <TickerHeader tickerCard={props.availableCards[0]} />
 
       {/* Side navigation bar header goes here */}
       <Sidenavbar

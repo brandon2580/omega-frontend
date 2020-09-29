@@ -15,7 +15,11 @@ import {
   Index,
 } from "react-router-dom";
 import Portfolio from "./Components/Portfolio/Portfolio";
+
 function App() {
+  const [activeTickerChangeValue, setActiveTickerChangeValue] = useState("")
+  const [activeTicker, setActiveTicker] = useState("AAPL");
+
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default
   const [selectedCardsIndex, setSelectedCardIndex] = useState([
     1,
@@ -31,13 +35,22 @@ function App() {
   // Each object contains properties - id (int), title (string), data (array), (PieChartCard (bool) || LineChartCard (bool))
   const [availableCards, setAvailableCards] = useState([
     {
+      id: 0,
+      title: "Ticker Header",
+      description: "",
+      sector: "",
+      country: "",
+      phone: "",
+      defaultCard: true,
+    },
+    {
       id: 1,
       title: "Earnings",
       data: [
         { name: "% Beat Estimates", value: 65 },
         { name: "% Below Estimates", value: 35 },
       ],
-      cardType: 'PieChartCard',
+      cardType: "PieChartCard",
       selectable: false,
       defaultCard: true,
     },
@@ -45,14 +58,8 @@ function App() {
     {
       id: 2,
       title: "Analyst Recommendations",
-      data: [
-        { name: "Strong Buy", value: 25 },
-        { name: "Buy", value: 40 },
-        { name: "Hold", value: 10 },
-        { name: "Sell", value: 20 },
-        { name: "Strong Sell", value: 5 },
-      ],
-      cardType: 'PieChartCard',
+      data: [],
+      cardType: "PieChartCard",
       selectable: false,
       defaultCard: true,
     },
@@ -69,7 +76,7 @@ function App() {
         { name: "2019", data: 0.46 },
         { name: "2020", data: 0.51 },
       ],
-      cardType: 'LineChartCard',
+      cardType: "LineChartCard",
       selectable: false,
       defaultCard: true,
       dataLabel: "Dividend/Share",
@@ -80,7 +87,7 @@ function App() {
       title: "Price",
       // data is empty for now until we get hooked up to the API
       data: [],
-      cardType: 'CandleChartCard',
+      cardType: "CandleChartCard",
       tickCount: 10,
       selectable: false,
       defaultCard: true,
@@ -89,7 +96,7 @@ function App() {
 
     {
       id: 5,
-      title: "Sentiment",
+      title: "Price Target",
       data: [
         { name: "8/31", data: 2 },
         { name: "9/1", data: 2 },
@@ -97,7 +104,7 @@ function App() {
         { name: "9/3", data: 1 },
         { name: "9/4", data: 2 },
       ],
-      cardType: 'LineChartCard',
+      cardType: "LineChartCard",
       tickCount: 4,
       selectable: false,
       defaultCard: true,
@@ -113,7 +120,7 @@ function App() {
         { name: "2019", data: 4 },
         { name: "2020", data: 5 },
       ],
-      cardType: 'BarChartCard',
+      cardType: "BarChartCard",
       selectable: false,
       defaultCard: true,
       dataLabel: "Risk",
@@ -131,7 +138,7 @@ function App() {
         { name: "2019", data: 2.33 },
         { name: "2020", data: -5.9 },
       ],
-      cardType: 'BarChartCard',
+      cardType: "BarChartCard",
       selectable: false,
       defaultCard: true,
       dataLabel: "GDP",
@@ -144,7 +151,7 @@ function App() {
         { name: "Bought", value: 92 },
         { name: "Sold", value: 8 },
       ],
-      cardType: 'PieChartCard',
+      cardType: "PieChartCard",
       selectable: true,
     },
 
@@ -160,7 +167,7 @@ function App() {
         { name: "2019", data: 26.09 },
         { name: "2020", data: 26.33 },
       ],
-      cardType: 'LineChartCard',
+      cardType: "LineChartCard",
       selectable: true,
     },
 
@@ -176,36 +183,61 @@ function App() {
         { name: "2019", data: 56 },
         { name: "2020", data: 60.5 },
       ],
-      cardType: 'BarChartCard',
+      cardType: "BarChartCard",
       selectable: true,
     },
   ]);
 
   // This gets all of the data for the specified object in the availableCards array (CORS required)
   useEffect(() => {
-    const reqOne = fetch("https://postman-echo.com/get?foo1=bar1&foo2=bar2");
-    const reqTwo = fetch("https://postman-echo.com/get?foo1=bar1&jibberjabber");
-    const allReqs = [reqOne, reqTwo];
+    const company = fetch(
+      `https://api-omega.azurewebsites.net/api/company?code=izR0ut/wBbma5My5tee4Mucvif0EGHgHbaG64kaC1Jqg2R5q448iiA==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+
+    const analyst_recs = fetch(
+      `https://api-omega.azurewebsites.net/api/analyst_recs?code=izR0ut/wBbma5My5tee4Mucvif0EGHgHbaG64kaC1Jqg2R5q448iiA==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+
+    const adv_stats = fetch(
+      `https://api-omega.azurewebsites.net/api/adv_stats?code=izR0ut/wBbma5My5tee4Mucvif0EGHgHbaG64kaC1Jqg2R5q448iiA==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+
+    const allReqs = [company, analyst_recs, adv_stats];
     Promise.all(allReqs).then((allResp) => {
-      const [resOne, resTwo] = allResp;
+      const [company, analyst_recs, adv_stats] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
         // For each cards, return a new modified version of that card
-        return prevCards.map((card, index) => {
-          // If it's index 0, return a modified version (in this case, change the title to data.url)
-          if (index === 0) {
-            return {
-              ...card,
-              title: resOne.url,
-            };
-          }
+        return prevCards.map((card) => {
+          switch (card.title) {
+            case "Ticker Header":
+              return {
+                ...card,
+                company_name: company.company_name,
+                description: company.description,
+                sector: company.sector,
+                country: company.country,
+                phone: company.phone,
+                forward_pe_ratio: adv_stats.forward_pe_ratio.toFixed(2),
+                price_to_book: adv_stats.price_to_book.toFixed(2),
+                price_to_sales: adv_stats.price_to_sales.toFixed(2)
+              };
 
-          if (index === 1) {
-            return {
-              ...card,
-              title: resTwo.url,
-            };
+            case "Analyst Recommendations":
+              return {
+                ...card,
+                data: [
+                  { name: "Strong Buy", value: analyst_recs.rating_overweight },
+                  { name: "Buy", value: analyst_recs.rating_buy },
+                  { name: "Hold", value: analyst_recs.rating_hold },
+                  { name: "Sell", value: analyst_recs.rating_sell },
+                  {
+                    name: "Strong Sell",
+                    value: analyst_recs.rating_underweight,
+                  },
+                ],
+              };
           }
 
           // Otherwise return the original card
@@ -213,7 +245,7 @@ function App() {
         });
       });
     });
-  }, []);
+  }, [activeTicker]);
 
   return (
     <div className="app">
@@ -223,6 +255,10 @@ function App() {
             availableCards={availableCards}
             selectedCardsIndex={selectedCardsIndex}
             setSelectedCardIndex={setSelectedCardIndex}
+            activeTickerChangeValue={activeTickerChangeValue}
+            setActiveTickerChangeValue={setActiveTickerChangeValue}
+            activeTicker={activeTicker}
+            setActiveTicker={setActiveTicker}
           />
 
           {/* A <Switch> looks through its children <Route>s and

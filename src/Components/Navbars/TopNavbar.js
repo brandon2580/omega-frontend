@@ -5,6 +5,15 @@ import AddCardModal from "../AddCardModal/AddCardModal";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const TopNavbar = (props) => {
+  const handleChange = (e) => {
+    props.setActiveTickerChangeValue(e.target.value)
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    props.setActiveTicker(props.activeTickerChangeValue)
+    e.target.reset()
+  };
+
   return (
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
       <button
@@ -31,6 +40,10 @@ const TopNavbar = (props) => {
             </Link>
           </li>
         </ul>
+
+        <form onSubmit={handleSubmit}>
+          <input className='react-autosuggest__input' onChange={handleChange} style={{ color: "black" }} placeholder="ticker" type="text" />
+        </form>
 
         <div className="ml-auto row">
           <div className="col-lg-6">
