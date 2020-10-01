@@ -3,15 +3,16 @@ import "../../App.scss";
 import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "../AddCardModal/AddCardModal";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
 
 const TopNavbar = (props) => {
   const handleChange = (e) => {
-    props.setActiveTickerChangeValue(e.target.value)
+    props.setActiveTickerChangeValue(e.target.value);
   };
   const handleSubmit = (e) => {
-    e.preventDefault()
-    props.setActiveTicker(props.activeTickerChangeValue)
-    e.target.reset()
+    e.preventDefault();
+    props.setActiveTicker(props.activeTickerChangeValue);
+    e.target.reset();
   };
 
   return (
@@ -42,18 +43,34 @@ const TopNavbar = (props) => {
         </ul>
 
         <form onSubmit={handleSubmit}>
-          <input className='react-autosuggest__input' onChange={handleChange} style={{ color: "black" }} placeholder="ticker" type="text" />
+          <input
+            className="react-autosuggest__input"
+            onChange={handleChange}
+            style={{ color: "black" }}
+            placeholder="ticker"
+            type="text"
+          />
         </form>
 
         <div className="ml-auto row">
-          <div className="col-lg-6">
+          <div className="col-lg-3">
             <DarkModeToggle />
           </div>
+
+          <span className="verticalSpan" />
 
           <AddCardModal
             availableCards={props.availableCards}
             selectedCardsIndex={props.selectedCardsIndex}
             setSelectedCardIndex={props.setSelectedCardIndex}
+          />
+          <span className="verticalSpan2" />
+
+          {/* Button that allows user to save layout goes here */}
+          <SaveLayoutButton
+            wasTaken={props.wasTaken}
+            handleChange={props.handleChange}
+            saveLayout={props.saveLayout}
           />
         </div>
       </div>

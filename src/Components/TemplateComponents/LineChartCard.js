@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
 import {
@@ -12,6 +12,13 @@ import {
 } from "recharts";
 
 const LineChartCard = (props) => {
+  const [series, setSeries] = useState();
+
+  useEffect(() => {
+    setSeries(props.data);
+  }, [props.data]);
+  
+  console.log(series)
   return (
     <Card
       title={props.title}
@@ -27,7 +34,7 @@ const LineChartCard = (props) => {
       <div style={{ height: 456 }}>
         <ResponsiveContainer>
           <LineChart
-            data={props.data}
+            data={series}
             margin={{
               top: 20,
               right: 50,
