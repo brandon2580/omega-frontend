@@ -66,16 +66,8 @@ function App() {
 
     {
       id: 3,
-      title: "Dividend",
-      data: [
-        { name: "2014", data: 0.28 },
-        { name: "2015", data: 0.31 },
-        { name: "2016", data: 0.36 },
-        { name: "2017", data: 0.39 },
-        { name: "2018", data: 0.42 },
-        { name: "2019", data: 0.46 },
-        { name: "2020", data: 0.51 },
-      ],
+      title: "Dividends",
+      data: [],
       cardType: "LineChartCard",
       selectable: false,
       defaultCard: true,
@@ -85,7 +77,6 @@ function App() {
     {
       id: 4,
       title: "Price",
-      // data is empty for now until we get hooked up to the API
       data: [],
       cardType: "CandleChartCard",
       tickCount: 10,
@@ -191,21 +182,29 @@ function App() {
   // This gets all of the data for the specified object in the availableCards array (CORS required)
   useEffect(() => {
     const company = fetch(
-      `https://api-omega.azurewebsites.net/api/company?code=izR0ut/wBbma5My5tee4Mucvif0EGHgHbaG64kaC1Jqg2R5q448iiA==&symbol=${activeTicker}`
+      `https://api-omega.azurewebsites.net/api/company?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+
+    const prices = fetch(
+      `https://api-omega.azurewebsites.net/api/prices?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}&range=1y`
     ).then((res) => res.json());
 
     const analyst_recs = fetch(
-      `https://api-omega.azurewebsites.net/api/analyst_recs?code=izR0ut/wBbma5My5tee4Mucvif0EGHgHbaG64kaC1Jqg2R5q448iiA==&symbol=${activeTicker}`
+      `https://api-omega.azurewebsites.net/api/analyst_recs?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+
+    const dividends = fetch(
+      `https://api-omega.azurewebsites.net/api/dividends?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}&lastN=5`
     ).then((res) => res.json());
 
     const adv_stats = fetch(
-      `https://api-omega.azurewebsites.net/api/adv_stats?code=izR0ut/wBbma5My5tee4Mucvif0EGHgHbaG64kaC1Jqg2R5q448iiA==&symbol=${activeTicker}`
+      `https://api-omega.azurewebsites.net/api/adv_stats?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
-    const allReqs = [company, analyst_recs, adv_stats];
+    const allReqs = [company, prices, analyst_recs, dividends, adv_stats];
 
     Promise.all(allReqs).then((allResp) => {
-      const [company, analyst_recs, adv_stats] = allResp;
+      const [company, prices, analyst_recs, dividends, adv_stats] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
@@ -220,9 +219,9 @@ function App() {
                 sector: company.sector,
                 country: company.country,
                 phone: company.phone,
-                forward_pe_ratio: adv_stats.forward_pe_ratio.toFixed(2),
-                price_to_book: adv_stats.price_to_book.toFixed(2),
-                price_to_sales: adv_stats.price_to_sales.toFixed(2),
+                // forward_pe_ratio: adv_stats.forward_pe_ratio.toFixed(2),
+                // price_to_book: adv_stats.price_to_book.toFixed(2),
+                // price_to_sales: adv_stats.price_to_sales.toFixed(2),
               };
 
             case "Analyst Recommendations":
@@ -239,6 +238,33 @@ function App() {
                   },
                 ],
               };
+
+            case "Price":
+              return {
+                ...card,
+                data: Object.keys(prices).map(function (key) {
+                  return {
+                    x: key,
+                    y: [
+                      prices[key].adj_open,
+                      prices[key].adj_high,
+                      prices[key].adj_low,
+                      prices[key].adj_close,
+                    ],
+                  };
+                }),
+              };
+
+            case "Dividends":
+              return {
+                ...card,
+                data: Object.keys(dividends.amount).map(function (key) {
+                  return {
+                    name: key,
+                    data: dividends.amount[key],
+                  };
+                }),
+              };
           }
 
           // Otherwise return the original card
@@ -252,16 +278,6 @@ function App() {
     <div className="app">
       <div className="side-margin">
         <Router>
-          <TopNavbar
-            availableCards={availableCards}
-            selectedCardsIndex={selectedCardsIndex}
-            setSelectedCardIndex={setSelectedCardIndex}
-            activeTickerChangeValue={activeTickerChangeValue}
-            setActiveTickerChangeValue={setActiveTickerChangeValue}
-            activeTicker={activeTicker}
-            setActiveTicker={setActiveTicker}
-          />
-
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
@@ -270,8 +286,13 @@ function App() {
                 availableCards={availableCards}
                 selectedCardsIndex={selectedCardsIndex}
                 setSelectedCardIndex={setSelectedCardIndex}
+                activeTickerChangeValue={activeTickerChangeValue}
+                setActiveTickerChangeValue={setActiveTickerChangeValue}
+                activeTicker={activeTicker}
+                setActiveTicker={setActiveTicker}
               />
             </Route>
+
             <Route path="/portfolio">
               <Portfolio />
             </Route>

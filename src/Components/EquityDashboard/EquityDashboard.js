@@ -13,6 +13,7 @@ import UndoPrompt from "./UndoPrompt";
 import XButton from "../XButton";
 import TickerHeader from "./TickerHeader";
 import SaveLayoutButton from "./SaveLayoutButton";
+import TopNavbar from "../Navbars/TopNavbar";
 
 const GridLayout = WidthProvider(Responsive);
 
@@ -28,6 +29,12 @@ const HomeDashboard = (props) => {
   ]);
   const [newLayout, setNewLayout] = useState({});
   const [newLayoutName, setNewLayoutName] = useState();
+  const [selectedLayoutIndex, setSelectedLayoutIndex] = useState();
+  const [wasTaken, setWasTaken] = useState(false);
+  const [wasSelected, setWasSelected] = useState(false);
+  const [value, setValue] = useState(true);
+  const [wasRemoved, setWasRemoved] = useState(false);
+  const [removedCard, setRemovedCard] = useState();
   const [storedLayouts, setStoredLayouts] = useStorageState(
     [mainLayout],
     "storedLayouts"
@@ -36,12 +43,6 @@ const HomeDashboard = (props) => {
     ["Default Layout"],
     "storedLayoutNames"
   );
-  const [selectedLayoutIndex, setSelectedLayoutIndex] = useState();
-  const [wasTaken, setWasTaken] = useState(false);
-  const [wasSelected, setWasSelected] = useState(false);
-  const [value, setValue] = useState(true);
-  const [wasRemoved, setWasRemoved] = useState(false);
-  const [removedCard, setRemovedCard] = useState();
 
   let defaultDataGrid = {
     w: 3,
@@ -122,6 +123,20 @@ const HomeDashboard = (props) => {
 
   return (
     <div>
+      <TopNavbar
+        availableCards={props.availableCards}
+        selectedCardsIndex={props.selectedCardsIndex}
+        setSelectedCardIndex={props.setSelectedCardIndex}
+        activeTickerChangeValue={props.activeTickerChangeValue}
+        setActiveTickerChangeValue={props.setActiveTickerChangeValue}
+        activeTicker={props.activeTicker}
+        setActiveTicker={props.setActiveTicker}
+
+        wasTaken={wasTaken}
+        handleChange={handleChange}
+        saveLayout={saveLayout}
+      />
+
       <h1
         contentEditable="true"
         onBlur={blurOnEnter}
@@ -131,13 +146,6 @@ const HomeDashboard = (props) => {
       >
         Equity Dashboard
       </h1>
-
-      {/* Button that allows user to save layout goes here */}
-      <SaveLayoutButton
-        wasTaken={wasTaken}
-        handleChange={handleChange}
-        saveLayout={saveLayout}
-      />
 
       {/* Ticker header goes here */}
       <TickerHeader tickerCard={props.availableCards[0]} />
