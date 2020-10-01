@@ -185,6 +185,10 @@ function App() {
       `https://api-omega.azurewebsites.net/api/company?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
+    const earnings = fetch(
+      `https://api-omega.azurewebsites.net/api/earnings?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}&lastN=5`
+    ).then((res) => res.json());
+
     const prices = fetch(
       `https://api-omega.azurewebsites.net/api/prices?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}&range=1y`
     ).then((res) => res.json());
@@ -201,10 +205,24 @@ function App() {
       `https://api-omega.azurewebsites.net/api/adv_stats?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
-    const allReqs = [company, prices, analyst_recs, dividends, adv_stats];
+    const allReqs = [
+      company,
+      earnings,
+      prices,
+      analyst_recs,
+      dividends,
+      adv_stats,
+    ];
 
     Promise.all(allReqs).then((allResp) => {
-      const [company, prices, analyst_recs, dividends, adv_stats] = allResp;
+      const [
+        company,
+        earnings,
+        prices,
+        analyst_recs,
+        dividends,
+        adv_stats,
+      ] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
@@ -222,6 +240,12 @@ function App() {
                 // forward_pe_ratio: adv_stats.forward_pe_ratio.toFixed(2),
                 // price_to_book: adv_stats.price_to_book.toFixed(2),
                 // price_to_sales: adv_stats.price_to_sales.toFixed(2),
+              };
+
+            case "Earnings":
+              return {
+                ...card,
+                // return data here
               };
 
             case "Analyst Recommendations":
