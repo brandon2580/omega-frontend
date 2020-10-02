@@ -186,23 +186,23 @@ function App() {
     ).then((res) => res.json());
 
     const earnings = fetch(
-      `https://api-omega.azurewebsites.net/api/earnings?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}&lastN=5`
+      `https://api-omega.azurewebsites.net/api/earnings?code=MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw==&symbol=${activeTicker}&lastN=5`
     ).then((res) => res.json());
 
     const prices = fetch(
-      `https://api-omega.azurewebsites.net/api/prices?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}&range=1y`
+      `https://api-omega.azurewebsites.net/api/prices?code=MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw==&symbol=${activeTicker}&range=1y`
     ).then((res) => res.json());
 
     const analyst_recs = fetch(
-      `https://api-omega.azurewebsites.net/api/analyst_recs?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}`
+      `https://api-omega.azurewebsites.net/api/analyst_recs?code=MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
     const dividends = fetch(
-      `https://api-omega.azurewebsites.net/api/dividends?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}&lastN=5`
+      `https://api-omega.azurewebsites.net/api/dividends?code=MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw==&symbol=${activeTicker}&lastN=5`
     ).then((res) => res.json());
 
     const adv_stats = fetch(
-      `https://api-omega.azurewebsites.net/api/adv_stats?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}`
+      `https://api-omega.azurewebsites.net/api/adv_stats?code=MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
     const allReqs = [
