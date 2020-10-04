@@ -80,7 +80,7 @@ const AddCardModal = (props) => {
 
               const defaultConditionals = card.selectable && card.title.toLowerCase().includes(value.toLowerCase())
 
-              if (card.cardType == 'PieChartCard' && defaultConditionals) {
+              if (card.cardType === 'PieChartCard' && defaultConditionals) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <PieChartCard {...defaultAttributes}>
@@ -92,7 +92,7 @@ const AddCardModal = (props) => {
                 );
               }
 
-              if (card.cardType == 'LineChartCard' && defaultConditionals) {
+              if (card.cardType === 'LineChartCard' && defaultConditionals) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <LineChartCard {...defaultAttributes}>
@@ -104,7 +104,7 @@ const AddCardModal = (props) => {
                 );
               }
 
-              if (card.cardType == 'CandleChartCard' && defaultConditionals) {
+              if (card.cardType === 'CandleChartCard' && defaultConditionals) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <CandleChartCard {...defaultAttributes}>
@@ -116,7 +116,7 @@ const AddCardModal = (props) => {
                 );
               }
 
-              if (card.cardType == 'BarChartCard' && defaultConditionals) {
+              if (card.cardType === 'BarChartCard' && defaultConditionals) {
                 return (
                   <div className="col-xl-4 modal-card">
                     <BarChartCard {...defaultAttributes}>
