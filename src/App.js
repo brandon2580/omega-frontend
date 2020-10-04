@@ -19,6 +19,8 @@ import Portfolio from "./Components/Portfolio/Portfolio";
 function App() {
   const [activeTickerChangeValue, setActiveTickerChangeValue] = useState("");
   const [activeTicker, setActiveTicker] = useState("AAPL");
+  const apiBaseUrl = "https://api-omega.azurewebsites.net/api";
+  const apiCode = "MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw";
 
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default
   const [selectedCardsIndex, setSelectedCardIndex] = useState([
@@ -182,27 +184,27 @@ function App() {
   // This gets all of the data for the specified object in the availableCards array (CORS required)
   useEffect(() => {
     const company = fetch(
-      `https://api-omega.azurewebsites.net/api/company?code=YxNcPqUzaECF5G20E190Qk6qn3diKbyoHsyrUqqVBjqil9SYOS8lhw==&symbol=${activeTicker}`
+      `${apiBaseUrl}/company?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
     const earnings = fetch(
-      `https://api-omega.azurewebsites.net/api/earnings?code=MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw==&symbol=${activeTicker}&lastN=5`
+      `${apiBaseUrl}/earnings?code=${apiCode}==&symbol=${activeTicker}&lastN=5`
     ).then((res) => res.json());
 
     const prices = fetch(
-      `https://api-omega.azurewebsites.net/api/prices?code=MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw==&symbol=${activeTicker}&range=1y`
+      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=1y`
     ).then((res) => res.json());
 
     const analyst_recs = fetch(
-      `https://api-omega.azurewebsites.net/api/analyst_recs?code=MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw==&symbol=${activeTicker}`
+      `${apiBaseUrl}/analyst_recs?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
     const dividends = fetch(
-      `https://api-omega.azurewebsites.net/api/dividends?code=MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw==&symbol=${activeTicker}&lastN=5`
+      `${apiBaseUrl}/dividends?code=${apiCode}==&symbol=${activeTicker}&lastN=5`
     ).then((res) => res.json());
 
     const adv_stats = fetch(
-      `https://api-omega.azurewebsites.net/api/adv_stats?code=MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw==&symbol=${activeTicker}`
+      `${apiBaseUrl}/adv_stats?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
     const allReqs = [
