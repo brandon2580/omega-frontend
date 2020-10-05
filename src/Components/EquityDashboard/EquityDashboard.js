@@ -14,6 +14,7 @@ import XButton from "../XButton";
 import TickerHeader from "./TickerHeader";
 import SaveLayoutButton from "./SaveLayoutButton";
 import TopNavbar from "../Navbars/TopNavbar";
+import ScatterChartCard from "../TemplateComponents/ScatterChartCard";
 
 const GridLayout = WidthProvider(Responsive);
 
@@ -131,7 +132,6 @@ const HomeDashboard = (props) => {
         setActiveTickerChangeValue={props.setActiveTickerChangeValue}
         activeTicker={props.activeTicker}
         setActiveTicker={props.setActiveTicker}
-
         wasTaken={wasTaken}
         handleChange={handleChange}
         saveLayout={saveLayout}
@@ -208,6 +208,13 @@ const HomeDashboard = (props) => {
               return (
                 <div key={card.id} data-grid={defaultDataGrid}>
                   <LineChartCard {...defaultAttributes} />
+                </div>
+              );
+
+            case "ScatterChartCard":
+              return (
+                <div key={card.id} data-grid={defaultDataGrid}>
+                  <ScatterChartCard {...defaultAttributes} />
                 </div>
               );
 

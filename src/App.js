@@ -52,7 +52,7 @@ function App() {
         { name: "% Beat Estimates", value: 65 },
         { name: "% Below Estimates", value: 35 },
       ],
-      cardType: "PieChartCard",
+      cardType: "ScatterChartCard",
       selectable: false,
       defaultCard: true,
     },
@@ -188,7 +188,7 @@ function App() {
     ).then((res) => res.json());
 
     const earnings = fetch(
-      `${apiBaseUrl}/earnings?code=${apiCode}==&symbol=${activeTicker}&lastN=5`
+      `${apiBaseUrl}/earnings?code=${apiCode}==&symbol=${activeTicker}&lastN=4&period=Q`
     ).then((res) => res.json());
 
     const prices = fetch(
@@ -215,7 +215,7 @@ function App() {
       dividends,
       adv_stats,
     ];
-
+    
     Promise.all(allReqs).then((allResp) => {
       const [
         company,
@@ -247,7 +247,16 @@ function App() {
             case "Earnings":
               return {
                 ...card,
-                // return data here
+                data: [
+                  { x: 1, y: earnings.consensus_eps[Object.keys(earnings.consensus_eps)[0]] },
+                  { x: 1, y: earnings.real_eps[Object.keys(earnings.real_eps)[0]] },
+                  { x: 2, y: earnings.consensus_eps[Object.keys(earnings.consensus_eps)[1]] },
+                  { x: 2, y: earnings.real_eps[Object.keys(earnings.real_eps)[1]] },
+                  { x: 3, y: earnings.consensus_eps[Object.keys(earnings.consensus_eps)[2]] },
+                  { x: 3, y: earnings.real_eps[Object.keys(earnings.real_eps)[2]] },
+                  { x: 4, y: earnings.consensus_eps[Object.keys(earnings.consensus_eps)[3]] },
+                  { x: 4, y: earnings.real_eps[Object.keys(earnings.real_eps)[3]] },
+                ]
               };
 
             case "Analyst Recommendations":

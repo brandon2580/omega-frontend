@@ -7,6 +7,7 @@ import PieChartCard from "../TemplateComponents/PieChartCard";
 import BarChartCard from "../TemplateComponents/BarChartCard";
 import CandleChartCard from "../TemplateComponents/CandleChartCard";
 import AddToLayoutButton from "./AddToLayoutButton";
+import ScatterChartCard from "../TemplateComponents/ScatterChartCard";
 
 const AddCardModal = (props) => {
   const [value, setValue] = useState("");
@@ -86,6 +87,18 @@ const AddCardModal = (props) => {
                     <PieChartCard {...defaultAttributes}>
                       <p>{card.title}</p>
                     </PieChartCard>
+
+                    <AddToLayoutButton selectCard={selectCard} card={card} />
+                  </div>
+                );
+              }
+
+              if (card.cardType === 'ScatterChartCard' && defaultConditionals) {
+                return (
+                  <div className="col-xl-4 modal-card">
+                    <ScatterChartCard {...defaultAttributes}>
+                      <p>{card.title}</p>
+                    </ScatterChartCard>
 
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>
