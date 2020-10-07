@@ -18,7 +18,6 @@ const LineChartCard = (props) => {
     setSeries(props.data);
   }, [props.data]);
   
-  console.log(series)
   return (
     <Card
       title={props.title}

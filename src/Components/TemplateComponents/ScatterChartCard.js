@@ -21,8 +21,6 @@ const ScatterChartCard = (props) => {
 
   const colors = ["white", "#007bff"];
 
-  console.log(series);
-
   return (
     <Card
       title={props.title}
