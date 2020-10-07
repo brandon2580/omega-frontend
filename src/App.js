@@ -55,6 +55,9 @@ function App() {
       cardType: "ScatterChartCard",
       selectable: false,
       defaultCard: true,
+      x: 0,
+      y: 0,
+      w: 6,
     },
 
     {
@@ -64,6 +67,9 @@ function App() {
       cardType: "PieChartCard",
       selectable: false,
       defaultCard: true,
+      x: 12,
+      y: 0,
+      w: 6,
     },
 
     {
@@ -74,6 +80,9 @@ function App() {
       selectable: false,
       defaultCard: true,
       dataLabel: "Dividend/Share",
+      x: 0,
+      y: 0,
+      w: 4,
     },
 
     {
@@ -85,6 +94,9 @@ function App() {
       selectable: false,
       defaultCard: true,
       dataLabel: "Price",
+      x: 4,
+      y: 0,
+      w: 4,
     },
 
     {
@@ -102,6 +114,9 @@ function App() {
       selectable: false,
       defaultCard: true,
       dataLabel: "Sentiment",
+      x: 12,
+      y: 0,
+      w: 4,
     },
 
     {
@@ -117,6 +132,9 @@ function App() {
       selectable: false,
       defaultCard: true,
       dataLabel: "Risk",
+      x: 0,
+      y: 0,
+      w: 6,
     },
 
     {
@@ -135,6 +153,9 @@ function App() {
       selectable: false,
       defaultCard: true,
       dataLabel: "GDP",
+      x: 12,
+      y: 0,
+      w: 6,
     },
 
     {
@@ -215,7 +236,7 @@ function App() {
       dividends,
       adv_stats,
     ];
-    
+
     Promise.all(allReqs).then((allResp) => {
       const [
         company,
@@ -248,15 +269,51 @@ function App() {
               return {
                 ...card,
                 data: [
-                  { x: 1, y: earnings.consensus_eps[Object.keys(earnings.consensus_eps)[0]] },
-                  { x: 1, y: earnings.real_eps[Object.keys(earnings.real_eps)[0]] },
-                  { x: 2, y: earnings.consensus_eps[Object.keys(earnings.consensus_eps)[1]] },
-                  { x: 2, y: earnings.real_eps[Object.keys(earnings.real_eps)[1]] },
-                  { x: 3, y: earnings.consensus_eps[Object.keys(earnings.consensus_eps)[2]] },
-                  { x: 3, y: earnings.real_eps[Object.keys(earnings.real_eps)[2]] },
-                  { x: 4, y: earnings.consensus_eps[Object.keys(earnings.consensus_eps)[3]] },
-                  { x: 4, y: earnings.real_eps[Object.keys(earnings.real_eps)[3]] },
-                ]
+                  {
+                    x: 1,
+                    y:
+                      earnings.consensus_eps[
+                        Object.keys(earnings.consensus_eps)[0]
+                      ],
+                  },
+                  {
+                    x: 1,
+                    y: earnings.real_eps[Object.keys(earnings.real_eps)[0]],
+                  },
+                  {
+                    x: 2,
+                    y:
+                      earnings.consensus_eps[
+                        Object.keys(earnings.consensus_eps)[1]
+                      ],
+                  },
+                  {
+                    x: 2,
+                    y: earnings.real_eps[Object.keys(earnings.real_eps)[1]],
+                  },
+                  {
+                    x: 3,
+                    y:
+                      earnings.consensus_eps[
+                        Object.keys(earnings.consensus_eps)[2]
+                      ],
+                  },
+                  {
+                    x: 3,
+                    y: earnings.real_eps[Object.keys(earnings.real_eps)[2]],
+                  },
+                  {
+                    x: 4,
+                    y:
+                      earnings.consensus_eps[
+                        Object.keys(earnings.consensus_eps)[3]
+                      ],
+                  },
+                  {
+                    x: 4,
+                    y: earnings.real_eps[Object.keys(earnings.real_eps)[3]],
+                  },
+                ],
               };
 
             case "Analyst Recommendations":

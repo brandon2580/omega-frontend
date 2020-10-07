@@ -46,10 +46,8 @@ const HomeDashboard = (props) => {
 
   let keys = [...storedLayouts[selectedLayoutIndex].keys()];
   let mapped = keys.map((id) => {
-    return id + 1
-  })
-
-  console.log(mapped)
+    return id + 1;
+  });
 
   // If the page is being loaded for the first time and
   // storedLayouts && storedLayoutNames don't exist, make them exist
@@ -75,7 +73,6 @@ const HomeDashboard = (props) => {
     setNewLayout(layout);
   };
 
-
   //Saves layout to localstorage
   const saveLayout = (e) => {
     e.preventDefault();
@@ -99,8 +96,14 @@ const HomeDashboard = (props) => {
   if (wasSelected) {
     let localStorageLayouts = localStorage.getItem("storedLayouts");
     let storedLayouts = JSON.parse(localStorageLayouts.split());
-    setMainLayout(storedLayouts[selectedLayoutIndex], setWasSelected(false));
+    setMainLayout(
+      storedLayouts[selectedLayoutIndex],
+      setWasSelected(false),
+      props.setSelectedCardIndex(mapped)
+    );
   }
+
+  console.log(props.selectedCardsIndex);
 
   const removeCardFromLayout = (id) => {
     // Card was selected, remove it
@@ -180,10 +183,10 @@ const HomeDashboard = (props) => {
           const card = props.availableCards.find((c) => c.id === cardId);
 
           let defaultDataGrid = {
-            w: 3,
+            w: card.w,
             h: 1,
-            x: 0,
-            y: 0,
+            x: card.x,
+            y: card.y,
             minW: 3,
             maxH: 1,
           };
