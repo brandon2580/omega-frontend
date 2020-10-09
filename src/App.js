@@ -350,7 +350,7 @@ function App() {
             case "Dividends":
               return {
                 ...card,
-                data: Object.keys(dividends.amount).map(function (key) {
+                data: Object.keys(dividends.amount).reverse().map(function (key) {  
                   return {
                     name: key,
                     data: dividends.amount[key],
