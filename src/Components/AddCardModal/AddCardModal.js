@@ -79,7 +79,7 @@ const AddCardModal = (props) => {
                 dataLabel: card.dataLabel
               }
 
-              const defaultConditionals = card.selectable && card.title.toLowerCase().includes(value.toLowerCase())
+              const defaultConditionals = !props.selectedCardsIndex.includes(card.id) && card.title.toLowerCase().includes(value.toLowerCase())
 
               if (card.cardType === 'PieChartCard' && defaultConditionals) {
                 return (

@@ -103,8 +103,6 @@ const HomeDashboard = (props) => {
     );
   }
 
-  console.log(props.selectedCardsIndex);
-
   const removeCardFromLayout = (id) => {
     // Card was selected, remove it
     if (props.selectedCardsIndex.includes(id)) {
@@ -122,6 +120,7 @@ const HomeDashboard = (props) => {
   }
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
+  console.log(props.selectedCardsIndex)
 
   return (
     <div>
@@ -181,7 +180,6 @@ const HomeDashboard = (props) => {
         */}
         {props.selectedCardsIndex.map((cardId) => {
           const card = props.availableCards.find((c) => c.id === cardId);
-
           let defaultDataGrid = {
             w: card.w,
             h: 1,
@@ -199,7 +197,6 @@ const HomeDashboard = (props) => {
             button: (
               <span
                 onClick={() => {
-                  card.selectable = true;
                   removeCardFromLayout(card.id);
                 }}
                 role="img"
