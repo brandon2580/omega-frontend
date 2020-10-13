@@ -44,11 +44,6 @@ const HomeDashboard = (props) => {
     "storedLayoutNames"
   );
 
-  let keys = [...storedLayouts[selectedLayoutIndex].keys()];
-  let mapped = keys.map((id) => {
-    return id + 1;
-  });
-
   // If the page is being loaded for the first time and
   // storedLayouts && storedLayoutNames don't exist, make them exist
   if (localStorage.getItem("storedLayouts" && "storedLayoutNames") == null) {
@@ -96,10 +91,15 @@ const HomeDashboard = (props) => {
   if (wasSelected) {
     let localStorageLayouts = localStorage.getItem("storedLayouts");
     let storedLayouts = JSON.parse(localStorageLayouts.split());
+
+    let mappedLayoutIndex = storedLayouts[selectedLayoutIndex].map((card) => {
+      return parseInt(card.i);
+    });
+
     setMainLayout(
       storedLayouts[selectedLayoutIndex],
       setWasSelected(false),
-      props.setSelectedCardIndex(mapped)
+      props.setSelectedCardIndex(mappedLayoutIndex)
     );
   }
 
@@ -120,7 +120,6 @@ const HomeDashboard = (props) => {
   }
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
-  console.log(props.selectedCardsIndex)
 
   return (
     <div>
@@ -135,7 +134,6 @@ const HomeDashboard = (props) => {
         wasTaken={wasTaken}
         handleChange={handleChange}
         saveLayout={saveLayout}
-        mapped={mapped}
       />
 
       <h1
@@ -159,7 +157,6 @@ const HomeDashboard = (props) => {
         wasSelected={wasSelected}
         selectedCardsIndex={props.selectedCardsIndex}
         setSelectedCardIndex={props.setSelectedCardIndex}
-        mapped={mapped}
       />
 
       {/* Grid layout header goes here */}
@@ -178,16 +175,24 @@ const HomeDashboard = (props) => {
           were to select a card that has an id value of 9 {id: 9}, then Array [9] would be logged. If we were to then 
           select a card with an id of 10 {id: 10}, it would return Array [9, 10]. 
         */}
-        {props.selectedCardsIndex.map((cardId) => {
+        {props.selectedCardsIndex.map((cardId, index) => {
           const card = props.availableCards.find((c) => c.id === cardId);
-          let defaultDataGrid = {
-            w: card.w,
-            h: 1,
-            x: card.x,
-            y: card.y,
-            minW: 3,
-            maxH: 1,
-          };
+
+          let defaultDataGrid = storedLayouts[selectedLayoutIndex].map(
+            (card) => {
+              return {
+                i: card.i,
+                w: parseInt(card.w),
+                h: 1,
+                x: parseInt(card.x),
+                y: parseInt(card.y),
+                minW: 3,
+                maxH: 1,
+              };
+            }
+          );
+
+          var sorted = defaultDataGrid.sort((a, b) => a.i - b.i);
 
           const defaultAttributes = {
             key: card.id,
@@ -211,35 +216,35 @@ const HomeDashboard = (props) => {
           switch (card.cardType) {
             case "PieChartCard":
               return (
-                <div key={card.id} data-grid={defaultDataGrid}>
+                <div key={card.id} data-grid={sorted[index]}>
                   <PieChartCard {...defaultAttributes} />
                 </div>
               );
 
             case "LineChartCard":
               return (
-                <div key={card.id} data-grid={defaultDataGrid}>
+                <div key={card.id} data-grid={sorted[index]}>
                   <LineChartCard {...defaultAttributes} />
                 </div>
               );
 
             case "ScatterChartCard":
               return (
-                <div key={card.id} data-grid={defaultDataGrid}>
+                <div key={card.id} data-grid={sorted[index]}>
                   <ScatterChartCard {...defaultAttributes} />
                 </div>
               );
 
             case "CandleChartCard":
               return (
-                <div key={card.id} data-grid={defaultDataGrid}>
+                <div key={card.id} data-grid={sorted[index]}>
                   <CandleChartCard {...defaultAttributes} />
                 </div>
               );
 
             case "BarChartCard":
               return (
-                <div key={card.id} data-grid={defaultDataGrid}>
+                <div key={card.id} data-grid={sorted[index]}>
                   <BarChartCard {...defaultAttributes} />
                 </div>
               );
