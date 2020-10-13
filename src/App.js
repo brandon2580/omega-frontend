@@ -54,9 +54,6 @@ function App() {
       ],
       cardType: "ScatterChartCard",
       defaultCard: true,
-      x: 0,
-      y: 0,
-      w: 6,
     },
 
     {
@@ -65,9 +62,6 @@ function App() {
       data: [],
       cardType: "PieChartCard",
       defaultCard: true,
-      x: 12,
-      y: 0,
-      w: 6,
     },
 
     {
@@ -77,9 +71,6 @@ function App() {
       cardType: "LineChartCard",
       defaultCard: true,
       dataLabel: "Dividend/Share",
-      x: 0,
-      y: 0,
-      w: 4,
     },
 
     {
@@ -90,9 +81,6 @@ function App() {
       tickCount: 10,
       defaultCard: true,
       dataLabel: "Price",
-      x: 4,
-      y: 0,
-      w: 4,
     },
 
     {
@@ -109,9 +97,6 @@ function App() {
       tickCount: 4,
       defaultCard: true,
       dataLabel: "Sentiment",
-      x: 12,
-      y: 0,
-      w: 4,
     },
 
     {
@@ -126,9 +111,6 @@ function App() {
       cardType: "BarChartCard",
       defaultCard: true,
       dataLabel: "Risk",
-      x: 0,
-      y: 0,
-      w: 6,
     },
 
     {
@@ -146,9 +128,6 @@ function App() {
       cardType: "BarChartCard",
       defaultCard: true,
       dataLabel: "GDP",
-      x: 12,
-      y: 0,
-      w: 6,
     },
 
     {
@@ -159,9 +138,6 @@ function App() {
         { name: "Sold", value: 8 },
       ],
       cardType: "PieChartCard",
-      x: 0,
-      y: 0,
-      w: 3,
     },
 
     {
@@ -177,9 +153,6 @@ function App() {
         { name: "2020", data: 26.33 },
       ],
       cardType: "LineChartCard",
-      x: 0,
-      y: 0,
-      w: 3,
     },
 
     {
@@ -195,9 +168,6 @@ function App() {
         { name: "2020", data: 60.5 },
       ],
       cardType: "BarChartCard",
-      x: 0,
-      y: 0,
-      w: 3,
     },
   ]);
 
@@ -349,12 +319,14 @@ function App() {
             case "Dividends":
               return {
                 ...card,
-                data: Object.keys(dividends.amount).reverse().map(function (key) {  
-                  return {
-                    name: key,
-                    data: dividends.amount[key],
-                  };
-                }),
+                data: Object.keys(dividends.amount)
+                  .reverse()
+                  .map(function (key) {
+                    return {
+                      name: key,
+                      data: dividends.amount[key],
+                    };
+                  }),
               };
           }
 
