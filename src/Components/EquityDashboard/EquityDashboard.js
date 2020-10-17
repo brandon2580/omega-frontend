@@ -31,7 +31,7 @@ const HomeDashboard = (props) => {
   const [newLayoutName, setNewLayoutName] = useState();
   const [selectedLayoutIndex, setSelectedLayoutIndex] = useState(0);
   const [wasTaken, setWasTaken] = useState(false);
-  const [wasSelected, setWasSelected] = useState(false);
+  const [wasSelected, setWasSelected] = useState();
   const [value, setValue] = useState(true);
   const [wasRemoved, setWasRemoved] = useState(false);
   const [removedCard, setRemovedCard] = useState();
@@ -96,11 +96,14 @@ const HomeDashboard = (props) => {
       return parseInt(card.i);
     });
 
-    setMainLayout(
-      storedLayouts[selectedLayoutIndex],
-      setWasSelected(false),
-      props.setSelectedCardIndex(mappedLayoutIndex)
-    );
+    setMainLayout([], setWasSelected(false))
+
+    setTimeout(() => {
+      setMainLayout(
+        storedLayouts[selectedLayoutIndex],
+        props.setSelectedCardIndex(mappedLayoutIndex),
+      );
+    })
   }
 
   const removeCardFromLayout = (id) => {
