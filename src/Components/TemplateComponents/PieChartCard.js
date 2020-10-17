@@ -23,8 +23,8 @@ const PieChartCard = (props) => {
           <PieChart>
             <Pie
               data={props.data}
-              innerRadius={120}
-              outerRadius={160}
+              innerRadius={110}
+              outerRadius={140}
               stroke={""}
               paddingAngle={5}
             >
