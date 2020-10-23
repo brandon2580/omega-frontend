@@ -202,6 +202,7 @@ const HomeDashboard = (props) => {
             title: card.title,
             data: card.data,
             dataLabel: card.dataLabel,
+            labels: card.labels,
             button: (
               <span
                 onClick={() => {

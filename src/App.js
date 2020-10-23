@@ -48,10 +48,8 @@ function App() {
     {
       id: 1,
       title: "Earnings",
-      data: [
-        { name: "% Beat Estimates", value: 65 },
-        { name: "% Below Estimates", value: 35 },
-      ],
+      data: [],
+      labels: [],
       cardType: "ScatterChartCard",
       defaultCard: true,
     },
@@ -235,53 +233,54 @@ function App() {
               };
 
             case "Earnings":
+              console.log(Object.keys(earnings.consensus_eps));
               return {
                 ...card,
                 data: [
                   {
-                    x: 1,
-                    y:
-                      earnings.consensus_eps[
-                        Object.keys(earnings.consensus_eps)[0]
+                    name: "Consensus",
+                    data: [
+                      [
+                        1,
+                        earnings.consensus_eps[
+                          Object.keys(earnings.consensus_eps)[0]
+                        ],
                       ],
-                  },
-                  {
-                    x: 1,
-                    y: earnings.real_eps[Object.keys(earnings.real_eps)[0]],
-                  },
-                  {
-                    x: 2,
-                    y:
-                      earnings.consensus_eps[
-                        Object.keys(earnings.consensus_eps)[1]
+                      [
+                        2,
+                        earnings.consensus_eps[
+                          Object.keys(earnings.consensus_eps)[1]
+                        ],
                       ],
-                  },
-                  {
-                    x: 2,
-                    y: earnings.real_eps[Object.keys(earnings.real_eps)[1]],
-                  },
-                  {
-                    x: 3,
-                    y:
-                      earnings.consensus_eps[
-                        Object.keys(earnings.consensus_eps)[2]
+                      [
+                        3,
+                        earnings.consensus_eps[
+                          Object.keys(earnings.consensus_eps)[2]
+                        ],
                       ],
-                  },
-                  {
-                    x: 3,
-                    y: earnings.real_eps[Object.keys(earnings.real_eps)[2]],
-                  },
-                  {
-                    x: 4,
-                    y:
-                      earnings.consensus_eps[
-                        Object.keys(earnings.consensus_eps)[3]
+                      [
+                        4,
+                        earnings.consensus_eps[
+                          Object.keys(earnings.consensus_eps)[3]
+                        ],
                       ],
+                    ],
                   },
                   {
-                    x: 4,
-                    y: earnings.real_eps[Object.keys(earnings.real_eps)[3]],
+                    name: "Actual",
+                    data: [
+                      [1, earnings.real_eps[Object.keys(earnings.real_eps)[0]]],
+                      [2, earnings.real_eps[Object.keys(earnings.real_eps)[1]]],
+                      [3, earnings.real_eps[Object.keys(earnings.real_eps)[2]]],
+                      [4, earnings.real_eps[Object.keys(earnings.real_eps)[3]]],
+                    ],
                   },
+                ],
+                labels: [
+                  Object.keys(earnings.consensus_eps)[0],
+                  Object.keys(earnings.consensus_eps)[1],
+                  Object.keys(earnings.consensus_eps)[2],
+                  Object.keys(earnings.consensus_eps)[3],
                 ],
               };
 

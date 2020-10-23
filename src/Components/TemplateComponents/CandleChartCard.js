@@ -6,14 +6,11 @@ import ReactApexChart from "react-apexcharts";
 const CandleChartCard = (props) => {
   const [series, setSeries] = useState([{}]);
 
-  useEffect(() => {
-    setSeries([{ data: props.data.slice(2) }]);
-  }, [props.data]);
-
   const [options, setOptions] = useState({
     chart: {
       type: "candlestick",
     },
+
     xaxis: {
       type: "datetime",
     },
@@ -24,8 +21,12 @@ const CandleChartCard = (props) => {
     },
     grid: {
       borderColor: "none",
-    },
+    }
   });
+
+  useEffect(() => {
+    setSeries([{ data: props.data.slice(2) }]);
+  }, [props.data]);
 
   return (
     <Card
