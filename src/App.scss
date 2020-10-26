@@ -215,6 +215,11 @@ body.dark-mode .removed-text {
   transform: translateY(-50%);
 }
 
+body.dark-mode .apexcharts-tooltip-title{
+  background-color: black !important;
+  color: white !important;
+}
+
 body.light-mode .undo-button-container {
   width: 200px;
   position: fixed;

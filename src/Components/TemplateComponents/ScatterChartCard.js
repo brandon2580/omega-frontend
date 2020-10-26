@@ -15,9 +15,10 @@ const ScatterChartCard = (props) => {
     setLabels(props.labels);
   }, [props.labels]);
 
-  const [options, setOptions] = useState({
+  let options = {
     chart: {
       type: "scatter",
+      width: "100%",
     },
 
     labels: labels,
@@ -27,10 +28,18 @@ const ScatterChartCard = (props) => {
         enabled: true,
       },
     },
+
+    xaxis: {
+      labels: {
+        offsetX: -10
+
+      },
+    },
+
     grid: {
       borderColor: "none",
     },
-  });
+  };
 
   return (
     <Card
