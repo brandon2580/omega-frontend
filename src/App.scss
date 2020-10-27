@@ -142,11 +142,21 @@ body.light-mode .ant-card-head-title {
 body.dark-mode .ant-card-body {
   color: white;
   overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+body.dark-mode .ant-card {
+  overflow-y: hidden !important;
+}
+
+body.light-mode .ant-card {
+  overflow-y: hidden !important;
 }
 
 body.light-mode .ant-card-body {
   color: black;
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 body.dark-mode .ant-modal-body {
@@ -215,7 +225,11 @@ body.dark-mode .removed-text {
   transform: translateY(-50%);
 }
 
-body.dark-mode .apexcharts-tooltip-title{
+.apexcharts-xaxis-texts-g {
+  display: none;
+}
+
+body.dark-mode .apexcharts-tooltip-title {
   background-color: black !important;
   color: white !important;
 }
@@ -405,16 +419,16 @@ body.light-mode .recharts-tooltip-item-value {
   margin-bottom: 10px !important;
 }
 
-.verticalSpan{
+.verticalSpan {
   border-right: 1px solid white;
   margin-left: 12px;
-  margin-right: 15px
+  margin-right: 15px;
 }
 
-.verticalSpan2{
+.verticalSpan2 {
   border-right: 1px solid white;
   margin-left: 15px;
-  margin-right: 15px
+  margin-right: 15px;
 }
 
 .header-parent {

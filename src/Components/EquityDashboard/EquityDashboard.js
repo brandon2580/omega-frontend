@@ -96,14 +96,14 @@ const HomeDashboard = (props) => {
       return parseInt(card.i);
     });
 
-    setMainLayout([], setWasSelected(false))
+    setMainLayout([], setWasSelected(false));
 
     setTimeout(() => {
       setMainLayout(
         storedLayouts[selectedLayoutIndex],
-        props.setSelectedCardIndex(mappedLayoutIndex),
+        props.setSelectedCardIndex(mappedLayoutIndex)
       );
-    })
+    });
   }
 
   const removeCardFromLayout = (id) => {
@@ -242,7 +242,9 @@ const HomeDashboard = (props) => {
             case "CandleChartCard":
               return (
                 <div key={card.id} data-grid={sorted[index]}>
-                  <CandleChartCard {...defaultAttributes} />
+                  <CandleChartCard
+                    {...defaultAttributes}
+                  />
                 </div>
               );
 

@@ -5,20 +5,21 @@ import ReactApexChart from "react-apexcharts";
 
 const CandleChartCard = (props) => {
   const [series, setSeries] = useState([{}]);
-
+  console.log(series);
   let options = {
-    chart: {
-      type: "candlestick",
-    },
-
     xaxis: {
-      type: "datetime",
+      labels: {
+        formatter: function (value) {
+          return value;
+        },
+      },
     },
     yaxis: {
       tooltip: {
         enabled: true,
       },
     },
+
     grid: {
       borderColor: "none",
     },
@@ -30,6 +31,8 @@ const CandleChartCard = (props) => {
 
   return (
     <Card
+    className="hide-overflow"
+
       title={props.title}
       extra={props.button}
       style={{
@@ -42,7 +45,7 @@ const CandleChartCard = (props) => {
       <ReactApexChart
         options={options}
         series={series}
-        height="456"
+        height="515"
         type="candlestick"
       />
     </Card>
