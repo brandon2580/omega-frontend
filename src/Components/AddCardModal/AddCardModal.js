@@ -77,7 +77,9 @@ const AddCardModal = (props) => {
                 title: card.title,
                 data: card.data,
                 dataLabel: card.dataLabel,
-                labels: card.labels
+                labels: card.labels,
+                range: card.range,
+                setRange: card.setRange,
               }
 
               const defaultConditionals = !props.selectedCardsIndex.includes(card.id) && card.title.toLowerCase().includes(value.toLowerCase())

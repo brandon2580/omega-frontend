@@ -19,9 +19,10 @@ import Portfolio from "./Components/Portfolio/Portfolio";
 function App() {
   const [activeTickerChangeValue, setActiveTickerChangeValue] = useState("");
   const [activeTicker, setActiveTicker] = useState("AAPL");
+  const [range, setRange] = useState("1y")
   const apiBaseUrl = "https://api-omega.azurewebsites.net/api";
   const apiCode = "MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw";
-
+  console.log(range)
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default
   const [selectedCardsIndex, setSelectedCardIndex] = useState([
     1,
@@ -75,6 +76,8 @@ function App() {
       id: 4,
       title: "Price",
       data: [],
+      range: range,
+      setRange: setRange,
       cardType: "CandleChartCard",
       tickCount: 10,
       defaultCard: true,
@@ -180,7 +183,7 @@ function App() {
     ).then((res) => res.json());
 
     const prices = fetch(
-      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=1y`
+      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=${range}`
     ).then((res) => res.json());
 
     const analyst_recs = fetch(
@@ -313,6 +316,8 @@ function App() {
                     ],
                   };
                 }),
+                range: range,
+                setRange: setRange
               };
 
             case "Dividends":
@@ -334,7 +339,7 @@ function App() {
         });
       });
     });
-  }, [activeTicker]);
+  }, [activeTicker, range]);
 
   return (
     <div className="app">
