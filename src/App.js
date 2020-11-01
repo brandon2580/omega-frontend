@@ -19,10 +19,10 @@ import Portfolio from "./Components/Portfolio/Portfolio";
 function App() {
   const [activeTickerChangeValue, setActiveTickerChangeValue] = useState("");
   const [activeTicker, setActiveTicker] = useState("AAPL");
-  const [range, setRange] = useState("1y")
+  const [range, setRange] = useState("1y");
   const apiBaseUrl = "https://api-omega.azurewebsites.net/api";
   const apiCode = "MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw";
-  console.log(range)
+
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default
   const [selectedCardsIndex, setSelectedCardIndex] = useState([
     1,
@@ -172,7 +172,45 @@ function App() {
     },
   ]);
 
-  // This gets all of the data for the specified object in the availableCards array (CORS required)
+  // The "Prices" endpoint has it's own useEffect hook dedicated
+  // to it because it should only update the data when the value of 'range' changes
+  useEffect(() => {
+    const prices = fetch(
+      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=${range}`
+    ).then((res) => res.json());
+
+    Promise.resolve(prices).then((price) => {
+      // Function syntax of setState to use the previous value from the state, as recommended by React
+      setAvailableCards((prevCards) => {
+        // For each cards, return a new modified version of that card
+        return prevCards.map((card) => {
+          if (card.title == "Price") {
+            return {
+              ...card,
+              data: Object.keys(price).map(function (key) {
+                console.log(key);
+                return {
+                  x: key,
+                  y: [
+                    price[key].adj_open,
+                    price[key].adj_high,
+                    price[key].adj_low,
+                    price[key].adj_close,
+                  ],
+                };
+              }),
+              range: range,
+              setRange: setRange,
+            };
+          }
+          return card;
+        });
+      });
+    });
+  }, [range]);
+
+  // This gets all of the data for the specified object in the
+  // availableCards array except prices (because that has it's own useEffect hook)
   useEffect(() => {
     const company = fetch(
       `${apiBaseUrl}/company?code=${apiCode}==&symbol=${activeTicker}`
@@ -180,10 +218,6 @@ function App() {
 
     const earnings = fetch(
       `${apiBaseUrl}/earnings?code=${apiCode}==&symbol=${activeTicker}&lastN=4&period=Q`
-    ).then((res) => res.json());
-
-    const prices = fetch(
-      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=${range}`
     ).then((res) => res.json());
 
     const analyst_recs = fetch(
@@ -198,24 +232,10 @@ function App() {
       `${apiBaseUrl}/adv_stats?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
-    const allReqs = [
-      company,
-      earnings,
-      prices,
-      analyst_recs,
-      dividends,
-      adv_stats,
-    ];
+    const allReqs = [company, earnings, analyst_recs, dividends, adv_stats];
 
     Promise.all(allReqs).then((allResp) => {
-      const [
-        company,
-        earnings,
-        prices,
-        analyst_recs,
-        dividends,
-        adv_stats,
-      ] = allResp;
+      const [company, earnings, analyst_recs, dividends, adv_stats] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
@@ -302,24 +322,6 @@ function App() {
                 ],
               };
 
-            case "Price":
-              return {
-                ...card,
-                data: Object.keys(prices).map(function (key) {
-                  return {
-                    x: key,
-                    y: [
-                      prices[key].adj_open,
-                      prices[key].adj_high,
-                      prices[key].adj_low,
-                      prices[key].adj_close,
-                    ],
-                  };
-                }),
-                range: range,
-                setRange: setRange
-              };
-
             case "Dividends":
               return {
                 ...card,
@@ -339,7 +341,7 @@ function App() {
         });
       });
     });
-  }, [activeTicker, range]);
+  }, [activeTicker]);
 
   return (
     <div className="app">
