@@ -207,7 +207,7 @@ function App() {
         });
       });
     });
-  }, [range]);
+  }, [range, activeTicker]);
 
   // This gets all of the data for the specified object in the
   // availableCards array except prices (because that has it's own useEffect hook)
