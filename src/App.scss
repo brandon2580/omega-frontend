@@ -311,9 +311,14 @@ body.light-mode .recharts-tooltip-item-value {
   color: #1f77b4;
 }
 
-.range-button{
+body.light-mode .range-button {
+  color: black;
+  background-color: white;
+}
+
+body.dark-mode .range-button {
   color: white;
-  background-color: black ;
+  background-color: black;
 }
 
 .center {

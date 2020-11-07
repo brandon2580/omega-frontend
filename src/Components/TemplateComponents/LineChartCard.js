@@ -17,7 +17,7 @@ const LineChartCard = (props) => {
   useEffect(() => {
     setSeries(props.data);
   }, [props.data]);
-  
+
   return (
     <Card
       title={props.title}

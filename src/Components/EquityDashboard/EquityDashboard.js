@@ -130,9 +130,6 @@ const HomeDashboard = (props) => {
         availableCards={props.availableCards}
         selectedCardsIndex={props.selectedCardsIndex}
         setSelectedCardIndex={props.setSelectedCardIndex}
-        activeTickerChangeValue={props.activeTickerChangeValue}
-        setActiveTickerChangeValue={props.setActiveTickerChangeValue}
-        activeTicker={props.activeTicker}
         setActiveTicker={props.setActiveTicker}
         wasTaken={wasTaken}
         handleChange={handleChange}

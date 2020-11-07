@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../App.scss";
 import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "../AddCardModal/AddCardModal";
@@ -6,12 +6,11 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
 
 const TopNavbar = (props) => {
-  const handleChange = (e) => {
-    props.setActiveTickerChangeValue(e.target.value);
-  };
+  const [ticker, setTicker] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.setActiveTicker(props.activeTickerChangeValue);
+    props.setActiveTicker(ticker);
     e.target.reset();
   };
 
@@ -45,7 +44,7 @@ const TopNavbar = (props) => {
         <form onSubmit={handleSubmit}>
           <input
             className="react-autosuggest__input"
-            onChange={handleChange}
+            onChange={e => setTicker(e.target.value)}
             style={{ color: "black" }}
             placeholder="ticker"
             type="text"

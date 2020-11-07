@@ -32,7 +32,6 @@ const ScatterChartCard = (props) => {
     xaxis: {
       labels: {
         offsetX: -10
-
       },
     },
 

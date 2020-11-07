@@ -34,8 +34,6 @@ function App() {
     7,
   ]);
 
-  // availableCards is an array of objects.
-  // Each object contains properties - id (int), title (string), data (array), (PieChartCard (bool) || LineChartCard (bool))
   const [availableCards, setAvailableCards] = useState([
     {
       id: 0,
@@ -188,7 +186,6 @@ function App() {
             return {
               ...card,
               data: Object.keys(price).map(function (key) {
-                console.log(key);
                 return {
                   x: key,
                   y: [
@@ -355,13 +352,9 @@ function App() {
                 availableCards={availableCards}
                 selectedCardsIndex={selectedCardsIndex}
                 setSelectedCardIndex={setSelectedCardIndex}
-                activeTickerChangeValue={activeTickerChangeValue}
-                setActiveTickerChangeValue={setActiveTickerChangeValue}
-                activeTicker={activeTicker}
                 setActiveTicker={setActiveTicker}
               />
             </Route>
-
             <Route path="/portfolio">
               <Portfolio />
             </Route>
