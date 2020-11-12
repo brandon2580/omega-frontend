@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "./App.scss";
-import TopNavbar from "./Components/Navbars/TopNavbar";
 import EquityDashboard from "./Components/EquityDashboard/EquityDashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/js/src/collapse.js";
@@ -46,6 +45,7 @@ function App() {
     },
     {
       id: 1,
+      name: "Earnings",
       title: "Earnings",
       data: [],
       labels: [],
@@ -55,6 +55,7 @@ function App() {
 
     {
       id: 2,
+      name: "AnalystRecommendations",
       title: "Analyst Recommendations",
       data: [],
       cardType: "PieChartCard",
@@ -63,6 +64,7 @@ function App() {
 
     {
       id: 3,
+      name: "Dividends",
       title: "Dividends",
       data: [],
       cardType: "LineChartCard",
@@ -72,6 +74,7 @@ function App() {
 
     {
       id: 4,
+      name: "Price",
       title: "Price",
       data: [],
       range: range,
@@ -84,6 +87,7 @@ function App() {
 
     {
       id: 5,
+      name: "PriceTarget",
       title: "Price Target",
       data: [
         { name: "8/31", data: 2 },
@@ -100,6 +104,7 @@ function App() {
 
     {
       id: 6,
+      name: "RiskAnalysis",
       title: "Risk Analysis",
       data: [
         { name: "2017", data: 3 },
@@ -114,6 +119,7 @@ function App() {
 
     {
       id: 7,
+      name: "Economics",
       title: "Economics",
       data: [
         { name: "2014", data: 2.45 },
@@ -131,31 +137,7 @@ function App() {
 
     {
       id: 8,
-      title: "Volume Today",
-      data: [
-        { name: "Bought", value: 92 },
-        { name: "Sold", value: 8 },
-      ],
-      cardType: "PieChartCard",
-    },
-
-    {
-      id: 9,
-      title: "Historical P/E",
-      data: [
-        { name: "2014", data: 13.76 },
-        { name: "2015", data: 15.51 },
-        { name: "2016", data: 39.27 },
-        { name: "2017", data: 20.6 },
-        { name: "2018", data: 44.87 },
-        { name: "2019", data: 26.09 },
-        { name: "2020", data: 26.33 },
-      ],
-      cardType: "LineChartCard",
-    },
-
-    {
-      id: 10,
+      name: "Buybacks",
       title: "Buybacks",
       data: [
         { name: "2014", data: 20 },
@@ -225,12 +207,32 @@ function App() {
       `${apiBaseUrl}/dividends?code=${apiCode}==&symbol=${activeTicker}&lastN=5`
     ).then((res) => res.json());
 
-    console.log(company)
+    const prices = fetch(
+      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=1y`
+    ).then((res) => res.json());
 
-    const allReqs = [company, earnings, analyst_recs, dividends];
+    const price_target = fetch(
+      `${apiBaseUrl}/price_targets?code=${apiCode}==&symbol=${activeTicker}`
+    ).then((res) => res.json());
 
-    Promise.all(allReqs).then((allResp) => {
-      const [company, earnings, analyst_recs, dividends] = allResp;
+    const allReqs = [
+      company,
+      earnings,
+      analyst_recs,
+      dividends,
+      price_target,
+      prices,
+    ];
+
+    Promise.all(allReqs).then((allResp, price) => {
+      const [
+        company,
+        earnings,
+        analyst_recs,
+        dividends,
+        price_target,
+        prices,
+      ] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
@@ -251,7 +253,6 @@ function App() {
               };
 
             case "Earnings":
-              console.log(Object.keys(earnings.consensus_eps));
               return {
                 ...card,
                 data: [
@@ -328,6 +329,26 @@ function App() {
                       data: dividends.amount[key],
                     };
                   }),
+              };
+
+            case "Price Target":
+              return {
+                ...card,
+                data: [
+                  Object.keys(prices).map(function (key) {
+                    return {
+                      x: key,
+                      y: prices[key].adj_close,
+                    };
+                  }),
+                  {
+                    last_updated: price_target.update_date,
+                    average: price_target.price_target_avg,
+                    high: price_target.price_target_high,
+                    low: price_target.price_target_low,
+                    numOfAnalysts: price_target.num_of_analysts,
+                  },
+                ],
               };
           }
 

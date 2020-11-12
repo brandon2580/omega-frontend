@@ -11,8 +11,10 @@ import {
   Legend,
 } from "recharts";
 
-const LineChartCard = (props) => {
+const PriceTarget = (props) => {
   const [series, setSeries] = useState();
+
+  console.log(props.data)
 
   useEffect(() => {
     setSeries(props.data);
@@ -57,4 +59,4 @@ const LineChartCard = (props) => {
   );
 };
 
-export default LineChartCard;
+export default PriceTarget;

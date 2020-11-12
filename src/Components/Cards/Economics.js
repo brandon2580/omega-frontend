@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const BarChartCard = (props) => {
+const Economics = (props) => {
   return (
     <Card
       title={props.title}
@@ -46,4 +46,4 @@ const BarChartCard = (props) => {
   );
 };
 
-export default BarChartCard;
+export default Economics;

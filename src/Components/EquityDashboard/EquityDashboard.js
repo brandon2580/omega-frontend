@@ -4,16 +4,19 @@ import _ from "lodash";
 import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import LineChartCard from "../TemplateComponents/LineChartCard";
-import PieChartCard from "../TemplateComponents/PieChartCard";
-import BarChartCard from "../TemplateComponents/BarChartCard";
-import CandleChartCard from "../TemplateComponents/CandleChartCard";
+import Earnings from "../Cards/Earnings";
+import AnalystRecommendations from "../Cards/AnalystRecommendations";
+import Dividends from "../Cards/Dividends";
+import Price from "../Cards/Price";
+import PriceTarget from "../Cards/PriceTarget";
+import RiskAnalysis from "../Cards/RiskAnalysis";
+import Economics from "../Cards/Economics";
 import Sidenavbar from "../Navbars/Sidenavbar";
 import UndoPrompt from "./UndoPrompt";
 import XButton from "../XButton";
 import TickerHeader from "./TickerHeader";
 import TopNavbar from "../Navbars/TopNavbar";
-import ScatterChartCard from "../TemplateComponents/ScatterChartCard";
+import Buybacks from "../Cards/Buybacks";
 
 const GridLayout = WidthProvider(Responsive);
 
@@ -196,6 +199,7 @@ const HomeDashboard = (props) => {
 
           const defaultAttributes = {
             key: card.id,
+            name: card.name,
             title: card.title,
             data: card.data,
             dataLabel: card.dataLabel,
@@ -215,42 +219,60 @@ const HomeDashboard = (props) => {
               </span>
             ),
           };
-
-          switch (card.cardType) {
-            case "PieChartCard":
+          switch (card.name) {
+            case "Earnings":
               return (
                 <div key={card.id} data-grid={sorted[index]}>
-                  <PieChartCard {...defaultAttributes} />
+                  <Earnings {...defaultAttributes} />
                 </div>
               );
 
-            case "LineChartCard":
+            case "AnalystRecommendations":
               return (
                 <div key={card.id} data-grid={sorted[index]}>
-                  <LineChartCard {...defaultAttributes} />
+                  <AnalystRecommendations {...defaultAttributes} />
                 </div>
               );
 
-            case "ScatterChartCard":
+            case "Dividends":
               return (
                 <div key={card.id} data-grid={sorted[index]}>
-                  <ScatterChartCard {...defaultAttributes} />
+                  <Dividends {...defaultAttributes} />
                 </div>
               );
 
-            case "CandleChartCard":
+            case "Price":
               return (
                 <div key={card.id} data-grid={sorted[index]}>
-                  <CandleChartCard
-                    {...defaultAttributes}
-                  />
+                  <Price {...defaultAttributes} />
                 </div>
               );
 
-            case "BarChartCard":
+            case "PriceTarget":
               return (
                 <div key={card.id} data-grid={sorted[index]}>
-                  <BarChartCard {...defaultAttributes} />
+                  <PriceTarget {...defaultAttributes} />
+                </div>
+              );
+
+            case "RiskAnalysis":
+              return (
+                <div key={card.id} data-grid={sorted[index]}>
+                  <RiskAnalysis {...defaultAttributes} />
+                </div>
+              );
+
+            case "Economics":
+              return (
+                <div key={card.id} data-grid={sorted[index]}>
+                  <Economics {...defaultAttributes} />
+                </div>
+              );
+
+            case "Buybacks":
+              return (
+                <div key={card.id} data-grid={sorted[index]}>
+                  <Buybacks {...defaultAttributes} />
                 </div>
               );
           }

@@ -5,7 +5,7 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 
 const COLORS = ["#23807E", "#41FFC9", "#007bff", "#FE3636", "#520000"];
 
-const PieChartCard = (props) => {
+const AnalystRecommendations = (props) => {
   return (
     <Card
       title={props.title}
@@ -43,4 +43,4 @@ const PieChartCard = (props) => {
   );
 };
 
-export default PieChartCard;
+export default AnalystRecommendations;

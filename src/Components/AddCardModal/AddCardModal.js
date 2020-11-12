@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import "../../App.scss";
 import { Modal } from "antd";
 import AutoSuggest from "react-autosuggest";
-import LineChartCard from "../TemplateComponents/LineChartCard";
-import PieChartCard from "../TemplateComponents/PieChartCard";
-import BarChartCard from "../TemplateComponents/BarChartCard";
-import CandleChartCard from "../TemplateComponents/CandleChartCard";
 import AddToLayoutButton from "./AddToLayoutButton";
-import ScatterChartCard from "../TemplateComponents/ScatterChartCard";
+import Earnings from "../Cards/Earnings";
+import AnalystRecommendations from "../Cards/AnalystRecommendations";
+import Dividends from "../Cards/Dividends";
+import Price from "../Cards/Price";
+import PriceTarget from "../Cards/PriceTarget";
+import RiskAnalysis from "../Cards/RiskAnalysis";
+import Economics from "../Cards/Economics";
+import Buybacks from "../Cards/Buybacks";
 
 const AddCardModal = (props) => {
   const [value, setValue] = useState("");
@@ -74,70 +77,110 @@ const AddCardModal = (props) => {
             {props.availableCards.map((card) => {
               const defaultAttributes = {
                 key: card.id,
+                name: card.name,
                 title: card.title,
                 data: card.data,
                 dataLabel: card.dataLabel,
                 labels: card.labels,
                 range: card.range,
                 setRange: card.setRange,
-              }
+              };
 
-              const defaultConditionals = !props.selectedCardsIndex.includes(card.id) && card.title.toLowerCase().includes(value.toLowerCase())
+              const defaultConditionals =
+                !props.selectedCardsIndex.includes(card.id) &&
+                card.title.toLowerCase().includes(value.toLowerCase());
 
-              if (card.cardType === 'PieChartCard' && defaultConditionals) {
+              if (card.name === "Earnings" && defaultConditionals) {
                 return (
                   <div className="col-xl-4 modal-card">
-                    <PieChartCard {...defaultAttributes}>
+                    <Earnings {...defaultAttributes}>
                       <p>{card.title}</p>
-                    </PieChartCard>
+                    </Earnings>
 
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>
                 );
               }
 
-              if (card.cardType === 'ScatterChartCard' && defaultConditionals) {
+              if (
+                card.name === "AnalystRecommendations" &&
+                defaultConditionals
+              ) {
                 return (
                   <div className="col-xl-4 modal-card">
-                    <ScatterChartCard {...defaultAttributes}>
+                    <AnalystRecommendations {...defaultAttributes}>
                       <p>{card.title}</p>
-                    </ScatterChartCard>
+                    </AnalystRecommendations>
 
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>
                 );
               }
 
-              if (card.cardType === 'LineChartCard' && defaultConditionals) {
+              if (card.name === "Dividends" && defaultConditionals) {
                 return (
                   <div className="col-xl-4 modal-card">
-                    <LineChartCard {...defaultAttributes}>
+                    <Dividends {...defaultAttributes}>
                       <p>{card.title}</p>
-                    </LineChartCard>
+                    </Dividends>
 
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>
                 );
               }
 
-              if (card.cardType === 'CandleChartCard' && defaultConditionals) {
+              if (card.name === "Price" && defaultConditionals) {
                 return (
                   <div className="col-xl-4 modal-card">
-                    <CandleChartCard {...defaultAttributes}>
+                    <Price {...defaultAttributes}>
                       <p>{card.title}</p>
-                    </CandleChartCard>
+                    </Price>
 
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>
                 );
               }
 
-              if (card.cardType === 'BarChartCard' && defaultConditionals) {
+              if (card.name === "PriceTarget" && defaultConditionals) {
                 return (
                   <div className="col-xl-4 modal-card">
-                    <BarChartCard {...defaultAttributes}>
+                    <PriceTarget {...defaultAttributes}>
                       <p>{card.title}</p>
-                    </BarChartCard>
+                    </PriceTarget>
+
+                    <AddToLayoutButton selectCard={selectCard} card={card} />
+                  </div>
+                );
+              }
+
+              if (card.name === "RiskAnalysis" && defaultConditionals) {
+                return (
+                  <div className="col-xl-4 modal-card">
+                    <RiskAnalysis {...defaultAttributes}>
+                      <p>{card.title}</p>
+                    </RiskAnalysis>
+
+                    <AddToLayoutButton selectCard={selectCard} card={card} />
+                  </div>
+                );
+              }
+              if (card.name === "Economics" && defaultConditionals) {
+                return (
+                  <div className="col-xl-4 modal-card">
+                    <Economics {...defaultAttributes}>
+                      <p>{card.title}</p>
+                    </Economics>
+
+                    <AddToLayoutButton selectCard={selectCard} card={card} />
+                  </div>
+                );
+              }
+              if (card.name === "Buybacks" && defaultConditionals) {
+                return (
+                  <div className="col-xl-4 modal-card">
+                    <Buybacks {...defaultAttributes}>
+                      <p>{card.title}</p>
+                    </Buybacks>
 
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>

@@ -3,7 +3,7 @@ import "../../App.scss";
 import { Card } from "antd";
 import ReactApexChart from "react-apexcharts";
 
-const ScatterChartCard = (props) => {
+const Earnings = (props) => {
   const [series, setSeries] = useState([]);
   const [labels, setLabels] = useState([]);
 
@@ -65,4 +65,4 @@ const ScatterChartCard = (props) => {
   );
 };
 
-export default ScatterChartCard;
+export default Earnings;

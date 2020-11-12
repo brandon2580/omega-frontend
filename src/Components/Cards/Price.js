@@ -3,7 +3,7 @@ import "../../App.scss";
 import { Card } from "antd";
 import ReactApexChart from "react-apexcharts";
 
-const CandleChartCard = (props) => {
+const Price = (props) => {
   const [series, setSeries] = useState([{}]);
   let options = {
     xaxis: {
@@ -84,4 +84,4 @@ const CandleChartCard = (props) => {
     </Card>
   );
 };
-export default CandleChartCard;
+export default Price;
