@@ -225,14 +225,12 @@ function App() {
       `${apiBaseUrl}/dividends?code=${apiCode}==&symbol=${activeTicker}&lastN=5`
     ).then((res) => res.json());
 
-    const adv_stats = fetch(
-      `${apiBaseUrl}/adv_stats?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());
+    console.log(company)
 
-    const allReqs = [company, earnings, analyst_recs, dividends, adv_stats];
+    const allReqs = [company, earnings, analyst_recs, dividends];
 
     Promise.all(allReqs).then((allResp) => {
-      const [company, earnings, analyst_recs, dividends, adv_stats] = allResp;
+      const [company, earnings, analyst_recs, dividends] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
