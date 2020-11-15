@@ -89,17 +89,11 @@ function App() {
       id: 5,
       name: "PriceTarget",
       title: "Price Target",
-      data: [
-        { name: "8/31", data: 2 },
-        { name: "9/1", data: 2 },
-        { name: "9/2", data: 3 },
-        { name: "9/3", data: 1 },
-        { name: "9/4", data: 2 },
-      ],
+      data: [[], {}],
       cardType: "LineChartCard",
       tickCount: 4,
       defaultCard: true,
-      dataLabel: "Sentiment",
+      dataLabel: "Price",
     },
 
     {
@@ -337,8 +331,8 @@ function App() {
                 data: [
                   Object.keys(prices).map(function (key) {
                     return {
-                      x: key,
-                      y: prices[key].adj_close,
+                      name: key,
+                      data: prices[key].adj_close,
                     };
                   }),
                   {

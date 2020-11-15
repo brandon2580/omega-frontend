@@ -14,8 +14,6 @@ import {
 const Dividends = (props) => {
   const [series, setSeries] = useState();
 
-  console.log(props.data)
-
   useEffect(() => {
     setSeries(props.data);
   }, [props.data]);
