@@ -47,7 +47,7 @@ function App() {
       id: 1,
       name: "Earnings",
       title: "Earnings",
-      data: [],
+      data: [{data: [], name: "Consensus"}, {data: [], name: "Actual"}],
       labels: [],
       cardType: "ScatterChartCard",
       defaultCard: true,

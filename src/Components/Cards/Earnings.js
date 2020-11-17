@@ -11,9 +11,14 @@ const Earnings = (props) => {
     setSeries(props.data);
   }, [props.data]);
 
-  useEffect(() => {
-    setLabels(props.labels);
-  }, [props.labels]);
+
+  props.data[0].data.map((data) => {
+    console.log(data[1])
+  })
+
+  props.data[1].data.map((data) => {
+    console.log(data[1])
+  })
 
   let options = {
     chart: {
@@ -21,7 +26,13 @@ const Earnings = (props) => {
       width: "100%",
     },
 
+    colors: ["#D3D3D3", "#0EEB42"],
+
     labels: labels,
+
+    markers: {
+      strokeWidth: 0
+    },
 
     yaxis: {
       tooltip: {
@@ -31,7 +42,7 @@ const Earnings = (props) => {
 
     xaxis: {
       labels: {
-        offsetX: -10
+        offsetX: -10,
       },
     },
 
