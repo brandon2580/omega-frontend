@@ -14,21 +14,16 @@ import {
 
 const PriceTarget = (props) => {
   const [series, setSeries] = useState();
-  const [high, setHigh] = useState()
-  const [average, setAverage] = useState()
-  const [low, setLow] = useState()
-
-  console.log(props.data[1].average);
-
+  const [high, setHigh] = useState();
+  const [average, setAverage] = useState();
+  const [low, setLow] = useState();
+  
   useEffect(() => {
     setSeries(props.data[0]);
-    setHigh(props.data[1].high)
-    setAverage(props.data[1].average)
-    setLow(props.data[1].low)
-
+    setHigh(props.data[1].high);
+    setAverage(props.data[1].average);
+    setLow(props.data[1].low);
   }, [props.data]);
-console.log(high)
-  console.log(props.data);
 
   return (
     <Card
@@ -55,8 +50,17 @@ console.log(high)
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <ReferenceLine y={high} stroke="green" alwaysShow={true} />
-            <ReferenceLine y={average} stroke="blue" alwaysShow={true} />
+            <Legend
+              verticalAlign="bottom"
+              align="center"
+              payload={[
+                { id: "High Estimate", value: "High Estimate", type: "line", color: "lime" },
+                { id: "Average Estimate", value: "Average Estimate", type: "line", color: "grey" },
+                { id: "Low Estimate", value: "Low Estimate", type: "line", color: "red" },
+              ]}
+            />
+            <ReferenceLine y={high} stroke="lime" alwaysShow={true} />
+            <ReferenceLine y={average} stroke="grey" alwaysShow={true} />
             <ReferenceLine y={low} stroke="red" alwaysShow={true} />
             <Line
               type="monotone"
@@ -66,7 +70,6 @@ console.log(high)
               stroke="#1F77B4"
               fill="#007bff"
             />
-
           </LineChart>
         </ResponsiveContainer>
       </div>
