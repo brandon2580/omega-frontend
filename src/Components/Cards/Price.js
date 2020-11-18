@@ -28,8 +28,12 @@ const Price = (props) => {
     setSeries([{ data: props.data.slice(2) }]);
   }, [props.data]);
 
-  const handleClick = (e) => {
+  const changeTimeFrame = (e) => {
     props.setRange(e.target.value);
+  };
+
+  const changeCandleInterval = (e) => {
+    props.setFrame(e.target.value);
   };
 
   return (
@@ -44,36 +48,58 @@ const Price = (props) => {
       }}
     >
       <hr className="card-hr" />
-      <button className="range-button" value="5y" onClick={handleClick}>
-        5y
-      </button>
-      <button className="range-button" value="2y" onClick={handleClick}>
-        2y
-      </button>
-      <button className="range-button" value="1y" onClick={handleClick}>
-        1y
-      </button>
-      <button className="range-button" value="6m" onClick={handleClick}>
-        6m
-      </button>
-      <button className="range-button" value="3m" onClick={handleClick}>
-        3m
-      </button>
-      <button className="range-button" value="1m" onClick={handleClick}>
-        1m
-      </button>
-      <button className="range-button" value="2w" onClick={handleClick}>
-        2w
-      </button>
-      <button className="range-button" value="1w" onClick={handleClick}>
-        1w
-      </button>
-      <button className="range-button" value="5d" onClick={handleClick}>
-        5d
-      </button>
-      <button className="range-button" value="ytd" onClick={handleClick}>
-        ytd
-      </button>
+      <div className="row">
+        <div className="col-lg-12">
+          <button className="range-button" value="5y" onClick={changeTimeFrame}>
+            5y
+          </button>
+          <button className="range-button" value="2y" onClick={changeTimeFrame}>
+            2y
+          </button>
+          <button className="range-button" value="1y" onClick={changeTimeFrame}>
+            1y
+          </button>
+          <button className="range-button" value="6m" onClick={changeTimeFrame}>
+            6m
+          </button>
+          <button className="range-button" value="3m" onClick={changeTimeFrame}>
+            3m
+          </button>
+          <button className="range-button" value="1m" onClick={changeTimeFrame}>
+            1m
+          </button>
+          <button className="range-button" value="2w" onClick={changeTimeFrame}>
+            2w
+          </button>
+          <button className="range-button" value="1w" onClick={changeTimeFrame}>
+            1w
+          </button>
+          <button className="range-button" value="5d" onClick={changeTimeFrame}>
+            5d
+          </button>
+          <button
+            className="range-button"
+            value="ytd"
+            onClick={changeTimeFrame}
+          >
+            ytd
+          </button>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col-lg-12">
+          <button className="range-button" value="daily" onClick={changeCandleInterval}>
+            Daily
+          </button>
+          <button className="range-button" value="weekly" onClick={changeCandleInterval}>
+            Weekly
+          </button>
+          <button className="range-button" value="monthly" onClick={changeCandleInterval}>
+            Monthly
+          </button>
+        </div>
+      </div>
 
       <ReactApexChart
         options={options}

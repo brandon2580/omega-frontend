@@ -16,11 +16,11 @@ import {
 import Portfolio from "./Components/Portfolio/Portfolio";
 
 function App() {
-  const [activeTickerChangeValue, setActiveTickerChangeValue] = useState("");
   const [activeTicker, setActiveTicker] = useState("AAPL");
   const [range, setRange] = useState("1y");
+  const [frame, setFrame] = useState("daily")
   const apiBaseUrl = "https://api-omega.azurewebsites.net/api";
-  const apiCode = "MoSRTDklfgUZFQX5w7NYpJGIW6FmGDd7MXBPHzj4ADrzLcD78KaFGw";
+  const apiCode = "pcRfOm56RQRqa9ixWAyq9qWtlofFpzIZZbVAcNxGwJBEMaA4z1Q5Qw";
 
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default
   const [selectedCardsIndex, setSelectedCardIndex] = useState([
@@ -79,6 +79,8 @@ function App() {
       data: [],
       range: range,
       setRange: setRange,
+      frame: frame,
+      setFrame: setFrame,
       cardType: "CandleChartCard",
       tickCount: 10,
       defaultCard: true,
@@ -150,7 +152,7 @@ function App() {
   // to it because it should only update the data when the value of 'range' changes
   useEffect(() => {
     const prices = fetch(
-      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=${range}`
+      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=${range}&frame=${frame}`
     ).then((res) => res.json());
 
     Promise.resolve(prices).then((price) => {
@@ -174,13 +176,15 @@ function App() {
               }),
               range: range,
               setRange: setRange,
+              frame: frame,
+              setFrame: setFrame
             };
           }
           return card;
         });
       });
     });
-  }, [range, activeTicker]);
+  }, [range, frame, activeTicker]);
 
   // This gets all of the data for the specified object in the
   // availableCards array except prices (because that has it's own useEffect hook)

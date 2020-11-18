@@ -84,6 +84,8 @@ const AddCardModal = (props) => {
                 labels: card.labels,
                 range: card.range,
                 setRange: card.setRange,
+                frame: card.frame,
+                setFrame: card.setFrame
               };
 
               const defaultConditionals =
