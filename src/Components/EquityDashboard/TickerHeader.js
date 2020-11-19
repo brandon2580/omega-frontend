@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Popover } from "antd";
 import "../../App.scss";
 
-var company_logo = require("../../images/msft_logo.png");
-
 const TickerHeader = (props) => {
+  const [ticker, setTicker] = useState('')
+  useEffect(() => {
+    setTicker(props.tickerCard.ticker)
+  }, [props.tickerCard.ticker])
   return (
     <div className="row">
       <div className="col-lg-12">
@@ -20,7 +22,7 @@ const TickerHeader = (props) => {
 
             <div className="row">
               <div className="col-lg-3 justify-content">
-                <img style={{ borderRadius: "1000px" }} src={company_logo} />
+                <img style={{ borderRadius: "1000px" }} src={`https://storage.googleapis.com/iex/api/logos/${ticker}.png`} />
               </div>
               <div className="col-lg-3 ">
                 <p>{props.tickerCard.sector}</p>

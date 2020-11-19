@@ -18,7 +18,7 @@ import Portfolio from "./Components/Portfolio/Portfolio";
 function App() {
   const [activeTicker, setActiveTicker] = useState("AAPL");
   const [range, setRange] = useState("1y");
-  const [frame, setFrame] = useState("daily")
+  const [frame, setFrame] = useState("daily");
   const apiBaseUrl = "https://api-omega.azurewebsites.net/api";
   const apiCode = "pcRfOm56RQRqa9ixWAyq9qWtlofFpzIZZbVAcNxGwJBEMaA4z1Q5Qw";
 
@@ -47,7 +47,10 @@ function App() {
       id: 1,
       name: "Earnings",
       title: "Earnings",
-      data: [{data: [], name: "Consensus"}, {data: [], name: "Actual"}],
+      data: [
+        { data: [], name: "Consensus" },
+        { data: [], name: "Actual" },
+      ],
       labels: [],
       cardType: "ScatterChartCard",
       defaultCard: true,
@@ -177,7 +180,7 @@ function App() {
               range: range,
               setRange: setRange,
               frame: frame,
-              setFrame: setFrame
+              setFrame: setFrame,
             };
           }
           return card;
@@ -241,6 +244,7 @@ function App() {
               return {
                 ...card,
                 company_name: company.company_name,
+                ticker: activeTicker,
                 description: company.description,
                 sector: company.sector,
                 country: company.country,
