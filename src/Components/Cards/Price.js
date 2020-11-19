@@ -6,13 +6,6 @@ import ReactApexChart from "react-apexcharts";
 const Price = (props) => {
   const [series, setSeries] = useState([{}]);
   let options = {
-    xaxis: {
-      labels: {
-        formatter: function (value) {
-          return value;
-        },
-      },
-    },
     yaxis: {
       tooltip: {
         enabled: true,
@@ -50,35 +43,105 @@ const Price = (props) => {
       <hr className="card-hr" />
       <div className="row">
         <div className="col-lg-12">
-          <button className="range-button" value="5y" onClick={changeTimeFrame}>
+          <button
+            className="range-button btn btn-primary"
+            value="daily"
+            onClick={changeCandleInterval}
+          >
+            Daily
+          </button>
+          <button
+            className="range-button btn btn-primary"
+            value="weekly"
+            onClick={changeCandleInterval}
+          >
+            Weekly
+          </button>
+          <button
+            className="range-button btn btn-primary"
+            value="monthly"
+            onClick={changeCandleInterval}
+          >
+            Monthly
+          </button>
+        </div>
+      </div>
+      <div style={{ height: "425px" }}>
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="candlestick"
+          height={465}
+        />
+      </div>
+
+      <div className="row">
+        <div className="col-lg-12">
+          <button
+            className="range-button btn btn-primary "
+            value="5y"
+            onClick={changeTimeFrame}
+          >
             5y
           </button>
-          <button className="range-button" value="2y" onClick={changeTimeFrame}>
+          <button
+            className="range-button btn btn-primary "
+            value="2y"
+            onClick={changeTimeFrame}
+          >
             2y
           </button>
-          <button className="range-button" value="1y" onClick={changeTimeFrame}>
+          <button
+            className="range-button btn btn-primary "
+            value="1y"
+            onClick={changeTimeFrame}
+          >
             1y
           </button>
-          <button className="range-button" value="6m" onClick={changeTimeFrame}>
+          <button
+            className="range-button btn btn-primary "
+            value="6m"
+            onClick={changeTimeFrame}
+          >
             6m
           </button>
-          <button className="range-button" value="3m" onClick={changeTimeFrame}>
+          <button
+            className="range-button btn btn-primary "
+            value="3m"
+            onClick={changeTimeFrame}
+          >
             3m
           </button>
-          <button className="range-button" value="1m" onClick={changeTimeFrame}>
+          <button
+            className="range-button btn btn-primary "
+            value="1m"
+            onClick={changeTimeFrame}
+          >
             1m
           </button>
-          <button className="range-button" value="2w" onClick={changeTimeFrame}>
+          <button
+            className="range-button btn btn-primary "
+            value="2w"
+            onClick={changeTimeFrame}
+          >
             2w
           </button>
-          <button className="range-button" value="1w" onClick={changeTimeFrame}>
+          <button
+            className="range-button btn btn-primary "
+            value="1w"
+            onClick={changeTimeFrame}
+          >
             1w
           </button>
-          <button className="range-button" value="5d" onClick={changeTimeFrame}>
+          <button
+            className="range-button btn btn-primary "
+            value="5d"
+            onClick={changeTimeFrame}
+          >
             5d
           </button>
           <button
-            className="range-button"
+            className="range-button btn btn-primary "
             value="ytd"
             onClick={changeTimeFrame}
           >
@@ -86,27 +149,6 @@ const Price = (props) => {
           </button>
         </div>
       </div>
-
-      <div className="row">
-        <div className="col-lg-12">
-          <button className="range-button" value="daily" onClick={changeCandleInterval}>
-            Daily
-          </button>
-          <button className="range-button" value="weekly" onClick={changeCandleInterval}>
-            Weekly
-          </button>
-          <button className="range-button" value="monthly" onClick={changeCandleInterval}>
-            Monthly
-          </button>
-        </div>
-      </div>
-
-      <ReactApexChart
-        options={options}
-        series={series}
-        height="515"
-        type="candlestick"
-      />
     </Card>
   );
 };
