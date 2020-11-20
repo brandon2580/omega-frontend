@@ -6,10 +6,22 @@ import ReactApexChart from "react-apexcharts";
 const Price = (props) => {
   const [series, setSeries] = useState([{}]);
   let options = {
+    chart: {
+      type: 'candlestick',
+      height: 420
+    },
+
     yaxis: {
       tooltip: {
         enabled: true,
       },
+    },
+
+    xaxis: {
+      tickAmount: 4,
+      labels: {
+        rotate: 0
+      }
     },
 
     grid: {
@@ -71,7 +83,7 @@ const Price = (props) => {
           options={options}
           series={series}
           type="candlestick"
-          height={465}
+          height={420}
         />
       </div>
 
