@@ -11,15 +11,6 @@ const Earnings = (props) => {
     setSeries(props.data);
   }, [props.data]);
 
-
-  props.data[0].data.map((data) => {
-    console.log(data[1])
-  })
-
-  props.data[1].data.map((data) => {
-    console.log(data[1])
-  })
-
   let options = {
     chart: {
       type: "scatter",
