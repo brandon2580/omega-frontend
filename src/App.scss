@@ -1,7 +1,7 @@
 html body {
   background-color: #1a1a1f;
   color: white;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Open Sans", sans-serif !important;
 }
 
 body.light-mode {
@@ -162,7 +162,15 @@ body.light-mode .ant-card-body {
 body.dark-mode .ant-modal-body {
   background-color: #1a1a1f;
 }
+.recharts-cartesian-axis-tick-value {
+  font-size: 12px;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+}
 
+.apexcharts-xaxis{
+  padding-top: -10px !important
+}
 body.dark-mode .ant-modal-header {
   background: #1a1a1f !important;
 }
@@ -445,8 +453,27 @@ body.dark-mode .range-button {
   margin-top: 100px;
 }
 
-#SvgjsG4812{
+#SvgjsG4812 {
   display: none;
+}
+
+#SvgjsG8854{
+  display: none;
+}
+
+#SvgjsLine3529{
+  stroke: #3d3d3d !important;
+  stroke-width: 2px !important;
+}
+
+.apexcharts-xaxis-tick{
+  stroke: #686868 !important;
+  stroke-width: 1px !important;
+}
+
+.apexcharts-xaxis-texts-g{
+  stroke: #707070  !important;
+  stroke-width: .5px;
 }
 
 .react-autosuggest__container {

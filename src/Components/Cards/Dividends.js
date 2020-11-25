@@ -43,6 +43,10 @@ const Dividends = (props) => {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
+            <Legend
+              verticalAlign="bottom"
+              align="center"
+            />
             <Line
               type="monotone"
               name={props.dataLabel}

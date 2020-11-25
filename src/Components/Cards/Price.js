@@ -8,7 +8,8 @@ const Price = (props) => {
   let options = {
     chart: {
       type: 'candlestick',
-      height: 420
+      height: 420,
+      fontFamily: 'Open Sans, sans-serif'
     },
 
     yaxis: {
@@ -56,21 +57,21 @@ const Price = (props) => {
       <div className="row">
         <div className="col-lg-12">
           <button
-            className="range-button btn btn-primary"
+            className="range-button btn btn-primary btn-sm"
             value="daily"
             onClick={changeCandleInterval}
           >
             Daily
           </button>
           <button
-            className="range-button btn btn-primary"
+            className="range-button btn btn-primary btn-sm"
             value="weekly"
             onClick={changeCandleInterval}
           >
             Weekly
           </button>
           <button
-            className="range-button btn btn-primary"
+            className="range-button btn btn-primary btn-sm"
             value="monthly"
             onClick={changeCandleInterval}
           >
@@ -83,77 +84,77 @@ const Price = (props) => {
           options={options}
           series={series}
           type="candlestick"
-          height={420}
+          height={413}
         />
       </div>
 
       <div className="row">
         <div className="col-lg-12">
           <button
-            className="range-button btn btn-primary "
+            className="range-button btn btn-primary btn-sm"
             value="5y"
             onClick={changeTimeFrame}
           >
             5y
           </button>
           <button
-            className="range-button btn btn-primary "
+            className="range-button btn btn-primary btn-sm"
             value="2y"
             onClick={changeTimeFrame}
           >
             2y
           </button>
           <button
-            className="range-button btn btn-primary "
+            className="range-button btn btn-primary btn-sm"
             value="1y"
             onClick={changeTimeFrame}
           >
             1y
           </button>
           <button
-            className="range-button btn btn-primary "
+            className="range-button btn btn-primary btn-sm"
             value="6m"
             onClick={changeTimeFrame}
           >
             6m
           </button>
           <button
-            className="range-button btn btn-primary "
+            className="range-button btn btn-primary btn-sm"
             value="3m"
             onClick={changeTimeFrame}
           >
             3m
           </button>
           <button
-            className="range-button btn btn-primary "
+            className="range-button btn btn-primary btn-sm"
             value="1m"
             onClick={changeTimeFrame}
           >
             1m
           </button>
           <button
-            className="range-button btn btn-primary "
+            className="range-button btn btn-primary btn-sm"
             value="2w"
             onClick={changeTimeFrame}
           >
             2w
           </button>
           <button
-            className="range-button btn btn-primary "
+            className="range-button btn btn-primary btn-sm"
             value="1w"
             onClick={changeTimeFrame}
           >
             1w
           </button>
           <button
-            className="range-button btn btn-primary "
+            className="range-button btn btn-primary btn-sm"
             value="5d"
             onClick={changeTimeFrame}
           >
             5d
           </button>
           <button
-            className="range-button btn btn-primary "
+            className="range-button btn btn-primary btn-sm"
             value="ytd"
             onClick={changeTimeFrame}
           >
