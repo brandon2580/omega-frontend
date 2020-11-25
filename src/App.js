@@ -52,7 +52,6 @@ function App() {
         { data: [], name: "Actual" },
       ],
       labels: [],
-      cardType: "ScatterChartCard",
       defaultCard: true,
     },
 
@@ -61,7 +60,6 @@ function App() {
       name: "AnalystRecommendations",
       title: "Analyst Recommendations",
       data: [],
-      cardType: "PieChartCard",
       defaultCard: true,
     },
 
@@ -70,7 +68,6 @@ function App() {
       name: "Dividends",
       title: "Dividends",
       data: [],
-      cardType: "LineChartCard",
       defaultCard: true,
       dataLabel: "Dividend/Share",
     },
@@ -84,7 +81,6 @@ function App() {
       setRange: setRange,
       frame: frame,
       setFrame: setFrame,
-      cardType: "CandleChartCard",
       tickCount: 10,
       defaultCard: true,
       dataLabel: "Price",
@@ -95,7 +91,6 @@ function App() {
       name: "PriceTarget",
       title: "Price Target",
       data: [[], {}],
-      cardType: "LineChartCard",
       tickCount: 4,
       defaultCard: true,
       dataLabel: "Price",
@@ -111,7 +106,6 @@ function App() {
         { name: "2019", data: 4 },
         { name: "2020", data: 5 },
       ],
-      cardType: "BarChartCard",
       defaultCard: true,
       dataLabel: "Risk",
     },
@@ -129,7 +123,6 @@ function App() {
         { name: "2019", data: 2.33 },
         { name: "2020", data: -5.9 },
       ],
-      cardType: "BarChartCard",
       defaultCard: true,
       dataLabel: "GDP",
     },
@@ -147,7 +140,6 @@ function App() {
         { name: "2019", data: 56 },
         { name: "2020", data: 60.5 },
       ],
-      cardType: "BarChartCard",
     },
   ]);
 
