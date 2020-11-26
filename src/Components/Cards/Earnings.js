@@ -17,7 +17,7 @@ const Earnings = (props) => {
       width: "100%",
     },
 
-    colors: ["#D3D3D3", "#2284CF"],
+    colors: ["#D3D3D3", "#007BFF"],
 
     labels: labels,
 
