@@ -9,7 +9,6 @@ const Price = (props) => {
     chart: {
       type: 'candlestick',
       height: 420,
-      fontFamily: 'Open Sans, sans-serif'
     },
 
     yaxis: {
@@ -35,7 +34,7 @@ const Price = (props) => {
   }, [props.data]);
 
   const changeTimeFrame = (e) => {
-    props.setRange(e.target.value);
+    props.setPriceRange(e.target.value);
   };
 
   const changeCandleInterval = (e) => {
