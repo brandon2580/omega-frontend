@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
-import { Card } from "antd";
+import { Card, Menu, Dropdown } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import {
   XAxis,
   YAxis,
@@ -18,6 +19,40 @@ const Dividends = (props) => {
     setSeries(props.data);
   }, [props.data]);
 
+  const handleClick = (e) => {
+    props.setDividendRange(e.target.value)
+  };
+
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <button className='btn btn-sm shadow-none dropdown-btn' onClick={handleClick} value="5">
+          5
+        </button>
+      </Menu.Item>
+      <Menu.Item>
+        <button className='btn btn-sm shadow-none dropdown-btn' onClick={handleClick} value="10">
+          10
+        </button>
+      </Menu.Item>
+      <Menu.Item>
+        <button className='btn btn-sm shadow-none dropdown-btn' onClick={handleClick} value="15">
+          15
+        </button>
+      </Menu.Item>
+      <Menu.Item>
+        <button className='btn btn-sm shadow-none dropdown-btn' onClick={handleClick} value="20">
+          20
+        </button>
+      </Menu.Item>
+      <Menu.Item>
+        <button className='btn btn-sm shadow-none dropdown-btn' onClick={handleClick} value="25">
+          25
+        </button>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <Card
       title={props.title}
@@ -31,6 +66,16 @@ const Dividends = (props) => {
       <hr className="card-hr" />
 
       <div style={{ height: 456 }}>
+        <div className="row">
+          <div className="col-sm-12">
+            <Dropdown overlay={menu}>
+              <btn className="ant-dropdown-link">
+                Range <DownOutlined />
+              </btn>
+            </Dropdown>
+          </div>
+        </div>
+
         <ResponsiveContainer>
           <LineChart
             data={series}
@@ -43,10 +88,7 @@ const Dividends = (props) => {
             <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
-            <Legend
-              verticalAlign="bottom"
-              align="center"
-            />
+            <Legend verticalAlign="bottom" align="center" />
             <Line
               type="monotone"
               name={props.dataLabel}
