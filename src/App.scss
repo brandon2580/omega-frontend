@@ -168,9 +168,6 @@ body.dark-mode .ant-modal-body {
   font-weight: 400;
 }
 
-.apexcharts-xaxis{
-  padding-top: -10px !important
-}
 body.dark-mode .ant-modal-header {
   background: #1a1a1f !important;
 }
@@ -325,6 +322,22 @@ body.dark-mode .range-button {
   background-color: black;
 }
 
+body.dark-mode .ant-dropdown-menu-item:hover {
+  background-color: grey;
+}
+
+body.light-mode .ant-dropdown-menu-item:hover {
+  background-color: grey;
+}
+
+body.dark-mode .ant-dropdown-menu-light {
+  background-color: black;
+}
+
+body.dark-mode .dropdown-btn {
+  color: white;
+}
+
 .center {
   text-align: center;
 }
@@ -457,20 +470,8 @@ body.dark-mode .range-button {
   display: none;
 }
 
-#SvgjsG8854{
+#SvgjsG8854 {
   display: none;
-}
-
-
-.apexcharts-xaxis-tick{
-  stroke: #686868 !important;
-  stroke-width: 1px !important;
-}
-
-.apexcharts-xaxis-texts-g{
-  stroke: white  !important;
-  opacity: 75%;
-  stroke-width: .3px !important;
 }
 
 .react-autosuggest__container {
