@@ -17,7 +17,9 @@ import Portfolio from "./Components/Portfolio/Portfolio";
 
 function App() {
   const [activeTicker, setActiveTicker] = useState("AAPL");
-  const [range, setRange] = useState("1y");
+  const [priceRange, setPriceRange] = useState("1y");
+  const [dividendRange, setDividendRange] = useState(25);
+  const [earningsPeriod, setEarningsPeriod] = useState("Q");
   const [frame, setFrame] = useState("daily");
   const apiBaseUrl = "https://api-omega.azurewebsites.net/api";
   const apiCode = "pcRfOm56RQRqa9ixWAyq9qWtlofFpzIZZbVAcNxGwJBEMaA4z1Q5Qw";
@@ -51,7 +53,9 @@ function App() {
         { data: [], name: "Consensus" },
         { data: [], name: "Actual" },
       ],
-      labels: [],
+      earningsPeriod: earningsPeriod,
+      setEarningsPeriod: setEarningsPeriod,
+      dates: [],
       defaultCard: true,
     },
 
@@ -68,6 +72,8 @@ function App() {
       name: "Dividends",
       title: "Dividends",
       data: [],
+      dividendRange: dividendRange,
+      setDividendRange: setDividendRange,
       defaultCard: true,
       dataLabel: "Dividend/Share",
     },
@@ -77,8 +83,8 @@ function App() {
       name: "Price",
       title: "Price",
       data: [],
-      range: range,
-      setRange: setRange,
+      priceRange: priceRange,
+      setPriceRange: setPriceRange,
       frame: frame,
       setFrame: setFrame,
       tickCount: 10,
@@ -177,7 +183,7 @@ function App() {
   // to it because it should only update the data when the value of 'range' changes
   useEffect(() => {
     const prices = fetch(
-      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=${range}&frame=${frame}`
+      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=${priceRange}&frame=${frame}`
     ).then((res) => res.json());
 
     Promise.resolve(prices).then((price) => {
@@ -199,8 +205,8 @@ function App() {
                   ],
                 };
               }),
-              range: range,
-              setRange: setRange,
+              priceRange: priceRange,
+              setPriceRange: setPriceRange,
               frame: frame,
               setFrame: setFrame,
             };
@@ -209,7 +215,98 @@ function App() {
         });
       });
     });
-  }, [range, frame, activeTicker]);
+  }, [priceRange, frame, activeTicker]);
+
+  useEffect(() => {
+    const dividends = fetch(
+      `${apiBaseUrl}/dividends?code=${apiCode}==&symbol=${activeTicker}&lastN=${dividendRange}`
+    ).then((res) => res.json());
+
+    Promise.resolve(dividends).then((dividends) => {
+      // Function syntax of setState to use the previous value from the state, as recommended by React
+      setAvailableCards((prevCards) => {
+        // For each cards, return a new modified version of that card
+        return prevCards.map((card) => {
+          if (card.title == "Dividends") {
+            return {
+              ...card,
+              data: Object.keys(dividends.amount)
+                .reverse()
+                .map(function (key) {
+                  return {
+                    name: key,
+                    data: dividends.amount[key],
+                  };
+                }),
+              dividendRange: dividendRange,
+              setDividendRange: setDividendRange,
+            };
+          }
+          return card;
+        });
+      });
+    });
+  }, [dividendRange, activeTicker]);
+
+  useEffect(() => {
+    const earnings = fetch(
+      `${apiBaseUrl}/earnings?code=${apiCode}==&symbol=${activeTicker}&lastN=4&period=${earningsPeriod}`
+    ).then((res) => res.json());
+
+    Promise.resolve(earnings).then((earnings) => {
+      // Function syntax of setState to use the previous value from the state, as recommended by React
+      setAvailableCards((prevCards) => {
+        // For each cards, return a new modified version of that card
+        return prevCards.map((card) => {
+          if (card.title == "Earnings") {
+            
+            let dates = Object.keys(earnings.fiscal_period)
+              .sort()
+              .map(function (key, i) {
+                return earnings.fiscal_period[key];
+              });
+
+            let consensusMap = Object.keys(earnings.consensus_eps)
+              .sort()
+              .map(function (key, i) {
+                return {
+                  x: dates[i],
+                  y: earnings.consensus_eps[key],
+                };
+              });
+
+            let actualMap = Object.keys(earnings.real_eps)
+              .sort()
+              .map(function (key, i) {
+                return {
+                  x: dates[i],
+                  y: earnings.real_eps[key],
+                };
+              });
+
+            return {
+              ...card,
+              data: [
+                {
+                  name: "Consensus",
+                  data: consensusMap,
+                },
+                {
+                  name: "Actual",
+                  data: actualMap,
+                },
+              ],
+
+              earningsPeriod: earningsPeriod,
+              setEarningsPeriod: setEarningsPeriod,
+              dates,
+            };
+          }
+          return card;
+        });
+      });
+    });
+  }, [earningsPeriod, activeTicker]);
 
   // This gets all of the data for the specified object in the
   // availableCards array except prices (because that has it's own useEffect hook)
@@ -218,16 +315,8 @@ function App() {
       `${apiBaseUrl}/company?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
-    const earnings = fetch(
-      `${apiBaseUrl}/earnings?code=${apiCode}==&symbol=${activeTicker}&lastN=4&period=Q`
-    ).then((res) => res.json());
-
     const analyst_recs = fetch(
       `${apiBaseUrl}/analyst_recs?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());
-
-    const dividends = fetch(
-      `${apiBaseUrl}/dividends?code=${apiCode}==&symbol=${activeTicker}&lastN=5`
     ).then((res) => res.json());
 
     const prices = fetch(
@@ -238,24 +327,10 @@ function App() {
       `${apiBaseUrl}/price_targets?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
-    const allReqs = [
-      company,
-      earnings,
-      analyst_recs,
-      dividends,
-      price_target,
-      prices,
-    ];
+    const allReqs = [company, analyst_recs, price_target, prices];
 
     Promise.all(allReqs).then((allResp, price) => {
-      const [
-        company,
-        earnings,
-        analyst_recs,
-        dividends,
-        price_target,
-        prices,
-      ] = allResp;
+      const [company, analyst_recs, price_target, prices] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
@@ -276,57 +351,6 @@ function App() {
                 // price_to_sales: adv_stats.price_to_sales.toFixed(2),
               };
 
-            case "Earnings":
-              return {
-                ...card,
-                data: [
-                  {
-                    name: "Consensus",
-                    data: [
-                      [
-                        1,
-                        earnings.consensus_eps[
-                          Object.keys(earnings.consensus_eps)[0]
-                        ],
-                      ],
-                      [
-                        2,
-                        earnings.consensus_eps[
-                          Object.keys(earnings.consensus_eps)[1]
-                        ],
-                      ],
-                      [
-                        3,
-                        earnings.consensus_eps[
-                          Object.keys(earnings.consensus_eps)[2]
-                        ],
-                      ],
-                      [
-                        4,
-                        earnings.consensus_eps[
-                          Object.keys(earnings.consensus_eps)[3]
-                        ],
-                      ],
-                    ],
-                  },
-                  {
-                    name: "Actual",
-                    data: [
-                      [1, earnings.real_eps[Object.keys(earnings.real_eps)[0]]],
-                      [2, earnings.real_eps[Object.keys(earnings.real_eps)[1]]],
-                      [3, earnings.real_eps[Object.keys(earnings.real_eps)[2]]],
-                      [4, earnings.real_eps[Object.keys(earnings.real_eps)[3]]],
-                    ],
-                  },
-                ],
-                labels: [
-                  Object.keys(earnings.consensus_eps)[0],
-                  Object.keys(earnings.consensus_eps)[1],
-                  Object.keys(earnings.consensus_eps)[2],
-                  Object.keys(earnings.consensus_eps)[3],
-                ],
-              };
-
             case "Analyst Recommendations":
               return {
                 ...card,
@@ -340,19 +364,6 @@ function App() {
                     value: analyst_recs.rating_underweight,
                   },
                 ],
-              };
-
-            case "Dividends":
-              return {
-                ...card,
-                data: Object.keys(dividends.amount)
-                  .reverse()
-                  .map(function (key) {
-                    return {
-                      name: key,
-                      data: dividends.amount[key],
-                    };
-                  }),
               };
 
             case "Price Target":

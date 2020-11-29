@@ -5,10 +5,11 @@ import ReactApexChart from "react-apexcharts";
 
 const Earnings = (props) => {
   const [series, setSeries] = useState([]);
-  const [labels, setLabels] = useState([]);
+  const [dates, setDates] = useState([]);
 
   useEffect(() => {
     setSeries(props.data);
+    setDates(props.dates);
   }, [props.data]);
 
   let options = {
@@ -19,10 +20,8 @@ const Earnings = (props) => {
 
     colors: ["#D3D3D3", "#007BFF"],
 
-    labels: labels,
-
     markers: {
-      strokeWidth: 0
+      strokeWidth: 0,
     },
 
     yaxis: {
@@ -30,11 +29,9 @@ const Earnings = (props) => {
         enabled: true,
       },
     },
-
+    
     xaxis: {
-      labels: {
-        offsetX: -10,
-      },
+      categories: dates,
     },
 
     grid: {
@@ -57,7 +54,6 @@ const Earnings = (props) => {
       <div style={{ height: 456 }}>
         <ReactApexChart
           options={options}
-          labels={labels}
           series={series}
           height="456"
           type="scatter"

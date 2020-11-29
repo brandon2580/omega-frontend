@@ -204,10 +204,15 @@ const HomeDashboard = (props) => {
             data: card.data,
             dataLabel: card.dataLabel,
             labels: card.labels,
-            range: card.range,
-            setRange: card.setRange,
+            priceRange: card.priceRange,
+            setPriceRange: card.setPriceRange,
+            dividendRange: card.dividendRange,
+            setDividendRange: card.setDividendRange,
             frame: card.frame,
             setFrame: card.setFrame,
+            earningsPeriod: card.earningsPeriod,
+            setEarningsPeriod: card.setEarningsPeriod,
+            dates: card.dates,
             button: (
               <span
                 onClick={() => {

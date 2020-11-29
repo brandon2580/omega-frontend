@@ -82,10 +82,15 @@ const AddCardModal = (props) => {
                 data: card.data,
                 dataLabel: card.dataLabel,
                 labels: card.labels,
-                range: card.range,
-                setRange: card.setRange,
+                priceRange: card.priceRange,
+                setPriceRange: card.setPriceRange,
+                dividendRange: card.dividendRange,
+                setDividendRange: card.setDividendRange,
+                earningsPeriod: card.earningsPeriod,
+                setEarningsPeriod: card.setEarningsPeriod,
                 frame: card.frame,
-                setFrame: card.setFrame
+                setFrame: card.setFrame,
+                dates: card.dates
               };
 
               const defaultConditionals =
