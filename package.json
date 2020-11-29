@@ -14,7 +14,7 @@
     "@visx/shape": "^1.0.0",
     "@visx/visx": "^1.0.0",
     "antd": "^4.4.0",
-    "apexcharts": "^3.21.0",
+    "apexcharts": "^3.22.2",
     "boostrap": "^2.0.0",
     "bootstrap": "^4.5.0",
     "enzyme": "^3.11.0",
