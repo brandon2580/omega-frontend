@@ -9,6 +9,10 @@ const Price = (props) => {
     chart: {
       type: 'candlestick',
       height: 420,
+      width: '100%',
+      animations: {
+        enabled: false
+      }
     },
 
     yaxis: {

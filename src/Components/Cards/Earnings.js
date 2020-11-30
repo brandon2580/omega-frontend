@@ -16,6 +16,9 @@ const Earnings = (props) => {
     chart: {
       type: "scatter",
       width: "100%",
+      animations: {
+        enabled: false
+      }
     },
 
     colors: ["#D3D3D3", "#007BFF"],
