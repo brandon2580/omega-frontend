@@ -66,15 +66,7 @@ const Dividends = (props) => {
       <hr className="card-hr" />
 
       <div style={{ height: 456 }}>
-        <div className="row">
-          <div className="col-sm-12">
-            <Dropdown overlay={menu}>
-              <btn className="ant-dropdown-link">
-                Range <DownOutlined />
-              </btn>
-            </Dropdown>
-          </div>
-        </div>
+
 
         <ResponsiveContainer>
           <LineChart
@@ -98,6 +90,15 @@ const Dividends = (props) => {
             />
           </LineChart>
         </ResponsiveContainer>
+        <div className="row">
+          <div className="col-sm-12">
+            <Dropdown overlay={menu}>
+              <btn className="ant-dropdown-link">
+                Range <DownOutlined />
+              </btn>
+            </Dropdown>
+          </div>
+        </div>
       </div>
     </Card>
   );
