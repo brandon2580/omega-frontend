@@ -7,7 +7,7 @@ const SaveLayoutButton = (props) => {
       <Popover
         content={
           <form onSubmit={props.saveLayout}>
-            <input type="text" onChange={props.handleChange} />
+            <input type="text" placeholder="Layout Name" onChange={props.handleChange} />
           </form>
         }
         title="Layout Name"
