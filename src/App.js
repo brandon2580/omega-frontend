@@ -24,7 +24,8 @@ function App() {
   const apiBaseUrl = "https://api-omega.azurewebsites.net/api";
   const apiCode = "pcRfOm56RQRqa9ixWAyq9qWtlofFpzIZZbVAcNxGwJBEMaA4z1Q5Qw";
 
-  // The 7 values in the state array are the id's of the cards that render on the dashboard by default
+  // The 7 values in the state array are the id's of the cards that render on the dashboard by default.
+  // These are the initial "selected" cards that render by default
   const [selectedCardsIndex, setSelectedCardIndex] = useState([
     1,
     2,
@@ -179,8 +180,10 @@ function App() {
   console.log(actual_arr);
 */
 
-  // The "Prices" endpoint has it's own useEffect hook dedicated
-  // to it because it should only update the data when the value of 'range' changes
+  // The reason why many different endpoints have their own useEffect hooks is because we want to get
+  // new data from each individual endpoint based on whether or not specific state values have changed. For instance if 
+  // priceRange or frame changes, we ONLY want to upate the prices endpoint, and every single one. Same idea applies with
+  // the dividend endpoint and the dividendRange state value.
   useEffect(() => {
     const prices = fetch(
       `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=${priceRange}&frame=${frame}`
@@ -259,7 +262,6 @@ function App() {
         // For each cards, return a new modified version of that card
         return prevCards.map((card) => {
           if (card.title == "Earnings") {
-            
             let dates = Object.keys(earnings.fiscal_period)
               .sort()
               .map(function (key, i) {
