@@ -338,6 +338,15 @@ body.dark-mode .dropdown-btn {
   color: white;
 }
 
+body.dark-mode .ant-popover-title{
+  background-color: black;
+  color: white !important;
+}
+
+body.dark-mode .ant-popover-inner-content{
+  background-color: black !important;
+}
+
 .center {
   text-align: center;
 }
