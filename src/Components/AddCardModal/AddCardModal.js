@@ -48,6 +48,7 @@ const AddCardModal = (props) => {
       </button>
       <Modal
         title="Add Card"
+        className='add-card-modal'
         visible={modalVisible}
         footer={null}
         onCancel={handleExit}
