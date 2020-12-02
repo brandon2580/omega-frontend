@@ -77,6 +77,7 @@ const HomeDashboard = (props) => {
     let localStorageLayoutNames = localStorage.getItem("storedLayoutNames");
     let storedLayoutNames = JSON.parse(localStorageLayoutNames.split());
 
+    // If layout name does not already exist, proceed.
     if (!storedLayoutNames.includes(newLayoutName)) {
       // Add the new layout to storedLayouts and add the new layout name to storedLayoutNames
       setStoredLayouts([...storedLayouts, newLayout]);
@@ -140,7 +141,6 @@ const HomeDashboard = (props) => {
       />
 
       <h1
-        contentEditable="true"
         onBlur={blurOnEnter}
         onInput={blurOnEnter}
         onKeyPress={blurOnEnter}
