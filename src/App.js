@@ -36,6 +36,8 @@ function App() {
     7,
   ]);
 
+  // These are every single available card throughout the platform, each identified by an id
+  // which helps with identifying which cards are rendered on the dashboard and which ones aren't
   const [availableCards, setAvailableCards] = useState([
     {
       id: 0,
@@ -238,7 +240,7 @@ function App() {
                 .map(function (key) {
                   return {
                     name: key,
-                    data: dividends.amount[key],
+                    data: (dividends.amount[key]).toFixed(2),
                   };
                 }),
               dividendRange: dividendRange,
@@ -273,7 +275,7 @@ function App() {
               .map(function (key, i) {
                 return {
                   x: dates[i],
-                  y: earnings.consensus_eps[key],
+                  y: (earnings.consensus_eps[key]).toFixed(2),
                 };
               });
 
@@ -282,7 +284,7 @@ function App() {
               .map(function (key, i) {
                 return {
                   x: dates[i],
-                  y: earnings.real_eps[key],
+                  y: (earnings.real_eps[key]).toFixed(2),
                 };
               });
 
