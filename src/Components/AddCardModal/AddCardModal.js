@@ -48,7 +48,7 @@ const AddCardModal = (props) => {
       </button>
       <Modal
         title="Add Card"
-        className='add-card-modal'
+        className="add-card-modal"
         visible={modalVisible}
         footer={null}
         onCancel={handleExit}
@@ -76,6 +76,13 @@ const AddCardModal = (props) => {
         <div className="add-card-container">
           <div className="row">
             {props.availableCards.map((card) => {
+              // These are the default attributes that are applied to EVERY card in
+              // availableCards (aka the cards that are currently rendered on the page).
+              // For many cards, there will be many null values. The reason why we just make
+              // a defaultAttributes object containing every property for every card throughout the platform
+              // is to reduce redundancy when conditionally rendering the cards. Without the defaultAttributes
+              // object, we would be assigning properties like key, name, title, etc. to every card, causing a lot
+              // of extra lines of repeated code. So instead, we just put it all into 1 object and assign it to every card.
               const defaultAttributes = {
                 key: card.id,
                 name: card.name,
@@ -91,9 +98,11 @@ const AddCardModal = (props) => {
                 setEarningsPeriod: card.setEarningsPeriod,
                 frame: card.frame,
                 setFrame: card.setFrame,
-                dates: card.dates
+                dates: card.dates,
               };
 
+              // These conditions must be met in order for a card to be rendered
+              // in the AddCardModal
               const defaultConditionals =
                 !props.selectedCardsIndex.includes(card.id) &&
                 card.title.toLowerCase().includes(value.toLowerCase());
