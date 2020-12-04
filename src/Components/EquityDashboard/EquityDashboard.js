@@ -21,6 +21,9 @@ import Buybacks from "../Cards/Buybacks";
 const GridLayout = WidthProvider(Responsive);
 
 const HomeDashboard = (props) => {
+  // mainLayout is the default layout that the user will see when they first load the page
+  // It consists of 7 cards identified by their id (i). They are assigned their default
+  // widths, heights, and x, y positions on the grid
   const [mainLayout, setMainLayout] = useState([
     { i: "1", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
     { i: "2", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
@@ -38,10 +41,14 @@ const HomeDashboard = (props) => {
   const [value, setValue] = useState(true);
   const [wasRemoved, setWasRemoved] = useState(false);
   const [removedCard, setRemovedCard] = useState();
+
+  // This automatically saves mainLayout in localStorage
   const [storedLayouts, setStoredLayouts] = useStorageState(
     [mainLayout],
     "storedLayouts"
   );
+
+  // This assigned the name of "Default Layout" to mainLayout in localStorage
   const [storedLayoutNames, setStoredLayoutNames] = useStorageState(
     ["Default Layout"],
     "storedLayoutNames"
@@ -54,19 +61,12 @@ const HomeDashboard = (props) => {
     localStorage.setItem("storedLayoutNames", JSON.stringify([]));
   }
 
-  // If the user clicks enter, just blur the input instead of refreshing
-  const blurOnEnter = (e) => {
-    if (e.charCode == 13) {
-      e.preventDefault();
-      e.target.blur();
-    }
-  };
-
   const handleChange = (e) => {
     setNewLayoutName(e.target.value);
   };
 
-  // Sets new layout when the user edits the current one
+  // Saves a new layout to state whenever the user edits the current one. This will be called
+  // every time a card is moved, resized, deleted, or added
   const handleLayoutChange = (layout) => {
     setNewLayout(layout);
   };
@@ -90,18 +90,19 @@ const HomeDashboard = (props) => {
     }
   };
 
-  // If a layout was selected, turn the item storedLayouts from localstorage into an array, then
-  // setMainLayout to storedLayouts at the index of whatever the index of the selected layout name was
   if (wasSelected) {
     let localStorageLayouts = localStorage.getItem("storedLayouts");
     let storedLayouts = JSON.parse(localStorageLayouts.split());
 
+    // If a layout was selected from the Sidenavbar, turn the item 'storedLayouts' from localstorage into an array,
     let mappedLayoutIndex = storedLayouts[selectedLayoutIndex].map((card) => {
       return parseInt(card.i);
     });
 
+    // We setMainlayout to a null array
     setMainLayout([], setWasSelected(false));
 
+    // Set 'setMainLayout' to storedLayouts at the index of whatever the index of the selected layout name was.
     setTimeout(() => {
       setMainLayout(
         storedLayouts[selectedLayoutIndex],
@@ -121,7 +122,7 @@ const HomeDashboard = (props) => {
     }
   };
 
-  // Removes UndoPrompt after 5 seconds
+  // If a card was removed, display UndoPrompt for 5 seconds (then dissapear)
   if (wasRemoved) {
     setTimeout(() => setWasRemoved(false), 5000);
   }
@@ -140,19 +141,12 @@ const HomeDashboard = (props) => {
         saveLayout={saveLayout}
       />
 
-      <h1
-        onBlur={blurOnEnter}
-        onInput={blurOnEnter}
-        onKeyPress={blurOnEnter}
-        className="center header"
-      >
-        Equity Dashboard
-      </h1>
+      <h1 className="center header">Equity Dashboard</h1>
 
-      {/* Ticker header goes here */}
+      {/* TickerHeader goes here */}
       <TickerHeader tickerCard={props.availableCards[0]} />
 
-      {/* Side navigation bar header goes here */}
+      {/* Sidenavbar goes here */}
       <Sidenavbar
         storedLayoutNames={storedLayoutNames}
         setSelectedLayoutIndex={setSelectedLayoutIndex}
@@ -162,7 +156,7 @@ const HomeDashboard = (props) => {
         setSelectedCardIndex={props.setSelectedCardIndex}
       />
 
-      {/* Grid layout header goes here */}
+      {/* Grid layout begins here */}
       <GridLayout
         className="layout"
         layouts={layout}
@@ -181,6 +175,8 @@ const HomeDashboard = (props) => {
         {props.selectedCardsIndex.map((cardId, index) => {
           const card = props.availableCards.find((c) => c.id === cardId);
 
+          // defaultDataGrid is what we use to map out each card on the currently rendered
+          // layout & its properties that are relevant to the grid layout (width, height, x, y, etc.)
           let defaultDataGrid = storedLayouts[selectedLayoutIndex].map(
             (card) => {
               return {
@@ -195,8 +191,16 @@ const HomeDashboard = (props) => {
             }
           );
 
+          // Sorts each object in defaultDataGrid in chronological order based on its id (i)
           var sorted = defaultDataGrid.sort((a, b) => a.i - b.i);
 
+          // These are the default attributes that are applied to EVERY card in
+          // selectedCardsIndex (aka the cards that are currently rendered on the page).
+          // For many cards, there will be many null values. The reason why we just make
+          // a defaultAttributes object containing every property for every card throughout the platform
+          // is to reduce redundancy when conditionally rendering the cards. Without the defaultAttributes
+          // object, we would be assigning properties like key, name, title, etc. to every card, causing a lot
+          // of extra lines of repeated code. So instead, we just put it all into 1 object and assign it to every card.
           const defaultAttributes = {
             key: card.id,
             name: card.name,
