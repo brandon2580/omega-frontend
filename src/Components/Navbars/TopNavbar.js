@@ -44,7 +44,7 @@ const TopNavbar = (props) => {
         <form onSubmit={handleSubmit}>
           <input
             className="react-autosuggest__input"
-            onChange={e => setTicker(e.target.value)}
+            onChange={e => setTicker(e.target.value.toUpperCase())}
             style={{ color: "black" }}
             placeholder="ticker"
             type="text"
