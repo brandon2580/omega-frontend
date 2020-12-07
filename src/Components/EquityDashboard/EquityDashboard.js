@@ -191,6 +191,8 @@ const HomeDashboard = (props) => {
             }
           );
 
+          console.log(newLayout)
+
           // Sorts each object in defaultDataGrid in chronological order based on its id (i)
           var sorted = defaultDataGrid.sort((a, b) => a.i - b.i);
 
@@ -233,56 +235,56 @@ const HomeDashboard = (props) => {
           switch (card.name) {
             case "Earnings":
               return (
-                <div key={card.id} data-grid={sorted[index]}>
+                <div key={card.id}>
                   <Earnings {...defaultAttributes} />
                 </div>
               );
 
             case "AnalystRecommendations":
               return (
-                <div key={card.id} data-grid={sorted[index]}>
+                <div key={card.id}>
                   <AnalystRecommendations {...defaultAttributes} />
                 </div>
               );
 
             case "Dividends":
               return (
-                <div key={card.id} data-grid={sorted[index]}>
+                <div key={card.id}>
                   <Dividends {...defaultAttributes} />
                 </div>
               );
 
             case "Price":
               return (
-                <div key={card.id} data-grid={sorted[index]}>
+                <div key={card.id}>
                   <Price {...defaultAttributes} />
                 </div>
               );
 
             case "PriceTarget":
               return (
-                <div key={card.id} data-grid={sorted[index]}>
+                <div key={card.id}>
                   <PriceTarget {...defaultAttributes} />
                 </div>
               );
 
             case "RiskAnalysis":
               return (
-                <div key={card.id} data-grid={sorted[index]}>
+                <div key={card.id}>
                   <RiskAnalysis {...defaultAttributes} />
                 </div>
               );
 
             case "Economics":
               return (
-                <div key={card.id} data-grid={sorted[index]}>
+                <div key={card.id}>
                   <Economics {...defaultAttributes} />
                 </div>
               );
 
             case "Buybacks":
               return (
-                <div key={card.id} data-grid={sorted[index]}>
+                <div key={card.id}>
                   <Buybacks {...defaultAttributes} />
                 </div>
               );
