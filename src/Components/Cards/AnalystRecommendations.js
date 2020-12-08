@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
@@ -6,6 +6,12 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 const COLORS = ["#23807E", "#41FFC9", "#007bff", "#FE3636", "#520000"];
 
 const AnalystRecommendations = (props) => {
+  const [series, setSeries] = useState([])
+
+  useEffect(() => {
+    setSeries(props.data)
+  }, [props.data]);
+
   return (
     <Card
       title={props.title}
@@ -22,13 +28,13 @@ const AnalystRecommendations = (props) => {
         <ResponsiveContainer>
           <PieChart>
             <Pie
-              data={props.data}
+              data={series}
               innerRadius={110}
               outerRadius={140}
               stroke={""}
               paddingAngle={5}
             >
-              {props.data.map((entry, index) => (
+              {series.map((entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={COLORS[index % COLORS.length]}
