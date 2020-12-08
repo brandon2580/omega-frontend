@@ -60,6 +60,7 @@ function App() {
       setEarningsPeriod: setEarningsPeriod,
       dates: [],
       defaultCard: true,
+      x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1
     },
 
     {
@@ -68,6 +69,7 @@ function App() {
       title: "Analyst Recommendations",
       data: [],
       defaultCard: true,
+      x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1
     },
 
     {
@@ -79,6 +81,7 @@ function App() {
       setDividendRange: setDividendRange,
       defaultCard: true,
       dataLabel: "Dividend/Share",
+      x: 0, y: 0, w: 4, h: 1, minW: 3, maxH: 1
     },
 
     {
@@ -93,6 +96,7 @@ function App() {
       tickCount: 10,
       defaultCard: true,
       dataLabel: "Price",
+      x: 4, y: 0, w: 4, h: 1, minW: 3, maxH: 1
     },
 
     {
@@ -103,6 +107,7 @@ function App() {
       tickCount: 4,
       defaultCard: true,
       dataLabel: "Price",
+      x: 12, y: 0, w: 4, h: 1, minW: 3, maxH: 1
     },
 
     {
@@ -117,6 +122,7 @@ function App() {
       ],
       defaultCard: true,
       dataLabel: "Risk",
+      x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1
     },
 
     {
@@ -134,6 +140,7 @@ function App() {
       ],
       defaultCard: true,
       dataLabel: "GDP",
+      x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1
     },
 
     {
@@ -149,6 +156,7 @@ function App() {
         { name: "2019", data: 56 },
         { name: "2020", data: 60.5 },
       ],
+      x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1
     },
   ]);
 
@@ -183,7 +191,7 @@ function App() {
 */
 
   // The reason why many different endpoints have their own useEffect hooks is because we want to get
-  // new data from each individual endpoint based on whether or not specific state values have changed. For instance if 
+  // new data from each individual endpoint based on whether or not specific state values have changed. For instance if
   // priceRange or frame changes, we ONLY want to upate the prices endpoint, and every single one. Same idea applies with
   // the dividend endpoint and the dividendRange state value.
   useEffect(() => {
@@ -240,7 +248,7 @@ function App() {
                 .map(function (key) {
                   return {
                     name: key,
-                    data: (dividends.amount[key]).toFixed(2),
+                    data: dividends.amount[key].toFixed(2),
                   };
                 }),
               dividendRange: dividendRange,
@@ -275,7 +283,7 @@ function App() {
               .map(function (key, i) {
                 return {
                   x: dates[i],
-                  y: (earnings.consensus_eps[key]).toFixed(2),
+                  y: earnings.consensus_eps[key].toFixed(2),
                 };
               });
 
@@ -284,7 +292,7 @@ function App() {
               .map(function (key, i) {
                 return {
                   x: dates[i],
-                  y: (earnings.real_eps[key]).toFixed(2),
+                  y: earnings.real_eps[key].toFixed(2),
                 };
               });
 
@@ -312,15 +320,40 @@ function App() {
     });
   }, [earningsPeriod, activeTicker]);
 
-  // This gets all of the data for the specified object in the
-  // availableCards array except prices (because that has it's own useEffect hook)
+  useEffect(() => {
+    const analyst_recs = fetch(
+      `${apiBaseUrl}/analyst_recs?code=${apiCode}==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+
+    Promise.resolve(analyst_recs).then((analyst_recs) => {
+      // Function syntax of setState to use the previous value from the state, as recommended by React
+      setAvailableCards((prevCards) => {
+        // For each cards, return a new modified version of that card
+        return prevCards.map((card) => {
+          if (card.title == "Analyst Recommendations") {
+            return {
+              ...card,
+              data: [
+                { name: "Strong Buy", value: analyst_recs.rating_overweight },
+                { name: "Buy", value: analyst_recs.rating_buy },
+                { name: "Hold", value: analyst_recs.rating_hold },
+                { name: "Sell", value: analyst_recs.rating_sell },
+                {
+                  name: "Strong Sell",
+                  value: analyst_recs.rating_underweight,
+                },
+              ],
+            };
+          }
+          return card;
+        });
+      });
+    });
+  }, [activeTicker]);
+
   useEffect(() => {
     const company = fetch(
       `${apiBaseUrl}/company?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());
-
-    const analyst_recs = fetch(
-      `${apiBaseUrl}/analyst_recs?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
     const prices = fetch(
@@ -331,10 +364,10 @@ function App() {
       `${apiBaseUrl}/price_targets?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
-    const allReqs = [company, analyst_recs, price_target, prices];
+    const allReqs = [company, price_target, prices];
 
     Promise.all(allReqs).then((allResp, price) => {
-      const [company, analyst_recs, price_target, prices] = allResp;
+      const [company, price_target, prices] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
@@ -353,21 +386,6 @@ function App() {
                 // forward_pe_ratio: adv_stats.forward_pe_ratio.toFixed(2),
                 // price_to_book: adv_stats.price_to_book.toFixed(2),
                 // price_to_sales: adv_stats.price_to_sales.toFixed(2),
-              };
-
-            case "Analyst Recommendations":
-              return {
-                ...card,
-                data: [
-                  { name: "Strong Buy", value: analyst_recs.rating_overweight },
-                  { name: "Buy", value: analyst_recs.rating_buy },
-                  { name: "Hold", value: analyst_recs.rating_hold },
-                  { name: "Sell", value: analyst_recs.rating_sell },
-                  {
-                    name: "Strong Sell",
-                    value: analyst_recs.rating_underweight,
-                  },
-                ],
               };
 
             case "Price Target":
