@@ -161,6 +161,7 @@ const HomeDashboard = (props) => {
         className="layout"
         layouts={layout}
         breakpoints={{ lg: 1200, s: 300 }}
+        verticalCompact={false}
         onLayoutChange={handleLayoutChange}
         draggableHandle={".ant-card-head"}
         cols={{ lg: 12, s: 1 }}
@@ -175,26 +176,10 @@ const HomeDashboard = (props) => {
         {props.selectedCardsIndex.map((cardId, index) => {
           const card = props.availableCards.find((c) => c.id === cardId);
 
-          // defaultDataGrid is what we use to map out each card on the currently rendered
-          // layout & its properties that are relevant to the grid layout (width, height, x, y, etc.)
-          let defaultDataGrid = storedLayouts[selectedLayoutIndex].map(
-            (card) => {
-              return {
-                i: card.i,
-                w: parseInt(card.w),
-                h: 1,
-                x: parseInt(card.x),
-                y: parseInt(card.y),
-                minW: 3,
-                maxH: 1,
-              };
-            }
-          );
-
-          console.log(newLayout)
-
-          // Sorts each object in defaultDataGrid in chronological order based on its id (i)
-          var sorted = defaultDataGrid.sort((a, b) => a.i - b.i);
+          var width = Object.keys(newLayout).map(function (key) {
+            let cards = newLayout[key];
+            return cards.w;
+          });
 
           // These are the default attributes that are applied to EVERY card in
           // selectedCardsIndex (aka the cards that are currently rendered on the page).
@@ -232,59 +217,68 @@ const HomeDashboard = (props) => {
               </span>
             ),
           };
+
+          const defaultDataGrid = {
+            x: card.x,
+            y: card.y,
+            w: card.w,
+            h: card.h,
+            minW: card.minW,
+          };
+
           switch (card.name) {
             case "Earnings":
               return (
-                <div key={card.id}>
+                <div key={card.id} data-grid={defaultDataGrid}>
                   <Earnings {...defaultAttributes} />
                 </div>
               );
 
             case "AnalystRecommendations":
               return (
-                <div key={card.id}>
+                <div key={card.id} data-grid={defaultDataGrid}>
                   <AnalystRecommendations {...defaultAttributes} />
                 </div>
               );
 
             case "Dividends":
               return (
-                <div key={card.id}>
+                <div key={card.id} data-grid={defaultDataGrid}>
                   <Dividends {...defaultAttributes} />
                 </div>
               );
 
             case "Price":
               return (
-                <div key={card.id}>
+                <div key={card.id} data-grid={defaultDataGrid}>
                   <Price {...defaultAttributes} />
                 </div>
               );
 
             case "PriceTarget":
               return (
-                <div key={card.id}>
+                <div key={card.id} data-grid={defaultDataGrid}>
                   <PriceTarget {...defaultAttributes} />
                 </div>
               );
 
             case "RiskAnalysis":
               return (
-                <div key={card.id}>
+                <div key={card.id} data-grid={defaultDataGrid}>
                   <RiskAnalysis {...defaultAttributes} />
                 </div>
               );
 
             case "Economics":
               return (
-                <div key={card.id}>
+                <div key={card.id} data-grid={defaultDataGrid}>
                   <Economics {...defaultAttributes} />
                 </div>
               );
 
             case "Buybacks":
               return (
-                <div key={card.id}>
+                <div key={card.id} data-grid={defaultDataGrid}>
                   <Buybacks {...defaultAttributes} />
                 </div>
               );
