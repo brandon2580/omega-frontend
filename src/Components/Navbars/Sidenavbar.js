@@ -8,6 +8,7 @@ const Sidenavbar = (props) => {
 
   const handleClick = (e) => {
     props.setSelectedLayoutIndex(e.target.getAttribute('data-index'));
+    props.setTempLayout(props.newLayout)
     props.setWasSelected(true);
   };
 
