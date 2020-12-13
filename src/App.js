@@ -60,7 +60,12 @@ function App() {
       setEarningsPeriod: setEarningsPeriod,
       dates: [],
       defaultCard: true,
-      x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1
+      x: 0,
+      y: 0,
+      w: 6,
+      h: 1,
+      minW: 3,
+      maxH: 1,
     },
 
     {
@@ -69,7 +74,12 @@ function App() {
       title: "Analyst Recommendations",
       data: [],
       defaultCard: true,
-      x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1
+      x: 12,
+      y: 0,
+      w: 6,
+      h: 1,
+      minW: 3,
+      maxH: 1,
     },
 
     {
@@ -81,7 +91,12 @@ function App() {
       setDividendRange: setDividendRange,
       defaultCard: true,
       dataLabel: "Dividend/Share",
-      x: 0, y: 0, w: 4, h: 1, minW: 3, maxH: 1
+      x: 0,
+      y: 0,
+      w: 4,
+      h: 1,
+      minW: 3,
+      maxH: 1,
     },
 
     {
@@ -96,7 +111,12 @@ function App() {
       tickCount: 10,
       defaultCard: true,
       dataLabel: "Price",
-      x: 4, y: 0, w: 4, h: 1, minW: 3, maxH: 1
+      x: 4,
+      y: 0,
+      w: 4,
+      h: 1,
+      minW: 3,
+      maxH: 1,
     },
 
     {
@@ -107,7 +127,12 @@ function App() {
       tickCount: 4,
       defaultCard: true,
       dataLabel: "Price",
-      x: 12, y: 0, w: 4, h: 1, minW: 3, maxH: 1
+      x: 12,
+      y: 0,
+      w: 4,
+      h: 1,
+      minW: 3,
+      maxH: 1,
     },
 
     {
@@ -122,7 +147,12 @@ function App() {
       ],
       defaultCard: true,
       dataLabel: "Risk",
-      x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1
+      x: 0,
+      y: 0,
+      w: 6,
+      h: 1,
+      minW: 3,
+      maxH: 1,
     },
 
     {
@@ -140,7 +170,12 @@ function App() {
       ],
       defaultCard: true,
       dataLabel: "GDP",
-      x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1
+      x: 12,
+      y: 0,
+      w: 6,
+      h: 1,
+      minW: 3,
+      maxH: 1,
     },
 
     {
@@ -156,7 +191,12 @@ function App() {
         { name: "2019", data: 56 },
         { name: "2020", data: 60.5 },
       ],
-      x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1
+      x: 0,
+      y: 0,
+      w: 6,
+      h: 1,
+      minW: 3,
+      maxH: 1,
     },
   ]);
 
