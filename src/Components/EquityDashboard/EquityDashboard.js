@@ -33,7 +33,6 @@ const HomeDashboard = (props) => {
     { i: "6", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
     { i: "7", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
   ]);
-  const [tempLayout, setTempLayout] = useState([]);
   const [newLayout, setNewLayout] = useState({});
   const [newLayoutName, setNewLayoutName] = useState();
   const [selectedLayoutIndex, setSelectedLayoutIndex] = useState(0);
@@ -70,10 +69,6 @@ const HomeDashboard = (props) => {
   // every time a card is moved, resized, deleted, or added
   const handleLayoutChange = (layout) => {
     setNewLayout(layout);
-  };
-
-  const handleResizeDragStop = (layout) => {
-    setTempLayout(layout);
   };
 
   //Saves layout to localstorage
@@ -131,7 +126,6 @@ const HomeDashboard = (props) => {
   if (wasRemoved) {
     setTimeout(() => {
       setWasRemoved(false);
-      setTempLayout(newLayout);
     }, 5000);
   }
 
@@ -157,8 +151,6 @@ const HomeDashboard = (props) => {
       {/* Sidenavbar goes here */}
       <Sidenavbar
         storedLayoutNames={storedLayoutNames}
-        setTempLayout={setTempLayout}
-        newLayout={newLayout}
         setSelectedLayoutIndex={setSelectedLayoutIndex}
         setWasSelected={setWasSelected}
         wasSelected={wasSelected}
@@ -171,10 +163,7 @@ const HomeDashboard = (props) => {
         className="layout"
         layouts={layout}
         breakpoints={{ lg: 1200, s: 300 }}
-        verticalCompact={false}
         onLayoutChange={handleLayoutChange}
-        onResizeStop={handleResizeDragStop}
-        onDragStop={handleResizeDragStop}
         draggableHandle={".ant-card-head"}
         cols={{ lg: 12, s: 1 }}
         rowHeight={575}
@@ -187,11 +176,6 @@ const HomeDashboard = (props) => {
         */}
         {props.selectedCardsIndex.map((cardId, index) => {
           const card = props.availableCards.find((c) => c.id === cardId);
-
-          var width = Object.keys(newLayout).map(function (key) {
-            let cards = newLayout[key];
-            return cards.w;
-          });
 
           // These are the default attributes that are applied to EVERY card in
           // selectedCardsIndex (aka the cards that are currently rendered on the page).
@@ -230,7 +214,6 @@ const HomeDashboard = (props) => {
             ),
           };
 
-          console.log(tempLayout)
           const defaultDataGrid = {
             x: card.x,
             y: card.y,
