@@ -41,6 +41,8 @@ const HomeDashboard = (props) => {
   const [value, setValue] = useState(true);
   const [wasRemoved, setWasRemoved] = useState(false);
   const [removedCard, setRemovedCard] = useState();
+  const [preRemovedLayout, setPreRemovedLayout] = useState();
+  const [undoClicked, setUndoClicked] = useState(false);
 
   // This automatically saves mainLayout in localStorage
   const [storedLayouts, setStoredLayouts] = useStorageState(
@@ -119,6 +121,7 @@ const HomeDashboard = (props) => {
       );
       setWasRemoved(true);
       setRemovedCard(id);
+      setPreRemovedLayout(newLayout);
     }
   };
 
@@ -127,6 +130,13 @@ const HomeDashboard = (props) => {
     setTimeout(() => {
       setWasRemoved(false);
     }, 5000);
+  }
+
+  // If the Undo button was clicked on the UndoPrompt, set the
+  // layout back to how it was before the user removed the card
+  if (undoClicked) {
+    setMainLayout(preRemovedLayout);
+    setUndoClicked(false);
   }
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
@@ -289,6 +299,7 @@ const HomeDashboard = (props) => {
           setSelectedCardIndex={props.setSelectedCardIndex}
           availableCards={props.availableCards}
           setWasRemoved={setWasRemoved}
+          setUndoClicked={setUndoClicked}
           removedCardId={removedCard}
         />
       )}
