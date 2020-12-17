@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStorageState } from "../../hooks/useStorageState";
 import _ from "lodash";
 import "../../App.scss";
@@ -41,7 +41,7 @@ const HomeDashboard = (props) => {
   const [value, setValue] = useState(true);
   const [wasRemoved, setWasRemoved] = useState(false);
   const [removedCard, setRemovedCard] = useState();
-  const [preRemovedLayout, setPreRemovedLayout] = useState();
+  const [preRemovedLayout, setPreRemovedLayout] = useState([]);
   const [undoClicked, setUndoClicked] = useState(false);
 
   // This automatically saves mainLayout in localStorage
@@ -134,9 +134,10 @@ const HomeDashboard = (props) => {
 
   // If the Undo button was clicked on the UndoPrompt, set the
   // layout back to how it was before the user removed the card
-  if (undoClicked) {
-    setMainLayout(preRemovedLayout);
-    setUndoClicked(false);
+
+  if(undoClicked){
+    setMainLayout((prevLayout) => ([...prevLayout, ...preRemovedLayout]))
+    setUndoClicked(false)
   }
 
   var layout = { lg: value === true ? mainLayout : mainLayout };

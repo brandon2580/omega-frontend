@@ -21,8 +21,8 @@ const UndoPrompt = (props) => {
                   ...prevSelected,
                   props.removedCardId,
                 ]);
+                props.setUndoClicked(true);
                 props.setWasRemoved(false);
-                props.setUndoClicked(true)
               }
             }}
           >
