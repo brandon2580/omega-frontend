@@ -125,20 +125,29 @@ const HomeDashboard = (props) => {
     }
   };
 
-  // If a card was removed, display UndoPrompt for 5 seconds (then dissapear)
-  if (wasRemoved) {
-    setTimeout(() => {
+  useEffect(() => {
+    let undoTimeout;
+
+    // If a card was removed, setWasRemoved to false after a 5 second period
+    if (wasRemoved) {
+      undoTimeout = setTimeout(() => {
+        setWasRemoved(false);
+        alert("Done");
+      }, 5000);
+    }
+
+    // If the Undo button was clicked on the UndoPrompt, set the
+    // layout back to how it was before the user removed the card
+    if (undoClicked) {
+      setMainLayout((prevLayout) => [...prevLayout, ...preRemovedLayout]);
       setWasRemoved(false);
-    }, 5000);
-  }
+      setUndoClicked(false);
+    }
 
-  // If the Undo button was clicked on the UndoPrompt, set the
-  // layout back to how it was before the user removed the card
-
-  if(undoClicked){
-    setMainLayout((prevLayout) => ([...prevLayout, ...preRemovedLayout]))
-    setUndoClicked(false)
-  }
+    return function cleanup() {
+      clearTimeout(undoTimeout);
+    };
+  }, [wasRemoved, undoClicked]);
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
 
