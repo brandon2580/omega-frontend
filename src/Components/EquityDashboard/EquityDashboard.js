@@ -70,7 +70,10 @@ const HomeDashboard = (props) => {
   // Saves a new layout to state whenever the user edits the current one. This will be called
   // every time a card is moved, resized, deleted, or added
   const handleLayoutChange = (layout) => {
-    setNewLayout(layout);
+    let debounced = _.debounce(() => {
+      return setNewLayout(layout), 100;
+    });
+    debounced();
   };
 
   //Saves layout to localstorage
@@ -139,7 +142,7 @@ const HomeDashboard = (props) => {
     // If the Undo button was clicked on the UndoPrompt, set the
     // layout back to how it was before the user removed the card
     if (undoClicked) {
-      setMainLayout((prevLayout) => [...prevLayout, ...preRemovedLayout]);
+      setMainLayout((prevLayout) => [...prevLayout, preRemovedLayout]);
       setWasRemoved(false);
       setUndoClicked(false);
     }
@@ -150,6 +153,8 @@ const HomeDashboard = (props) => {
   }, [wasRemoved, undoClicked]);
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
+
+  console.log(newLayout);
 
   return (
     <div>
