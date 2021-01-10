@@ -135,7 +135,6 @@ const HomeDashboard = (props) => {
     if (wasRemoved) {
       undoTimeout = setTimeout(() => {
         setWasRemoved(false);
-        alert("Done");
       }, 5000);
     }
 
