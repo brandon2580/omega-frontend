@@ -68,8 +68,7 @@ const TopNavbar = (props) => {
           {/* Button that allows user to save layout goes here */}
           <SaveLayoutButton
             wasTaken={props.wasTaken}
-            handleChange={props.handleChange}
-            saveLayout={props.saveLayout}
+            setNewLayoutName={props.setNewLayoutName}
           />
         </div>
       </div>

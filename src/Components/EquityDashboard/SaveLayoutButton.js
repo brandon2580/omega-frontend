@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "antd";
 
 const SaveLayoutButton = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [layoutName, setLayoutName] = useState();
 
   // Shows modal
   const showModal = () => {
@@ -13,6 +14,12 @@ const SaveLayoutButton = (props) => {
   const handleExit = (e) => {
     setModalVisible(false);
   };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    props.setNewLayoutName(layoutName)
+    e.target.reset();
+  }
 
   return (
     <div>
@@ -28,19 +35,17 @@ const SaveLayoutButton = (props) => {
       >
         <form
           className="form-inline ml-auto col-lg-9"
-          onSubmit={props.saveLayout}
+          onSubmit={onSubmit}
         >
           <input
             type="text"
             className="react-autosuggest__input"
             placeholder="Layout Name"
-            onChange={props.handleChange}
+            onChange={e => setLayoutName(e.target.value)}
           />
         </form>
         {props.wasTaken && <h5 className='error-message'>Name already in use, please try another</h5>}
       </Modal>
-
-      
     </div>
   );
 };

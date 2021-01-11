@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useStorageState } from "../../hooks/useStorageState";
 import _ from "lodash";
 import "../../App.scss";
@@ -63,10 +63,6 @@ const HomeDashboard = (props) => {
     localStorage.setItem("storedLayoutNames", JSON.stringify([]));
   }
 
-  const handleChange = (e) => {
-    setNewLayoutName(e.target.value);
-  };
-
   // Saves a new layout to state whenever the user edits the current one. This will be called
   // every time a card is moved, resized, deleted, or added
   const handleLayoutChange = (layout) => {
@@ -76,24 +72,28 @@ const HomeDashboard = (props) => {
     debounced();
   };
 
-  //Saves layout to localstorage
-  const saveLayout = (e) => {
-    e.preventDefault();
-    let localStorageLayoutNames = localStorage.getItem("storedLayoutNames");
-    let storedLayoutNames = JSON.parse(localStorageLayoutNames.split());
+  const initialRender = useRef(true);
 
-    // If layout name does not already exist, proceed.
-    if (!storedLayoutNames.includes(newLayoutName)) {
-      // Add the new layout to storedLayouts and add the new layout name to storedLayoutNames
-      setStoredLayouts([...storedLayouts, newLayout]);
-      setStoredLayoutNames([...storedLayoutNames, newLayoutName]);
-      setWasTaken(false);
-      e.target.reset();
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
     } else {
-      setWasTaken(true);
-      return;
+      //Saves layout to localstorage
+      let localStorageLayoutNames = localStorage.getItem("storedLayoutNames");
+      let storedLayoutNames = JSON.parse(localStorageLayoutNames.split());
+      console.log("rendered");
+      // If layout name does not already exist, proceed.
+      if (!storedLayoutNames.includes(newLayoutName)) {
+        // Add the new layout to storedLayouts and add the new layout name to storedLayoutNames
+        setStoredLayouts([...storedLayouts, newLayout]);
+        setStoredLayoutNames([...storedLayoutNames, newLayoutName]);
+        setWasTaken(false);
+      } else {
+        setWasTaken(true);
+        return;
+      }
     }
-  };
+  }, [newLayoutName]);
 
   if (wasSelected) {
     let localStorageLayouts = localStorage.getItem("storedLayouts");
@@ -153,8 +153,6 @@ const HomeDashboard = (props) => {
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
 
-  console.log(newLayout);
-
   return (
     <div>
       <TopNavbar
@@ -163,8 +161,7 @@ const HomeDashboard = (props) => {
         setSelectedCardIndex={props.setSelectedCardIndex}
         setActiveTicker={props.setActiveTicker}
         wasTaken={wasTaken}
-        handleChange={handleChange}
-        saveLayout={saveLayout}
+        setNewLayoutName={setNewLayoutName}
       />
 
       <h1 className="center header">Equity Dashboard</h1>
@@ -174,7 +171,6 @@ const HomeDashboard = (props) => {
 
       {/* Sidenavbar goes here */}
       <Sidenavbar
-        storedLayoutNames={storedLayoutNames}
         setSelectedLayoutIndex={setSelectedLayoutIndex}
         setWasSelected={setWasSelected}
         wasSelected={wasSelected}
