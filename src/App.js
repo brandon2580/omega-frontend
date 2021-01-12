@@ -26,7 +26,7 @@ function App() {
 
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default.
   // These are the initial "selected" cards that render by default
-  const [selectedCardsIndex, setSelectedCardIndex] = useState([
+  const [selectedCardsIndex, setSelectedCardsIndex] = useState([
     1,
     2,
     3,
@@ -35,6 +35,12 @@ function App() {
     6,
     7,
   ]);
+
+  useEffect(() => {
+    selectedCardsIndex.sort(function (a, b) {
+      return a - b;
+    });
+  }, [selectedCardsIndex]);
 
   // These are every single available card throughout the platform, each identified by an id
   // which helps with identifying which cards are rendered on the dashboard and which ones aren't
@@ -459,7 +465,7 @@ function App() {
               <EquityDashboard
                 availableCards={availableCards}
                 selectedCardsIndex={selectedCardsIndex}
-                setSelectedCardIndex={setSelectedCardIndex}
+                setSelectedCardsIndex={setSelectedCardsIndex}
                 setActiveTicker={setActiveTicker}
               />
             </Route>
