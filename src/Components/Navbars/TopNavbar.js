@@ -61,7 +61,7 @@ const TopNavbar = (props) => {
           <AddCardModal
             availableCards={props.availableCards}
             selectedCardsIndex={props.selectedCardsIndex}
-            setSelectedCardIndex={props.setSelectedCardIndex}
+            setSelectedCardsIndex={props.setSelectedCardsIndex}
           />
           <span className="verticalSpan2" />
 

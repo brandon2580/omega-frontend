@@ -15,9 +15,9 @@ const UndoPrompt = (props) => {
             onClick={() => {
               // If selectedCardsIndex does not already contain the id of the removed card
               if (!props.selectedCardsIndex.includes(props.removedCardId)) {
-                // Set selectedCardIndex to what is was right after the user
+                // Set selectedCardsIndex to what is was right after the user
                 // removed the card, then add the removed card back
-                props.setSelectedCardIndex((prevSelected) => [
+                props.setSelectedCardsIndex((prevSelected) => [
                   ...prevSelected,
                   props.removedCardId,
                 ]);

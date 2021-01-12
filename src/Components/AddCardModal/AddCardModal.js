@@ -20,14 +20,14 @@ const AddCardModal = (props) => {
   function selectCard(id) {
     // Card was selected, remove it
     if (props.selectedCardsIndex.includes(id)) {
-      props.setSelectedCardIndex((prevSelected) =>
+      props.setSelectedCardsIndex((prevSelected) =>
         prevSelected.filter((cardId) => cardId !== id)
       );
     }
 
     // Card was not selected, add it
     else {
-      props.setSelectedCardIndex((prevSelected) => [...prevSelected, id]);
+      props.setSelectedCardsIndex((prevSelected) => [...prevSelected, id]);
     }
   }
 
