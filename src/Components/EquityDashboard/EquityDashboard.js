@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useStorageState } from "../../hooks/useStorageState";
 import _ from "lodash";
 import "../../App.scss";
@@ -20,7 +20,26 @@ import Buybacks from "../Cards/Buybacks";
 
 const GridLayout = WidthProvider(Responsive);
 
+// Hook that traces re-renders caused by changed props
+function useTraceUpdate(props) {
+  const prev = useRef(props);
+  useEffect(() => {
+    const changedProps = Object.entries(props).reduce((ps, [k, v]) => {
+      if (prev.current[k] !== v) {
+        ps[k] = [prev.current[k], v];
+      }
+      return ps;
+    }, {});
+    if (Object.keys(changedProps).length > 0) {
+      console.log("Changed props:", changedProps);
+    }
+    prev.current = props;
+  });
+}
+
 const HomeDashboard = (props) => {
+  useTraceUpdate(props);
+
   // mainLayout is the default layout that the user will see when they first load the page
   // It consists of 7 cards identified by their id (i). They are assigned their default
   // widths, heights, and x, y positions on the grid
@@ -55,7 +74,7 @@ const HomeDashboard = (props) => {
     ["Default Layout"],
     "storedLayoutNames"
   );
-
+  
   // If the page is being loaded for the first time and
   // storedLayouts && storedLayoutNames don't exist, make them exist
   if (localStorage.getItem("storedLayouts" && "storedLayoutNames") == null) {
@@ -72,8 +91,9 @@ const HomeDashboard = (props) => {
     debounced();
   };
 
+  // We use a ref to make sure that this useEffect hook is NOT called on the
+  // initial render of the page. Only when the state value of newLayoutName changes
   const initialRender = useRef(true);
-
   useEffect(() => {
     if (initialRender.current) {
       initialRender.current = false;
@@ -81,7 +101,7 @@ const HomeDashboard = (props) => {
       //Saves layout to localstorage
       let localStorageLayoutNames = localStorage.getItem("storedLayoutNames");
       let storedLayoutNames = JSON.parse(localStorageLayoutNames.split());
-      console.log("rendered");
+
       // If layout name does not already exist, proceed.
       if (!storedLayoutNames.includes(newLayoutName)) {
         // Add the new layout to storedLayouts and add the new layout name to storedLayoutNames
@@ -111,7 +131,7 @@ const HomeDashboard = (props) => {
     setTimeout(() => {
       setMainLayout(
         storedLayouts[selectedLayoutIndex],
-        props.setSelectedCardIndex(mappedLayoutIndex)
+        props.setSelectedCardsIndex(mappedLayoutIndex)
       );
     });
   }
@@ -119,7 +139,7 @@ const HomeDashboard = (props) => {
   const removeCardFromLayout = (id) => {
     // Card was selected, remove it
     if (props.selectedCardsIndex.includes(id)) {
-      props.setSelectedCardIndex((prevSelected) =>
+      props.setSelectedCardsIndex((prevSelected) =>
         prevSelected.filter((cardId) => cardId !== id)
       );
       setWasRemoved(true);
@@ -158,7 +178,7 @@ const HomeDashboard = (props) => {
       <TopNavbar
         availableCards={props.availableCards}
         selectedCardsIndex={props.selectedCardsIndex}
-        setSelectedCardIndex={props.setSelectedCardIndex}
+        setSelectedCardsIndex={props.setSelectedCardsIndex}
         setActiveTicker={props.setActiveTicker}
         wasTaken={wasTaken}
         setNewLayoutName={setNewLayoutName}
@@ -175,7 +195,7 @@ const HomeDashboard = (props) => {
         setWasSelected={setWasSelected}
         wasSelected={wasSelected}
         selectedCardsIndex={props.selectedCardsIndex}
-        setSelectedCardIndex={props.setSelectedCardIndex}
+        setSelectedCardsIndex={props.setSelectedCardsIndex}
       />
 
       {/* Grid layout begins here */}
@@ -306,7 +326,7 @@ const HomeDashboard = (props) => {
       {wasRemoved && (
         <UndoPrompt
           selectedCardsIndex={props.selectedCardsIndex}
-          setSelectedCardIndex={props.setSelectedCardIndex}
+          setSelectedCardsIndex={props.setSelectedCardsIndex}
           availableCards={props.availableCards}
           setWasRemoved={setWasRemoved}
           setUndoClicked={setUndoClicked}
