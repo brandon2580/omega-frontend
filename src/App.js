@@ -40,7 +40,7 @@ function App() {
     selectedCardsIndex.sort(function (a, b) {
       return a - b;
     });
-  }, [selectedCardsIndex]);
+  }, [selectedCardsIndex]);   
 
   // These are every single available card throughout the platform, each identified by an id
   // which helps with identifying which cards are rendered on the dashboard and which ones aren't
@@ -139,12 +139,7 @@ function App() {
       id: 6,
       name: "RiskAnalysis",
       title: "Risk Analysis",
-      data: [
-        { name: "2017", data: 3 },
-        { name: "2018", data: 3 },
-        { name: "2019", data: 4 },
-        { name: "2020", data: 5 },
-      ],
+      data: [1.08],
       dataLabel: "Risk",
       x: 0,
       y: 0,

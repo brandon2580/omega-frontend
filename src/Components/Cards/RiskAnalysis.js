@@ -1,17 +1,71 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+import ReactApexChart from "react-apexcharts";
 
 const RiskAnalysis = (props) => {
+  const [sharpe, setSharpe] = useState([{}]);
+  const [currentRating, setCurrentRating] = useState("Rating");
+  const [chartValue, setChartValue] = useState([0]);
+
+  let options = {
+    colors: ["#007bff"],
+    chart: {
+      type: "radialBar",
+      offsetY: -20,
+      sparkline: {
+        enabled: true,
+      },
+    },
+    plotOptions: {
+      radialBar: {
+        startAngle: -90,
+        endAngle: 90,
+        track: {
+          background: "#FFFFFF",
+          strokeWidth: "97%",
+          margin: 5, // margin is in pixels
+        },
+        dataLabels: {
+          name: {
+            show: true,
+          },
+          value: {
+            show: false,
+            offsetY: -2,
+            fontSize: "22px",
+            color: "#FFFFFF",
+          },
+        },
+      },
+    },
+
+    fill: {
+      type: "solid",
+    },
+    labels: [currentRating],
+  };
+
+  useEffect(() => {
+    setSharpe(props.data);
+  }, [props.data]);
+
+  useEffect(() => {
+    if (sharpe < 0.45) {
+      setCurrentRating("Poor");
+      setChartValue([25]);
+    } else if (sharpe <= 0.8 && sharpe >= 0.45) {
+      setCurrentRating("Average");
+      setChartValue([50]);
+    } else if (sharpe <= 1.15 && sharpe >= 0.81) {
+      setCurrentRating("Good");
+      setChartValue([75]);
+    } else if (sharpe > 1.15) {
+      setCurrentRating("Exceptional");
+      setChartValue([100]);
+    }
+  }, [sharpe]);
+
   return (
     <Card
       title={props.title}
@@ -25,22 +79,13 @@ const RiskAnalysis = (props) => {
       <hr className="card-hr" />
 
       <div style={{ height: 456 }}>
-        <ResponsiveContainer>
-          <BarChart
-            data={props.data}
-            margin={{
-              top: 20,
-              right: 50,
-              left: 15,
-            }}
-          >
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip cursor={{fill: 'grey', opacity: "10%"}} />
-            <Legend />
-            <Bar name={props.dataLabel} dataKey="data" fill="#1F77B4" />
-          </BarChart>
-        </ResponsiveContainer>
+        <ReactApexChart
+          className="radial-risk"
+          options={options}
+          series={chartValue}
+          height="456"
+          type="radialBar"
+        />
       </div>
     </Card>
   );
