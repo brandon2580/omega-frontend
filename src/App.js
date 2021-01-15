@@ -138,7 +138,7 @@ function App() {
     {
       id: 6,
       name: "RiskAnalysis",
-      title: "Risk Analysis",
+      title: "Performance (Risk Adjusted)",
       data: [1.08],
       dataLabel: "Risk",
       x: 0,
