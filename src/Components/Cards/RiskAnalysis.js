@@ -9,7 +9,7 @@ const RiskAnalysis = (props) => {
   const [chartValue, setChartValue] = useState([0]);
 
   let options = {
-    colors: ["#007bff"],
+    colors: ["#FF0000", "#00FF00"],
     chart: {
       type: "radialBar",
       offsetY: -20,
@@ -29,19 +29,24 @@ const RiskAnalysis = (props) => {
         dataLabels: {
           name: {
             show: true,
-          },
-          value: {
-            show: false,
-            offsetY: -2,
-            fontSize: "22px",
             color: "#FFFFFF",
+            fontSize: "30px",
+            fontFamily: "Open Sans"
           },
         },
       },
     },
 
     fill: {
-      type: "solid",
+      type: "gradient",
+      gradient: {
+        shadeIntensity: 0.4,
+        gradientToColors: ["#00FF00"],
+        inverseColors: true,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0]
+      },
     },
     labels: [currentRating],
   };
