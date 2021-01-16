@@ -243,7 +243,7 @@ const HomeDashboard = (props) => {
             dates: card.dates,
             button: (
               <span
-                onClick={() => {
+                onClick={() => {  
                   removeCardFromLayout(card.id);
                 }}
                 role="img"
@@ -261,6 +261,7 @@ const HomeDashboard = (props) => {
             w: card.w,
             h: card.h,
             minW: card.minW,
+            isResizable: card.isResizable
           };
 
           switch (card.name) {

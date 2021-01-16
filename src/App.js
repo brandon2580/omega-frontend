@@ -199,10 +199,11 @@ function App() {
       data: [],
       x: 0,
       y: 0,
-      w: 6,
-      h: 1,
+      w: 12,
+      h: .25,
       minW: 3,
-      maxH: 1,
+      maxH: .25,
+      isResizable: false
     },
   ]);
 
@@ -383,10 +384,14 @@ function App() {
       `${apiBaseUrl}/analyst_recs?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
-    const allReqs = [company, price_target, prices, analyst_recs];
+    const news = fetch(
+      `https://cloud.iexapis.com/stable/stock/${activeTicker}/news/last/5?token=pk_756d2eedb1d64c5192084581943ee4b9`
+    ).then((res) => res.json());
+
+    const allReqs = [company, price_target, prices, analyst_recs, news];
 
     Promise.all(allReqs).then((allResp, price) => {
-      const [company, price_target, prices, analyst_recs] = allResp;
+      const [company, price_target, prices, analyst_recs, news] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
@@ -440,6 +445,17 @@ function App() {
                     value: analyst_recs.rating_underweight,
                   },
                 ],
+              };
+
+            case "News":
+              return {
+                ...card,
+                data: Object.keys(news).map(function (key) {
+                  return {
+                    title: news[key].headline,
+                    source: news[key].source,
+                  };
+                }),
               };
           }
 

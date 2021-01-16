@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
 
 const News = (props) => {
-  return(
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+    setNews(props.data);
+  }, [props.data]);
+
+  return (
     <Card
       title={props.title}
       extra={props.button}
@@ -16,7 +22,17 @@ const News = (props) => {
       <hr className="card-hr" />
 
       <div style={{ height: 456 }}>
-          <h1>News</h1>
+        <div className="row news-row">
+          <div className="col-lg-12">
+            {news.map((el) => {
+              return (
+                <p>
+                  {el.source}: {el.title}
+                </p>
+              );
+            })}
+          </div>
+        </div>
       </div>
     </Card>
   );
