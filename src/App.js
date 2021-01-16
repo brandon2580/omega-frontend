@@ -40,7 +40,7 @@ function App() {
     selectedCardsIndex.sort(function (a, b) {
       return a - b;
     });
-  }, [selectedCardsIndex]);   
+  }, [selectedCardsIndex]);
 
   // These are every single available card throughout the platform, each identified by an id
   // which helps with identifying which cards are rendered on the dashboard and which ones aren't
@@ -184,6 +184,19 @@ function App() {
         { name: "2019", data: 56 },
         { name: "2020", data: 60.5 },
       ],
+      x: 0,
+      y: 0,
+      w: 6,
+      h: 1,
+      minW: 3,
+      maxH: 1,
+    },
+
+    {
+      id: 9,
+      name: "News",
+      title: "News",
+      data: [],
       x: 0,
       y: 0,
       w: 6,
@@ -354,37 +367,6 @@ function App() {
   }, [earningsPeriod, activeTicker]);
 
   useEffect(() => {
-    const analyst_recs = fetch(
-      `${apiBaseUrl}/analyst_recs?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());
-
-    Promise.resolve(analyst_recs).then((analyst_recs) => {
-      // Function syntax of setState to use the previous value from the state, as recommended by React
-      setAvailableCards((prevCards) => {
-        // For each cards, return a new modified version of that card
-        return prevCards.map((card) => {
-          if (card.title == "Analyst Recommendations") {
-            return {
-              ...card,
-              data: [
-                { name: "Strong Buy", value: analyst_recs.rating_overweight },
-                { name: "Buy", value: analyst_recs.rating_buy },
-                { name: "Hold", value: analyst_recs.rating_hold },
-                { name: "Sell", value: analyst_recs.rating_sell },
-                {
-                  name: "Strong Sell",
-                  value: analyst_recs.rating_underweight,
-                },
-              ],
-            };
-          }
-          return card;
-        });
-      });
-    });
-  }, [activeTicker]);
-
-  useEffect(() => {
     const company = fetch(
       `${apiBaseUrl}/company?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
@@ -397,10 +379,14 @@ function App() {
       `${apiBaseUrl}/price_targets?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
-    const allReqs = [company, price_target, prices];
+    const analyst_recs = fetch(
+      `${apiBaseUrl}/analyst_recs?code=${apiCode}==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+
+    const allReqs = [company, price_target, prices, analyst_recs];
 
     Promise.all(allReqs).then((allResp, price) => {
-      const [company, price_target, prices] = allResp;
+      const [company, price_target, prices, analyst_recs] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
@@ -437,6 +423,21 @@ function App() {
                     high: price_target.price_target_high,
                     low: price_target.price_target_low,
                     numOfAnalysts: price_target.num_of_analysts,
+                  },
+                ],
+              };
+
+            case "Analyst Recommendations":
+              return {
+                ...card,
+                data: [
+                  { name: "Strong Buy", value: analyst_recs.rating_overweight },
+                  { name: "Buy", value: analyst_recs.rating_buy },
+                  { name: "Hold", value: analyst_recs.rating_hold },
+                  { name: "Sell", value: analyst_recs.rating_sell },
+                  {
+                    name: "Strong Sell",
+                    value: analyst_recs.rating_underweight,
                   },
                 ],
               };
