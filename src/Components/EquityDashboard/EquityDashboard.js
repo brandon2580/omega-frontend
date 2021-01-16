@@ -17,6 +17,7 @@ import XButton from "../XButton";
 import TickerHeader from "./TickerHeader";
 import TopNavbar from "../Navbars/TopNavbar";
 import Buybacks from "../Cards/Buybacks";
+import News from "../Cards/News";
 
 const GridLayout = WidthProvider(Responsive);
 
@@ -74,7 +75,7 @@ const HomeDashboard = (props) => {
     ["Default Layout"],
     "storedLayoutNames"
   );
-  
+
   // If the page is being loaded for the first time and
   // storedLayouts && storedLayoutNames don't exist, make them exist
   if (localStorage.getItem("storedLayouts" && "storedLayoutNames") == null) {
@@ -316,6 +317,13 @@ const HomeDashboard = (props) => {
               return (
                 <div key={card.id} data-grid={defaultDataGrid}>
                   <Buybacks {...defaultAttributes} />
+                </div>
+              );
+
+            case "News":
+              return (
+                <div key={card.id} data-grid={defaultDataGrid}>
+                  <News {...defaultAttributes} />
                 </div>
               );
           }

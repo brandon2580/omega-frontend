@@ -11,6 +11,7 @@ import PriceTarget from "../Cards/PriceTarget";
 import RiskAnalysis from "../Cards/RiskAnalysis";
 import Economics from "../Cards/Economics";
 import Buybacks from "../Cards/Buybacks";
+import News from "../Cards/News";
 
 const AddCardModal = (props) => {
   const [value, setValue] = useState("");
@@ -198,6 +199,17 @@ const AddCardModal = (props) => {
                     <Buybacks {...defaultAttributes}>
                       <p>{card.title}</p>
                     </Buybacks>
+
+                    <AddToLayoutButton selectCard={selectCard} card={card} />
+                  </div>
+                );
+              }
+              if (card.name === "News" && defaultConditionals) {
+                return (
+                  <div className="col-xl-4 modal-card">
+                    <News {...defaultAttributes}>
+                      <p>{card.title}</p>
+                    </News>
 
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>
