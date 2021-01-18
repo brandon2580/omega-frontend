@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
+import Ticker from "react-ticker";
 import { Card } from "antd";
 
 const News = (props) => {
@@ -22,16 +23,19 @@ const News = (props) => {
       <hr className="card-hr" />
 
       <div style={{ height: 456 }}>
-        <div className="row news-row">
-          <div className="col-lg-12">
-            {news.map((el) => {
-              return (
-                <p>
-                  {el.source}: {el.title}
-                </p>
-              );
-            })}
-          </div>
+        <div className="scrolling-news">
+          <Ticker>
+            {() => {
+              let mappedNews = news.map((el) => {
+                return (
+                  <span className="ticker-content">
+                    <span className="yellow"><strong>{el.source}</strong></span>: {el.title}{'  '}
+                  </span>
+                );
+              });
+              return mappedNews;
+            }}
+          </Ticker>
         </div>
       </div>
     </Card>
