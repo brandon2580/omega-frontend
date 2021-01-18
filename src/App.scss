@@ -338,20 +338,20 @@ body.dark-mode .dropdown-btn {
   color: white;
 }
 
-body.dark-mode .ant-popover-title{
+body.dark-mode .ant-popover-title {
   background-color: black;
   color: white !important;
 }
 
-body.dark-mode .ant-popover-inner-content{
+body.dark-mode .ant-popover-inner-content {
   background-color: black !important;
 }
 
-.save-layout-modal{
+.save-layout-modal {
   width: 25% !important;
 }
 
-.save-layout-input{
+.save-layout-input {
   display: inline-block;
 }
 
@@ -359,7 +359,7 @@ body.dark-mode .ant-popover-inner-content{
   text-align: center;
 }
 
-body.dark-mode .error-message{
+body.dark-mode .error-message {
   text-align: center;
   color: white;
   margin-top: 15px;
@@ -391,11 +391,11 @@ body.dark-mode .error-message{
   margin-top: 50px;
 }
 
-.radial-risk{
+.radial-risk {
   margin-top: 100px;
 }
 
-.news-row{
+.news-row {
   overflow: scroll;
 }
 
@@ -409,6 +409,19 @@ body.dark-mode .error-message{
 .ticker-information {
   padding-left: 20px;
   padding-bottom: 20px;
+}
+
+.scrolling-news {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  font-size: 25px;
+  height: 50px;
+  line-height: 50px;
+}
+
+.yellow {
+  color: yellow;
 }
 
 .ant-card-head:hover {
