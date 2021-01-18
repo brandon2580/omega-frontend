@@ -18,6 +18,7 @@ import TickerHeader from "./TickerHeader";
 import TopNavbar from "../Navbars/TopNavbar";
 import Buybacks from "../Cards/Buybacks";
 import News from "../Cards/News";
+import PriceHistogram from "../Cards/PriceHistorgram";
 
 const GridLayout = WidthProvider(Responsive);
 
@@ -243,7 +244,7 @@ const HomeDashboard = (props) => {
             dates: card.dates,
             button: (
               <span
-                onClick={() => {  
+                onClick={() => {
                   removeCardFromLayout(card.id);
                 }}
                 role="img"
@@ -261,7 +262,7 @@ const HomeDashboard = (props) => {
             w: card.w,
             h: card.h,
             minW: card.minW,
-            isResizable: card.isResizable
+            isResizable: card.isResizable,
           };
 
           switch (card.name) {
@@ -325,6 +326,13 @@ const HomeDashboard = (props) => {
               return (
                 <div key={card.id} data-grid={defaultDataGrid}>
                   <News {...defaultAttributes} />
+                </div>
+              );
+
+            case "PriceHistogram":
+              return (
+                <div key={card.id} data-grid={defaultDataGrid}>
+                  <PriceHistogram {...defaultAttributes} />
                 </div>
               );
           }

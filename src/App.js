@@ -47,6 +47,7 @@ function App() {
   const [availableCards, setAvailableCards] = useState([
     {
       id: 0,
+      name: "TickerHeader",
       title: "Ticker Header",
       description: "",
       sector: "",
@@ -200,10 +201,23 @@ function App() {
       x: 0,
       y: 0,
       w: 12,
-      h: .25,
+      h: 0.25,
       minW: 3,
-      maxH: .25,
-      isResizable: false
+      maxH: 0.25,
+      isResizable: false,
+    },
+
+    {
+      id: 10,
+      name: "PriceHistogram",
+      title: "Price Histogram",
+      data: [],
+      x: 0,
+      y: 0,
+      w: 12,
+      h: 1,
+      minW: 3,
+      maxH: 1,
     },
   ]);
 
@@ -251,7 +265,27 @@ function App() {
       setAvailableCards((prevCards) => {
         // For each cards, return a new modified version of that card
         return prevCards.map((card) => {
-          if (card.title == "Price") {
+          if (card.name == "Price") {
+            return {
+              ...card,
+              data: Object.keys(price).map(function (key) {
+                return {
+                  x: key,
+                  y: [
+                    price[key].adj_open,
+                    price[key].adj_high,
+                    price[key].adj_low,
+                    price[key].adj_close,
+                  ],
+                };
+              }),
+              priceRange: priceRange,
+              setPriceRange: setPriceRange,
+              frame: frame,
+              setFrame: setFrame,
+            };
+          }
+          if (card.name == "PriceHistogram") {
             return {
               ...card,
               data: Object.keys(price).map(function (key) {
@@ -287,7 +321,7 @@ function App() {
       setAvailableCards((prevCards) => {
         // For each cards, return a new modified version of that card
         return prevCards.map((card) => {
-          if (card.title == "Dividends") {
+          if (card.name == "Dividends") {
             return {
               ...card,
               data: Object.keys(dividends.amount)
@@ -318,7 +352,7 @@ function App() {
       setAvailableCards((prevCards) => {
         // For each cards, return a new modified version of that card
         return prevCards.map((card) => {
-          if (card.title == "Earnings") {
+          if (card.name == "Earnings") {
             let dates = Object.keys(earnings.fiscal_period)
               .sort()
               .map(function (key, i) {
@@ -385,7 +419,7 @@ function App() {
     ).then((res) => res.json());
 
     const news = fetch(
-      `https://cloud.iexapis.com/stable/stock/${activeTicker}/news/last/5?token=pk_756d2eedb1d64c5192084581943ee4b9`
+      `https://cloud.iexapis.com/stable/stock/${activeTicker}/news/last/50?token=pk_756d2eedb1d64c5192084581943ee4b9`
     ).then((res) => res.json());
 
     const allReqs = [company, price_target, prices, analyst_recs, news];
@@ -397,8 +431,8 @@ function App() {
       setAvailableCards((prevCards) => {
         // For each cards, return a new modified version of that card
         return prevCards.map((card) => {
-          switch (card.title) {
-            case "Ticker Header":
+          switch (card.name) {
+            case "TickerHeader":
               return {
                 ...card,
                 company_name: company.company_name,
@@ -412,7 +446,7 @@ function App() {
                 // price_to_sales: adv_stats.price_to_sales.toFixed(2),
               };
 
-            case "Price Target":
+            case "PriceTarget":
               return {
                 ...card,
                 data: [
@@ -432,7 +466,7 @@ function App() {
                 ],
               };
 
-            case "Analyst Recommendations":
+            case "AnalystRecommendations":
               return {
                 ...card,
                 data: [
