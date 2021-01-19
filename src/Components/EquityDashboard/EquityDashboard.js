@@ -19,6 +19,7 @@ import TopNavbar from "../Navbars/TopNavbar";
 import Buybacks from "../Cards/Buybacks";
 import News from "../Cards/News";
 import PriceHistogram from "../Cards/PriceHistorgram";
+import PriceCalendar from "../Cards/PriceCalendar";
 
 const GridLayout = WidthProvider(Responsive);
 
@@ -333,6 +334,13 @@ const HomeDashboard = (props) => {
               return (
                 <div key={card.id} data-grid={defaultDataGrid}>
                   <PriceHistogram {...defaultAttributes} />
+                </div>
+              );
+
+            case "PriceCalendar":
+              return (
+                <div key={card.id} data-grid={defaultDataGrid}>
+                  <PriceCalendar {...defaultAttributes} />
                 </div>
               );
           }

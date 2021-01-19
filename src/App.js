@@ -219,6 +219,19 @@ function App() {
       minW: 3,
       maxH: 1,
     },
+
+    {
+      id: 11,
+      name: "PriceCalendar",
+      title: "Price Calendar",
+      data: [],
+      x: 0,
+      y: 0,
+      w: 12,
+      h: 1,
+      minW: 3,
+      maxH: 1,
+    },
   ]);
 
   /*
@@ -286,6 +299,27 @@ function App() {
             };
           }
           if (card.name == "PriceHistogram") {
+            return {
+              ...card,
+              data: Object.keys(price).map(function (key) {
+                return {
+                  x: key,
+                  y: [
+                    price[key].adj_open,
+                    price[key].adj_high,
+                    price[key].adj_low,
+                    price[key].adj_close,
+                  ],
+                };
+              }),
+              priceRange: priceRange,
+              setPriceRange: setPriceRange,
+              frame: frame,
+              setFrame: setFrame,
+            };
+          }
+
+          if (card.name == "PriceCalendar") {
             return {
               ...card,
               data: Object.keys(price).map(function (key) {

@@ -13,6 +13,7 @@ import Economics from "../Cards/Economics";
 import Buybacks from "../Cards/Buybacks";
 import News from "../Cards/News";
 import PriceHistogram from "../Cards/PriceHistorgram";
+import PriceCalendar from "../Cards/PriceCalendar";
 
 const AddCardModal = (props) => {
   const [value, setValue] = useState("");
@@ -222,6 +223,17 @@ const AddCardModal = (props) => {
                     <PriceHistogram {...defaultAttributes}>
                       <p>{card.title}</p>
                     </PriceHistogram>
+
+                    <AddToLayoutButton selectCard={selectCard} card={card} />
+                  </div>
+                );
+              }
+              if (card.name === "PriceCalendar" && defaultConditionals) {
+                return (
+                  <div className="col-xl-4 modal-card">
+                    <PriceCalendar {...defaultAttributes}>
+                      <p>{card.title}</p>
+                    </PriceCalendar>
 
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>
