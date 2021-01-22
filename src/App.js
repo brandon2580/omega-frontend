@@ -310,6 +310,7 @@ function App() {
                     price[key].adj_low,
                     price[key].adj_close,
                   ],
+                  change: price[key].change,
                 };
               }),
               priceRange: priceRange,
@@ -331,6 +332,7 @@ function App() {
                     price[key].adj_low,
                     price[key].adj_close,
                   ],
+                  change: price[key].change,
                 };
               }),
               priceRange: priceRange,
