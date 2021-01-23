@@ -232,6 +232,19 @@ function App() {
       minW: 3,
       maxH: 1,
     },
+
+    {
+      id: 12,
+      name: "OverallReturns",
+      title: "Overall Returns",
+      data: [],
+      x: 0,
+      y: 0,
+      w: 12,
+      h: 1,
+      minW: 3,
+      maxH: 1,
+    },
   ]);
 
   /*
@@ -332,6 +345,21 @@ function App() {
                     price[key].adj_low,
                     price[key].adj_close,
                   ],
+                  change: price[key].change,
+                };
+              }),
+              priceRange: priceRange,
+              setPriceRange: setPriceRange,
+              frame: frame,
+              setFrame: setFrame,
+            };
+          }
+          if (card.name == "OverallReturns") {
+            return {
+              ...card,
+              data: Object.keys(price).map(function (key) {
+                return {
+                  x: key,
                   change: price[key].change,
                 };
               }),

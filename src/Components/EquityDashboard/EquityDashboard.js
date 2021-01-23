@@ -20,29 +20,11 @@ import Buybacks from "../Cards/Buybacks";
 import News from "../Cards/News";
 import PriceHistogram from "../Cards/PriceHistorgram";
 import PriceCalendar from "../Cards/PriceCalendar";
+import OverallReturns from "../Cards/OverallReturns";
 
 const GridLayout = WidthProvider(Responsive);
 
-// Hook that traces re-renders caused by changed props
-function useTraceUpdate(props) {
-  const prev = useRef(props);
-  useEffect(() => {
-    const changedProps = Object.entries(props).reduce((ps, [k, v]) => {
-      if (prev.current[k] !== v) {
-        ps[k] = [prev.current[k], v];
-      }
-      return ps;
-    }, {});
-    if (Object.keys(changedProps).length > 0) {
-      console.log("Changed props:", changedProps);
-    }
-    prev.current = props;
-  });
-}
-
 const HomeDashboard = (props) => {
-  useTraceUpdate(props);
-
   // mainLayout is the default layout that the user will see when they first load the page
   // It consists of 7 cards identified by their id (i). They are assigned their default
   // widths, heights, and x, y positions on the grid
@@ -341,6 +323,13 @@ const HomeDashboard = (props) => {
               return (
                 <div key={card.id} data-grid={defaultDataGrid}>
                   <PriceCalendar {...defaultAttributes} />
+                </div>
+              );
+
+            case "OverallReturns":
+              return (
+                <div key={card.id} data-grid={defaultDataGrid}>
+                  <OverallReturns {...defaultAttributes} />
                 </div>
               );
           }
