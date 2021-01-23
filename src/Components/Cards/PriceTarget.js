@@ -37,7 +37,7 @@ const PriceTarget = (props) => {
     >
       <hr className="card-hr" />
 
-      <div style={{ height: 456 }}>
+      <div style={{ height: "456px" }}>
         <ResponsiveContainer>
           <LineChart
             data={series}

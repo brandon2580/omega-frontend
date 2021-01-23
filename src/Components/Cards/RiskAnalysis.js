@@ -83,7 +83,7 @@ const RiskAnalysis = (props) => {
     >
       <hr className="card-hr" />
 
-      <div style={{ height: 456 }}>
+      <div style={{ height: "456px" }}>
         <ReactApexChart
           className="radial-risk"
           options={options}

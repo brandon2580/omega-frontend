@@ -36,7 +36,6 @@ const PriceCalendar = (props) => {
 
     setSeries(mapped);
   }, [props.data]);
-  console.log(series);
 
   let options = {
     plotOptions: {
@@ -103,7 +102,7 @@ const PriceCalendar = (props) => {
       }}
     >
       <hr className="card-hr" />
-      <div style={{ height: "425px" }}>
+      <div style={{ height: "456px" }}>
         <ReactApexChart
           options={options}
           series={series}
