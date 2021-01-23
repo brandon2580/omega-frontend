@@ -3,7 +3,7 @@ import "../../App.scss";
 import { Card } from "antd";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 
-const COLORS = ["#FF0000", "#00FF00"];
+const COLORS = ["#00FF00", "#FF0000"];
 
 const OverallReturns = (props) => {
   const [series, setSeries] = useState([]);
@@ -20,14 +20,14 @@ const OverallReturns = (props) => {
 
     let positivePercent = (positiveCount / totalCount) * 100;
     let negativePercent = (negativeCount / totalCount) * 100;
-    
+
     setSeries([
       {
-        name: "Negatives",
+        name: "Positives",
         value: positivePercent,
       },
       {
-        name: "Positives",
+        name: "Negatives",
         value: negativePercent,
       },
     ]);
