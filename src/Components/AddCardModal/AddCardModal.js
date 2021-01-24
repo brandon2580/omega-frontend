@@ -21,7 +21,7 @@ const AddCardModal = (props) => {
   const [suggestions, setSuggestions] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
-  function selectCard(id) {
+  const selectCard = (id) => {
     // Card was selected, remove it
     if (props.selectedCardsIndex.includes(id)) {
       props.setSelectedCardsIndex((prevSelected) =>
@@ -33,7 +33,7 @@ const AddCardModal = (props) => {
     else {
       props.setSelectedCardsIndex((prevSelected) => [...prevSelected, id]);
     }
-  }
+  };
 
   // Shows modal
   const showModal = () => {
@@ -41,8 +41,23 @@ const AddCardModal = (props) => {
   };
 
   // Handles exit of modal
-  const handleExit = (e) => {
+  const handleExit = () => {
     setModalVisible(false);
+  };
+
+  const availableCardsObject = {
+    Earnings,
+    AnalystRecommendations,
+    Dividends,
+    Price,
+    PriceTarget,
+    RiskAnalysis,
+    Economics,
+    Buybacks,
+    News,
+    PriceHistogram,
+    PriceCalendar,
+    OverallReturns,
   };
 
   return (
@@ -111,142 +126,12 @@ const AddCardModal = (props) => {
                 !props.selectedCardsIndex.includes(card.id) &&
                 card.title.toLowerCase().includes(value.toLowerCase());
 
-              if (card.name === "Earnings" && defaultConditionals) {
+              if (card.name in availableCardsObject && defaultConditionals) {
+                const CustomTag = availableCardsObject[card.name];
+
                 return (
                   <div className="col-xl-4 modal-card">
-                    <Earnings {...defaultAttributes}>
-                      <p>{card.title}</p>
-                    </Earnings>
-
-                    <AddToLayoutButton selectCard={selectCard} card={card} />
-                  </div>
-                );
-              }
-
-              if (
-                card.name === "AnalystRecommendations" &&
-                defaultConditionals
-              ) {
-                return (
-                  <div className="col-xl-4 modal-card">
-                    <AnalystRecommendations {...defaultAttributes}>
-                      <p>{card.title}</p>
-                    </AnalystRecommendations>
-
-                    <AddToLayoutButton selectCard={selectCard} card={card} />
-                  </div>
-                );
-              }
-
-              if (card.name === "Dividends" && defaultConditionals) {
-                return (
-                  <div className="col-xl-4 modal-card">
-                    <Dividends {...defaultAttributes}>
-                      <p>{card.title}</p>
-                    </Dividends>
-
-                    <AddToLayoutButton selectCard={selectCard} card={card} />
-                  </div>
-                );
-              }
-
-              if (card.name === "Price" && defaultConditionals) {
-                return (
-                  <div className="col-xl-4 modal-card">
-                    <Price {...defaultAttributes}>
-                      <p>{card.title}</p>
-                    </Price>
-
-                    <AddToLayoutButton selectCard={selectCard} card={card} />
-                  </div>
-                );
-              }
-
-              if (card.name === "PriceTarget" && defaultConditionals) {
-                return (
-                  <div className="col-xl-4 modal-card">
-                    <PriceTarget {...defaultAttributes}>
-                      <p>{card.title}</p>
-                    </PriceTarget>
-
-                    <AddToLayoutButton selectCard={selectCard} card={card} />
-                  </div>
-                );
-              }
-
-              if (card.name === "RiskAnalysis" && defaultConditionals) {
-                return (
-                  <div className="col-xl-4 modal-card">
-                    <RiskAnalysis {...defaultAttributes}>
-                      <p>{card.title}</p>
-                    </RiskAnalysis>
-
-                    <AddToLayoutButton selectCard={selectCard} card={card} />
-                  </div>
-                );
-              }
-              if (card.name === "Economics" && defaultConditionals) {
-                return (
-                  <div className="col-xl-4 modal-card">
-                    <Economics {...defaultAttributes}>
-                      <p>{card.title}</p>
-                    </Economics>
-
-                    <AddToLayoutButton selectCard={selectCard} card={card} />
-                  </div>
-                );
-              }
-              if (card.name === "Buybacks" && defaultConditionals) {
-                return (
-                  <div className="col-xl-4 modal-card">
-                    <Buybacks {...defaultAttributes}>
-                      <p>{card.title}</p>
-                    </Buybacks>
-
-                    <AddToLayoutButton selectCard={selectCard} card={card} />
-                  </div>
-                );
-              }
-              if (card.name === "News" && defaultConditionals) {
-                return (
-                  <div className="col-xl-4 modal-card">
-                    <News {...defaultAttributes}>
-                      <p>{card.title}</p>
-                    </News>
-
-                    <AddToLayoutButton selectCard={selectCard} card={card} />
-                  </div>
-                );
-              }
-              if (card.name === "PriceHistogram" && defaultConditionals) {
-                return (
-                  <div className="col-xl-4 modal-card">
-                    <PriceHistogram {...defaultAttributes}>
-                      <p>{card.title}</p>
-                    </PriceHistogram>
-
-                    <AddToLayoutButton selectCard={selectCard} card={card} />
-                  </div>
-                );
-              }
-              if (card.name === "PriceCalendar" && defaultConditionals) {
-                return (
-                  <div className="col-xl-4 modal-card">
-                    <PriceCalendar {...defaultAttributes}>
-                      <p>{card.title}</p>
-                    </PriceCalendar>
-
-                    <AddToLayoutButton selectCard={selectCard} card={card} />
-                  </div>
-                );
-              }
-              if (card.name === "OverallReturns" && defaultConditionals) {
-                return (
-                  <div className="col-xl-4 modal-card">
-                    <OverallReturns {...defaultAttributes}>
-                      <p>{card.title}</p>
-                    </OverallReturns>
-
+                    <CustomTag {...defaultAttributes} />
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>
                 );

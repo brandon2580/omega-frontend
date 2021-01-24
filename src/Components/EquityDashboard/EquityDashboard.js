@@ -156,6 +156,21 @@ const HomeDashboard = (props) => {
     };
   }, [wasRemoved, undoClicked]);
 
+  const availableCardsObject = {
+    Earnings,
+    AnalystRecommendations,
+    Dividends,
+    Price,
+    PriceTarget,
+    RiskAnalysis,
+    Economics,
+    Buybacks,
+    News,
+    PriceHistogram,
+    PriceCalendar,
+    OverallReturns,
+  };
+
   var layout = { lg: value === true ? mainLayout : mainLayout };
 
   return (
@@ -248,90 +263,14 @@ const HomeDashboard = (props) => {
             isResizable: card.isResizable,
           };
 
-          switch (card.name) {
-            case "Earnings":
-              return (
-                <div key={card.id} data-grid={defaultDataGrid}>
-                  <Earnings {...defaultAttributes} />
-                </div>
-              );
+          if (card.name in availableCardsObject) {
+            const CustomTag = availableCardsObject[card.name];
 
-            case "AnalystRecommendations":
-              return (
-                <div key={card.id} data-grid={defaultDataGrid}>
-                  <AnalystRecommendations {...defaultAttributes} />
-                </div>
-              );
-
-            case "Dividends":
-              return (
-                <div key={card.id} data-grid={defaultDataGrid}>
-                  <Dividends {...defaultAttributes} />
-                </div>
-              );
-
-            case "Price":
-              return (
-                <div key={card.id} data-grid={defaultDataGrid}>
-                  <Price {...defaultAttributes} />
-                </div>
-              );
-
-            case "PriceTarget":
-              return (
-                <div key={card.id} data-grid={defaultDataGrid}>
-                  <PriceTarget {...defaultAttributes} />
-                </div>
-              );
-
-            case "RiskAnalysis":
-              return (
-                <div key={card.id} data-grid={defaultDataGrid}>
-                  <RiskAnalysis {...defaultAttributes} />
-                </div>
-              );
-
-            case "Economics":
-              return (
-                <div key={card.id} data-grid={defaultDataGrid}>
-                  <Economics {...defaultAttributes} />
-                </div>
-              );
-
-            case "Buybacks":
-              return (
-                <div key={card.id} data-grid={defaultDataGrid}>
-                  <Buybacks {...defaultAttributes} />
-                </div>
-              );
-
-            case "News":
-              return (
-                <div key={card.id} data-grid={defaultDataGrid}>
-                  <News {...defaultAttributes} />
-                </div>
-              );
-
-            case "PriceHistogram":
-              return (
-                <div key={card.id} data-grid={defaultDataGrid}>
-                  <PriceHistogram {...defaultAttributes} />
-                </div>
-              );
-
-            case "PriceCalendar":
-              return (
-                <div key={card.id} data-grid={defaultDataGrid}>
-                  <PriceCalendar {...defaultAttributes} />
-                </div>
-              );
-
-            case "OverallReturns":
-              return (
-                <div key={card.id} data-grid={defaultDataGrid}>
-                  <OverallReturns {...defaultAttributes} />
-                </div>
-              );
+            return (
+              <div key={card.id} data-grid={defaultDataGrid}>
+                <CustomTag {...defaultAttributes} />
+              </div>
+            );
           }
         })}
       </GridLayout>
