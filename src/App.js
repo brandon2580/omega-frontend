@@ -392,8 +392,8 @@ function App() {
                 .reverse()
                 .map(function (key) {
                   return {
-                    name: key,
-                    data: dividends.amount[key].toFixed(2),
+                    label: key,
+                    value: dividends.amount[key].toFixed(2),
                   };
                 }),
               dividendRange: dividendRange,

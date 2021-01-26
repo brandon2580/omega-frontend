@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card, Menu, Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import {
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  Legend,
-} from "recharts";
+import FusionCharts from "fusioncharts";
+import charts from "fusioncharts/fusioncharts.charts";
+import ReactFusioncharts from "react-fusioncharts";
+
+// Resolves charts dependancy
+charts(FusionCharts);
 
 const Dividends = (props) => {
   const [series, setSeries] = useState();
@@ -20,33 +17,72 @@ const Dividends = (props) => {
   }, [props.data]);
 
   const handleClick = (e) => {
-    props.setDividendRange(e.target.value)
+    props.setDividendRange(e.target.value);
+  };
+
+  console.log(series);
+
+  const dataSource = {
+    chart: {
+      numberPrefix: "$",
+      rotateLabels: 0,
+      canvasbgColor: "#000000",
+      canvasbgAlpha: "100",
+      canvasBorderThickness: "0",
+      showAlternateHGridColor: "0",
+      bgColor: "#000000",
+      bgAlpha: "#000000",
+      showBorder: "0",
+      palettecolors: "#007bff",
+      anchorBgColor: "#007bff",
+    },
+    data: series,
   };
 
   const menu = (
     <Menu>
       <Menu.Item>
-        <button className='btn btn-sm shadow-none dropdown-btn' onClick={handleClick} value="5">
+        <button
+          className="btn btn-sm shadow-none dropdown-btn"
+          onClick={handleClick}
+          value="5"
+        >
           5
         </button>
       </Menu.Item>
       <Menu.Item>
-        <button className='btn btn-sm shadow-none dropdown-btn' onClick={handleClick} value="10">
+        <button
+          className="btn btn-sm shadow-none dropdown-btn"
+          onClick={handleClick}
+          value="10"
+        >
           10
         </button>
       </Menu.Item>
       <Menu.Item>
-        <button className='btn btn-sm shadow-none dropdown-btn' onClick={handleClick} value="15">
+        <button
+          className="btn btn-sm shadow-none dropdown-btn"
+          onClick={handleClick}
+          value="15"
+        >
           15
         </button>
       </Menu.Item>
       <Menu.Item>
-        <button className='btn btn-sm shadow-none dropdown-btn' onClick={handleClick} value="20">
+        <button
+          className="btn btn-sm shadow-none dropdown-btn"
+          onClick={handleClick}
+          value="20"
+        >
           20
         </button>
       </Menu.Item>
       <Menu.Item>
-        <button className='btn btn-sm shadow-none dropdown-btn' onClick={handleClick} value="25">
+        <button
+          className="btn btn-sm shadow-none dropdown-btn"
+          onClick={handleClick}
+          value="25"
+        >
           25
         </button>
       </Menu.Item>
@@ -66,30 +102,13 @@ const Dividends = (props) => {
       <hr className="card-hr" />
 
       <div style={{ height: 456 }}>
-
-
-        <ResponsiveContainer>
-          <LineChart
-            data={series}
-            margin={{
-              top: 20,
-              right: 50,
-              left: 15,
-            }}
-          >
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend verticalAlign="bottom" align="center" />
-            <Line
-              type="monotone"
-              name={props.dataLabel}
-              dataKey="data"
-              stroke="#1F77B4"
-              fill="#007bff"
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        <ReactFusioncharts
+          type="line"
+          width="100%"
+          height="80%"
+          dataFormat="JSON"
+          dataSource={dataSource}
+        />
         <div className="row">
           <div className="col-sm-12">
             <Dropdown overlay={menu}>
