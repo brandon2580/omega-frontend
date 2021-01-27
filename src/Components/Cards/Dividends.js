@@ -20,8 +20,6 @@ const Dividends = (props) => {
     props.setDividendRange(e.target.value);
   };
 
-  console.log(series);
-
   const dataSource = {
     chart: {
       numberPrefix: "$",
