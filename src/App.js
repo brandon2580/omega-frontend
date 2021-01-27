@@ -245,6 +245,19 @@ function App() {
       minW: 3,
       maxH: 1,
     },
+
+    {
+      id: 13,
+      name: "AverageReturns",
+      title: "Average Returns",
+      data: [],
+      x: 0,
+      y: 0,
+      w: 12,
+      h: 1,
+      minW: 3,
+      maxH: 1,
+    },
   ]);
 
   /*
@@ -467,7 +480,7 @@ function App() {
 
   useEffect(() => {
     const company = fetch(
-      `${apiBaseUrl}/company?code=${apiCode}==&symbol=${activeTicker}`
+      `https://cloud.iexapis.com/stable/stock/${activeTicker}/company?token=pk_756d2eedb1d64c5192084581943ee4b9`
     ).then((res) => res.json());
 
     const prices = fetch(

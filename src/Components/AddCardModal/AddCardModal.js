@@ -15,6 +15,8 @@ import News from "../Cards/News";
 import PriceHistogram from "../Cards/PriceHistorgram";
 import PriceCalendar from "../Cards/PriceCalendar";
 import OverallReturns from "../Cards/OverallReturns";
+import AverageReturns from "../Cards/AverageReturns";
+
 
 const AddCardModal = (props) => {
   const [value, setValue] = useState("");
@@ -58,6 +60,7 @@ const AddCardModal = (props) => {
     PriceHistogram,
     PriceCalendar,
     OverallReturns,
+    AverageReturns
   };
 
   return (

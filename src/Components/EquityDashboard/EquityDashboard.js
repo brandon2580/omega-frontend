@@ -21,6 +21,8 @@ import News from "../Cards/News";
 import PriceHistogram from "../Cards/PriceHistorgram";
 import PriceCalendar from "../Cards/PriceCalendar";
 import OverallReturns from "../Cards/OverallReturns";
+import AverageReturns from "../Cards/AverageReturns";
+
 
 const GridLayout = WidthProvider(Responsive);
 
@@ -169,6 +171,7 @@ const HomeDashboard = (props) => {
     PriceHistogram,
     PriceCalendar,
     OverallReturns,
+    AverageReturns
   };
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
