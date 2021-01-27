@@ -1,54 +1,68 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import ReactApexChart from "react-apexcharts";
+import ReactFC from "react-fusioncharts";
+import FusionCharts from "fusioncharts/core";
+import AngularGauge from "fusioncharts/viz/angulargauge";
+import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+
+ReactFC.fcRoot(FusionCharts, AngularGauge, FusionTheme);
 
 const RiskAnalysis = (props) => {
   const [sharpe, setSharpe] = useState([{}]);
   const [currentRating, setCurrentRating] = useState("Rating");
   const [chartValue, setChartValue] = useState([0]);
 
-  let options = {
-    colors: ["#FF0000", "#00FF00"],
+  const dataSource = {
     chart: {
-      type: "radialBar",
-      offsetY: -20,
-      sparkline: {
-        enabled: true,
-      },
+      lowerLimit: "0",
+      upperLimit: "100",
+      lowerLimitDisplay: "Poor",
+      upperLimitDisplay: "Exceptional",
+      showValue: "1",
+      valueBelowPivot: "1",
+      theme: "fusion",
+      canvasbgColor: "#000000",
+      canvasbgAlpha: "100",
+      canvasBorderThickness: "0",
+      bgColor: "#000000",
+      bgAlpha: "#000000",
+      showBorder: "0",
+      palettecolors: "#007bff",
+      anchorBgColor: "#007bff",
     },
-    plotOptions: {
-      radialBar: {
-        startAngle: -90,
-        endAngle: 90,
-        track: {
-          background: "#FFFFFF",
-          strokeWidth: "97%",
-          margin: 5, // margin is in pixels
+    colorRange: {
+      color: [
+        {
+          minValue: "0",
+          maxValue: "25",
+          code: "#e44a00",
         },
-        dataLabels: {
-          name: {
-            show: true,
-            color: "#FFFFFF",
-            fontSize: "30px",
-            fontFamily: "Open Sans"
-          },
+        {
+          minValue: "25",
+          maxValue: "50",
+          code: "#f8bd19",
         },
-      },
+        {
+          minValue: "50",
+          maxValue: "75",
+          code: "#6baa01",
+        },
+        {
+          minValue: "75",
+          maxValue: "100",
+          code: "#006400",
+        },
+      ],
     },
-
-    fill: {
-      type: "gradient",
-      gradient: {
-        shadeIntensity: 0.4,
-        gradientToColors: ["#00FF00"],
-        inverseColors: true,
-        opacityFrom: 1,
-        opacityTo: 1,
-        stops: [0]
-      },
+    dials: {
+      dial: [
+        {
+          value: chartValue,
+          bgcolor: "#FFFFFF",
+        },
+      ],
     },
-    labels: [currentRating],
   };
 
   useEffect(() => {
@@ -83,13 +97,14 @@ const RiskAnalysis = (props) => {
     >
       <hr className="card-hr" />
 
-      <div style={{ height: "456px" }}>
-        <ReactApexChart
-          className="radial-risk"
-          options={options}
-          series={chartValue}
-          height="456"
-          type="radialBar"
+      <div className="radial-risk" style={{ height: "456px" }}>
+        <ReactFC
+          type="angulargauge"
+          width="60%"
+          height="80%"
+
+          dataFormat="JSON"
+          dataSource={dataSource}
         />
       </div>
     </Card>
