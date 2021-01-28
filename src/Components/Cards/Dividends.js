@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card, Menu, Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import FusionCharts from "fusioncharts";
-import charts from "fusioncharts/fusioncharts.charts";
-import ReactFusioncharts from "react-fusioncharts";
+import ReactFC from "react-fusioncharts";
+import FusionCharts from "fusioncharts/core";
+import Line from "fusioncharts/viz/line";
+import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 
-// Resolves charts dependancy
-charts(FusionCharts);
+ReactFC.fcRoot(FusionCharts, Line, FusionTheme);
 
 const Dividends = (props) => {
   const [series, setSeries] = useState();
 
   useEffect(() => {
-    setSeries(props.data);
+    setSeries(props.data.reverse());
   }, [props.data]);
 
   const handleClick = (e) => {
@@ -43,45 +43,63 @@ const Dividends = (props) => {
         <button
           className="btn btn-sm shadow-none dropdown-btn"
           onClick={handleClick}
-          value="5"
+          value="1m"
         >
-          5
+          1m
         </button>
       </Menu.Item>
       <Menu.Item>
         <button
           className="btn btn-sm shadow-none dropdown-btn"
           onClick={handleClick}
-          value="10"
+          value="3m"
         >
-          10
+          3m
         </button>
       </Menu.Item>
       <Menu.Item>
         <button
           className="btn btn-sm shadow-none dropdown-btn"
           onClick={handleClick}
-          value="15"
+          value="6m"
         >
-          15
+          6m
         </button>
       </Menu.Item>
       <Menu.Item>
         <button
           className="btn btn-sm shadow-none dropdown-btn"
           onClick={handleClick}
-          value="20"
+          value="ytd"
         >
-          20
+          ytd
         </button>
       </Menu.Item>
       <Menu.Item>
         <button
           className="btn btn-sm shadow-none dropdown-btn"
           onClick={handleClick}
-          value="25"
+          value="1y"
         >
-          25
+          1y
+        </button>
+      </Menu.Item>
+      <Menu.Item>
+        <button
+          className="btn btn-sm shadow-none dropdown-btn"
+          onClick={handleClick}
+          value="2y"
+        >
+          2y
+        </button>
+      </Menu.Item>
+      <Menu.Item>
+        <button
+          className="btn btn-sm shadow-none dropdown-btn"
+          onClick={handleClick}
+          value="5y"
+        >
+          5y
         </button>
       </Menu.Item>
     </Menu>
@@ -100,7 +118,7 @@ const Dividends = (props) => {
       <hr className="card-hr" />
 
       <div style={{ height: 456 }}>
-        <ReactFusioncharts
+        <ReactFC
           type="line"
           width="100%"
           height="80%"

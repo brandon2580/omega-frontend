@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import FusionCharts from "fusioncharts";
-import charts from "fusioncharts/fusioncharts.charts";
-import ReactFusioncharts from "react-fusioncharts";
+import ReactFC from "react-fusioncharts";
+import FusionCharts from "fusioncharts/core";
+import Bubble from "fusioncharts/viz/bubble";
+import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 
-// Resolves charts dependancy
-charts(FusionCharts);
+ReactFC.fcRoot(FusionCharts, Bubble, FusionTheme);
 
 const AverageReturns = (props) => {
   const [series, setSeries] = useState();
@@ -98,7 +98,7 @@ const AverageReturns = (props) => {
       <hr className="card-hr" />
 
       <div style={{ height: 456 }}>
-        <ReactFusioncharts
+        <ReactFC
           type="bubble"
           width="100%"
           height="80%"

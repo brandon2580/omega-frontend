@@ -1,12 +1,13 @@
 import React from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import FusionCharts from "fusioncharts";
-import charts from "fusioncharts/fusioncharts.charts";
-import ReactFusioncharts from "react-fusioncharts";
+import ReactFC from "react-fusioncharts";
+import FusionCharts from "fusioncharts/core";
+import Line from "fusioncharts/viz/line";
+import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 
-// Resolves charts dependancy
-charts(FusionCharts);
+ReactFC.fcRoot(FusionCharts, Line, FusionTheme);
+
 const dataSource = {
   chart: {
     caption: "Average Fastball Velocity",
@@ -88,7 +89,7 @@ const Economics = (props) => {
       <hr className="card-hr" />
 
       <div style={{ height: 456 }}>
-        <ReactFusioncharts
+        <ReactFC
           type="line"
           width="100%"
           height="100%"
