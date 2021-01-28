@@ -18,7 +18,7 @@ import Portfolio from "./Components/Portfolio/Portfolio";
 function App() {
   const [activeTicker, setActiveTicker] = useState("AAPL");
   const [priceRange, setPriceRange] = useState("1y");
-  const [dividendRange, setDividendRange] = useState(25);
+  const [dividendRange, setDividendRange] = useState("5y");
   const [earningsPeriod, setEarningsPeriod] = useState("Q");
   const [frame, setFrame] = useState("daily");
   const apiBaseUrl = "https://api-omega.azurewebsites.net/api";
@@ -390,7 +390,7 @@ function App() {
 
   useEffect(() => {
     const dividends = fetch(
-      `${apiBaseUrl}/dividends?code=${apiCode}==&symbol=${activeTicker}&lastN=${dividendRange}`
+      `https://sandbox.iexapis.com/stable/stock/${activeTicker}/dividends/${dividendRange}?token=Tpk_f087e31de6d8452abceb72a5ce7a77fd`
     ).then((res) => res.json());
 
     Promise.resolve(dividends).then((dividends) => {
@@ -401,14 +401,12 @@ function App() {
           if (card.name == "Dividends") {
             return {
               ...card,
-              data: Object.keys(dividends.amount)
-                .reverse()
-                .map(function (key) {
-                  return {
-                    label: key,
-                    value: dividends.amount[key].toFixed(2),
-                  };
-                }),
+              data: dividends.map((el, key) => {
+                return {
+                  label: key,
+                  value: el.amount.toFixed(2)
+                }
+              }),
               dividendRange: dividendRange,
               setDividendRange: setDividendRange,
             };
@@ -423,6 +421,10 @@ function App() {
     const earnings = fetch(
       `${apiBaseUrl}/earnings?code=${apiCode}==&symbol=${activeTicker}&lastN=4&period=${earningsPeriod}`
     ).then((res) => res.json());
+
+    // const earnings = fetch(
+    //   `https://sandbox.iexapis.com/stable/stock/${activeTicker}/earnings/4?period=${earningsPeriod}&token=Tpk_f087e31de6d8452abceb72a5ce7a77fd`
+    // ).then((res) => res.json());
 
     Promise.resolve(earnings).then((earnings) => {
       // Function syntax of setState to use the previous value from the state, as recommended by React
@@ -480,7 +482,7 @@ function App() {
 
   useEffect(() => {
     const company = fetch(
-      `https://cloud.iexapis.com/stable/stock/${activeTicker}/company?token=pk_756d2eedb1d64c5192084581943ee4b9`
+      `https://cloud.iexapis.com/stable/stock/${activeTicker}/company?token=pk_41174bf196e6408bb544b6d89806902a`
     ).then((res) => res.json());
 
     const prices = fetch(
