@@ -38,7 +38,7 @@ const Buybacks = (props) => {
             <YAxis />
             <Tooltip cursor={{fill: 'grey', opacity: "10%"}} />
             <Legend />
-            <Bar name={props.dataLabel} dataKey="data" fill="#1F77B4" />
+            <Bar name={props.dataLabel} dataKey="data" fill="#007bff" />
           </BarChart>
         </ResponsiveContainer>
       </div>

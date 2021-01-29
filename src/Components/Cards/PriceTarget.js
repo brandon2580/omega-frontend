@@ -67,7 +67,7 @@ const PriceTarget = (props) => {
               dot={false}
               name={props.dataLabel}
               dataKey="data"
-              stroke="#1F77B4"
+              stroke="#007bff"
               fill="#007bff"
             />
           </LineChart>
