@@ -13,7 +13,7 @@ const Dividends = (props) => {
   const [series, setSeries] = useState();
 
   useEffect(() => {
-    setSeries(props.data.reverse());
+    setSeries(props.data);
   }, [props.data]);
 
   const handleClick = (e) => {
@@ -43,63 +43,45 @@ const Dividends = (props) => {
         <button
           className="btn btn-sm shadow-none dropdown-btn"
           onClick={handleClick}
-          value="1m"
+          value="5"
         >
-          1m
+          5
         </button>
       </Menu.Item>
       <Menu.Item>
         <button
           className="btn btn-sm shadow-none dropdown-btn"
           onClick={handleClick}
-          value="3m"
+          value="10"
         >
-          3m
+          10
         </button>
       </Menu.Item>
       <Menu.Item>
         <button
           className="btn btn-sm shadow-none dropdown-btn"
           onClick={handleClick}
-          value="6m"
+          value="15"
         >
-          6m
+          15
         </button>
       </Menu.Item>
       <Menu.Item>
         <button
           className="btn btn-sm shadow-none dropdown-btn"
           onClick={handleClick}
-          value="ytd"
+          value="20"
         >
-          ytd
+          20
         </button>
       </Menu.Item>
       <Menu.Item>
         <button
           className="btn btn-sm shadow-none dropdown-btn"
           onClick={handleClick}
-          value="1y"
+          value="25"
         >
-          1y
-        </button>
-      </Menu.Item>
-      <Menu.Item>
-        <button
-          className="btn btn-sm shadow-none dropdown-btn"
-          onClick={handleClick}
-          value="2y"
-        >
-          2y
-        </button>
-      </Menu.Item>
-      <Menu.Item>
-        <button
-          className="btn btn-sm shadow-none dropdown-btn"
-          onClick={handleClick}
-          value="5y"
-        >
-          5y
+          25
         </button>
       </Menu.Item>
     </Menu>
