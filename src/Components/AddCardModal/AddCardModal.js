@@ -121,6 +121,8 @@ const AddCardModal = (props) => {
                 frame: card.frame,
                 setFrame: card.setFrame,
                 dates: card.dates,
+                consensus: card.consensus,
+                actual: card.actual,
               };
 
               // These conditions must be met in order for a card to be rendered

@@ -243,6 +243,8 @@ const HomeDashboard = (props) => {
             earningsPeriod: card.earningsPeriod,
             setEarningsPeriod: card.setEarningsPeriod,
             dates: card.dates,
+            consensus: card.consensus,
+            actual: card.actual,
             button: (
               <span
                 onClick={() => {
