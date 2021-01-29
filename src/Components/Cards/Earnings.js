@@ -39,7 +39,6 @@ const Earnings = (props) => {
     setDates(formattedDates);
   }, [props.consensus, props.actual, props.dates]);
 
-  console.log(dates);
 
   const dataSource = {
     chart: {
@@ -54,6 +53,7 @@ const Earnings = (props) => {
       showBorder: "0",
       anchorRadius: "7",
       anchorSides: "1",
+      canvasPadding: "50",
     },
     categories: [{ category: dates }],
     dataset: [
