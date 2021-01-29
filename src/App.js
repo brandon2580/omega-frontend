@@ -18,7 +18,7 @@ import Portfolio from "./Components/Portfolio/Portfolio";
 function App() {
   const [activeTicker, setActiveTicker] = useState("AAPL");
   const [priceRange, setPriceRange] = useState("1y");
-  const [dividendRange, setDividendRange] = useState("5y");
+  const [dividendRange, setDividendRange] = useState(25);
   const [earningsPeriod, setEarningsPeriod] = useState("Q");
   const [frame, setFrame] = useState("daily");
   const apiBaseUrl = "https://api-omega.azurewebsites.net/api";
@@ -58,10 +58,8 @@ function App() {
       id: 1,
       name: "Earnings",
       title: "Earnings",
-      data: [
-        { data: [], name: "Consensus" },
-        { data: [], name: "Actual" },
-      ],
+      actual: { name: "Actual", eps: [] },
+      consensus: { name: "Consensus", eps: [] },
       earningsPeriod: earningsPeriod,
       setEarningsPeriod: setEarningsPeriod,
       dates: [],
@@ -390,7 +388,7 @@ function App() {
 
   useEffect(() => {
     const dividends = fetch(
-      `https://sandbox.iexapis.com/stable/stock/${activeTicker}/dividends/${dividendRange}?token=Tpk_f087e31de6d8452abceb72a5ce7a77fd`
+      `${apiBaseUrl}/dividends?code=${apiCode}==&symbol=${activeTicker}&lastN=${dividendRange}`
     ).then((res) => res.json());
 
     Promise.resolve(dividends).then((dividends) => {
@@ -401,12 +399,14 @@ function App() {
           if (card.name == "Dividends") {
             return {
               ...card,
-              data: dividends.map((el, key) => {
-                return {
-                  label: key,
-                  value: el.amount.toFixed(2)
-                }
-              }),
+              data: Object.keys(dividends.amount)
+                .reverse()
+                .map(function (key) {
+                  return {
+                    label: key,
+                    value: dividends.amount[key].toFixed(2),
+                  };
+                }),
               dividendRange: dividendRange,
               setDividendRange: setDividendRange,
             };
@@ -458,16 +458,15 @@ function App() {
 
             return {
               ...card,
-              data: [
-                {
-                  name: "Consensus",
-                  data: consensusMap,
-                },
-                {
-                  name: "Actual",
-                  data: actualMap,
-                },
-              ],
+              actual: {
+                name: "Actual",
+                eps: actualMap,
+              },
+
+              consensus: {
+                name: "Consensus",
+                eps: consensusMap,
+              },
 
               earningsPeriod: earningsPeriod,
               setEarningsPeriod: setEarningsPeriod,
@@ -478,6 +477,7 @@ function App() {
         });
       });
     });
+    console.log(earnings);
   }, [earningsPeriod, activeTicker]);
 
   useEffect(() => {
