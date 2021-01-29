@@ -109,6 +109,7 @@ function App() {
       setPriceRange: setPriceRange,
       frame: frame,
       setFrame: setFrame,
+      date: "",
       tickCount: 10,
       dataLabel: "Price",
       x: 4,
@@ -303,23 +304,30 @@ function App() {
         // For each cards, return a new modified version of that card
         return prevCards.map((card) => {
           if (card.name == "Price") {
+            let date = Object.keys(price).map(function (key, i) {
+              return {
+                label: key,
+                x: i
+              };
+            });
+
             return {
               ...card,
-              data: Object.keys(price).map(function (key) {
+              data: Object.keys(price).map(function (key, i) {
                 return {
-                  x: key,
-                  y: [
-                    price[key].adj_open,
-                    price[key].adj_high,
-                    price[key].adj_low,
-                    price[key].adj_close,
-                  ],
+                  x: i,
+                  open: price[key].adj_open,
+                  high: price[key].adj_high,
+                  low: price[key].adj_low,
+                  close: price[key].adj_close,
+                  volume: price[key].volume,
                 };
               }),
               priceRange: priceRange,
               setPriceRange: setPriceRange,
               frame: frame,
               setFrame: setFrame,
+              date: date
             };
           }
           if (card.name == "PriceHistogram") {
@@ -477,7 +485,6 @@ function App() {
         });
       });
     });
-    console.log(earnings);
   }, [earningsPeriod, activeTicker]);
 
   useEffect(() => {

@@ -112,6 +112,7 @@ const AddCardModal = (props) => {
                 data: card.data,
                 dataLabel: card.dataLabel,
                 labels: card.labels,
+                date: card.date,
                 priceRange: card.priceRange,
                 setPriceRange: card.setPriceRange,
                 dividendRange: card.dividendRange,
