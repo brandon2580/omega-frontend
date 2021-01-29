@@ -1,45 +1,75 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import ReactApexChart from "react-apexcharts";
+import ReactFC from "react-fusioncharts";
+import FusionCharts from "fusioncharts/core";
+import Scatter from "fusioncharts/viz/scatter";
+import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+
+ReactFC.fcRoot(FusionCharts, Scatter, FusionTheme);
 
 const Earnings = (props) => {
-  const [series, setSeries] = useState([]);
+  const [consensus, setConsensus] = useState();
+  const [actual, setActual] = useState();
   const [dates, setDates] = useState([]);
 
   useEffect(() => {
-    setSeries(props.data);
-    setDates(props.dates);
-  }, [props.data]);
+    let consensusEPS = props.consensus.eps.map((el, i) => {
+      return {
+        x: i + 1,
+        y: el.y,
+      };
+    });
 
-  let options = {
+    let actualEPS = props.actual.eps.map((el, i) => {
+      return {
+        x: i + 1,
+        y: el.y,
+      };
+    });
+
+    let formattedDates = props.dates.map((el, i) => {
+      return {
+        x: i + 1,
+        label: el,
+      };
+    });
+    setConsensus(consensusEPS);
+    setActual(actualEPS);
+    setDates(formattedDates);
+  }, [props.consensus, props.actual, props.dates]);
+
+  console.log(dates);
+
+  const dataSource = {
     chart: {
-      type: "scatter",
-      width: "100%",
-      animations: {
-        enabled: false
-      }
+      yaxisname: "EPS",
+      ynumberprefix: "$",
+      canvasbgColor: "#000000",
+      canvasbgAlpha: "100",
+      canvasBorderThickness: "0",
+      showAlternateHGridColor: "0",
+      bgColor: "#000000",
+      bgAlpha: "#000000",
+      showBorder: "0",
+      anchorRadius: "7",
+      anchorSides: "1",
     },
-
-    colors: ["#D3D3D3", "#007BFF"],
-
-    markers: {
-      strokeWidth: 0,
-    },
-
-    yaxis: {
-      tooltip: {
-        enabled: true,
+    categories: [{ category: dates }],
+    dataset: [
+      {
+        seriesname: "Consensus",
+        color: "#C0C0C0",
+        anchorBgColor: "#C0C0C0",
+        data: consensus,
       },
-    },
-    
-    xaxis: {
-      categories: dates,
-    },
-
-    grid: {
-      borderColor: "none",
-    },
+      {
+        seriesname: "Actual",
+        color: "#007bff",
+        anchorBgColor: "#007bff",
+        data: actual,
+      },
+    ],
   };
 
   return (
@@ -55,11 +85,12 @@ const Earnings = (props) => {
       <hr className="card-hr" />
 
       <div style={{ height: 456 }}>
-        <ReactApexChart
-          options={options}
-          series={series}
-          height="456"
+        <ReactFC
           type="scatter"
+          width="100%"
+          height="90%"
+          dataFormat="JSON"
+          dataSource={dataSource}
         />
       </div>
     </Card>
