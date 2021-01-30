@@ -1,29 +1,70 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import {
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  Legend,
-  ReferenceLine,
-} from "recharts";
+import ReactFC from "react-fusioncharts";
+import FusionCharts from "fusioncharts/core";
+import Line from "fusioncharts/viz/line";
+import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+
+ReactFC.fcRoot(FusionCharts, Line, FusionTheme);
 
 const PriceTarget = (props) => {
   const [series, setSeries] = useState();
   const [high, setHigh] = useState();
   const [average, setAverage] = useState();
   const [low, setLow] = useState();
-  
+
   useEffect(() => {
-    setSeries(props.data[0]);
+    setSeries(props.data[0].splice(2));
     setHigh(props.data[1].high);
     setAverage(props.data[1].average);
-    setLow(props.data[1].low);
+    setLow(props.data[1].low)
+    console.log(low)
   }, [props.data]);
+
+  const dataSource = {
+    chart: {
+      numberPrefix: "$",
+      rotateLabels: 0,
+      canvasbgColor: "#000000",
+      canvasbgAlpha: "100",
+      canvasBorderThickness: "0",
+      showAlternateHGridColor: "0",
+      bgColor: "#000000",
+      bgAlpha: "#000000",
+      showBorder: "0",
+      palettecolors: "#007bff",
+      drawAnchors: "0",
+    },
+    data: series,
+    trendlines: [
+      {
+        line: [
+          {
+            startvalue: high,
+            color: "#00FF00",
+            displayvalue: "High",
+            valueOnRight: "1",
+            thickness: "1",
+          },
+          {
+            startvalue: average,
+            color: "#C0C0C0",
+            displayvalue: "Avg",
+            valueOnRight: "1",
+            thickness: "1",
+          },
+          {
+            startvalue: low,
+            color: "#FF0000",
+            displayvalue: "Low",
+            valueOnRight: "1",
+            thickness: "1",
+          },
+        ],
+      },
+    ],
+  };
 
   return (
     <Card
@@ -38,40 +79,13 @@ const PriceTarget = (props) => {
       <hr className="card-hr" />
 
       <div style={{ height: "456px" }}>
-        <ResponsiveContainer>
-          <LineChart
-            data={series}
-            margin={{
-              top: 20,
-              right: 50,
-              left: 15,
-            }}
-          >
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend
-              verticalAlign="bottom"
-              align="center"
-              payload={[
-                { id: "High Estimate", value: "High Estimate", type: "line", color: "lime" },
-                { id: "Average Estimate", value: "Average Estimate", type: "line", color: "grey" },
-                { id: "Low Estimate", value: "Low Estimate", type: "line", color: "red" },
-              ]}
-            />
-            <ReferenceLine y={high} stroke="lime" alwaysShow={true} />
-            <ReferenceLine y={average} stroke="grey" alwaysShow={true} />
-            <ReferenceLine y={low} stroke="red" alwaysShow={true} />
-            <Line
-              type="monotone"
-              dot={false}
-              name={props.dataLabel}
-              dataKey="data"
-              stroke="#007bff"
-              fill="#007bff"
-            />
-          </LineChart>
-        </ResponsiveContainer>
+        <ReactFC
+          type="line"
+          width="100%"
+          height="80%"
+          dataFormat="JSON"
+          dataSource={dataSource}
+        />
       </div>
     </Card>
   );
