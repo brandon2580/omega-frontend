@@ -151,21 +151,12 @@ function App() {
 
     {
       id: 7,
-      name: "Economics",
-      title: "Economics",
-      data: [
-        { name: "2014", data: 2.45 },
-        { name: "2015", data: 2.88 },
-        { name: "2016", data: 1.57 },
-        { name: "2017", data: 2.22 },
-        { name: "2018", data: 3.18 },
-        { name: "2019", data: 2.33 },
-        { name: "2020", data: -5.9 },
-      ],
-      dataLabel: "GDP",
-      x: 12,
+      name: "PriceCalendar",
+      title: "Price Calendar",
+      data: [],
+      x: 0,
       y: 0,
-      w: 6,
+      w: 12,
       h: 1,
       minW: 3,
       maxH: 1,
@@ -221,12 +212,21 @@ function App() {
 
     {
       id: 11,
-      name: "PriceCalendar",
-      title: "Price Calendar",
-      data: [],
-      x: 0,
+      name: "Economics",
+      title: "Economics",
+      data: [
+        { name: "2014", data: 2.45 },
+        { name: "2015", data: 2.88 },
+        { name: "2016", data: 1.57 },
+        { name: "2017", data: 2.22 },
+        { name: "2018", data: 3.18 },
+        { name: "2019", data: 2.33 },
+        { name: "2020", data: -5.9 },
+      ],
+      dataLabel: "GDP",
+      x: 12,
       y: 0,
-      w: 12,
+      w: 6,
       h: 1,
       minW: 3,
       maxH: 1,
@@ -307,7 +307,7 @@ function App() {
             let date = Object.keys(price).map(function (key, i) {
               return {
                 label: key,
-                x: i
+                x: i,
               };
             });
 
@@ -327,32 +327,10 @@ function App() {
               setPriceRange: setPriceRange,
               frame: frame,
               setFrame: setFrame,
-              date: date
+              date: date,
             };
           }
           if (card.name == "PriceHistogram") {
-            return {
-              ...card,
-              data: Object.keys(price).map(function (key) {
-                return {
-                  x: key,
-                  y: [
-                    price[key].adj_open,
-                    price[key].adj_high,
-                    price[key].adj_low,
-                    price[key].adj_close,
-                  ],
-                  change: price[key].change,
-                };
-              }),
-              priceRange: priceRange,
-              setPriceRange: setPriceRange,
-              frame: frame,
-              setFrame: setFrame,
-            };
-          }
-
-          if (card.name == "PriceCalendar") {
             return {
               ...card,
               data: Object.keys(price).map(function (key) {
@@ -496,6 +474,10 @@ function App() {
       `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=1y`
     ).then((res) => res.json());
 
+    const price_calendar = fetch(
+      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=5y&frame=monthly`
+    ).then((res) => res.json());
+
     const price_target = fetch(
       `${apiBaseUrl}/price_targets?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
@@ -508,10 +490,24 @@ function App() {
       `https://cloud.iexapis.com/stable/stock/${activeTicker}/news/last/50?token=pk_756d2eedb1d64c5192084581943ee4b9`
     ).then((res) => res.json());
 
-    const allReqs = [company, price_target, prices, analyst_recs, news];
+    const allReqs = [
+      company,
+      price_target,
+      prices,
+      analyst_recs,
+      news,
+      price_calendar,
+    ];
 
     Promise.all(allReqs).then((allResp, price) => {
-      const [company, price_target, prices, analyst_recs, news] = allResp;
+      const [
+        company,
+        price_target,
+        prices,
+        analyst_recs,
+        news,
+        price_calendar,
+      ] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
@@ -538,8 +534,8 @@ function App() {
                 data: [
                   Object.keys(prices).map(function (key) {
                     return {
-                      name: key,
-                      data: prices[key].adj_close,
+                      label: key,
+                      value: prices[key].adj_close,
                     };
                   }),
                   {
@@ -550,6 +546,21 @@ function App() {
                     numOfAnalysts: price_target.num_of_analysts,
                   },
                 ],
+              };
+
+            case "PriceCalendar":
+              return {
+                ...card,
+                data: Object.keys(price_calendar).map(function (key) {
+                  return {
+                    x: key,
+                    close: price_calendar[key].adj_close,
+                  };
+                }),
+                priceRange: priceRange,
+                setPriceRange: setPriceRange,
+                frame: frame,
+                setFrame: setFrame,
               };
 
             case "AnalystRecommendations":
