@@ -12,34 +12,9 @@ ReactFC.fcRoot(FusionCharts, Radar, FusionTheme);
 const PriceCalendar = (props) => {
   const [series, setSeries] = useState([]);
 
-  function percentChange(n1, n2) {
-    return (((n2 - n1) / n1) * 100).toFixed(2);
-  }
-
   useEffect(() => {
-    let closes = props.data.slice(2).map((el) => {
-      return el.close;
-    });
-
-    let months = props.data.slice(2).map((el) => {
-      let month = el.x.substring(5, 7)
-      return month
-    })
-
-    let grouped = _.zip(closes, _.tail(closes))
-
-    let mapped = grouped.map((price) => {
-      return percentChange(price[0], price[1])
-    });
-    mapped.pop();
-
-    console.log(grouped)
-    console.log(mapped)
-    console.log(props.data.slice(2))
-
-    setSeries(mapped);
+    setSeries(props.data);
   }, [props.data]);
-
 
   const dataSource = {
     chart: {
@@ -48,6 +23,8 @@ const PriceCalendar = (props) => {
       showlimits: "0",
       showvalues: "1",
       plotfillalpha: "40",
+      decimals: "2",
+      numbersuffix: "%"
     },
     categories: [
       {

@@ -475,7 +475,7 @@ function App() {
     ).then((res) => res.json());
 
     const price_calendar = fetch(
-      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=5y&frame=monthly`
+      `${apiBaseUrl}/avg_return?code=${apiCode}==&symbol=${activeTicker}&range=3`
     ).then((res) => res.json());
 
     const price_target = fetch(
@@ -553,8 +553,7 @@ function App() {
                 ...card,
                 data: Object.keys(price_calendar).map(function (key) {
                   return {
-                    x: key,
-                    close: price_calendar[key].adj_close,
+                    value: (price_calendar[key].avg_return) * 100,
                   };
                 }),
                 priceRange: priceRange,
