@@ -19,7 +19,6 @@ const PriceTarget = (props) => {
     setHigh(props.data[1].high);
     setAverage(props.data[1].average);
     setLow(props.data[1].low)
-    console.log(low)
   }, [props.data]);
 
   const dataSource = {
