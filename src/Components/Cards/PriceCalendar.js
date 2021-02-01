@@ -18,13 +18,17 @@ const PriceCalendar = (props) => {
 
   const dataSource = {
     chart: {
-      showlegend: "0",
-      showdivlinevalues: "0",
-      showlimits: "0",
-      showvalues: "1",
-      plotfillalpha: "40",
       decimals: "2",
-      numbersuffix: "%"
+      showlegend: "0",
+      showvalues: "1",
+      numbersuffix: "%",
+      canvasbgColor: "#000000",
+      plotfillalpha: "40",
+      bgColor: "#000000",
+      bgAlpha: "100",
+      showBorder: "0",
+      palettecolors: "#007bff",
+      anchorBgColor: "#007bff",
     },
     categories: [
       {

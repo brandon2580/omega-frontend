@@ -475,7 +475,7 @@ function App() {
     ).then((res) => res.json());
 
     const price_calendar = fetch(
-      `${apiBaseUrl}/avg_return?code=${apiCode}==&symbol=${activeTicker}&range=3`
+      `${apiBaseUrl}/avg_return?code=${apiCode}==&symbol=${activeTicker}&range=max`
     ).then((res) => res.json());
 
     const price_target = fetch(
