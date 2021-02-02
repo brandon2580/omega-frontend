@@ -12,9 +12,11 @@ ReactFC.fcRoot(FusionCharts, Line, FusionTheme);
 const Dividends = (props) => {
   const [series, setSeries] = useState();
   const [theme, setTheme] = useState("");
+  const [textColor, setTextColor] = useState("");
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
+    props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
   }, [props.darkMode]);
 
   useEffect(() => {
@@ -38,6 +40,7 @@ const Dividends = (props) => {
       showBorder: "0",
       palettecolors: "#007bff",
       anchorBgColor: "#007bff",
+      baseFontColor: textColor,
     },
     data: series,
   };
@@ -104,22 +107,20 @@ const Dividends = (props) => {
     >
       <hr className="card-hr" />
 
-      <div style={{ height: 456 }}>
-        <ReactFC
-          type="line"
-          width="100%"
-          height="80%"
-          dataFormat="JSON"
-          dataSource={dataSource}
-        />
-        <div className="row">
-          <div className="col-sm-12">
-            <Dropdown overlay={menu}>
-              <btn className="ant-dropdown-link">
-                Range <DownOutlined />
-              </btn>
-            </Dropdown>
-          </div>
+      <ReactFC
+        type="line"
+        width="100%"
+        height="80%"
+        dataFormat="JSON"
+        dataSource={dataSource}
+      />
+      <div className="row">
+        <div className="col-sm-12">
+          <Dropdown overlay={menu}>
+            <btn className="ant-dropdown-link">
+              Range <DownOutlined />
+            </btn>
+          </Dropdown>
         </div>
       </div>
     </Card>

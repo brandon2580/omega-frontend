@@ -12,9 +12,11 @@ ReactFC.fcRoot(FusionCharts, Radar, FusionTheme);
 const PriceCalendar = (props) => {
   const [series, setSeries] = useState([]);
   const [theme, setTheme] = useState("");
+  const [textColor, setTextColor] = useState("");
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
+    props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
   }, [props.darkMode]);
 
   useEffect(() => {
@@ -35,6 +37,7 @@ const PriceCalendar = (props) => {
       showBorder: "0",
       palettecolors: "#007bff",
       anchorBgColor: "#007bff",
+      baseFontColor: textColor,
     },
     categories: [
       {

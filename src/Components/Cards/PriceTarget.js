@@ -14,16 +14,18 @@ const PriceTarget = (props) => {
   const [average, setAverage] = useState();
   const [low, setLow] = useState();
   const [theme, setTheme] = useState("");
+  const [textColor, setTextColor] = useState("");
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
+    props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
   }, [props.darkMode]);
 
   useEffect(() => {
     setSeries(props.data[0].splice(2));
     setHigh(props.data[1].high);
     setAverage(props.data[1].average);
-    setLow(props.data[1].low)
+    setLow(props.data[1].low);
   }, [props.data]);
 
   const dataSource = {
@@ -39,6 +41,7 @@ const PriceTarget = (props) => {
       showBorder: "0",
       palettecolors: "#007bff",
       drawAnchors: "0",
+      baseFontColor: textColor,
     },
     data: series,
     trendlines: [
@@ -82,15 +85,13 @@ const PriceTarget = (props) => {
     >
       <hr className="card-hr" />
 
-      <div style={{ height: "456px" }}>
-        <ReactFC
-          type="line"
-          width="100%"
-          height="80%"
-          dataFormat="JSON"
-          dataSource={dataSource}
-        />
-      </div>
+      <ReactFC
+        type="line"
+        width="100%"
+        height="80%"
+        dataFormat="JSON"
+        dataSource={dataSource}
+      />
     </Card>
   );
 };

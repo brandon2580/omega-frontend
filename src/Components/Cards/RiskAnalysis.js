@@ -4,37 +4,33 @@ import { Card } from "antd";
 import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts/core";
 import AngularGauge from "fusioncharts/viz/angulargauge";
-import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 
-ReactFC.fcRoot(FusionCharts, AngularGauge, FusionTheme);
+ReactFC.fcRoot(FusionCharts, AngularGauge);
 
 const RiskAnalysis = (props) => {
   const [sharpe, setSharpe] = useState([{}]);
   const [currentRating, setCurrentRating] = useState("Rating");
   const [chartValue, setChartValue] = useState([0]);
   const [theme, setTheme] = useState("");
+  const [dialColor, setDialColor] = useState("");
+  const [textColor, setTextColor] = useState("");
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
+    props.darkMode ? setDialColor("#FFFFFF") : setDialColor("#000000");
+    props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
   }, [props.darkMode]);
 
   const dataSource = {
     chart: {
-      lowerLimit: "0",
-      upperLimit: "100",
+      theme: "fusion",
       lowerLimitDisplay: "Poor",
       upperLimitDisplay: "Exceptional",
-      showValue: "1",
-      valueBelowPivot: "1",
-      theme: "fusion",
       canvasbgColor: theme,
-      canvasbgAlpha: "100",
-      canvasBorderThickness: "0",
       bgColor: theme,
-      bgAlpha: "100",
-      showBorder: "0",
-      palettecolors: "#007bff",
-      anchorBgColor: "#007bff",
+      showPivotBorder: 1,
+      baseFontColor: textColor,
+      tickValueStep: 4,
     },
     colorRange: {
       color: [
@@ -64,7 +60,7 @@ const RiskAnalysis = (props) => {
       dial: [
         {
           value: chartValue,
-          bgcolor: "#FFFFFF",
+          bgcolor: dialColor,
         },
       ],
     },
@@ -101,13 +97,11 @@ const RiskAnalysis = (props) => {
       }}
     >
       <hr className="card-hr" />
-
-      <div className="radial-risk" style={{ height: "456px" }}>
+      <div className="gauge-risk">
         <ReactFC
           type="angulargauge"
-          width="60%"
-          height="80%"
-
+          width="100%"
+          height="45%"
           dataFormat="JSON"
           dataSource={dataSource}
         />

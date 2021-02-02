@@ -13,9 +13,11 @@ const Earnings = (props) => {
   const [actual, setActual] = useState();
   const [dates, setDates] = useState([]);
   const [theme, setTheme] = useState("");
+  const [textColor, setTextColor] = useState("");
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
+    props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
   }, [props.darkMode]);
 
   useEffect(() => {
@@ -59,6 +61,7 @@ const Earnings = (props) => {
       bgColor: theme,
       bgAlpha: "100",
       legendBgColor: theme,
+      baseFontColor: textColor
     },
     categories: [{ category: dates }],
     dataset: [
@@ -89,7 +92,6 @@ const Earnings = (props) => {
     >
       <hr className="card-hr" />
 
-      <div style={{ height: 456 }}>
         <ReactFC
           type="scatter"
           width="100%"
@@ -97,7 +99,6 @@ const Earnings = (props) => {
           dataFormat="JSON"
           dataSource={dataSource}
         />
-      </div>
     </Card>
   );
 };

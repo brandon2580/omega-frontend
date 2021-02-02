@@ -8,12 +8,12 @@ const Price = (props) => {
 
   let options = {
     chart: {
-      type: 'candlestick',
+      type: "candlestick",
       height: 420,
-      width: '100%',
+      width: "100%",
       animations: {
-        enabled: false
-      }
+        enabled: false,
+      },
     },
     yaxis: {
       tooltip: {
@@ -23,13 +23,13 @@ const Price = (props) => {
     xaxis: {
       tickAmount: 4,
       labels: {
-        rotate: 0
+        rotate: 0,
       },
       grid: {
         borderColor: "none",
       },
-    }
-  }
+    },
+  };
 
   useEffect(() => {
     setSeries([{ data: props.data.slice(2) }]);
@@ -80,14 +80,13 @@ const Price = (props) => {
           </button>
         </div>
       </div>
-      <div style={{ height: "425px" }}>
-        <ReactApexChart
-          options={options}
-          series={series}
-          type="candlestick"
-          height={413}
-        />
-      </div>
+
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="candlestick"
+        height={413}
+      />
 
       <div className="row">
         <div className="col-lg-12">
