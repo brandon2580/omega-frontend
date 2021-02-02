@@ -212,28 +212,6 @@ function App() {
 
     {
       id: 11,
-      name: "Economics",
-      title: "Economics",
-      data: [
-        { name: "2014", data: 2.45 },
-        { name: "2015", data: 2.88 },
-        { name: "2016", data: 1.57 },
-        { name: "2017", data: 2.22 },
-        { name: "2018", data: 3.18 },
-        { name: "2019", data: 2.33 },
-        { name: "2020", data: -5.9 },
-      ],
-      dataLabel: "GDP",
-      x: 12,
-      y: 0,
-      w: 6,
-      h: 1,
-      minW: 3,
-      maxH: 1,
-    },
-
-    {
-      id: 12,
       name: "OverallReturns",
       title: "Overall Returns",
       data: [],
@@ -246,7 +224,7 @@ function App() {
     },
 
     {
-      id: 13,
+      id: 12,
       name: "AverageReturns",
       title: "Average Returns",
       data: [],

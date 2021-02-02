@@ -10,7 +10,6 @@ import Dividends from "../Cards/Dividends";
 import Price from "../Cards/Price";
 import PriceTarget from "../Cards/PriceTarget";
 import RiskAnalysis from "../Cards/RiskAnalysis";
-import Economics from "../Cards/Economics";
 import Sidenavbar from "../Navbars/Sidenavbar";
 import UndoPrompt from "./UndoPrompt";
 import XButton from "../XButton";
@@ -166,7 +165,6 @@ const HomeDashboard = (props) => {
     Price,
     PriceTarget,
     RiskAnalysis,
-    Economics,
     Buybacks,
     News,
     PriceHistogram,

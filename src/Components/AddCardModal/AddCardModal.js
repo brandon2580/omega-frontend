@@ -9,7 +9,6 @@ import Dividends from "../Cards/Dividends";
 import Price from "../Cards/Price";
 import PriceTarget from "../Cards/PriceTarget";
 import RiskAnalysis from "../Cards/RiskAnalysis";
-import Economics from "../Cards/Economics";
 import Buybacks from "../Cards/Buybacks";
 import News from "../Cards/News";
 import PriceHistogram from "../Cards/PriceHistorgram";
@@ -54,7 +53,6 @@ const AddCardModal = (props) => {
     Price,
     PriceTarget,
     RiskAnalysis,
-    Economics,
     Buybacks,
     News,
     PriceHistogram,
