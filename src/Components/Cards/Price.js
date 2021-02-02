@@ -1,70 +1,47 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import FusionCharts from "fusioncharts";
-import TimeSeries from "fusioncharts/fusioncharts.timeseries";
-import Candlestick from "fusioncharts/viz/candlestick";
-import ReactFC from "react-fusioncharts";
-
-ReactFC.fcRoot(FusionCharts, TimeSeries, Candlestick);
-
-const jsonify = (res) => res.json();
-const dataFetch = fetch(
-  "https://s3.eu-central-1.amazonaws.com/fusion.store/ft/data/candlestick-chart-data.json"
-).then(jsonify);
-const schemaFetch = fetch(
-  "https://s3.eu-central-1.amazonaws.com/fusion.store/ft/schema/candlestick-chart-schema.json"
-).then(jsonify);
-
-const dataSource = {
-  chart: {},
-  caption: {
-    text: "Apple Inc. Stock Price",
-  },
-  subcaption: {
-    text: "Stock prices from January 1980 - November 2011",
-  },
-  yaxis: [
-    {
-      plot: {
-        value: {
-          open: "Open",
-          high: "High",
-          low: "Low",
-          close: "Close",
-        },
-        type: "candlestick",
-      },
-      format: {
-        prefix: "$",
-      },
-      title: "Stock Value",
-    },
-  ],
-};
+import ReactApexChart from "react-apexcharts";
 
 const Price = (props) => {
-  const [series, setSeries] = useState({
-    type: "timeseries",
-    renderAt: "fff",
-    width: "600",
-    height: "400",
-    dataSource: dataSource,
-  });
+  const [series, setSeries] = useState([{}]);
+
+  let options = {
+    chart: {
+      type: 'candlestick',
+      height: 420,
+      width: '100%',
+      animations: {
+        enabled: false
+      }
+    },
+    yaxis: {
+      tooltip: {
+        enabled: true,
+      },
+    },
+    xaxis: {
+      tickAmount: 4,
+      labels: {
+        rotate: 0
+      },
+      grid: {
+        borderColor: "none",
+      },
+    }
+  }
 
   useEffect(() => {
-    Promise.all([dataFetch, schemaFetch]).then((res) => {
-      const data = res[0];
-      const schema = res[1];
-      const fusionTable = new FusionCharts.DataStore().createDataTable(
-        data,
-        schema
-      );
-      const timeseriesDs = Object.assign({}, series);
-      timeseriesDs.dataSource.data = fusionTable;
-      setSeries(timeseriesDs)
-    });
-  }, []);
+    setSeries([{ data: props.data.slice(2) }]);
+  }, [props.data]);
+
+  const changeTimeFrame = (e) => {
+    props.setPriceRange(e.target.value);
+  };
+
+  const changeCandleInterval = (e) => {
+    props.setFrame(e.target.value);
+  };
 
   return (
     <Card
@@ -78,12 +55,113 @@ const Price = (props) => {
       }}
     >
       <hr className="card-hr" />
+      <div className="row">
+        <div className="col-lg-12">
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="daily"
+            onClick={changeCandleInterval}
+          >
+            Daily
+          </button>
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="weekly"
+            onClick={changeCandleInterval}
+          >
+            Weekly
+          </button>
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="monthly"
+            onClick={changeCandleInterval}
+          >
+            Monthly
+          </button>
+        </div>
+      </div>
       <div style={{ height: "425px" }}>
-        {series.dataSource.data ? (
-          <ReactFC id="fff" {...series} />
-        ) : (
-          "loading"
-        )}
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="candlestick"
+          height={413}
+        />
+      </div>
+
+      <div className="row">
+        <div className="col-lg-12">
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="5y"
+            onClick={changeTimeFrame}
+          >
+            5y
+          </button>
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="2y"
+            onClick={changeTimeFrame}
+          >
+            2y
+          </button>
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="1y"
+            onClick={changeTimeFrame}
+          >
+            1y
+          </button>
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="6m"
+            onClick={changeTimeFrame}
+          >
+            6m
+          </button>
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="3m"
+            onClick={changeTimeFrame}
+          >
+            3m
+          </button>
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="1m"
+            onClick={changeTimeFrame}
+          >
+            1m
+          </button>
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="2w"
+            onClick={changeTimeFrame}
+          >
+            2w
+          </button>
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="1w"
+            onClick={changeTimeFrame}
+          >
+            1w
+          </button>
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="5d"
+            onClick={changeTimeFrame}
+          >
+            5d
+          </button>
+          <button
+            className="range-button btn btn-link btn-sm shadow-none"
+            value="ytd"
+            onClick={changeTimeFrame}
+          >
+            ytd
+          </button>
+        </div>
       </div>
     </Card>
   );

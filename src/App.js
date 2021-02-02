@@ -313,21 +313,21 @@ function App() {
 
             return {
               ...card,
-              data: Object.keys(price).map(function (key, i) {
+              data: Object.keys(price).map(function (key) {
                 return {
-                  x: i,
-                  open: price[key].adj_open,
-                  high: price[key].adj_high,
-                  low: price[key].adj_low,
-                  close: price[key].adj_close,
-                  volume: price[key].volume,
+                  x: key,
+                  y: [
+                    price[key].adj_open,
+                    price[key].adj_high,
+                    price[key].adj_low,
+                    price[key].adj_close,
+                  ],
                 };
               }),
               priceRange: priceRange,
               setPriceRange: setPriceRange,
               frame: frame,
               setFrame: setFrame,
-              date: date,
             };
           }
           if (card.name == "PriceHistogram") {
@@ -553,7 +553,7 @@ function App() {
                 ...card,
                 data: Object.keys(price_calendar).map(function (key) {
                   return {
-                    value: (price_calendar[key].avg_return) * 100,
+                    value: price_calendar[key].avg_return * 100,
                   };
                 }),
                 priceRange: priceRange,
