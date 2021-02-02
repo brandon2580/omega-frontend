@@ -12,6 +12,15 @@ const Earnings = (props) => {
   const [consensus, setConsensus] = useState();
   const [actual, setActual] = useState();
   const [dates, setDates] = useState([]);
+  const [theme, setTheme] = useState("");
+
+  useEffect(() => {
+    if (props.darkMode) {
+      setTheme("#000000");
+    } else {
+      setTheme("#FFFFFF");
+    }
+  }, [props.darkMode]);
 
   useEffect(() => {
     let consensusEPS = props.consensus.eps.map((el, i) => {
@@ -39,21 +48,21 @@ const Earnings = (props) => {
     setDates(formattedDates);
   }, [props.consensus, props.actual, props.dates]);
 
-
   const dataSource = {
     chart: {
       yaxisname: "EPS",
       ynumberprefix: "$",
-      canvasbgColor: "#000000",
       canvasbgAlpha: "100",
-      canvasBorderThickness: "0",
-      showAlternateHGridColor: "0",
-      bgColor: "#000000",
-      bgAlpha: "#000000",
-      showBorder: "0",
       anchorRadius: "7",
       anchorSides: "1",
       canvasPadding: "50",
+      showBorder: "0",
+      canvasBorderThickness: "0",
+      showAlternateHGridColor: "0",
+      canvasbgColor: theme,
+      bgColor: theme,
+      bgAlpha: "100",
+      legendBgColor: theme,
     },
     categories: [{ category: dates }],
     dataset: [
@@ -88,7 +97,7 @@ const Earnings = (props) => {
         <ReactFC
           type="scatter"
           width="100%"
-          height="90%"
+          height="85%"
           dataFormat="JSON"
           dataSource={dataSource}
         />
