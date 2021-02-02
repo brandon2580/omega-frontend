@@ -53,7 +53,7 @@ const TopNavbar = (props) => {
 
         <div className="ml-auto row">
           <div className="col-lg-3">
-            <DarkModeToggle />
+            <DarkModeToggle setDarkMode={props.setDarkMode} />
           </div>
 
           <span className="verticalSpan" />
@@ -62,6 +62,7 @@ const TopNavbar = (props) => {
             availableCards={props.availableCards}
             selectedCardsIndex={props.selectedCardsIndex}
             setSelectedCardsIndex={props.setSelectedCardsIndex}
+            darkMode={props.darkMode}
           />
           <span className="verticalSpan2" />
 

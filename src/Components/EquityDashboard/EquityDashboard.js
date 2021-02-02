@@ -49,6 +49,7 @@ const HomeDashboard = (props) => {
   const [removedCard, setRemovedCard] = useState();
   const [preRemovedLayout, setPreRemovedLayout] = useState([]);
   const [undoClicked, setUndoClicked] = useState(false);
+  const [darkMode, setDarkMode] = useState();
 
   // This automatically saves mainLayout in localStorage
   const [storedLayouts, setStoredLayouts] = useStorageState(
@@ -184,6 +185,8 @@ const HomeDashboard = (props) => {
         setSelectedCardsIndex={props.setSelectedCardsIndex}
         setActiveTicker={props.setActiveTicker}
         wasTaken={wasTaken}
+        setDarkMode={setDarkMode}
+        darkMode={darkMode}
         setNewLayoutName={setNewLayoutName}
       />
 
@@ -228,6 +231,7 @@ const HomeDashboard = (props) => {
           // object, we would be assigning properties like key, name, title, etc. to every card, causing a lot
           // of extra lines of repeated code. So instead, we just put it all into 1 object and assign it to every card.
           const defaultAttributes = {
+            darkMode: darkMode,
             key: card.id,
             name: card.name,
             title: card.title,

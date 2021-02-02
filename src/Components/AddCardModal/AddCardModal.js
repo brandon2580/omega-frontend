@@ -106,6 +106,7 @@ const AddCardModal = (props) => {
               // object, we would be assigning properties like key, name, title, etc. to every card, causing a lot
               // of extra lines of repeated code. So instead, we just put it all into 1 object and assign it to every card.
               const defaultAttributes = {
+                darkMode: props.darkMode,
                 key: card.id,
                 name: card.name,
                 title: card.title,
