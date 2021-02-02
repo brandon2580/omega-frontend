@@ -12,6 +12,11 @@ const RiskAnalysis = (props) => {
   const [sharpe, setSharpe] = useState([{}]);
   const [currentRating, setCurrentRating] = useState("Rating");
   const [chartValue, setChartValue] = useState([0]);
+  const [theme, setTheme] = useState("");
+
+  useEffect(() => {
+    props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
+  }, [props.darkMode]);
 
   const dataSource = {
     chart: {
@@ -22,11 +27,11 @@ const RiskAnalysis = (props) => {
       showValue: "1",
       valueBelowPivot: "1",
       theme: "fusion",
-      canvasbgColor: "#000000",
+      canvasbgColor: theme,
       canvasbgAlpha: "100",
       canvasBorderThickness: "0",
-      bgColor: "#000000",
-      bgAlpha: "#000000",
+      bgColor: theme,
+      bgAlpha: "100",
       showBorder: "0",
       palettecolors: "#007bff",
       anchorBgColor: "#007bff",

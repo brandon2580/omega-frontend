@@ -15,11 +15,7 @@ const Earnings = (props) => {
   const [theme, setTheme] = useState("");
 
   useEffect(() => {
-    if (props.darkMode) {
-      setTheme("#000000");
-    } else {
-      setTheme("#FFFFFF");
-    }
+    props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
   }, [props.darkMode]);
 
   useEffect(() => {

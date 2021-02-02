@@ -10,6 +10,11 @@ ReactFC.fcRoot(FusionCharts, Bubble, FusionTheme);
 
 const AverageReturns = (props) => {
   const [series, setSeries] = useState();
+  const [theme, setTheme] = useState("");
+
+  useEffect(() => {
+    props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
+  }, [props.darkMode]);
 
   useEffect(() => {
     setSeries(props.data);
@@ -19,12 +24,12 @@ const AverageReturns = (props) => {
     chart: {
       numberPrefix: "$",
       rotateLabels: 0,
-      canvasbgColor: "#000000",
+      canvasbgColor: theme,
       canvasbgAlpha: "100",
       canvasBorderThickness: "0",
       showAlternateHGridColor: "0",
-      bgColor: "#000000",
-      bgAlpha: "#000000",
+      bgColor: theme,
+      bgAlpha: "100",
       showBorder: "0",
       palettecolors: "#007bff",
       anchorBgColor: "#007bff",
