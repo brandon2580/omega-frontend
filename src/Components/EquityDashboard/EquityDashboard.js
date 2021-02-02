@@ -15,7 +15,6 @@ import UndoPrompt from "./UndoPrompt";
 import XButton from "../XButton";
 import TickerHeader from "./TickerHeader";
 import TopNavbar from "../Navbars/TopNavbar";
-import Buybacks from "../Cards/Buybacks";
 import News from "../Cards/News";
 import PriceHistogram from "../Cards/PriceHistorgram";
 import PriceCalendar from "../Cards/PriceCalendar";
@@ -165,7 +164,6 @@ const HomeDashboard = (props) => {
     Price,
     PriceTarget,
     RiskAnalysis,
-    Buybacks,
     News,
     PriceHistogram,
     PriceCalendar,

@@ -164,27 +164,6 @@ function App() {
 
     {
       id: 8,
-      name: "Buybacks",
-      title: "Buybacks",
-      data: [
-        { name: "2014", data: 20 },
-        { name: "2015", data: 25 },
-        { name: "2016", data: 37 },
-        { name: "2017", data: 43 },
-        { name: "2018", data: 43.5 },
-        { name: "2019", data: 56 },
-        { name: "2020", data: 60.5 },
-      ],
-      x: 0,
-      y: 0,
-      w: 6,
-      h: 1,
-      minW: 3,
-      maxH: 1,
-    },
-
-    {
-      id: 9,
       name: "News",
       title: "News",
       data: [],
@@ -198,7 +177,7 @@ function App() {
     },
 
     {
-      id: 10,
+      id: 9,
       name: "PriceHistogram",
       title: "Price Histogram",
       data: [],
@@ -211,7 +190,7 @@ function App() {
     },
 
     {
-      id: 11,
+      id: 10,
       name: "OverallReturns",
       title: "Overall Returns",
       data: [],
@@ -224,7 +203,7 @@ function App() {
     },
 
     {
-      id: 12,
+      id: 11,
       name: "AverageReturns",
       title: "Average Returns",
       data: [],
