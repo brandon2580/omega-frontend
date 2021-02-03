@@ -26,10 +26,11 @@ const RiskAnalysis = (props) => {
       theme: "fusion",
       lowerLimitDisplay: "Poor",
       upperLimitDisplay: "Exceptional",
+      showPivotBorder: 1,
       canvasbgColor: theme,
       bgColor: theme,
-      showPivotBorder: 1,
       baseFontColor: textColor,
+      toolTipBgColor: theme,
       tickValueStep: 4,
     },
     colorRange: {

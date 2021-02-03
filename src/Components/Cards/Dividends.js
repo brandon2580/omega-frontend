@@ -41,6 +41,7 @@ const Dividends = (props) => {
       palettecolors: "#007bff",
       anchorBgColor: "#007bff",
       baseFontColor: textColor,
+      toolTipBgColor: theme,
     },
     data: series,
   };

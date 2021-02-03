@@ -42,6 +42,7 @@ const PriceTarget = (props) => {
       palettecolors: "#007bff",
       drawAnchors: "0",
       baseFontColor: textColor,
+      toolTipBgColor: theme,
     },
     data: series,
     trendlines: [

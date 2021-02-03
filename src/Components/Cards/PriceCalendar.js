@@ -38,6 +38,7 @@ const PriceCalendar = (props) => {
       palettecolors: "#007bff",
       anchorBgColor: "#007bff",
       baseFontColor: textColor,
+      toolTipBgColor: theme,
     },
     categories: [
       {

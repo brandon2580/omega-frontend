@@ -3,7 +3,7 @@ import "../../App.scss";
 import { Card } from "antd";
 import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 
-const COLORS = ["#00FF00", "#FF0000"];
+const COLORS = ["#007bff", "#FF0000"];
 
 const OverallReturns = (props) => {
   const [series, setSeries] = useState([]);

@@ -61,7 +61,8 @@ const Earnings = (props) => {
       bgColor: theme,
       bgAlpha: "100",
       legendBgColor: theme,
-      baseFontColor: textColor
+      baseFontColor: textColor,
+      toolTipBgColor: theme,
     },
     categories: [{ category: dates }],
     dataset: [
@@ -92,13 +93,13 @@ const Earnings = (props) => {
     >
       <hr className="card-hr" />
 
-        <ReactFC
-          type="scatter"
-          width="100%"
-          height="85%"
-          dataFormat="JSON"
-          dataSource={dataSource}
-        />
+      <ReactFC
+        type="scatter"
+        width="100%"
+        height="85%"
+        dataFormat="JSON"
+        dataSource={dataSource}
+      />
     </Card>
   );
 };
