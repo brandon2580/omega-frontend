@@ -214,6 +214,19 @@ function App() {
       minW: 3,
       maxH: 1,
     },
+
+    {
+      id: 12,
+      name: "EarningsRatio",
+      title: "Earnings Ratio",
+      data: [],
+      x: 0,
+      y: 0,
+      w: 12,
+      h: 1,
+      minW: 3,
+      maxH: 1,
+    },
   ]);
 
   /*
@@ -414,6 +427,17 @@ function App() {
               earningsPeriod: earningsPeriod,
               setEarningsPeriod: setEarningsPeriod,
               dates,
+            };
+          }
+
+          if (card.name == "EarningsRatio") {
+            console.log(earnings)
+            return {
+              ...card,
+              data: {
+                consensus: earnings.consensus_eps,
+                actual: earnings.real_eps
+              }
             };
           }
           return card;

@@ -14,6 +14,7 @@ import PriceHistogram from "../Cards/PriceHistorgram";
 import PriceCalendar from "../Cards/PriceCalendar";
 import OverallReturns from "../Cards/OverallReturns";
 import AverageReturns from "../Cards/AverageReturns";
+import EarningsRatio from "../Cards/EarningsRatio";
 
 
 const AddCardModal = (props) => {
@@ -56,7 +57,8 @@ const AddCardModal = (props) => {
     PriceHistogram,
     PriceCalendar,
     OverallReturns,
-    AverageReturns
+    AverageReturns,
+    EarningsRatio
   };
 
   return (
