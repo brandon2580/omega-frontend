@@ -20,7 +20,9 @@ function App() {
   const [priceRange, setPriceRange] = useState("1y");
   const [dividendRange, setDividendRange] = useState(25);
   const [earningsPeriod, setEarningsPeriod] = useState("Q");
-  const [frame, setFrame] = useState("daily");
+  const [priceFrame, setPriceFrame] = useState("daily");
+  const [calendarFrame, setCalendarFrame] = useState("max");
+
   const apiBaseUrl = "https://api-omega.azurewebsites.net/api";
   const apiCode = "pcRfOm56RQRqa9ixWAyq9qWtlofFpzIZZbVAcNxGwJBEMaA4z1Q5Qw";
 
@@ -107,8 +109,8 @@ function App() {
       data: [],
       priceRange: priceRange,
       setPriceRange: setPriceRange,
-      frame: frame,
-      setFrame: setFrame,
+      priceFrame: priceFrame,
+      setPriceFrame: setPriceFrame,
       date: "",
       tickCount: 10,
       dataLabel: "Price",
@@ -154,6 +156,8 @@ function App() {
       name: "PriceCalendar",
       title: "Price Calendar",
       data: [],
+      calendarFrame: calendarFrame,
+      setCalendarFrame: setCalendarFrame,
       x: 0,
       y: 0,
       w: 12,
@@ -265,7 +269,7 @@ function App() {
   // the dividend endpoint and the dividendRange state value.
   useEffect(() => {
     const prices = fetch(
-      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=${priceRange}&frame=${frame}`
+      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=${priceRange}&frame=${priceFrame}`
     ).then((res) => res.json());
 
     Promise.resolve(prices).then((price) => {
@@ -296,8 +300,8 @@ function App() {
               }),
               priceRange: priceRange,
               setPriceRange: setPriceRange,
-              frame: frame,
-              setFrame: setFrame,
+              priceFrame: priceFrame,
+              setPriceFrame: setPriceFrame,
             };
           }
           if (card.name == "PriceHistogram") {
@@ -315,10 +319,6 @@ function App() {
                   change: price[key].change,
                 };
               }),
-              priceRange: priceRange,
-              setPriceRange: setPriceRange,
-              frame: frame,
-              setFrame: setFrame,
             };
           }
           if (card.name == "OverallReturns") {
@@ -330,17 +330,13 @@ function App() {
                   change: price[key].change,
                 };
               }),
-              priceRange: priceRange,
-              setPriceRange: setPriceRange,
-              frame: frame,
-              setFrame: setFrame,
             };
           }
           return card;
         });
       });
     });
-  }, [priceRange, frame, activeTicker]);
+  }, [priceRange, priceFrame, activeTicker]);
 
   useEffect(() => {
     const dividends = fetch(
@@ -377,10 +373,6 @@ function App() {
     const earnings = fetch(
       `${apiBaseUrl}/earnings?code=${apiCode}==&symbol=${activeTicker}&lastN=4&period=${earningsPeriod}`
     ).then((res) => res.json());
-
-    // const earnings = fetch(
-    //   `https://sandbox.iexapis.com/stable/stock/${activeTicker}/earnings/4?period=${earningsPeriod}&token=Tpk_f087e31de6d8452abceb72a5ce7a77fd`
-    // ).then((res) => res.json());
 
     Promise.resolve(earnings).then((earnings) => {
       // Function syntax of setState to use the previous value from the state, as recommended by React
@@ -431,13 +423,13 @@ function App() {
           }
 
           if (card.name == "EarningsRatio") {
-            console.log(earnings)
+            console.log(earnings);
             return {
               ...card,
               data: {
                 consensus: earnings.consensus_eps,
-                actual: earnings.real_eps
-              }
+                actual: earnings.real_eps,
+              },
             };
           }
           return card;
@@ -447,16 +439,41 @@ function App() {
   }, [earningsPeriod, activeTicker]);
 
   useEffect(() => {
+    const price_calendar = fetch(
+      `${apiBaseUrl}/avg_return?code=${apiCode}==&symbol=${activeTicker}&range=${calendarFrame}`
+    ).then((res) => res.json());
+
+    Promise.resolve(price_calendar).then((price_calendar) => {
+      // Function syntax of setState to use the previous value from the state, as recommended by React
+      setAvailableCards((prevCards) => {
+        // For each cards, return a new modified version of that card
+        return prevCards.map((card) => {
+          if (card.name == "PriceCalendar") {
+            return {
+              ...card,
+              data: Object.keys(price_calendar).map(function (key) {
+                return {
+                  value: price_calendar[key].avg_return * 100,
+                };
+              }),
+              calendarFrame: calendarFrame,
+              setCalendarFrame: setCalendarFrame,
+            };
+          }
+
+          return card;
+        });
+      });
+    });
+  }, [calendarFrame, activeTicker]);
+
+  useEffect(() => {
     const company = fetch(
       `https://cloud.iexapis.com/stable/stock/${activeTicker}/company?token=pk_41174bf196e6408bb544b6d89806902a`
     ).then((res) => res.json());
 
     const prices = fetch(
       `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=1y`
-    ).then((res) => res.json());
-
-    const price_calendar = fetch(
-      `${apiBaseUrl}/avg_return?code=${apiCode}==&symbol=${activeTicker}&range=max`
     ).then((res) => res.json());
 
     const price_target = fetch(
@@ -471,24 +488,10 @@ function App() {
       `https://cloud.iexapis.com/stable/stock/${activeTicker}/news/last/50?token=pk_756d2eedb1d64c5192084581943ee4b9`
     ).then((res) => res.json());
 
-    const allReqs = [
-      company,
-      price_target,
-      prices,
-      analyst_recs,
-      news,
-      price_calendar,
-    ];
+    const allReqs = [company, price_target, prices, analyst_recs, news];
 
-    Promise.all(allReqs).then((allResp, price) => {
-      const [
-        company,
-        price_target,
-        prices,
-        analyst_recs,
-        news,
-        price_calendar,
-      ] = allResp;
+    Promise.all(allReqs).then((allResp) => {
+      const [company, price_target, prices, analyst_recs, news] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
@@ -527,20 +530,6 @@ function App() {
                     numOfAnalysts: price_target.num_of_analysts,
                   },
                 ],
-              };
-
-            case "PriceCalendar":
-              return {
-                ...card,
-                data: Object.keys(price_calendar).map(function (key) {
-                  return {
-                    value: price_calendar[key].avg_return * 100,
-                  };
-                }),
-                priceRange: priceRange,
-                setPriceRange: setPriceRange,
-                frame: frame,
-                setFrame: setFrame,
               };
 
             case "AnalystRecommendations":

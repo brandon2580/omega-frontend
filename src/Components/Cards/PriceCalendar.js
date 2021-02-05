@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
-import { Card } from "antd";
+import { Card, Menu, Dropdown } from "antd";
+import { DownOutlined } from "@ant-design/icons";
 import _ from "lodash";
 import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts/core";
@@ -22,6 +23,12 @@ const PriceCalendar = (props) => {
   useEffect(() => {
     setSeries(props.data);
   }, [props.data]);
+
+  const handleClick = (e) => {
+    props.setCalendarFrame(e.target.value);
+  };
+
+  console.log(props)
 
   const dataSource = {
     chart: {
@@ -90,6 +97,38 @@ const PriceCalendar = (props) => {
     ],
   };
 
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <button
+          className="btn btn-sm shadow-none dropdown-btn"
+          onClick={handleClick}
+          value="1"
+        >
+          1
+        </button>
+      </Menu.Item>
+      <Menu.Item>
+        <button
+          className="btn btn-sm shadow-none dropdown-btn"
+          onClick={handleClick}
+          value="3"
+        >
+          3
+        </button>
+      </Menu.Item>
+      <Menu.Item>
+        <button
+          className="btn btn-sm shadow-none dropdown-btn"
+          onClick={handleClick}
+          value="max"
+        >
+          Max
+        </button>
+      </Menu.Item>
+    </Menu>
+  );
+
   return (
     <Card
       className="hide-overflow"
@@ -110,6 +149,15 @@ const PriceCalendar = (props) => {
           dataFormat="JSON"
           dataSource={dataSource}
         />
+      </div>
+      <div className="row">
+        <div className="col-sm-12">
+          <Dropdown overlay={menu}>
+            <btn className="ant-dropdown-link">
+              Frame <DownOutlined />
+            </btn>
+          </Dropdown>
+        </div>
       </div>
     </Card>
   );
