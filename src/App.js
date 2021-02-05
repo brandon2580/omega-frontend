@@ -423,7 +423,6 @@ function App() {
           }
 
           if (card.name == "EarningsRatio") {
-            console.log(earnings);
             return {
               ...card,
               data: {

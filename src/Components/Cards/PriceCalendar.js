@@ -28,8 +28,6 @@ const PriceCalendar = (props) => {
     props.setCalendarFrame(e.target.value);
   };
 
-  console.log(props)
-
   const dataSource = {
     chart: {
       decimals: "2",
