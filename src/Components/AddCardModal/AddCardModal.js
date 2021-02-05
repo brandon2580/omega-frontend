@@ -16,7 +16,6 @@ import OverallReturns from "../Cards/OverallReturns";
 import AverageReturns from "../Cards/AverageReturns";
 import EarningsRatio from "../Cards/EarningsRatio";
 
-
 const AddCardModal = (props) => {
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -58,7 +57,7 @@ const AddCardModal = (props) => {
     PriceCalendar,
     OverallReturns,
     AverageReturns,
-    EarningsRatio
+    EarningsRatio,
   };
 
   return (
@@ -96,37 +95,6 @@ const AddCardModal = (props) => {
         <div className="add-card-container">
           <div className="row">
             {props.availableCards.map((card) => {
-              // These are the default attributes that are applied to EVERY card in
-              // availableCards (aka the cards that are currently rendered on the page).
-              // For many cards, there will be many null values. The reason why we just make
-              // a defaultAttributes object containing every property for every card throughout the platform
-              // is to reduce redundancy when conditionally rendering the cards. Without the defaultAttributes
-              // object, we would be assigning properties like key, name, title, etc. to every card, causing a lot
-              // of extra lines of repeated code. So instead, we just put it all into 1 object and assign it to every card.
-              const defaultAttributes = {
-                darkMode: props.darkMode,
-                key: card.id,
-                name: card.name,
-                title: card.title,
-                data: card.data,
-                dataLabel: card.dataLabel,
-                labels: card.labels,
-                date: card.date,
-                priceRange: card.priceRange,
-                setPriceRange: card.setPriceRange,
-                dividendRange: card.dividendRange,
-                setDividendRange: card.setDividendRange,
-                earningsPeriod: card.earningsPeriod,
-                setEarningsPeriod: card.setEarningsPeriod,
-                priceFrame: card.priceFrame,
-                setPriceFrame: card.setPriceFrame,
-                setCalendarFrame: card.setCalendarFrame,
-                calendarFrame: card.calendarFrame,
-                dates: card.dates,
-                consensus: card.consensus,
-                actual: card.actual,
-              };
-
               // These conditions must be met in order for a card to be rendered
               // in the AddCardModal
               const defaultConditionals =
@@ -138,7 +106,7 @@ const AddCardModal = (props) => {
 
                 return (
                   <div className="col-xl-4 modal-card">
-                    <CustomTag {...defaultAttributes} />
+                    <CustomTag {...card} darkMode={props.darkMode} />
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>
                 );

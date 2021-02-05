@@ -22,7 +22,6 @@ import OverallReturns from "../Cards/OverallReturns";
 import AverageReturns from "../Cards/AverageReturns";
 import EarningsRatio from "../Cards/EarningsRatio";
 
-
 const GridLayout = WidthProvider(Responsive);
 
 const HomeDashboard = (props) => {
@@ -170,7 +169,7 @@ const HomeDashboard = (props) => {
     PriceCalendar,
     OverallReturns,
     AverageReturns,
-    EarningsRatio
+    EarningsRatio,
   };
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
@@ -221,49 +220,6 @@ const HomeDashboard = (props) => {
         {props.selectedCardsIndex.map((cardId, index) => {
           const card = props.availableCards.find((c) => c.id === cardId);
 
-          // These are the default attributes that are applied to EVERY card in
-          // selectedCardsIndex (aka the cards that are currently rendered on the page).
-          // For many cards, there will be many null values. The reason why we just make
-          // a defaultAttributes object containing every property for every card throughout the platform
-          // is to reduce redundancy when conditionally rendering the cards. Without the defaultAttributes
-          // object, we would be assigning properties like key, name, title, etc. to every card, causing a lot
-          // of extra lines of repeated code. So instead, we just put it all into 1 object and assign it to every card.
-          const defaultAttributes = {
-            darkMode: darkMode,
-            key: card.id,
-            name: card.name,
-            title: card.title,
-            data: card.data,
-            dataLabel: card.dataLabel,
-            labels: card.labels,
-            date: card.date,
-            priceRange: card.priceRange,
-            setPriceRange: card.setPriceRange,
-            dividendRange: card.dividendRange,
-            setDividendRange: card.setDividendRange,
-            earningsPeriod: card.earningsPeriod,
-            setEarningsPeriod: card.setEarningsPeriod,
-            priceFrame: card.priceFrame,
-            setPriceFrame: card.setPriceFrame,
-            setCalendarFrame: card.setCalendarFrame,
-            calendarFrame: card.calendarFrame,
-            dates: card.dates,
-            consensus: card.consensus,
-            actual: card.actual,
-            button: (
-              <span
-                onClick={() => {
-                  removeCardFromLayout(card.id);
-                }}
-                role="img"
-                aria-label="close"
-                class="anticon anticon-close ant-modal-close-icon"
-              >
-                <XButton />
-              </span>
-            ),
-          };
-
           const defaultDataGrid = {
             x: card.x,
             y: card.y,
@@ -272,13 +228,25 @@ const HomeDashboard = (props) => {
             minW: card.minW,
             isResizable: card.isResizable,
           };
+          
+          const button = ( 
+            <span
+              onClick={() => {
+                removeCardFromLayout(card.id);
+              }}
+              role="img"
+              aria-label="close"
+              class="anticon anticon-close ant-modal-close-icon"
+            >
+              <XButton />
+            </span>
+          )
 
           if (card.name in availableCardsObject) {
             const CustomTag = availableCardsObject[card.name];
-
             return (
               <div key={card.id} data-grid={defaultDataGrid}>
-                <CustomTag {...defaultAttributes} />
+                <CustomTag {...card} button={button} darkMode={darkMode} />
               </div>
             );
           }
