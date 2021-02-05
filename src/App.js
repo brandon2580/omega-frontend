@@ -233,35 +233,6 @@ function App() {
     },
   ]);
 
-  /*
-  This will eventually control the colors of the datapoints on the Earnings card
-  let consensus_data = availableCards[1].data[0].data;
-  let actual_data = availableCards[1].data[1].data;
-
-  let consensus_arr = [];
-  consensus_data.map((el) => {
-    consensus_arr.push(el[1]);
-    return consensus_arr;
-  });
-
-  let actual_arr = [];
-  actual_data.map((el) => {
-    actual_arr.push({
-      value: el[1],
-      color: "green",
-    });
-    return actual_arr;
-  });
-
-  actual_arr.map((el, count) => {
-    if (el.value < consensus_arr[count]) {
-      el.color = "red";
-    }
-    return actual_arr;
-  });
-
-  console.log(actual_arr);
-*/
 
   // The reason why many different endpoints have their own useEffect hooks is because we want to get
   // new data from each individual endpoint based on whether or not specific state values have changed. For instance if
