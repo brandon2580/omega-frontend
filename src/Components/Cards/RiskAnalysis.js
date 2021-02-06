@@ -98,14 +98,16 @@ const RiskAnalysis = (props) => {
       }}
     >
       <hr className="card-hr" />
-      <div className="gauge-risk">
-        <ReactFC
-          type="angulargauge"
-          width="100%"
-          height="45%"
-          dataFormat="JSON"
-          dataSource={dataSource}
-        />
+      <div style={{ height: 456 }}>
+        <div className="gauge-risk">
+          <ReactFC
+            type="angulargauge"
+            width="100%"
+            height="45%"
+            dataFormat="JSON"
+            dataSource={dataSource}
+          />
+        </div>
       </div>
     </Card>
   );

@@ -92,14 +92,15 @@ const Earnings = (props) => {
       }}
     >
       <hr className="card-hr" />
-
-      <ReactFC
-        type="scatter"
-        width="100%"
-        height="85%"
-        dataFormat="JSON"
-        dataSource={dataSource}
-      />
+      <div style={{ height: 456 }}>
+        <ReactFC
+          type="scatter"
+          width="100%"
+          height="85%"
+          dataFormat="JSON"
+          dataSource={dataSource}
+        />
+      </div>
     </Card>
   );
 };

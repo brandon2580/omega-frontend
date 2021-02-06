@@ -139,7 +139,7 @@ const PriceCalendar = (props) => {
       }}
     >
       <hr className="card-hr" />
-      <div style={{ height: "456px" }}>
+      <div style={{ height: 456 }}>
         <ReactFC
           type="radar"
           width="100%"
@@ -147,14 +147,15 @@ const PriceCalendar = (props) => {
           dataFormat="JSON"
           dataSource={dataSource}
         />
-      </div>
-      <div className="row">
-        <div className="col-sm-12">
-          <Dropdown overlay={menu}>
-            <btn className="ant-dropdown-link">
-              Frame <DownOutlined />
-            </btn>
-          </Dropdown>
+
+        <div className="row">
+          <div className="col-sm-12">
+            <Dropdown overlay={menu}>
+              <btn className="ant-dropdown-link">
+                Frame <DownOutlined />
+              </btn>
+            </Dropdown>
+          </div>
         </div>
       </div>
     </Card>

@@ -61,111 +61,113 @@ const Price = (props) => {
       }}
     >
       <hr className="card-hr" />
-      <div className="row">
-        <div className="col-lg-12">
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="daily"
-            onClick={changeCandleInterval}
-          >
-            Daily
-          </button>
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="weekly"
-            onClick={changeCandleInterval}
-          >
-            Weekly
-          </button>
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="monthly"
-            onClick={changeCandleInterval}
-          >
-            Monthly
-          </button>
+      <div style={{ height: 456 }}>
+        <div className="row">
+          <div className="col-lg-12">
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="daily"
+              onClick={changeCandleInterval}
+            >
+              Daily
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="weekly"
+              onClick={changeCandleInterval}
+            >
+              Weekly
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="monthly"
+              onClick={changeCandleInterval}
+            >
+              Monthly
+            </button>
+          </div>
         </div>
-      </div>
 
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="candlestick"
-        height={413}
-      />
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="candlestick"
+          height={413}
+        />
 
-      <div className="row">
-        <div className="col-lg-12">
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="5y"
-            onClick={changeTimeFrame}
-          >
-            5y
-          </button>
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="2y"
-            onClick={changeTimeFrame}
-          >
-            2y
-          </button>
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="1y"
-            onClick={changeTimeFrame}
-          >
-            1y
-          </button>
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="6m"
-            onClick={changeTimeFrame}
-          >
-            6m
-          </button>
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="3m"
-            onClick={changeTimeFrame}
-          >
-            3m
-          </button>
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="1m"
-            onClick={changeTimeFrame}
-          >
-            1m
-          </button>
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="2w"
-            onClick={changeTimeFrame}
-          >
-            2w
-          </button>
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="1w"
-            onClick={changeTimeFrame}
-          >
-            1w
-          </button>
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="5d"
-            onClick={changeTimeFrame}
-          >
-            5d
-          </button>
-          <button
-            className="range-button btn btn-link btn-sm shadow-none"
-            value="ytd"
-            onClick={changeTimeFrame}
-          >
-            ytd
-          </button>
+        <div className="row">
+          <div className="col-lg-12">
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="5y"
+              onClick={changeTimeFrame}
+            >
+              5y
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="2y"
+              onClick={changeTimeFrame}
+            >
+              2y
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="1y"
+              onClick={changeTimeFrame}
+            >
+              1y
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="6m"
+              onClick={changeTimeFrame}
+            >
+              6m
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="3m"
+              onClick={changeTimeFrame}
+            >
+              3m
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="1m"
+              onClick={changeTimeFrame}
+            >
+              1m
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="2w"
+              onClick={changeTimeFrame}
+            >
+              2w
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="1w"
+              onClick={changeTimeFrame}
+            >
+              1w
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="5d"
+              onClick={changeTimeFrame}
+            >
+              5d
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="ytd"
+              onClick={changeTimeFrame}
+            >
+              ytd
+            </button>
+          </div>
         </div>
       </div>
     </Card>

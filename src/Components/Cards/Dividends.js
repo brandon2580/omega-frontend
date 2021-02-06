@@ -107,22 +107,23 @@ const Dividends = (props) => {
       }}
     >
       <hr className="card-hr" />
-
-      <ReactFC
-        type="line"
-        width="100%"
-        height="80%"
-        dataFormat="JSON"
-        dataSource={dataSource}
-      />
-      <div className="row">
-        <div className="col-sm-12">
-          <Dropdown overlay={menu}>
-            <btn className="ant-dropdown-link">
-              Range <DownOutlined />
-            </btn>
-          </Dropdown>
-        </div>
+      <div style={{ height: 456 }}>
+        <ReactFC
+          type="line"
+          width="100%"
+          height="80%"
+          dataFormat="JSON"
+          dataSource={dataSource}
+        />
+        <div className="row">
+          <div className="col-sm-12">
+            <Dropdown overlay={menu}>
+              <btn className="ant-dropdown-link">
+                Range <DownOutlined />
+              </btn>
+            </Dropdown>
+          </div>
+        </div>{" "}
       </div>
     </Card>
   );
