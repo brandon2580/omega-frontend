@@ -24,11 +24,11 @@ const OverallReturns = (props) => {
     setSeries([
       {
         name: "Positives",
-        value: positivePercent,
+        value: parseInt(positivePercent.toFixed(2)),
       },
       {
         name: "Negatives",
-        value: negativePercent,
+        value: parseInt(negativePercent.toFixed(2)),
       },
     ]);
   }, [props.data]);
