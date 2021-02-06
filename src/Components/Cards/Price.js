@@ -15,6 +15,12 @@ const Price = (props) => {
         enabled: false,
       },
     },
+    grid: {
+      row: {
+        colors: "#2D2D2D",
+        opacity: 0.8,
+      },
+    },
     yaxis: {
       tooltip: {
         enabled: true,
