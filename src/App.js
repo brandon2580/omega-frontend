@@ -23,7 +23,7 @@ function App() {
   const [priceFrame, setPriceFrame] = useState("daily");
   const [calendarFrame, setCalendarFrame] = useState("max");
 
-  const apiBaseUrl = "https://api-omega.azurewebsites.net/api";
+  const apiBaseUrl = "https://sigma7apis.azure-api.net/omega";
   const apiCode = "pcRfOm56RQRqa9ixWAyq9qWtlofFpzIZZbVAcNxGwJBEMaA4z1Q5Qw";
 
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default.
@@ -141,7 +141,7 @@ function App() {
       id: 6,
       name: "RiskAnalysis",
       title: "Performance (Risk Adjusted)",
-      data: [1.08],
+      data: [],
       dataLabel: "Risk",
       x: 0,
       y: 0,
@@ -179,7 +179,6 @@ function App() {
       maxH: 0.25,
       isResizable: false,
     },
-
 
     {
       id: 10,
@@ -219,8 +218,33 @@ function App() {
       minW: 3,
       maxH: 1,
     },
-  ]);
 
+    {
+      id: 13,
+      name: "Valuation",
+      title: "Valuation",
+      data: [],
+      x: 0,
+      y: 0,
+      w: 12,
+      h: 1,
+      minW: 3,
+      maxH: 1,
+    },
+
+    {
+      id: 14,
+      name: "Volatility",
+      title: "Volatility",
+      data: [],
+      x: 0,
+      y: 0,
+      w: 12,
+      h: 1,
+      minW: 3,
+      maxH: 1,
+    },
+  ]);
 
   // The reason why many different endpoints have their own useEffect hooks is because we want to get
   // new data from each individual endpoint based on whether or not specific state values have changed. For instance if
@@ -430,10 +454,40 @@ function App() {
       `https://cloud.iexapis.com/stable/stock/${activeTicker}/news/last/50?token=pk_756d2eedb1d64c5192084581943ee4b9`
     ).then((res) => res.json());
 
-    const allReqs = [company, price_target, prices, analyst_recs, news];
+    const valuation = fetch(
+      `${apiBaseUrl}/compare_metric?code=${apiCode}==&symbol=${activeTicker}&metric=pe_ratio`
+    ).then((res) => res.json());
+
+    const volatility = fetch(
+      `${apiBaseUrl}/compare_metric?code=${apiCode}==&symbol=${activeTicker}&metric=beta`
+    ).then((res) => res.json());
+
+    const risk = fetch(
+      `${apiBaseUrl}/risk_metrics?code=${apiCode}==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+
+    const allReqs = [
+      company,
+      price_target,
+      prices,
+      analyst_recs,
+      news,
+      valuation,
+      volatility,
+      risk,
+    ];
 
     Promise.all(allReqs).then((allResp) => {
-      const [company, price_target, prices, analyst_recs, news] = allResp;
+      const [
+        company,
+        price_target,
+        prices,
+        analyst_recs,
+        news,
+        valuation,
+        volatility,
+        risk,
+      ] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
@@ -498,6 +552,24 @@ function App() {
                     source: news[key].source,
                   };
                 }),
+              };
+
+            case "Valuation":
+              return {
+                ...card,
+                data: valuation,
+              };
+
+            case "Volatility":
+              return {
+                ...card,
+                data: volatility,
+              };
+
+            case "RiskAnalysis":
+              return {
+                ...card,
+                data: risk,
               };
           }
 

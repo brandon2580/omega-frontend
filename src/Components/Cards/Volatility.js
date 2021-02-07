@@ -3,15 +3,15 @@ import "../../App.scss";
 import { Card } from "antd";
 import ReactApexChart from "react-apexcharts";
 
-const Valuation = (props) => {
+const Volatility = (props) => {
   const [series, setSeries] = useState([]);
   const [ticker, setTicker] = useState("");
 
   useEffect(() => {
     setSeries([
-      props.data.pe_ratio.toFixed(2),
-      props.data.comp_pe_ratio.toFixed(2),
-      props.data.dow_pe_ratio.toFixed(2),
+      props.data.beta.toFixed(2),
+      props.data.comp_beta.toFixed(2),
+      props.data.dow_beta.toFixed(2),
     ]);
     setTicker(props.data.symbol);
   }, [props.data]);
@@ -21,10 +21,8 @@ const Valuation = (props) => {
     chart: {
       type: "radialBar",
     },
-
     plotOptions: {
       radialBar: {
-        offsetY: 0,
         startAngle: 0,
         endAngle: 270,
         hollow: {
@@ -43,7 +41,7 @@ const Valuation = (props) => {
         },
       },
     },
-    colors: ["#007bff", "#FF0000", "#00FF00"],
+    colors: ["#007bff", "#0084ff", "#39539E"],
     labels: [ticker, "Competitors", "DOW 30"],
     legend: {
       show: true,
@@ -90,4 +88,4 @@ const Valuation = (props) => {
     </Card>
   );
 };
-export default Valuation;
+export default Volatility;

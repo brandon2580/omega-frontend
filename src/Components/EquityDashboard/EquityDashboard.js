@@ -20,6 +20,8 @@ import PriceCalendar from "../Cards/PriceCalendar";
 import OverallReturns from "../Cards/OverallReturns";
 import AverageReturns from "../Cards/AverageReturns";
 import EarningsRatio from "../Cards/EarningsRatio";
+import Valuation from "../Cards/Valuation";
+import Volatility from "../Cards/Volatility";
 
 const GridLayout = WidthProvider(Responsive);
 
@@ -168,6 +170,8 @@ const HomeDashboard = (props) => {
     OverallReturns,
     AverageReturns,
     EarningsRatio,
+    Valuation,
+    Volatility
   };
 
   var layout = { lg: value === true ? mainLayout : mainLayout };

@@ -14,6 +14,8 @@ import PriceCalendar from "../Cards/PriceCalendar";
 import OverallReturns from "../Cards/OverallReturns";
 import AverageReturns from "../Cards/AverageReturns";
 import EarningsRatio from "../Cards/EarningsRatio";
+import Valuation from "../Cards/Valuation";
+import Volatility from "../Cards/Volatility";
 
 const AddCardModal = (props) => {
   const [value, setValue] = useState("");
@@ -56,6 +58,8 @@ const AddCardModal = (props) => {
     OverallReturns,
     AverageReturns,
     EarningsRatio,
+    Valuation,
+    Volatility
   };
 
   return (
