@@ -10,7 +10,7 @@ ReactFC.fcRoot(FusionCharts, AngularGauge);
 const RiskAnalysis = (props) => {
   const [sharpe, setSharpe] = useState([{}]);
   const [currentRating, setCurrentRating] = useState("Rating");
-  const [chartValue, setChartValue] = useState([0]);
+  const [chartValue, setChartValue] = useState([]);
   const [theme, setTheme] = useState("");
   const [dialColor, setDialColor] = useState("");
   const [textColor, setTextColor] = useState("");
@@ -31,7 +31,7 @@ const RiskAnalysis = (props) => {
       bgColor: theme,
       baseFontColor: textColor,
       toolTipBgColor: theme,
-      tickValueStep: 4,
+      tickValueStep: 5,
     },
     colorRange: {
       color: [
@@ -68,7 +68,7 @@ const RiskAnalysis = (props) => {
   };
 
   useEffect(() => {
-    setSharpe(props.data);
+    setSharpe(props.data.sharpe_ratio);
   }, [props.data]);
 
   useEffect(() => {
