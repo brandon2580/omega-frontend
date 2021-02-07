@@ -180,18 +180,6 @@ function App() {
       isResizable: false,
     },
 
-    {
-      id: 9,
-      name: "PriceHistogram",
-      title: "Price Histogram",
-      data: [],
-      x: 0,
-      y: 0,
-      w: 12,
-      h: 1,
-      minW: 3,
-      maxH: 1,
-    },
 
     {
       id: 10,
@@ -275,23 +263,7 @@ function App() {
               setPriceFrame: setPriceFrame,
             };
           }
-          if (card.name == "PriceHistogram") {
-            return {
-              ...card,
-              data: Object.keys(price).map(function (key) {
-                return {
-                  x: key,
-                  y: [
-                    price[key].adj_open,
-                    price[key].adj_high,
-                    price[key].adj_low,
-                    price[key].adj_close,
-                  ],
-                  change: price[key].change,
-                };
-              }),
-            };
-          }
+
           if (card.name == "OverallReturns") {
             return {
               ...card,

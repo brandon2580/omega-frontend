@@ -16,7 +16,6 @@ import XButton from "../XButton";
 import TickerHeader from "./TickerHeader";
 import TopNavbar from "../Navbars/TopNavbar";
 import News from "../Cards/News";
-import PriceHistogram from "../Cards/PriceHistorgram";
 import PriceCalendar from "../Cards/PriceCalendar";
 import OverallReturns from "../Cards/OverallReturns";
 import AverageReturns from "../Cards/AverageReturns";
@@ -165,7 +164,6 @@ const HomeDashboard = (props) => {
     PriceTarget,
     RiskAnalysis,
     News,
-    PriceHistogram,
     PriceCalendar,
     OverallReturns,
     AverageReturns,
