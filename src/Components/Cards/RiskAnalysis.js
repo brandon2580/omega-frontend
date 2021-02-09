@@ -74,23 +74,23 @@ const RiskAnalysis = (props) => {
   useEffect(() => {
     if (sharpe < 0.45) {
       setCurrentRating("Poor");
-      setChartValue([25]);
+      setChartValue([12.5]);
     } else if (sharpe <= 0.8 && sharpe >= 0.45) {
       setCurrentRating("Average");
-      setChartValue([50]);
+      setChartValue([40.625]);
     } else if (sharpe <= 1.15 && sharpe >= 0.81) {
       setCurrentRating("Good");
-      setChartValue([75]);
+      setChartValue([68.75]);
     } else if (sharpe > 1.15) {
       setCurrentRating("Exceptional");
-      setChartValue([100]);
+      setChartValue([87.5]);
     }
   }, [sharpe]);
 
   return (
     <Card
       title={props.title}
-      extra={props.button}
+      extra={props.extra}
       style={{
         height: "100%",
         overflow: "auto",
