@@ -77,10 +77,10 @@ const RiskAnalysis = (props) => {
       setChartValue([12.5]);
     } else if (sharpe <= 0.8 && sharpe >= 0.45) {
       setCurrentRating("Average");
-      setChartValue([40.625]);
+      setChartValue([37.5]);
     } else if (sharpe <= 1.15 && sharpe >= 0.81) {
       setCurrentRating("Good");
-      setChartValue([68.75]);
+      setChartValue([62.5]);
     } else if (sharpe > 1.15) {
       setCurrentRating("Exceptional");
       setChartValue([87.5]);
