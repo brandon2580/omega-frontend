@@ -4,7 +4,7 @@ import { Card } from "antd";
 import ReactApexChart from "react-apexcharts";
 
 const Valuation = (props) => {
-  const [series, setSeries] = useState([]);
+  const [series, setSeries] = useState([0, 0, 0]);
   const [ticker, setTicker] = useState("");
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const Valuation = (props) => {
     <Card
       className="hide-overflow"
       title={props.title}
-      extra={props.button}
+      extra={props.extra}
       style={{
         height: "100%",
         overflow: "auto",

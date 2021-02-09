@@ -84,7 +84,7 @@ const Earnings = (props) => {
   return (
     <Card
       title={props.title}
-      extra={props.button}
+      extra={props.extra}
       style={{
         height: "100%",
         overflow: "auto",

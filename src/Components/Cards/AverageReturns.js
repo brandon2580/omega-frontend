@@ -9,11 +9,20 @@ import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 ReactFC.fcRoot(FusionCharts, Bubble, FusionTheme);
 
 const AverageReturns = (props) => {
-  const [series, setSeries] = useState();
+  const [series, setSeries] = useState({
+    avg_gain: 0,
+    avg_loss: 0,
+    gain_ratio: 0,
+    loss_ratio: 0,
+    num_gain: 0,
+    num_loss: 0,
+  });
   const [theme, setTheme] = useState("");
+  const [textColor, setTextColor] = useState("");
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
+    props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
   }, [props.darkMode]);
 
   useEffect(() => {
@@ -24,47 +33,37 @@ const AverageReturns = (props) => {
     chart: {
       numberPrefix: "$",
       rotateLabels: 0,
+      showLegend: 1,
+      legendPosition: "bottom",
       canvasbgColor: theme,
       canvasbgAlpha: "100",
       canvasBorderThickness: "0",
       showAlternateHGridColor: "0",
       bgColor: theme,
+      toolTipBgColor: theme,
+      baseFontColor: textColor,
       bgAlpha: "100",
       showBorder: "0",
       palettecolors: "#007bff",
       anchorBgColor: "#007bff",
+      yAxisMinValue: ".5",
+      yAxisMaxValue: "1.5",
+      showYAxisValues: 0,
     },
     categories: [
       {
         category: [
           {
-            label: "$0",
-            x: "0",
+            x: "1",
           },
           {
-            label: "$20",
-            x: "20",
-            showverticalline: "1",
+            x: "2",
           },
           {
-            label: "$40",
-            x: "40",
-            showverticalline: "1",
+            x: "3",
           },
           {
-            label: "$60",
-            x: "60",
-            showverticalline: "1",
-          },
-          {
-            label: "$80",
-            x: "80",
-            showverticalline: "1",
-          },
-          {
-            label: "$100",
-            x: "100",
-            showverticalline: "1",
+            x: "4",
           },
         ],
       },
@@ -73,18 +72,27 @@ const AverageReturns = (props) => {
       {
         data: [
           {
-            name: "Up",
-            x: "80",
-            y: "10000",
-            z: "1",
-            // color: "#00FF00",
+            name: "Gain Ratio",
+            tooltext: `Gain Ratio: ${series.gain_ratio.toFixed(
+              2
+            )}{br}Average Gain: ${
+              series.avg_gain.toFixed(2) * 100
+            }%{br}Number of Gains: ${series.num_gain}`,
+            x: "2",
+            y: "1",
+            z: series.gain_ratio,
+            color: "#00FF00",
           },
           {
-            name: "Down",
-            x: "60",
-            y: "10000",
-            z: "10",
-            // color: "#FF0000",
+            name: "Loss Ratio",
+            tooltext: `Loss Ratio: ${series.loss_ratio.toFixed(
+              2
+            )}{br}Average Loss: ${
+              series.avg_loss.toFixed(2) * 100
+            }%{br}Number of Losses: ${series.num_loss}`,
+            x: "3",
+            y: "1",
+            z: series.loss_ratio,
           },
         ],
       },
@@ -93,7 +101,7 @@ const AverageReturns = (props) => {
   return (
     <Card
       title={props.title}
-      extra={props.button}
+      extra={props.extra}
       style={{
         height: "100%",
         overflow: "auto",
@@ -110,6 +118,10 @@ const AverageReturns = (props) => {
           dataFormat="JSON"
           dataSource={dataSource}
         />
+        <div className="row">
+          <div className="col-lg-6">Green</div>
+          <div className="col-lg-6">Red</div>
+        </div>
       </div>
     </Card>
   );

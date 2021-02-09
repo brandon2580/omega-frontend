@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
+import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
-const COLORS = ["#007bff", "#FF0000"];
+const COLORS = ["#00FF00", "#FF0000"];
 
 const OverallReturns = (props) => {
   const [series, setSeries] = useState([]);
@@ -23,11 +23,11 @@ const OverallReturns = (props) => {
 
     setSeries([
       {
-        name: "Positives",
+        name: "Total Days Up",
         value: parseInt(positivePercent.toFixed(2)),
       },
       {
-        name: "Negatives",
+        name: "Total Days Down",
         value: parseInt(negativePercent.toFixed(2)),
       },
     ]);
@@ -36,7 +36,7 @@ const OverallReturns = (props) => {
   return (
     <Card
       title={props.title}
-      extra={props.button}
+      extra={props.extra}
       style={{
         height: "100%",
         overflow: "auto",
@@ -62,6 +62,7 @@ const OverallReturns = (props) => {
                 />
               ))}
             </Pie>
+            <Legend />
             <Tooltip />
           </PieChart>
         </ResponsiveContainer>

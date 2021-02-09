@@ -7,6 +7,7 @@ const TickerHeader = (props) => {
   useEffect(() => {
     setTicker(props.tickerCard.ticker)
   }, [props.tickerCard.ticker])
+
   return (
     <div className="row">
       <div className="col-lg-12">
@@ -25,12 +26,14 @@ const TickerHeader = (props) => {
                 <img style={{ borderRadius: "1000px" }} src={`https://storage.googleapis.com/iex/api/logos/${ticker}.png`} />
               </div>
               <div className="col-lg-3 ">
-                <p>{props.tickerCard.sector}</p>
+                <p>{props.tickerCard.industry}</p>
 
                 <p>
-                  {props.tickerCard.country}
+                  CEO: {props.tickerCard.ceo}
                   <br />
-                  {props.tickerCard.phone}
+                  <a href={props.tickerCard.website}>{props.tickerCard.website}</a>
+                  <br />
+                  {props.tickerCard.country}
                 </p>
               </div>
             </div>
@@ -38,17 +41,17 @@ const TickerHeader = (props) => {
             <div className="row">
               <div className="col-lg-1 justify-content">
                 <p className="center">
-                  Forward P/E: <br /> {props.tickerCard.forward_pe_ratio}
+                  Market Cap: <br /> X
                 </p>
               </div>
               <div className="col-lg-1 justify-content">
                 <p className="center">
-                  P/B: <br /> {props.tickerCard.price_to_book}
+                  Total Return: <br /> X
                 </p>
               </div>
               <div className="col-lg-1 justify-content">
                 <p className="center">
-                  P/S: <br /> {props.tickerCard.price_to_sales}
+                  Price: <br /> X
                 </p>
               </div>
               <div className="col-lg-9 justify-content">

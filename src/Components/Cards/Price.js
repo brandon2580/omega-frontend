@@ -46,14 +46,14 @@ const Price = (props) => {
   };
 
   const changeCandleInterval = (e) => {
-    props.setFrame(e.target.value);
+    props.setPriceFrame(e.target.value);
   };
 
   return (
     <Card
       className="hide-overflow"
       title={props.title}
-      extra={props.button}
+      extra={props.extra}
       style={{
         height: "100%",
         overflow: "auto",

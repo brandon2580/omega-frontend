@@ -69,7 +69,7 @@ const Volatility = (props) => {
     <Card
       className="hide-overflow"
       title={props.title}
-      extra={props.button}
+      extra={props.extra}
       style={{
         height: "100%",
         overflow: "auto",

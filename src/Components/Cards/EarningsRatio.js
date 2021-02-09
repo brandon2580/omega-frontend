@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
+import {
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+} from "recharts";
 
-const COLORS = ["#007bff", "#FF0000"];
+const COLORS = ["#00FF00", "#FF0000"];
 
 function getOccurrence(array, value) {
   var count = 0;
@@ -13,6 +20,8 @@ function getOccurrence(array, value) {
 
 // This function ultimately returns the amount of times earnings has missed
 function compare(consensus, actual) {
+  consensus = {};
+  actual = {};
   let consensusData = Object.values(consensus);
   let actualData = Object.values(actual);
 
@@ -28,12 +37,14 @@ function compare(consensus, actual) {
 }
 
 const EarningsRatio = (props) => {
-  const [series, setSeries] = useState([]);
+  const [series, setSeries] = useState([
+    { name: "% Beat", value: 0 },
+    { name: "% Missed", value: 0 },
+  ]);
 
   useEffect(() => {
     let consensus = props.data[Object.keys(props.data)[0]];
     let actual = props.data[Object.keys(props.data)[1]];
-
     let timesMissed = compare(consensus, actual);
     let percentTimesMissed = (timesMissed / 4) * 100;
     let percentTimesBeat = 100 - percentTimesMissed;
@@ -47,7 +58,7 @@ const EarningsRatio = (props) => {
   return (
     <Card
       title={props.title}
-      extra={props.button}
+      extra={props.extra}
       style={{
         height: "100%",
         overflow: "auto",
@@ -73,6 +84,7 @@ const EarningsRatio = (props) => {
                 />
               ))}
             </Pie>
+            <Legend />
             <Tooltip />
           </PieChart>
         </ResponsiveContainer>

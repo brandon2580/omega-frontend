@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "../AddCardModal/AddCardModal";
@@ -6,11 +6,28 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
 
 const TopNavbar = (props) => {
+  const [allowedStocks, setAllowedStocks] = useState([]);
   const [ticker, setTicker] = useState("");
+  const [invalidTicker, setInvalidTicker] = useState(false);
+
+  useEffect(() => {
+    const allowed_stocks = fetch(
+      `https://sigma7apis.azure-api.net/omega/master?code=pcRfOm56RQRqa9ixWAyq9qWtlofFpzIZZbVAcNxGwJBEMaA4z1Q5Qw==&all=1`
+    ).then((res) => res.json());
+
+    Promise.resolve(allowed_stocks).then((allowed_stocks) => {
+      setAllowedStocks(Object.keys(allowed_stocks.tick_ex));
+    });
+  }, [props.activeTicker]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.setActiveTicker(ticker);
+    if (allowedStocks.includes(ticker)) {
+      setInvalidTicker(false);
+      props.setActiveTicker(ticker);
+    } else {
+      setInvalidTicker(true);
+    }
     e.target.reset();
   };
 
@@ -44,12 +61,14 @@ const TopNavbar = (props) => {
         <form onSubmit={handleSubmit}>
           <input
             className="react-autosuggest__input"
-            onChange={e => setTicker(e.target.value.toUpperCase())}
+            onChange={(e) => setTicker(e.target.value.toUpperCase())}
             style={{ color: "black" }}
             placeholder="ticker"
             type="text"
           />
         </form>
+
+        {invalidTicker && <p style={{color: "red"}}>Please use a valid ticker in the DOW 30</p>}
 
         <div className="ml-auto row">
           <div className="col-lg-3">
