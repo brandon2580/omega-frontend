@@ -4,6 +4,8 @@ import _ from "lodash";
 import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import { Responsive, WidthProvider } from "react-grid-layout";
+import { CloseCircleOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import Loader from "react-loader-spinner";
 import Earnings from "../Cards/Earnings";
 import AnalystRecommendations from "../Cards/AnalystRecommendations";
 import Dividends from "../Cards/Dividends";
@@ -12,7 +14,6 @@ import PriceTarget from "../Cards/PriceTarget";
 import RiskAnalysis from "../Cards/RiskAnalysis";
 import Sidenavbar from "../Navbars/Sidenavbar";
 import UndoPrompt from "./UndoPrompt";
-import XButton from "../XButton";
 import TickerHeader from "./TickerHeader";
 import TopNavbar from "../Navbars/TopNavbar";
 import News from "../Cards/News";
@@ -49,6 +50,7 @@ const HomeDashboard = (props) => {
   const [preRemovedLayout, setPreRemovedLayout] = useState([]);
   const [undoClicked, setUndoClicked] = useState(false);
   const [darkMode, setDarkMode] = useState();
+  const [loading, setLoading] = useState(true);
 
   // This automatically saves mainLayout in localStorage
   const [storedLayouts, setStoredLayouts] = useStorageState(
@@ -171,10 +173,25 @@ const HomeDashboard = (props) => {
     AverageReturns,
     EarningsRatio,
     Valuation,
-    Volatility
+    Volatility,
   };
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
+
+  if (loading) {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+    return (
+      <Loader
+        className="fullyCentered"
+        type="Puff"
+        color="#007bff"
+        height={100}
+        width={100}
+      />
+    );
+  }
 
   return (
     <div>
@@ -183,6 +200,7 @@ const HomeDashboard = (props) => {
         selectedCardsIndex={props.selectedCardsIndex}
         setSelectedCardsIndex={props.setSelectedCardsIndex}
         setActiveTicker={props.setActiveTicker}
+        activeTicker={props.activeTicker}
         wasTaken={wasTaken}
         setDarkMode={setDarkMode}
         darkMode={darkMode}
@@ -215,10 +233,10 @@ const HomeDashboard = (props) => {
         width={1200}
       >
         {/*
-          For reference, if we console.log(props.selectedCardsIndex), at first an empty array is returned. However if we 
-          were to select a card that has an id value of 9 {id: 9}, then Array [9] would be logged. If we were to then 
-          select a card with an id of 10 {id: 10}, it would return Array [9, 10]. 
-        */}
+            For reference, if we console.log(props.selectedCardsIndex), at first an empty array is returned. However if we 
+            were to select a card that has an id value of 9 {id: 9}, then Array [9] would be logged. If we were to then 
+            select a card with an id of 10 {id: 10}, it would return Array [9, 10]. 
+          */}
         {props.selectedCardsIndex.map((cardId, index) => {
           const card = props.availableCards.find((c) => c.id === cardId);
 
@@ -230,25 +248,23 @@ const HomeDashboard = (props) => {
             minW: card.minW,
             isResizable: card.isResizable,
           };
-          
-          const button = ( 
-            <span
-              onClick={() => {
-                removeCardFromLayout(card.id);
-              }}
-              role="img"
-              aria-label="close"
-              class="anticon anticon-close ant-modal-close-icon"
-            >
-              <XButton />
-            </span>
-          )
+
+          const extra = (
+            <div>
+              <span className="span-margin" onClick={() => null}>
+                <InfoCircleOutlined className="blue-button" />
+              </span>
+              <span onClick={() => removeCardFromLayout(card.id)}>
+                <CloseCircleOutlined />
+              </span>
+            </div>
+          );
 
           if (card.name in availableCardsObject) {
             const CustomTag = availableCardsObject[card.name];
             return (
               <div key={card.id} data-grid={defaultDataGrid}>
-                <CustomTag {...card} button={button} darkMode={darkMode} />
+                <CustomTag {...card} extra={extra} darkMode={darkMode} />
               </div>
             );
           }
