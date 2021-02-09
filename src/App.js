@@ -14,6 +14,7 @@ import {
   Index,
 } from "react-router-dom";
 import Portfolio from "./Components/Portfolio/Portfolio";
+import ErrorNotFound from "./Components/ErrorNotFound";
 
 function App() {
   const [activeTicker, setActiveTicker] = useState("AAPL");
@@ -77,7 +78,13 @@ function App() {
       id: 2,
       name: "AnalystRecommendations",
       title: "Analyst Recommendations",
-      data: [],
+      data: [
+        { name: "Strong Buy", value: 0 },
+        { name: "Buy", value: 0 },
+        { name: "Hold", value: 0 },
+        { name: "Sell", value: 0 },
+        { name: "Strong Sell", value: 0 },
+      ],
       x: 12,
       y: 0,
       w: 6,
@@ -90,7 +97,7 @@ function App() {
       id: 3,
       name: "Dividends",
       title: "Dividends",
-      data: [],
+      data: [{ label: "", value: 0 }],
       dividendRange: dividendRange,
       setDividendRange: setDividendRange,
       dataLabel: "Dividend/Share",
@@ -106,7 +113,7 @@ function App() {
       id: 4,
       name: "Price",
       title: "Price",
-      data: [],
+      data: [{ x: "", y: [0, 0, 0, 0] }],
       priceRange: priceRange,
       setPriceRange: setPriceRange,
       priceFrame: priceFrame,
@@ -141,7 +148,17 @@ function App() {
       id: 6,
       name: "RiskAnalysis",
       title: "Performance (Risk Adjusted)",
-      data: [],
+      data: {
+        cvar: 0,
+        date: "",
+        omega_id: 0,
+        period: "",
+        rid: 0,
+        sharpe_ratio: 0,
+        sortino_ratio: 0,
+        std: 0,
+        symbol: "",
+      },
       dataLabel: "Risk",
       x: 0,
       y: 0,
@@ -155,12 +172,12 @@ function App() {
       id: 7,
       name: "PriceCalendar",
       title: "Price Calendar",
-      data: [],
+      data: [{ value: 0 }],
       calendarFrame: calendarFrame,
       setCalendarFrame: setCalendarFrame,
       x: 0,
       y: 0,
-      w: 12,
+      w: 3,
       h: 1,
       minW: 3,
       maxH: 1,
@@ -170,24 +187,23 @@ function App() {
       id: 8,
       name: "News",
       title: "News",
-      data: [],
+      data: [{ title: "", source: "" }],
       x: 0,
       y: 0,
       w: 12,
-      h: 0.25,
+      h: 1,
       minW: 3,
-      maxH: 0.25,
-      isResizable: false,
+      maxH: 1,
     },
 
     {
       id: 10,
       name: "OverallReturns",
       title: "Overall Returns",
-      data: [],
+      data: [{ x: "", change: 0 }],
       x: 0,
       y: 0,
-      w: 12,
+      w: 3,
       h: 1,
       minW: 3,
       maxH: 1,
@@ -197,10 +213,19 @@ function App() {
       id: 11,
       name: "AverageReturns",
       title: "Average Returns",
-      data: [],
+      data: {
+        avg_gain: 0,
+        avg_loss: 0,
+        gain_ratio: 0,
+        loss_ratio: 0,
+        num_gain: 0,
+        num_loss: 0,
+        symbol: "",
+        timeframe: "",
+      },
       x: 0,
       y: 0,
-      w: 12,
+      w: 3,
       h: 1,
       minW: 3,
       maxH: 1,
@@ -210,10 +235,10 @@ function App() {
       id: 12,
       name: "EarningsRatio",
       title: "Earnings Ratio",
-      data: [],
+      data: { actual: { "": 0 }, consensus: { "": 0 } },
       x: 0,
       y: 0,
-      w: 12,
+      w: 3,
       h: 1,
       minW: 3,
       maxH: 1,
@@ -223,10 +248,10 @@ function App() {
       id: 13,
       name: "Valuation",
       title: "Valuation",
-      data: [],
+      data: { pe_ratio: 0, comp_pe_ratio: 0, dow_pe_ratio: 0 },
       x: 0,
       y: 0,
-      w: 12,
+      w: 3,
       h: 1,
       minW: 3,
       maxH: 1,
@@ -236,10 +261,10 @@ function App() {
       id: 14,
       name: "Volatility",
       title: "Volatility",
-      data: [],
+      data: { beta: 0, comp_beta: 0, dow_beta: 0 },
       x: 0,
       y: 0,
-      w: 12,
+      w: 3,
       h: 1,
       minW: 3,
       maxH: 1,
@@ -466,6 +491,10 @@ function App() {
       `${apiBaseUrl}/risk_metrics?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
+    const average_returns = fetch(
+      `${apiBaseUrl}/return_compare?code=${apiCode}==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+
     const allReqs = [
       company,
       price_target,
@@ -475,6 +504,7 @@ function App() {
       valuation,
       volatility,
       risk,
+      average_returns,
     ];
 
     Promise.all(allReqs).then((allResp) => {
@@ -487,6 +517,7 @@ function App() {
         valuation,
         volatility,
         risk,
+        average_returns,
       ] = allResp;
 
       // Function syntax of setState to use the previous value from the state, as recommended by React
@@ -497,15 +528,14 @@ function App() {
             case "TickerHeader":
               return {
                 ...card,
-                company_name: company.company_name,
+                company_name: company.companyName,
                 ticker: activeTicker,
                 description: company.description,
-                sector: company.sector,
+                industry: company.industry,
                 country: company.country,
                 phone: company.phone,
-                // forward_pe_ratio: adv_stats.forward_pe_ratio.toFixed(2),
-                // price_to_book: adv_stats.price_to_book.toFixed(2),
-                // price_to_sales: adv_stats.price_to_sales.toFixed(2),
+                website: company.website,
+                ceo: company.CEO,
               };
 
             case "PriceTarget":
@@ -571,6 +601,12 @@ function App() {
                 ...card,
                 data: risk,
               };
+
+            case "AverageReturns":
+              return {
+                ...card,
+                data: average_returns,
+              };
           }
 
           // Otherwise return the original card
@@ -593,11 +629,13 @@ function App() {
                 selectedCardsIndex={selectedCardsIndex}
                 setSelectedCardsIndex={setSelectedCardsIndex}
                 setActiveTicker={setActiveTicker}
+                activeTicker={activeTicker}
               />
             </Route>
             <Route path="/portfolio">
               <Portfolio />
             </Route>
+            <Route component={ErrorNotFound} />
           </Switch>
         </Router>
       </div>
