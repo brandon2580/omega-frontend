@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Modal } from "antd";
 import AutoSuggest from "react-autosuggest";
@@ -16,11 +16,13 @@ import AverageReturns from "../Cards/AverageReturns";
 import EarningsRatio from "../Cards/EarningsRatio";
 import Valuation from "../Cards/Valuation";
 import Volatility from "../Cards/Volatility";
+import { InfoCircleOutlined } from "@ant-design/icons";
 
 const AddCardModal = (props) => {
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+
 
   const selectCard = (id) => {
     // Card was selected, remove it
@@ -59,8 +61,9 @@ const AddCardModal = (props) => {
     AverageReturns,
     EarningsRatio,
     Valuation,
-    Volatility
+    Volatility,
   };
+
 
   return (
     <div>
@@ -103,12 +106,24 @@ const AddCardModal = (props) => {
                 !props.selectedCardsIndex.includes(card.id) &&
                 card.title.toLowerCase().includes(value.toLowerCase());
 
+              const extra = (
+                <div>
+                  <span>
+                    <InfoCircleOutlined className="blue-button" />
+                  </span>
+                </div>
+              );
+
               if (card.name in availableCardsObject && defaultConditionals) {
                 const CustomTag = availableCardsObject[card.name];
 
                 return (
                   <div className="col-xl-4 modal-card">
-                    <CustomTag {...card} darkMode={props.darkMode} />
+                    <CustomTag
+                      {...card}
+                      extra={extra}
+                      darkMode={props.darkMode}
+                    />
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>
                 );
