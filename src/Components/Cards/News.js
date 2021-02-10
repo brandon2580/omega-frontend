@@ -10,8 +10,6 @@ const News = (props) => {
     setNews(props.data);
   }, [props.data]);
 
-  console.log(news);
-
   return (
     <Card
       title={props.title}
