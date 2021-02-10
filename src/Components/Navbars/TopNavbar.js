@@ -48,7 +48,7 @@ const TopNavbar = (props) => {
         <ul class="navbar-nav">
           <li className="nav-item active">
             <Link to="/dashboard" className="nav-link">
-              Dashboard
+              Dashboards
             </Link>
           </li>
           <li className="nav-item">
