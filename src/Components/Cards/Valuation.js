@@ -75,7 +75,6 @@ const Valuation = (props) => {
       style={{
         height: "100%",
         overflow: "auto",
-        scrollbarColor: "#152233 #131722",
       }}
     >
       <hr className="card-hr" />
