@@ -416,10 +416,6 @@ body.dark-mode .error-message {
   padding-top: 10%;
 }
 
-.news-row {
-  overflow: scroll;
-}
-
 .justify-content {
   display: flex;
   align-items: center;
@@ -447,6 +443,26 @@ body.dark-mode .error-message {
 
 .yellow {
   color: yellow;
+}
+
+body.dark-mode .news-card{
+  overflow: scroll;
+  scrollbar-color: #152233 #131722;
+  overflow-x: hidden;
+}
+
+body.light-mode .news-card{
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.news-hr{
+  border-color: grey;
+  margin-right: 15px;
+}
+
+body.dark-mode .news-header{
+  color: white;
 }
 
 .ant-card-head:hover {
