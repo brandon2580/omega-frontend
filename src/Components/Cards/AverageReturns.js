@@ -105,7 +105,6 @@ const AverageReturns = (props) => {
       style={{
         height: "100%",
         overflow: "auto",
-        scrollbarColor: "#152233 #131722",
       }}
     >
       <hr className="card-hr" />
@@ -119,8 +118,48 @@ const AverageReturns = (props) => {
           dataSource={dataSource}
         />
         <div className="row">
-          <div className="col-lg-6">Green</div>
-          <div className="col-lg-6">Red</div>
+          <div className="col-lg-12 d-flex flex-row justify-content-center align-items-center">
+            <svg
+              class="recharts-surface"
+              width="14"
+              height="14"
+              style={{
+                display: "inlineBlock",
+                verticalAlign: "middle",
+                marginRight: "4px",
+              }}
+              viewBox="0 0 32 32"
+              version="1.1"
+            >
+              <path
+                stroke="none"
+                fill="#00FF00"
+                d="M0,4h32v24h-32z"
+                class="recharts-legend-icon"
+              ></path>
+            </svg>
+            <span style={{marginRight: "15px"}}>Total Gain</span>
+            <svg
+              class="recharts-surface"
+              width="14"
+              height="14"
+              style={{
+                display: "inlineBlock",
+                verticalAlign: "middle",
+                marginRight: "4px",
+              }}
+              viewBox="0 0 32 32"
+              version="1.1"
+            >
+              <path
+                stroke="none"
+                fill="#FF0000"
+                d="M0,4h32v24h-32z"
+                class="recharts-legend-icon"
+              ></path>
+            </svg>
+            <span>Total Loss</span>
+          </div>
         </div>
       </div>
     </Card>
