@@ -10,6 +10,8 @@ const News = (props) => {
     setNews(props.data);
   }, [props.data]);
 
+  console.log(news);
+
   return (
     <Card
       title={props.title}
@@ -17,26 +19,25 @@ const News = (props) => {
       style={{
         height: "100%",
         overflow: "auto",
-        scrollbarColor: "#152233 #131722",
       }}
     >
       <hr className="card-hr" />
 
-      <div style={{ height: 456 }}>
-        <div className="scrolling-news">
-          <Ticker>
-            {() => {
-              let mappedNews = news.map((el) => {
-                return (
-                  <span className="ticker-content">
-                    <span className="yellow"><strong>{el.source}</strong></span>: {el.title}{'  '}
-                  </span>
-                );
-              });
-              return mappedNews;
-            }}
-          </Ticker>
-        </div>
+      <div className="news-card" style={{ height: 456 }}>
+        {news.map((news) => {
+          return (
+            <div>
+                <h4 className="news-header">
+                  {news.source}: {news.title}
+                </h4>
+                <p>{news.summary}</p>
+                <a target="_blank" href={news.url}>
+                  {news.url}
+                </a>
+              <hr className="news-hr" />
+            </div>
+          );
+        })}
       </div>
     </Card>
   );
