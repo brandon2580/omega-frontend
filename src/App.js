@@ -212,7 +212,7 @@ function App() {
     {
       id: 11,
       name: "AverageReturns",
-      title: "Average Returns",
+      title: "Average Gain vs. Average Loss",
       data: {
         avg_gain: 0,
         avg_loss: 0,
@@ -580,6 +580,8 @@ function App() {
                   return {
                     title: news[key].headline,
                     source: news[key].source,
+                    summary: news[key].summary,
+                    url: news[key].url
                   };
                 }),
               };
