@@ -400,6 +400,10 @@ body.dark-mode .error-message {
   fill: #007bff !important;
 }
 
+.blue{
+  color: #007bff;
+}
+
 .ant-modal-header {
   border-radius: 0px !important;
 }
@@ -414,6 +418,26 @@ body.dark-mode .error-message {
 
 .gauge-risk {
   padding-top: 10%;
+}
+
+body.dark-mode .change-view-button {
+  font-size: 15px !important;
+  margin-left: 15px !important;
+  background-color: black !important;
+}
+
+body.light-mode .change-view-button {
+  font-size: 15px !important;
+  margin-left: 15px !important;
+  background-color: white !important;
+  color: black !important;
+}
+
+.custom-tooltip {
+  background-color: black !important;
+  border-style: solid !important;
+  border-width: 1px !important;
+  padding: 10px !important;
 }
 
 .justify-content {
@@ -445,23 +469,23 @@ body.dark-mode .error-message {
   color: yellow;
 }
 
-body.dark-mode .news-card{
+body.dark-mode .news-card {
   overflow: scroll;
   scrollbar-color: #152233 #131722;
   overflow-x: hidden;
 }
 
-body.light-mode .news-card{
+body.light-mode .news-card {
   overflow: scroll;
   overflow-x: hidden;
 }
 
-.news-hr{
+.news-hr {
   border-color: grey;
   margin-right: 15px;
 }
 
-body.dark-mode .news-header{
+body.dark-mode .news-header {
   color: white;
 }
 
