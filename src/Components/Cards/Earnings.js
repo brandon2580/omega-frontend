@@ -5,12 +5,24 @@ import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts/core";
 import Scatter from "fusioncharts/viz/scatter";
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import {
+  ComposedChart,
+  Line,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 ReactFC.fcRoot(FusionCharts, Scatter, FusionTheme);
 
 const Earnings = (props) => {
+  const [view, setView] = useState("scatter");
   const [consensus, setConsensus] = useState();
   const [actual, setActual] = useState();
+  const [barViewData, setBarViewData] = useState([]);
   const [dates, setDates] = useState([]);
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
@@ -41,9 +53,19 @@ const Earnings = (props) => {
         label: el,
       };
     });
+
+    let barViewDataMap = consensusEPS.map((el, i) => {
+      return {
+        name: formattedDates[i].label,
+        consensus: el.y,
+        actual: actualEPS[i].y,
+      };
+    });
+
     setConsensus(consensusEPS);
     setActual(actualEPS);
     setDates(formattedDates);
+    setBarViewData(barViewDataMap);
   }, [props.consensus, props.actual, props.dates]);
 
   const dataSource = {
@@ -81,27 +103,78 @@ const Earnings = (props) => {
     ],
   };
 
-  return (
-    <Card
-      title={props.title}
-      extra={props.extra}
-      style={{
-        height: "100%",
-        overflow: "auto",
-      }}
-    >
-      <hr className="card-hr" />
-      <div style={{ height: 456 }}>
-        <ReactFC
-          type="scatter"
-          width="100%"
-          height="85%"
-          dataFormat="JSON"
-          dataSource={dataSource}
-        />
-      </div>
-    </Card>
+  let scatterHeader = (
+    <div>
+      {props.title}
+      <button
+        className="btn btn-primary change-view-button"
+        onClick={() => setView("bar")}
+      >
+        Change View
+      </button>
+    </div>
   );
+
+  let barHeader = (
+    <div>
+      {props.title}
+      <button
+        className="btn btn-primary change-view-button"
+        onClick={() => setView("scatter")}
+      >
+        Change View
+      </button>
+    </div>
+  );
+
+  if (view == "scatter") {
+    return (
+      <Card
+        title={scatterHeader}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <div style={{ height: 456 }}>
+          <ReactFC
+            type="scatter"
+            width="100%"
+            height="85%"
+            dataFormat="JSON"
+            dataSource={dataSource}
+          />
+        </div>
+      </Card>
+    );
+  } else {
+    return (
+      <Card
+        title={barHeader}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <div style={{ height: 456 }}>
+          <ResponsiveContainer>
+            <ComposedChart data={barViewData} width={500} height={400}>
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="actual" barSize={20} fill="#007bff" />
+              <Line dataKey="consensus" stroke="#C0C0C0" />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </div>
+      </Card>
+    );
+  }
 };
 
 export default Earnings;
