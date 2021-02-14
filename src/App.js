@@ -295,7 +295,7 @@ function App() {
 
             return {
               ...card,
-              data: Object.keys(price).map(function (key) {
+              data: Object.keys(price).reverse().map(function (key) {
                 return {
                   x: key,
                   y: [
@@ -442,7 +442,7 @@ function App() {
           if (card.name == "PriceCalendar") {
             return {
               ...card,
-              data: Object.keys(price_calendar).map(function (key) {
+              data: Object.keys(price_calendar).reverse().map(function (key) {
                 return {
                   value: price_calendar[key].avg_return * 100,
                 };
@@ -460,7 +460,7 @@ function App() {
 
   useEffect(() => {
     const company = fetch(
-      `https://cloud.iexapis.com/stable/stock/${activeTicker}/company?token=pk_41174bf196e6408bb544b6d89806902a`
+      `${apiBaseUrl}/company?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
     const prices = fetch(
@@ -528,7 +528,7 @@ function App() {
             case "TickerHeader":
               return {
                 ...card,
-                company_name: company.companyName,
+                company_name: company.company_name,
                 ticker: activeTicker,
                 description: company.description,
                 industry: company.industry,
@@ -542,7 +542,7 @@ function App() {
               return {
                 ...card,
                 data: [
-                  Object.keys(prices).map(function (key) {
+                  Object.keys(prices).reverse().map(function (key) {
                     return {
                       label: key,
                       value: prices[key].adj_close,
