@@ -19,7 +19,7 @@ import {
 ReactFC.fcRoot(FusionCharts, Scatter, FusionTheme);
 
 const Earnings = (props) => {
-  const [view, setView] = useState("scatter");
+  const [view, setView] = useState("bar");
   const [consensus, setConsensus] = useState();
   const [actual, setActual] = useState();
   const [barViewData, setBarViewData] = useState([]);
