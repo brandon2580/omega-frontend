@@ -1,68 +1,48 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import ReactApexChart from "react-apexcharts";
+import ReactFC from "react-fusioncharts";
+import FusionCharts from "fusioncharts/core";
+import Column2d from "fusioncharts/viz/column2d";
+import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+
+ReactFC.fcRoot(FusionCharts, Column2d, FusionTheme);
 
 const Volatility = (props) => {
   const [series, setSeries] = useState([]);
-  const [ticker, setTicker] = useState("");
+  const [theme, setTheme] = useState("");
+  const [textColor, setTextColor] = useState("");
+
+  useEffect(() => {
+    props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
+    props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
+  }, [props.darkMode]);
 
   useEffect(() => {
     setSeries([
-      props.data.beta.toFixed(2),
-      props.data.comp_beta.toFixed(2),
-      props.data.dow_beta.toFixed(2),
+      { label: props.data.symbol, value: props.data.beta.toFixed(2) },
+      { label: "Competitors", value: props.data.comp_beta.toFixed(2) },
+      { label: "DOW 30", value: props.data.dow_beta.toFixed(2) },
     ]);
-    setTicker(props.data.symbol);
   }, [props.data]);
 
-  let options = {
-    series: series,
+  const dataSource = {
     chart: {
-      type: "radialBar",
+      yaxisname: "Beta",
+      theme: "fusion",
+      canvasbgColor: theme,
+      canvasbgAlpha: "100",
+      canvasBorderThickness: "0",
+      showAlternateHGridColor: "0",
+      bgColor: theme,
+      bgAlpha: "100",
+      showBorder: "0",
+      palettecolors: "#007bff",
+      drawAnchors: "0",
+      baseFontColor: textColor,
+      toolTipBgColor: theme,
     },
-    plotOptions: {
-      radialBar: {
-        startAngle: 0,
-        endAngle: 270,
-        hollow: {
-          margin: 5,
-          size: "30%",
-          background: "transparent",
-          image: undefined,
-        },
-        dataLabels: {
-          name: {
-            show: false,
-          },
-          value: {
-            show: false,
-          },
-        },
-      },
-    },
-    colors: ["#007bff", "#0084ff", "#39539E"],
-    labels: [ticker, "Competitors", "DOW 30"],
-    legend: {
-      show: true,
-      floating: true,
-      fontSize: "14px",
-      position: "left",
-      offsetX: 10,
-      offsetY: 15,
-      labels: {
-        useSeriesColors: true,
-      },
-      markers: {
-        size: 0,
-      },
-      formatter: function (seriesName, opts) {
-        return seriesName + ":  " + opts.w.globals.series[opts.seriesIndex];
-      },
-      itemMargin: {
-        vertical: 3,
-      },
-    },
+    data: series,
   };
 
   return (
@@ -77,11 +57,12 @@ const Volatility = (props) => {
     >
       <hr className="card-hr" />
       <div style={{ height: 456 }}>
-        <ReactApexChart
-          options={options}
-          series={series}
-          type="radialBar"
-          height={413}
+        <ReactFC
+          type="column2d"
+          width="100%"
+          height="80%"
+          dataFormat="JSON"
+          dataSource={dataSource}
         />
       </div>
     </Card>
