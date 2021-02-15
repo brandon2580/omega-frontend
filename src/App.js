@@ -23,6 +23,7 @@ function App() {
   const [earningsPeriod, setEarningsPeriod] = useState("Q");
   const [priceFrame, setPriceFrame] = useState("daily");
   const [calendarFrame, setCalendarFrame] = useState("max");
+  const [loading, setLoading] = useState(true);
 
   const apiBaseUrl = "https://sigma7apis.azure-api.net/omega";
   const apiCode = "pcRfOm56RQRqa9ixWAyq9qWtlofFpzIZZbVAcNxGwJBEMaA4z1Q5Qw";
@@ -271,6 +272,74 @@ function App() {
     },
   ]);
 
+  useEffect(() => {
+    const company = fetch(
+      `${apiBaseUrl}/company?code=${apiCode}==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+  
+    const prices = fetch(
+      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=1y`
+    ).then((res) => res.json());
+  
+    const price_target = fetch(
+      `${apiBaseUrl}/price_targets?code=${apiCode}==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+  
+    const analyst_recs = fetch(
+      `${apiBaseUrl}/analyst_recs?code=${apiCode}==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+  
+    const news = fetch(
+      `https://cloud.iexapis.com/stable/stock/${activeTicker}/news/last/50?token=pk_756d2eedb1d64c5192084581943ee4b9`
+    ).then((res) => res.json());
+  
+    const valuation = fetch(
+      `${apiBaseUrl}/compare_metric?code=${apiCode}==&symbol=${activeTicker}&metric=pe_ratio`
+    ).then((res) => res.json());
+  
+    const volatility = fetch(
+      `${apiBaseUrl}/compare_metric?code=${apiCode}==&symbol=${activeTicker}&metric=beta`
+    ).then((res) => res.json());
+  
+    const risk = fetch(
+      `${apiBaseUrl}/risk_metrics?code=${apiCode}==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+  
+    const average_returns = fetch(
+      `${apiBaseUrl}/return_compare?code=${apiCode}==&symbol=${activeTicker}`
+    ).then((res) => res.json());
+  
+    const dividends = fetch(
+      `${apiBaseUrl}/dividends?code=${apiCode}==&symbol=${activeTicker}&lastN=${dividendRange}`
+    ).then((res) => res.json());
+  
+    const earnings = fetch(
+      `${apiBaseUrl}/earnings?code=${apiCode}==&symbol=${activeTicker}&lastN=4&period=${earningsPeriod}`
+    ).then((res) => res.json());
+  
+    const price_calendar = fetch(
+      `${apiBaseUrl}/avg_return?code=${apiCode}==&symbol=${activeTicker}&range=${calendarFrame}`
+    ).then((res) => res.json());
+
+    let allReqs = [
+      company,
+      price_target,
+      prices,
+      analyst_recs,
+      news,
+      valuation,
+      volatility,
+      risk,
+      average_returns,
+      dividends,
+      earnings,
+      price_calendar,
+    ];
+    Promise.all(allReqs).then(() => {
+      setLoading(false)
+    })
+  });
+
   // The reason why many different endpoints have their own useEffect hooks is because we want to get
   // new data from each individual endpoint based on whether or not specific state values have changed. For instance if
   // priceRange or frame changes, we ONLY want to upate the prices endpoint, and every single one. Same idea applies with
@@ -295,17 +364,19 @@ function App() {
 
             return {
               ...card,
-              data: Object.keys(price).reverse().map(function (key) {
-                return {
-                  x: key,
-                  y: [
-                    price[key].adj_open,
-                    price[key].adj_high,
-                    price[key].adj_low,
-                    price[key].adj_close,
-                  ],
-                };
-              }),
+              data: Object.keys(price)
+                .reverse()
+                .map(function (key) {
+                  return {
+                    x: key,
+                    y: [
+                      price[key].adj_open,
+                      price[key].adj_high,
+                      price[key].adj_low,
+                      price[key].adj_close,
+                    ],
+                  };
+                }),
               priceRange: priceRange,
               setPriceRange: setPriceRange,
               priceFrame: priceFrame,
@@ -442,11 +513,13 @@ function App() {
           if (card.name == "PriceCalendar") {
             return {
               ...card,
-              data: Object.keys(price_calendar).reverse().map(function (key) {
-                return {
-                  value: price_calendar[key].avg_return * 100,
-                };
-              }),
+              data: Object.keys(price_calendar)
+                .reverse()
+                .map(function (key) {
+                  return {
+                    value: price_calendar[key].avg_return * 100,
+                  };
+                }),
               calendarFrame: calendarFrame,
               setCalendarFrame: setCalendarFrame,
             };
@@ -462,40 +535,40 @@ function App() {
     const company = fetch(
       `${apiBaseUrl}/company?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
-
+  
     const prices = fetch(
       `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=1y`
     ).then((res) => res.json());
-
+  
     const price_target = fetch(
       `${apiBaseUrl}/price_targets?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
-
+  
     const analyst_recs = fetch(
       `${apiBaseUrl}/analyst_recs?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
-
+  
     const news = fetch(
       `https://cloud.iexapis.com/stable/stock/${activeTicker}/news/last/50?token=pk_756d2eedb1d64c5192084581943ee4b9`
     ).then((res) => res.json());
-
+  
     const valuation = fetch(
       `${apiBaseUrl}/compare_metric?code=${apiCode}==&symbol=${activeTicker}&metric=pe_ratio`
     ).then((res) => res.json());
-
+  
     const volatility = fetch(
       `${apiBaseUrl}/compare_metric?code=${apiCode}==&symbol=${activeTicker}&metric=beta`
     ).then((res) => res.json());
-
+  
     const risk = fetch(
       `${apiBaseUrl}/risk_metrics?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
-
+  
     const average_returns = fetch(
       `${apiBaseUrl}/return_compare?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
-    const allReqs = [
+    const groupedReqs = [
       company,
       price_target,
       prices,
@@ -507,7 +580,7 @@ function App() {
       average_returns,
     ];
 
-    Promise.all(allReqs).then((allResp) => {
+    Promise.all(groupedReqs).then((allResp) => {
       const [
         company,
         price_target,
@@ -542,12 +615,14 @@ function App() {
               return {
                 ...card,
                 data: [
-                  Object.keys(prices).reverse().map(function (key) {
-                    return {
-                      label: key,
-                      value: prices[key].adj_close,
-                    };
-                  }),
+                  Object.keys(prices)
+                    .reverse()
+                    .map(function (key) {
+                      return {
+                        label: key,
+                        value: prices[key].adj_close,
+                      };
+                    }),
                   {
                     last_updated: price_target.update_date,
                     average: price_target.price_target_avg,
@@ -581,7 +656,7 @@ function App() {
                     title: news[key].headline,
                     source: news[key].source,
                     summary: news[key].summary,
-                    url: news[key].url
+                    url: news[key].url,
                   };
                 }),
               };
@@ -632,6 +707,7 @@ function App() {
                 setSelectedCardsIndex={setSelectedCardsIndex}
                 setActiveTicker={setActiveTicker}
                 activeTicker={activeTicker}
+                loading={loading}
               />
             </Route>
             <Route path="/portfolio">

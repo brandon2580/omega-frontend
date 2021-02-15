@@ -50,7 +50,6 @@ const HomeDashboard = (props) => {
   const [preRemovedLayout, setPreRemovedLayout] = useState([]);
   const [undoClicked, setUndoClicked] = useState(false);
   const [darkMode, setDarkMode] = useState();
-  const [loading, setLoading] = useState(true);
 
   // This automatically saves mainLayout in localStorage
   const [storedLayouts, setStoredLayouts] = useStorageState(
@@ -178,10 +177,7 @@ const HomeDashboard = (props) => {
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
 
-  if (loading) {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1500);
+  if (props.loading) {
     return (
       <Loader
         className="fullyCentered"
@@ -191,99 +187,99 @@ const HomeDashboard = (props) => {
         width={100}
       />
     );
-  }
-
-  return (
-    <div>
-      <TopNavbar
-        availableCards={props.availableCards}
-        selectedCardsIndex={props.selectedCardsIndex}
-        setSelectedCardsIndex={props.setSelectedCardsIndex}
-        setActiveTicker={props.setActiveTicker}
-        activeTicker={props.activeTicker}
-        wasTaken={wasTaken}
-        setDarkMode={setDarkMode}
-        darkMode={darkMode}
-        setNewLayoutName={setNewLayoutName}
-      />
-
-      <h1 className="center header">Equity Dashboard</h1>
-
-      {/* TickerHeader goes here */}
-      <TickerHeader tickerCard={props.availableCards[0]} />
-
-      {/* Sidenavbar goes here */}
-      <Sidenavbar
-        setSelectedLayoutIndex={setSelectedLayoutIndex}
-        setWasSelected={setWasSelected}
-        wasSelected={wasSelected}
-        selectedCardsIndex={props.selectedCardsIndex}
-        setSelectedCardsIndex={props.setSelectedCardsIndex}
-      />
-
-      {/* Grid layout begins here */}
-      <GridLayout
-        className="layout"
-        layouts={layout}
-        breakpoints={{ lg: 1200, s: 300 }}
-        onLayoutChange={handleLayoutChange}
-        draggableHandle={".ant-card-head"}
-        cols={{ lg: 12, s: 1 }}
-        rowHeight={575}
-        width={1200}
-      >
-        {/*
-            For reference, if we console.log(props.selectedCardsIndex), at first an empty array is returned. However if we 
-            were to select a card that has an id value of 9 {id: 9}, then Array [9] would be logged. If we were to then 
-            select a card with an id of 10 {id: 10}, it would return Array [9, 10]. 
-          */}
-        {props.selectedCardsIndex.map((cardId, index) => {
-          const card = props.availableCards.find((c) => c.id === cardId);
-
-          const defaultDataGrid = {
-            x: card.x,
-            y: card.y,
-            w: card.w,
-            h: card.h,
-            minW: card.minW,
-            isResizable: card.isResizable,
-          };
-
-          const extra = (
-            <div>
-              <span className="span-margin" onClick={() => null}>
-                <InfoCircleOutlined className="blue-button" />
-              </span>
-              <span onClick={() => removeCardFromLayout(card.id)}>
-                <CloseCircleOutlined />
-              </span>
-            </div>
-          );
-
-          if (card.name in availableCardsObject) {
-            const CustomTag = availableCardsObject[card.name];
-            return (
-              <div key={card.id} data-grid={defaultDataGrid}>
-                <CustomTag {...card} extra={extra} darkMode={darkMode} />
-              </div>
-            );
-          }
-        })}
-      </GridLayout>
-
-      {/* Only renders when the user deletes a card from the page (for 5 seconds) */}
-      {wasRemoved && (
-        <UndoPrompt
+  } else {
+    return (
+      <div>
+        <TopNavbar
+          availableCards={props.availableCards}
           selectedCardsIndex={props.selectedCardsIndex}
           setSelectedCardsIndex={props.setSelectedCardsIndex}
-          availableCards={props.availableCards}
-          setWasRemoved={setWasRemoved}
-          setUndoClicked={setUndoClicked}
-          removedCardId={removedCard}
+          setActiveTicker={props.setActiveTicker}
+          activeTicker={props.activeTicker}
+          wasTaken={wasTaken}
+          setDarkMode={setDarkMode}
+          darkMode={darkMode}
+          setNewLayoutName={setNewLayoutName}
         />
-      )}
-    </div>
-  );
+
+        <h1 className="center header">Equity Dashboard</h1>
+
+        {/* TickerHeader goes here */}
+        <TickerHeader tickerCard={props.availableCards[0]} />
+
+        {/* Sidenavbar goes here */}
+        <Sidenavbar
+          setSelectedLayoutIndex={setSelectedLayoutIndex}
+          setWasSelected={setWasSelected}
+          wasSelected={wasSelected}
+          selectedCardsIndex={props.selectedCardsIndex}
+          setSelectedCardsIndex={props.setSelectedCardsIndex}
+        />
+
+        {/* Grid layout begins here */}
+        <GridLayout
+          className="layout"
+          layouts={layout}
+          breakpoints={{ lg: 1200, s: 300 }}
+          onLayoutChange={handleLayoutChange}
+          draggableHandle={".ant-card-head"}
+          cols={{ lg: 12, s: 1 }}
+          rowHeight={575}
+          width={1200}
+        >
+          {/*
+              For reference, if we console.log(props.selectedCardsIndex), at first an empty array is returned. However if we 
+              were to select a card that has an id value of 9 {id: 9}, then Array [9] would be logged. If we were to then 
+              select a card with an id of 10 {id: 10}, it would return Array [9, 10]. 
+            */}
+          {props.selectedCardsIndex.map((cardId, index) => {
+            const card = props.availableCards.find((c) => c.id === cardId);
+
+            const defaultDataGrid = {
+              x: card.x,
+              y: card.y,
+              w: card.w,
+              h: card.h,
+              minW: card.minW,
+              isResizable: card.isResizable,
+            };
+
+            const extra = (
+              <div>
+                <span className="span-margin" onClick={() => null}>
+                  <InfoCircleOutlined className="blue-button" />
+                </span>
+                <span onClick={() => removeCardFromLayout(card.id)}>
+                  <CloseCircleOutlined />
+                </span>
+              </div>
+            );
+
+            if (card.name in availableCardsObject) {
+              const CustomTag = availableCardsObject[card.name];
+              return (
+                <div key={card.id} data-grid={defaultDataGrid}>
+                  <CustomTag {...card} extra={extra} darkMode={darkMode} />
+                </div>
+              );
+            }
+          })}
+        </GridLayout>
+
+        {/* Only renders when the user deletes a card from the page (for 5 seconds) */}
+        {wasRemoved && (
+          <UndoPrompt
+            selectedCardsIndex={props.selectedCardsIndex}
+            setSelectedCardsIndex={props.setSelectedCardsIndex}
+            availableCards={props.availableCards}
+            setWasRemoved={setWasRemoved}
+            setUndoClicked={setUndoClicked}
+            removedCardId={removedCard}
+          />
+        )}
+      </div>
+    );
+  }
 };
 
 export default HomeDashboard;
