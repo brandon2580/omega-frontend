@@ -20,9 +20,21 @@ const Volatility = (props) => {
 
   useEffect(() => {
     setSeries([
-      { label: props.data.symbol, value: props.data.beta.toFixed(2) },
-      { label: "Competitors", value: props.data.comp_beta.toFixed(2) },
-      { label: "DOW 30", value: props.data.dow_beta.toFixed(2) },
+      {
+        label: props.data.symbol,
+        value: props.data.beta.toFixed(2),
+        color: "#007bff",
+      },
+      {
+        label: "Competitors",
+        value: props.data.comp_beta.toFixed(2),
+        color: "#FF0000",
+      },
+      {
+        label: "DOW 30",
+        value: props.data.dow_beta.toFixed(2),
+        color: "#00FF00",
+      },
     ]);
   }, [props.data]);
 
