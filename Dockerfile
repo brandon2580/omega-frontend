@@ -3,6 +3,6 @@ WORKDIR /omega-frontend
 COPY ./ /omega-frontend
 RUN npm install \
     npm rebuild node-sass
-EXPOSE 3000
+EXPOSE 80
 ENTRYPOINT [ "npm" ]
 CMD [ "start" ]
