@@ -20,8 +20,6 @@ function getOccurrence(array, value) {
 
 // This function ultimately returns the amount of times earnings has missed
 function compare(consensus, actual) {
-  consensus = {};
-  actual = {};
   let consensusData = Object.values(consensus);
   let actualData = Object.values(actual);
 
@@ -37,23 +35,34 @@ function compare(consensus, actual) {
 }
 
 const EarningsRatio = (props) => {
+  const [earningsPeriod, setEarningsPeriod] = useState("Q");
   const [series, setSeries] = useState([
     { name: "% Beat", value: 0 },
     { name: "% Missed", value: 0 },
   ]);
 
   useEffect(() => {
-    let consensus = props.data[Object.keys(props.data)[0]];
-    let actual = props.data[Object.keys(props.data)[1]];
-    let timesMissed = compare(consensus, actual);
-    let percentTimesMissed = (timesMissed / 4) * 100;
-    let percentTimesBeat = 100 - percentTimesMissed;
+    const earnings = fetch(
+      `${props.apiBaseUrl}/earnings?code=${props.apiCode}==&symbol=${props.activeTicker}&lastN=4&period=${earningsPeriod}`
+    ).then((res) => res.json());
 
-    setSeries([
-      { name: "% Beat", value: percentTimesBeat },
-      { name: "% Missed", value: percentTimesMissed },
-    ]);
-  }, [props.data]);
+    Promise.resolve(earnings).then((earnings) => {
+      let earningsRatioData = {
+        consensus: earnings.consensus_eps,
+        actual: earnings.real_eps,
+      };
+      let consensus = earningsRatioData[Object.keys(earningsRatioData)[0]];
+      let actual = earningsRatioData[Object.keys(earningsRatioData)[1]];
+      let timesMissed = compare(consensus, actual);
+      let percentTimesMissed = (timesMissed / 4) * 100;
+      let percentTimesBeat = 100 - percentTimesMissed;
+
+      setSeries([
+        { name: "% Beat", value: percentTimesBeat },
+        { name: "% Missed", value: percentTimesMissed },
+      ]);
+    });
+  }, [earningsPeriod, props.activeTicker]);
 
   return (
     <Card

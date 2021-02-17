@@ -7,8 +7,22 @@ const News = (props) => {
   const [news, setNews] = useState([]);
 
   useEffect(() => {
-    setNews(props.data);
-  }, [props.data]);
+    const news = fetch(
+      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/news/last/50?token=pk_756d2eedb1d64c5192084581943ee4b9`
+    ).then((res) => res.json());
+
+    Promise.resolve(news).then((news) => {
+      let newsData = Object.keys(news).map(function (key) {
+        return {
+          title: news[key].headline,
+          source: news[key].source,
+          summary: news[key].summary,
+          url: news[key].url,
+        };
+      });
+      setNews(newsData);
+    });
+  }, [props.activeTicker]);
 
   return (
     <Card
@@ -25,13 +39,13 @@ const News = (props) => {
         {news.map((news) => {
           return (
             <div>
-                <h4 className="news-header">
-                  {news.source}: {news.title}
-                </h4>
-                <p>{news.summary}</p>
-                <a target="_blank" href={news.url}>
-                  {news.url}
-                </a>
+              <h4 className="news-header">
+                {news.source}: {news.title}
+              </h4>
+              <p>{news.summary}</p>
+              <a target="_blank" href={news.url}>
+                {news.url}
+              </a>
               <hr className="news-hr" />
             </div>
           );

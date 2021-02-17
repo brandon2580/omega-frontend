@@ -19,6 +19,7 @@ import {
 ReactFC.fcRoot(FusionCharts, Scatter, FusionTheme);
 
 const Earnings = (props) => {
+  const [earningsPeriod, setEarningsPeriod] = useState("Q");
   const [view, setView] = useState("bar");
   const [consensus, setConsensus] = useState();
   const [actual, setActual] = useState();
@@ -33,40 +34,81 @@ const Earnings = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
-    let consensusEPS = props.consensus.eps.map((el, i) => {
-      return {
-        x: i + 1,
-        y: el.y,
-      };
-    });
+    const earnings = fetch(
+      `${props.apiBaseUrl}/earnings?code=${props.apiCode}==&symbol=${props.activeTicker}&lastN=4&period=${earningsPeriod}`
+    ).then((res) => res.json());
 
-    let actualEPS = props.actual.eps.map((el, i) => {
-      return {
-        x: i + 1,
-        y: el.y,
-      };
-    });
+    Promise.resolve(earnings).then((earnings) => {
+      let dates = Object.keys(earnings.fiscal_period)
+        .sort()
+        .map(function (key, i) {
+          return earnings.fiscal_period[key];
+        });
 
-    let formattedDates = props.dates.map((el, i) => {
-      return {
-        x: i + 1,
-        label: el,
-      };
-    });
+      let consensusMap = Object.keys(earnings.consensus_eps)
+        .sort()
+        .map(function (key, i) {
+          return {
+            x: dates[i],
+            y: earnings.consensus_eps[key].toFixed(2),
+          };
+        });
 
-    let barViewDataMap = consensusEPS.map((el, i) => {
-      return {
-        name: formattedDates[i].label,
-        consensus: el.y,
-        actual: actualEPS[i].y,
-      };
-    });
+      let actualMap = Object.keys(earnings.real_eps)
+        .sort()
+        .map(function (key, i) {
+          return {
+            x: dates[i],
+            y: earnings.real_eps[key].toFixed(2),
+          };
+        });
 
-    setConsensus(consensusEPS);
-    setActual(actualEPS);
-    setDates(formattedDates);
-    setBarViewData(barViewDataMap);
-  }, [props.consensus, props.actual, props.dates]);
+      let earningsObject = {
+        actual: {
+          name: "Actual",
+          eps: actualMap,
+        },
+
+        consensus: {
+          name: "Consensus",
+          eps: consensusMap,
+        },
+      };
+      let consensusEPS = earningsObject.consensus.eps.map((el, i) => {
+        return {
+          x: i + 1,
+          y: el.y,
+        };
+      });
+
+      let actualEPS = earningsObject.actual.eps.map((el, i) => {
+        return {
+          x: i + 1,
+          y: el.y,
+        };
+      });
+
+      let formattedDates = dates.map((el, i) => {
+        return {
+          x: i + 1,
+          label: el,
+        };
+      });
+
+      let barViewDataMap = consensusEPS.map((el, i) => {
+        return {
+          name: formattedDates[i].label,
+          consensus: el.y,
+          actual: actualEPS[i].y,
+        };
+      });
+
+      setConsensus(consensusEPS);
+      setActual(actualEPS);
+      setDates(formattedDates);
+      setBarViewData(barViewDataMap);
+    });
+  }, [earningsPeriod, props.activeTicker]);
 
   const dataSource = {
     chart: {

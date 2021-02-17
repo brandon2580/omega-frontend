@@ -15,22 +15,42 @@ const COLORS = ["#23807E", "#41FFC9", "#007bff", "#FE3636", "#520000"];
 const AnalystRecommendations = (props) => {
   const [series, setSeries] = useState([]);
   const [totalRecs, setTotalRecs] = useState(0);
+
   useEffect(() => {
-    setSeries(props.data);
+    const analyst_recs = fetch(
+      `${props.apiBaseUrl}/analyst_recs?code=${props.apiCode}==&symbol=${props.activeTicker}`
+    ).then((res) => res.json());
 
-    let totalRecsArr = props.data.map((el) => {
-      return el.value;
+    Promise.resolve(analyst_recs).then((analyst_recs) => {
+      let analystRecsData = [
+        { name: "Strong Buy", value: analyst_recs.rating_overweight },
+        { name: "Buy", value: analyst_recs.rating_buy },
+        { name: "Hold", value: analyst_recs.rating_hold },
+        { name: "Sell", value: analyst_recs.rating_sell },
+        {
+          name: "Strong Sell",
+          value: analyst_recs.rating_underweight,
+        },
+      ];
+      setSeries(analystRecsData);
+
+      let totalRecsArr = analystRecsData.map((el) => {
+        return el.value;
+      });
+
+      setTotalRecs(totalRecsArr.reduce((a, b) => a + b, 0));
     });
-
-    setTotalRecs(totalRecsArr.reduce((a, b) => a + b, 0));
-  }, [props.data]);
+  }, [props.activeTicker]);
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active) {
       let percentOfRecs = (payload[0].value / totalRecs) * 100;
       return (
         <div className="custom-tooltip">
-          <p className="recharts-tooltip-label">Number of Recommendations: <span className="blue">{payload[0].value}</span></p>
+          <p className="recharts-tooltip-label">
+            Number of Recommendations:{" "}
+            <span className="blue">{payload[0].value}</span>
+          </p>
           <p className="desc">
             Percentage of Recommendations:{" "}
             <span className="blue">{percentOfRecs.toFixed(2)}%</span>

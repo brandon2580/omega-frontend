@@ -21,6 +21,33 @@ const RiskAnalysis = (props) => {
     props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
   }, [props.darkMode]);
 
+  useEffect(() => {
+    const risk = fetch(
+      `${props.apiBaseUrl}/risk_metrics?code=${props.apiCode}==&symbol=${props.activeTicker}`
+    ).then((res) => res.json());
+
+    Promise.resolve(risk).then((risk) => {
+      let riskData = risk;
+      setSharpe(riskData.sharpe_ratio);
+    });
+  }, [props.activeTicker]);
+
+  useEffect(() => {
+    if (sharpe < 0.45) {
+      setCurrentRating("Poor");
+      setChartValue([12.5]);
+    } else if (sharpe <= 0.8 && sharpe >= 0.45) {
+      setCurrentRating("Average");
+      setChartValue([37.5]);
+    } else if (sharpe <= 1.15 && sharpe >= 0.81) {
+      setCurrentRating("Good");
+      setChartValue([62.5]);
+    } else if (sharpe > 1.15) {
+      setCurrentRating("Exceptional");
+      setChartValue([87.5]);
+    }
+  }, [sharpe]);
+
   const dataSource = {
     chart: {
       theme: "fusion",
@@ -66,26 +93,6 @@ const RiskAnalysis = (props) => {
       ],
     },
   };
-
-  useEffect(() => {
-    setSharpe(props.data.sharpe_ratio);
-  }, [props.data]);
-
-  useEffect(() => {
-    if (sharpe < 0.45) {
-      setCurrentRating("Poor");
-      setChartValue([12.5]);
-    } else if (sharpe <= 0.8 && sharpe >= 0.45) {
-      setCurrentRating("Average");
-      setChartValue([37.5]);
-    } else if (sharpe <= 1.15 && sharpe >= 0.81) {
-      setCurrentRating("Good");
-      setChartValue([62.5]);
-    } else if (sharpe > 1.15) {
-      setCurrentRating("Exceptional");
-      setChartValue([87.5]);
-    }
-  }, [sharpe]);
 
   return (
     <Card

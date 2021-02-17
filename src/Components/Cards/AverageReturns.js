@@ -24,10 +24,18 @@ const AverageReturns = (props) => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
     props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
   }, [props.darkMode]);
-
   useEffect(() => {
-    setSeries(props.data);
-  }, [props.data]);
+    const average_returns = fetch(
+      `${props.apiBaseUrl}/return_compare?code=${props.apiCode}==&symbol=${props.activeTicker}`
+    ).then((res) => res.json());
+
+    Promise.resolve(average_returns).then((average_returns) => {
+      let averageReturnsData = average_returns;
+      setSeries(averageReturnsData);
+    });
+  }, [props.activeTicker]);
+
+  useEffect(() => {}, [props.data]);
 
   const dataSource = {
     chart: {
@@ -138,7 +146,7 @@ const AverageReturns = (props) => {
                 class="recharts-legend-icon"
               ></path>
             </svg>
-            <span style={{marginRight: "15px"}}>Total Gain</span>
+            <span style={{ marginRight: "15px" }}>Total Gain</span>
             <svg
               class="recharts-surface"
               width="14"

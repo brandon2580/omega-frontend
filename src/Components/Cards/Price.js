@@ -5,6 +5,8 @@ import ReactApexChart from "react-apexcharts";
 
 const Price = (props) => {
   const [series, setSeries] = useState([{}]);
+  const [priceRange, setPriceRange] = useState("1y");
+  const [priceFrame, setPriceFrame] = useState("daily");
 
   let options = {
     chart: {
@@ -38,15 +40,34 @@ const Price = (props) => {
   };
 
   useEffect(() => {
-    setSeries([{ data: props.data.slice(2) }]);
-  }, [props.data]);
+    const prices = fetch(
+      `${props.apiBaseUrl}/prices?code=${props.apiCode}==&symbol=${props.activeTicker}&range=${priceRange}&frame=${priceFrame}`
+    ).then((res) => res.json());
+    Promise.resolve(prices).then((price) => {
+      let priceData = Object.keys(price)
+        .reverse()
+        .map(function (key) {
+          return {
+            x: key,
+            y: [
+              price[key].adj_open,
+              price[key].adj_high,
+              price[key].adj_low,
+              price[key].adj_close,
+            ],
+          };
+        });
+
+      setSeries([{ data: priceData.slice(2) }]);
+    });
+  }, [priceRange, priceFrame, props.activeTicker]);
 
   const changeTimeFrame = (e) => {
-    props.setPriceRange(e.target.value);
+    setPriceRange(e.target.value);
   };
 
   const changeCandleInterval = (e) => {
-    props.setPriceFrame(e.target.value);
+    setPriceFrame(e.target.value);
   };
 
   return (

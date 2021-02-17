@@ -12,6 +12,7 @@ ReactFC.fcRoot(FusionCharts, Radar, FusionTheme);
 
 const PriceCalendar = (props) => {
   const [series, setSeries] = useState([]);
+  const [calendarFrame, setCalendarFrame] = useState("max");
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
 
@@ -21,11 +22,24 @@ const PriceCalendar = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
-    setSeries(props.data);
-  }, [props.data]);
+    const price_calendar = fetch(
+      `${props.apiBaseUrl}/avg_return?code=${props.apiCode}==&symbol=${props.activeTicker}&range=${calendarFrame}`
+    ).then((res) => res.json());
+
+    Promise.resolve(price_calendar).then((price_calendar) => {
+      let priceCalendarData = Object.keys(price_calendar)
+        .reverse()
+        .map(function (key) {
+          return {
+            value: price_calendar[key].avg_return * 100,
+          };
+        });
+      setSeries(priceCalendarData);
+    });
+  }, [calendarFrame, props.activeTicker]);
 
   const handleClick = (e) => {
-    props.setCalendarFrame(e.target.value);
+    setCalendarFrame(e.target.value);
   };
 
   const dataSource = {

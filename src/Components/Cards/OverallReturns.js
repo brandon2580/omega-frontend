@@ -1,37 +1,59 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import {
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+} from "recharts";
 
 const COLORS = ["#00FF00", "#FF0000"];
 
 const OverallReturns = (props) => {
   const [series, setSeries] = useState([]);
+  const [priceRange, setPriceRange] = useState("1y");
+  const [priceFrame, setPriceFrame] = useState("daily");
 
   useEffect(() => {
-    let prices = props.data.slice(2);
-    let changes = prices.map((el) => {
-      return JSON.stringify(el.change);
+    const prices = fetch(
+      `${props.apiBaseUrl}/prices?code=${props.apiCode}==&symbol=${props.activeTicker}&range=${priceRange}&frame=${priceFrame}`
+    ).then((res) => res.json());
+
+    Promise.resolve(prices).then((price) => {
+      let overallReturnsData = Object.keys(price).map(function (key) {
+        return {
+          x: key,
+          change: price[key].change,
+        };
+      });
+
+      let prices = overallReturnsData.slice(2);
+      let changes = prices.map((el) => {
+        return JSON.stringify(el.change);
+      });
+
+      let positiveCount = changes.filter((change) => !change.includes("-")).length;
+      let negativeCount = changes.filter((change) => change.includes("-")).length;
+      let totalCount = positiveCount + negativeCount;
+
+      let positivePercent = (positiveCount / totalCount) * 100;
+      let negativePercent = (negativeCount / totalCount) * 100;
+
+      setSeries([
+        {
+          name: "Total Days Up",
+          value: parseInt(positivePercent.toFixed(2)),
+        },
+        {
+          name: "Total Days Down",
+          value: parseInt(negativePercent.toFixed(2)),
+        },
+      ]);
     });
-
-    let positiveCount = changes.filter((change) => !change.includes("-")).length;
-    let negativeCount = changes.filter((change) => change.includes("-")).length;
-    let totalCount = positiveCount + negativeCount;
-
-    let positivePercent = (positiveCount / totalCount) * 100;
-    let negativePercent = (negativeCount / totalCount) * 100;
-
-    setSeries([
-      {
-        name: "Total Days Up",
-        value: parseInt(positivePercent.toFixed(2)),
-      },
-      {
-        name: "Total Days Down",
-        value: parseInt(negativePercent.toFixed(2)),
-      },
-    ]);
-  }, [props.data]);
+  }, [priceRange, priceFrame, props.activeTicker]);
 
   return (
     <Card

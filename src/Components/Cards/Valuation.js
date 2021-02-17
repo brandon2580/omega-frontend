@@ -8,13 +8,21 @@ const Valuation = (props) => {
   const [ticker, setTicker] = useState("");
 
   useEffect(() => {
-    setSeries([
-      props.data.pe_ratio.toFixed(2),
-      props.data.comp_pe_ratio.toFixed(2),
-      props.data.dow_pe_ratio.toFixed(2),
-    ]);
-    setTicker(props.data.symbol);
-  }, [props.data]);
+    const valuation = fetch(
+      `${props.apiBaseUrl}/compare_metric?code=${props.apiCode}==&symbol=${props.activeTicker}&metric=pe_ratio`
+    ).then((res) => res.json());
+
+    Promise.resolve(valuation).then((valuation) => {
+      let valuationData = valuation;
+      setSeries([
+        valuationData.pe_ratio.toFixed(2),
+        valuationData.comp_pe_ratio.toFixed(2),
+        valuationData.dow_pe_ratio.toFixed(2),
+      ]);
+      setTicker(valuationData.symbol);
+    });
+  }, [props.activeTicker]);
+
 
   let options = {
     series: series,

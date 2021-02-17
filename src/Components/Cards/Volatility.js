@@ -19,24 +19,31 @@ const Volatility = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
-    setSeries([
-      {
-        label: props.data.symbol,
-        value: props.data.beta.toFixed(2),
-        color: "#007bff",
-      },
-      {
-        label: "Competitors",
-        value: props.data.comp_beta.toFixed(2),
-        color: "#FF0000",
-      },
-      {
-        label: "DOW 30",
-        value: props.data.dow_beta.toFixed(2),
-        color: "#00FF00",
-      },
-    ]);
-  }, [props.data]);
+    const volatility = fetch(
+      `${props.apiBaseUrl}/compare_metric?code=${props.apiCode}==&symbol=${props.activeTicker}&metric=beta`
+    ).then((res) => res.json());
+
+    Promise.resolve(volatility).then((volatility) => {
+      let volatilityData = volatility;
+      setSeries([
+        {
+          label: volatilityData.symbol,
+          value: volatilityData.beta.toFixed(2),
+          color: "#007bff",
+        },
+        {
+          label: "Competitors",
+          value: volatilityData.comp_beta.toFixed(2),
+          color: "#FF0000",
+        },
+        {
+          label: "DOW 30",
+          value: volatilityData.dow_beta.toFixed(2),
+          color: "#00FF00",
+        },
+      ]);
+    });
+  }, [props.activeTicker]);
 
   const dataSource = {
     chart: {

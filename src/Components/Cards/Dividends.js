@@ -11,6 +11,7 @@ ReactFC.fcRoot(FusionCharts, Line, FusionTheme);
 
 const Dividends = (props) => {
   const [series, setSeries] = useState();
+  const [dividendRange, setDividendRange] = useState(25);
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
 
@@ -20,11 +21,26 @@ const Dividends = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
-    setSeries(props.data);
-  }, [props.data]);
+    const dividends = fetch(
+      `${props.apiBaseUrl}/dividends?code=${props.apiCode}==&symbol=${props.activeTicker}&lastN=${dividendRange}`
+    ).then((res) => res.json());
+
+    Promise.resolve(dividends).then((dividends) => {
+      let dividendData = Object.keys(dividends.amount)
+        .reverse()
+        .map(function (key) {
+          return {
+            label: key,
+            value: dividends.amount[key].toFixed(2),
+          };
+        });
+
+      setSeries(dividendData);
+    });
+  }, [dividendRange, props.activeTicker]);
 
   const handleClick = (e) => {
-    props.setDividendRange(e.target.value);
+    setDividendRange(e.target.value);
   };
 
   const dataSource = {
