@@ -123,6 +123,7 @@ const AddCardModal = (props) => {
                       {...card}
                       extra={extra}
                       darkMode={props.darkMode}
+                      activeTicker={props.activeTicker}
                     />
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>

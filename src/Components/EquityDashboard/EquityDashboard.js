@@ -259,7 +259,7 @@ const HomeDashboard = (props) => {
               const CustomTag = availableCardsObject[card.name];
               return (
                 <div key={card.id} data-grid={defaultDataGrid}>
-                  <CustomTag {...card} extra={extra} darkMode={darkMode} />
+                  <CustomTag {...card} extra={extra} darkMode={darkMode} activeTicker={props.activeTicker} />
                 </div>
               );
             }

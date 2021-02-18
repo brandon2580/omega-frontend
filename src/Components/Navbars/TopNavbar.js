@@ -82,6 +82,7 @@ const TopNavbar = (props) => {
             selectedCardsIndex={props.selectedCardsIndex}
             setSelectedCardsIndex={props.setSelectedCardsIndex}
             darkMode={props.darkMode}
+            activeTicker={props.activeTicker}
           />
           <span className="verticalSpan2" />
 

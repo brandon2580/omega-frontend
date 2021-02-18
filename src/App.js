@@ -65,7 +65,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
 
     {
@@ -80,7 +79,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
 
     {
@@ -95,7 +93,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
 
     {
@@ -110,7 +107,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
 
     {
@@ -125,7 +121,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
 
     {
@@ -140,7 +135,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
 
     {
@@ -155,7 +149,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
 
     {
@@ -170,7 +163,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
 
     {
@@ -185,7 +177,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
 
     {
@@ -200,7 +191,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
 
     {
@@ -215,7 +205,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
 
     {
@@ -230,7 +219,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
 
     {
@@ -245,7 +233,6 @@ function App() {
       maxH: 1,
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
-      activeTicker: activeTicker,
     },
   ]);
 
@@ -288,7 +275,7 @@ function App() {
 
     const dividends = fetch(
       `${apiBaseUrl}/dividends?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());   
+    ).then((res) => res.json());
 
     const earnings = fetch(
       `${apiBaseUrl}/earnings?code=${apiCode}==&symbol=${activeTicker}`
@@ -319,10 +306,14 @@ function App() {
 
   useEffect(() => {
     const company = fetch(
-      `${apiBaseUrl}/company?code=${apiCode}==&symbol=${activeTicker}`
+      `${apiBaseUrl}/company_info?code=${apiCode}==&symbol=${activeTicker}`
     ).then((res) => res.json());
 
-    Promise.resolve(company).then((company) => {
+    const price = fetch(
+      `https://cloud.iexapis.com/stable/stock/${activeTicker}/price?token=pk_756d2eedb1d64c5192084581943ee4b9`
+    ).then((res) => res.json());
+
+    Promise.all([company, price]).then((values) => {
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
         // For each cards, return a new modified version of that card
@@ -331,14 +322,17 @@ function App() {
             case "TickerHeader":
               return {
                 ...card,
-                company_name: company.company_name,
+                company_name: values[0].company_name,
                 ticker: activeTicker,
-                description: company.description,
-                industry: company.industry,
-                country: company.country,
-                phone: company.phone,
-                website: company.website,
-                ceo: company.CEO,
+                description: values[0].description,
+                industry: values[0].industry,
+                country: values[0].country,
+                phone: values[0].phone,
+                website: values[0].website,
+                ceo: values[0].ceo,
+                market_cap: values[0].mktcap,
+                total_return: values[0].total_return,
+                price: values[1],
               };
           }
 
