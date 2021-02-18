@@ -4,6 +4,7 @@ import "../../App.scss";
 
 const TickerHeader = (props) => {
   const [ticker, setTicker] = useState('')
+
   useEffect(() => {
     setTicker(props.tickerCard.ticker)
   }, [props.tickerCard.ticker])
@@ -41,17 +42,17 @@ const TickerHeader = (props) => {
             <div className="row">
               <div className="col-lg-1 justify-content">
                 <p className="center">
-                  Market Cap: <br /> X
+                  Market Cap: <br /> {props.tickerCard.market_cap}
                 </p>
               </div>
               <div className="col-lg-1 justify-content">
                 <p className="center">
-                  Total Return: <br /> X
+                  Total Return: <br /> {props.tickerCard.total_return}
                 </p>
               </div>
               <div className="col-lg-1 justify-content">
                 <p className="center">
-                  Price: <br /> X
+                  Price: <br /> {props.tickerCard.price}
                 </p>
               </div>
               <div className="col-lg-9 justify-content">
