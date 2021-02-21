@@ -408,6 +408,14 @@ body.dark-mode .error-message {
   border-radius: 0px !important;
 }
 
+.ant-popover {
+  width: 500px !important; 
+}
+
+body.dark-mode .ant-popover-inner-content{
+  color: white !important;
+}
+
 .ant-modal-footer {
   border-radius: 0px !important;
 }

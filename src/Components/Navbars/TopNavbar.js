@@ -79,6 +79,7 @@ const TopNavbar = (props) => {
 
           <AddCardModal
             availableCards={props.availableCards}
+            setAvailableCards={props.setAvailableCards}
             selectedCardsIndex={props.selectedCardsIndex}
             setSelectedCardsIndex={props.setSelectedCardsIndex}
             darkMode={props.darkMode}

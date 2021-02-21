@@ -5,6 +5,7 @@ import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import { Responsive, WidthProvider } from "react-grid-layout";
 import { CloseCircleOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import { Popover } from "antd";
 import Loader from "react-loader-spinner";
 import Earnings from "../Cards/Earnings";
 import AnalystRecommendations from "../Cards/AnalystRecommendations";
@@ -192,6 +193,7 @@ const HomeDashboard = (props) => {
       <div>
         <TopNavbar
           availableCards={props.availableCards}
+          setAvailableCards={props.setAvailableCards}
           selectedCardsIndex={props.selectedCardsIndex}
           setSelectedCardsIndex={props.setSelectedCardsIndex}
           setActiveTicker={props.setActiveTicker}
@@ -246,9 +248,28 @@ const HomeDashboard = (props) => {
 
             const extra = (
               <div>
-                <span className="span-margin" onClick={() => null}>
-                  <InfoCircleOutlined className="blue-button" />
-                </span>
+                <Popover
+                  content={card.info}
+                  title={card.title}
+                  trigger="click"
+                  visible={card.infoVisible}
+                >
+                  <span className="span-margin">
+                    <InfoCircleOutlined
+                      className="blue-button"
+                      onClick={() =>
+                        props.setAvailableCards((arr) =>
+                          arr.map((item) =>
+                            item.id == card.id
+                              ? { ...item, infoVisible: !item.infoVisible }
+                              : item
+                          )
+                        )
+                      }
+                    />
+                  </span>{" "}
+                </Popover>
+
                 <span onClick={() => removeCardFromLayout(card.id)}>
                   <CloseCircleOutlined />
                 </span>
@@ -259,7 +280,12 @@ const HomeDashboard = (props) => {
               const CustomTag = availableCardsObject[card.name];
               return (
                 <div key={card.id} data-grid={defaultDataGrid}>
-                  <CustomTag {...card} extra={extra} darkMode={darkMode} activeTicker={props.activeTicker} />
+                  <CustomTag
+                    {...card}
+                    extra={extra}
+                    darkMode={darkMode}
+                    activeTicker={props.activeTicker}
+                  />
                 </div>
               );
             }

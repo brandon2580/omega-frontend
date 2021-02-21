@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
-import { Modal } from "antd";
+import { Modal, Popover } from "antd";
 import AutoSuggest from "react-autosuggest";
 import AddToLayoutButton from "./AddToLayoutButton";
 import Earnings from "../Cards/Earnings";
@@ -22,7 +22,6 @@ const AddCardModal = (props) => {
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-
 
   const selectCard = (id) => {
     // Card was selected, remove it
@@ -63,7 +62,6 @@ const AddCardModal = (props) => {
     Valuation,
     Volatility,
   };
-
 
   return (
     <div>
@@ -108,15 +106,33 @@ const AddCardModal = (props) => {
 
               const extra = (
                 <div>
-                  <span>
-                    <InfoCircleOutlined className="blue-button" />
-                  </span>
+                  <Popover
+                    content={card.info}
+                    title={card.title}
+                    trigger="click"
+                    visible={card.infoVisible}
+                  >
+                    <span className="span-margin">
+                      <InfoCircleOutlined
+                        className="blue-button"
+                        onClick={() =>
+                          props.setAvailableCards((arr) =>
+                            arr.map((item) =>
+                              item.id == card.id
+                                ? { ...item, infoVisible: !item.infoVisible }
+                                : item
+                            )
+                          )
+                        }
+                      />
+                    </span>{" "}
+                  </Popover>
                 </div>
               );
 
               if (card.name in availableCardsObject && defaultConditionals) {
                 const CustomTag = availableCardsObject[card.name];
-
+                
                 return (
                   <div className="col-xl-4 modal-card">
                     <CustomTag
