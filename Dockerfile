@@ -1,8 +1,18 @@
 FROM node:12.18.3
 WORKDIR /omega-frontend
 COPY ./ /omega-frontend
+
+RUN npm install -g serve
+
+COPY package*.json ./
+
 RUN npm install \
     npm rebuild node-sass
+
+COPY . .
+
+RUN npm run build
+
 EXPOSE 80
-ENTRYPOINT [ "npm" ]
-CMD [ "start" ]
+
+CMD ["serve", "-s", "build", "-l", "80"]
