@@ -209,7 +209,7 @@ function App() {
     {
       id: 11,
       name: "AverageReturns",
-      title: "Average Gain vs. Average Loss",
+      title: "Cumulative Gains vs. Cumulative Losses",
       info:
         "This compares the cumulative returns and the cumulative losses of a stock. This is calculated by taking the average return and average loss of a stock by month, and then multiplying by the number of months the stock is green or red (respectively). ",
       infoVisible: false,
@@ -352,6 +352,11 @@ function App() {
       `https://cloud.iexapis.com/stable/stock/${activeTicker}/price?token=pk_756d2eedb1d64c5192084581943ee4b9`
     ).then((res) => res.json());
 
+    // We use this function to add necessary commas (when needed) to large numbers such as market cap
+    function numberWithCommas(number) {
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     Promise.all([company, price]).then((values) => {
       // Function syntax of setState to use the previous value from the state, as recommended by React
       setAvailableCards((prevCards) => {
@@ -369,7 +374,7 @@ function App() {
                 phone: values[0].phone,
                 website: values[0].website,
                 ceo: values[0].ceo,
-                market_cap: values[0].mktcap,
+                market_cap: numberWithCommas(values[0].mktcap),
                 total_return: values[0].total_return,
                 price: values[1],
               };
