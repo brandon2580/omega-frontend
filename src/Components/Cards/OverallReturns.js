@@ -35,8 +35,10 @@ const OverallReturns = (props) => {
         return JSON.stringify(el.change);
       });
 
-      let positiveCount = changes.filter((change) => !change.includes("-")).length;
-      let negativeCount = changes.filter((change) => change.includes("-")).length;
+      let positiveCount = changes.filter((change) => !change.includes("-"))
+        .length;
+      let negativeCount = changes.filter((change) => change.includes("-"))
+        .length;
       let totalCount = positiveCount + negativeCount;
 
       let positivePercent = (positiveCount / totalCount) * 100;
@@ -45,11 +47,11 @@ const OverallReturns = (props) => {
       setSeries([
         {
           name: "Total Days Up",
-          value: parseInt(positivePercent.toFixed(2)),
+          value: parseFloat(positivePercent.toFixed(2)),
         },
         {
           name: "Total Days Down",
-          value: parseInt(negativePercent.toFixed(2)),
+          value: parseFloat(negativePercent.toFixed(2)),
         },
       ]);
     });
@@ -84,7 +86,7 @@ const OverallReturns = (props) => {
               ))}
             </Pie>
             <Legend />
-            <Tooltip />
+            <Tooltip formatter={(value) => value + "%"} />
           </PieChart>
         </ResponsiveContainer>
       </div>
