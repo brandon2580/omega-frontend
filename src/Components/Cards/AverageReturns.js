@@ -83,7 +83,7 @@ const AverageReturns = (props) => {
             name: "Gain Ratio",
             tooltext: `Gain Ratio: ${series.gain_ratio.toFixed(
               2
-            )}{br}Average Gain: ${
+            )}{br}Cumulative Gains: ${
               series.avg_gain.toFixed(2) * 100
             }%{br}Number of Gains: ${series.num_gain}`,
             x: "2",
@@ -95,7 +95,7 @@ const AverageReturns = (props) => {
             name: "Loss Ratio",
             tooltext: `Loss Ratio: ${series.loss_ratio.toFixed(
               2
-            )}{br}Average Loss: ${
+            )}{br}Cumulative Losses: ${
               series.avg_loss.toFixed(2) * 100
             }%{br}Number of Losses: ${series.num_loss}`,
             x: "3",
