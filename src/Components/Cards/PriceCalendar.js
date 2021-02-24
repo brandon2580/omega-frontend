@@ -34,6 +34,7 @@ const PriceCalendar = (props) => {
             value: price_calendar[key].avg_return * 100,
           };
         });
+      priceCalendarData.shift();
       setSeries(priceCalendarData);
     });
   }, [calendarFrame, props.activeTicker]);
@@ -56,6 +57,11 @@ const PriceCalendar = (props) => {
       showBorder: "0",
       palettecolors: "#007bff",
       anchorBgColor: "#007bff",
+      showhovereffect: "1",
+      crosslinealpha: "100",
+      plotcolorintooltip: "1",
+      drawcrossline: "1",
+      crosslinecolor: "#808080",
       baseFontColor: textColor,
       toolTipBgColor: theme,
     },
