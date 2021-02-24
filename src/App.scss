@@ -93,6 +93,7 @@ body.dark-mode .header {
 
 body.dark-mode .ticker-title {
   color: white;
+  text-align: center;
 }
 
 body.light-mode .main-svg {
@@ -349,6 +350,16 @@ body.dark-mode .ant-popover-inner-content {
 
 body.light-mode .apexcharts-grid {
   fill: white !important;
+}
+
+body.dark-mode .react-grid-item > .react-resizable-handle::after{
+  border-right: 2px solid white !important;
+  border-bottom: 2px solid white !important
+}
+
+body.light-mode .react-grid-item > .react-resizable-handle::after{
+  border-right: 2px solid black !important;
+  border-bottom: 2px solid black !important
 }
 
 .save-layout-modal {
