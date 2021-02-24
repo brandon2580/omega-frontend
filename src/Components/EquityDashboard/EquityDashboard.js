@@ -29,16 +29,15 @@ const GridLayout = WidthProvider(Responsive);
 
 const HomeDashboard = (props) => {
   // mainLayout is the default layout that the user will see when they first load the page
-  // It consists of 7 cards identified by their id (i). They are assigned their default
-  // widths, heights, and x, y positions on the grid
+  // It consists of x amount cards identified by their id (i). They are assigned their default
+  // widths, heights, and (x, y) positions on the grid
   const [mainLayout, setMainLayout] = useState([
-    { i: "1", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
-    { i: "2", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
-    { i: "3", x: 0, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
-    { i: "4", x: 4, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
-    { i: "5", x: 12, y: 0, w: 4, h: 1, minW: 3, maxH: 1 },
     { i: "6", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
-    { i: "7", x: 12, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+    { i: "2", x: 6, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+    { i: "8", x: 0, y: 0, w: 12, h: 1, minW: 3, maxH: 1 },
+    { i: "10", x: 0, y: 0, w: 3, h: 1, minW: 3, maxH: 1 },
+    { i: "14", x: 3, y: 0, w: 3, h: 1, minW: 3, maxH: 1 },
+    { i: "4", x: 6, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
   ]);
   const [newLayout, setNewLayout] = useState({});
   const [newLayoutName, setNewLayoutName] = useState();

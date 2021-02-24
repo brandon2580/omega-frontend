@@ -26,13 +26,12 @@ function App() {
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default.
   // These are the initial "selected" cards that render by default
   const [selectedCardsIndex, setSelectedCardsIndex] = useState([
-    1,
-    2,
-    3,
-    4,
-    5,
     6,
-    7,
+    2,
+    8,
+    10,
+    14,
+    4,
   ]);
 
   useEffect(() => {
@@ -111,9 +110,9 @@ function App() {
       info:
         "This price card protrays the price of a stock in the format of candlesticks. Candlesticks display the price in a high, open, low, and close format. The wicks themselves are the highs and lows, and the bodies of the candles are the open and close. If a candlestick is red, that means it ended the day losing value. If a candlestick is green that means it ended the day growing in value. For more info, please google stock candlesticks explained.",
       infoVisible: false,
-      x: 4,
+      x: 3,
       y: 0,
-      w: 4,
+      w: 6,
       h: 1,
       minW: 3,
       maxH: 1,
@@ -213,8 +212,8 @@ function App() {
       info:
         "This compares the cumulative returns and the cumulative losses of a stock. This is calculated by taking the average return and average loss of a stock by month, and then multiplying by the number of months the stock is green or red (respectively). ",
       infoVisible: false,
-      x: 0,
-      y: 0,
+      x: 6,
+      y: 2,
       w: 3,
       h: 1,
       minW: 3,
@@ -230,8 +229,8 @@ function App() {
       info:
         "How often does this stock outperform expectations or underperform? This card computes how often overperformance and underperformance occurs and plots this onto a pie chart. This gives an idea how historical performance has been at the earnings/revenue level. A company with large growth often outperforms expectations.",
       infoVisible: false,
-      x: 0,
-      y: 0,
+      x: 9,
+      y: 2,
       w: 3,
       h: 1,
       minW: 3,
@@ -248,7 +247,7 @@ function App() {
         "This card compares the current valuations of a stock to its competitors (average) valuation and the (average) valuation of the entire market. This gives an idea as to whether or not a stock is overpriced or not. Note: Just because a stock has a higher valuation than its competitors, does not necessarily mean its overpriced. It may mean that its competitors are undervalued and the stock in question is correctly valued. It may also mean the stock in question is an overperformer and therefore correctly valued to its underperforming peers.",
       infoVisible: false,
       x: 0,
-      y: 0,
+      y: 3,
       w: 3,
       h: 1,
       minW: 3,
@@ -264,7 +263,7 @@ function App() {
       info:
         "Volatility is the word used to describe how much a stock moves (up AND down). Generally speaking, a stock that is volatile is more risky, although risk is not always synonymous to volatility. Sigma7 has compared the volatility of a stock to its competitors and the market at large. This card gives an idea on the price swings one may experience owning this stock.",
       infoVisible: false,
-      x: 0,
+      x: 3,
       y: 0,
       w: 3,
       h: 1,
