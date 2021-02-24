@@ -14,6 +14,7 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  ReferenceLine,
 } from "recharts";
 
 ReactFC.fcRoot(FusionCharts, Scatter, FusionTheme);
@@ -204,8 +205,9 @@ const Earnings = (props) => {
         <hr className="card-hr" />
         <div style={{ height: 456 }}>
           <ResponsiveContainer>
-            <ComposedChart data={barViewData} width={500} height={400}>
-              <XAxis dataKey="name" />
+            <ComposedChart data={barViewData} width={500} >
+              <XAxis dataKey="name" allowDataOverflow={true}  />
+              <ReferenceLine y={0} stroke="grey"  />
               <YAxis />
               <Tooltip />
               <Legend />
