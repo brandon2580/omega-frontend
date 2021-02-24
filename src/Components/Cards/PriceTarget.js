@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
+import _ from "lodash";
 import { Card } from "antd";
 import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts/core";
@@ -53,7 +54,7 @@ const PriceTarget = (props) => {
         },
       ];
 
-      setSeries(priceTargetData[0].splice(2));
+      setSeries(_.dropRight(priceTargetData[0], 2));
       setHigh(priceTargetData[1].high);
       setAverage(priceTargetData[1].average);
       setLow(priceTargetData[1].low);
@@ -73,6 +74,11 @@ const PriceTarget = (props) => {
       showBorder: "0",
       palettecolors: "#007bff",
       drawAnchors: "0",
+      showhovereffect: "1",
+      crosslinealpha: "100",
+      plotcolorintooltip: "1",
+      drawcrossline: "1",
+      crosslinecolor: "#808080",
       baseFontColor: textColor,
       toolTipBgColor: theme,
     },

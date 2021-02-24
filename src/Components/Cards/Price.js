@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
+import _ from "lodash";
 import { Card } from "antd";
 import ReactApexChart from "react-apexcharts";
 
@@ -12,7 +13,6 @@ const Price = (props) => {
     chart: {
       type: "candlestick",
       height: 420,
-      width: "100%",
       animations: {
         enabled: false,
       },
@@ -58,7 +58,7 @@ const Price = (props) => {
           };
         });
 
-      setSeries([{ data: priceData.slice(2) }]);
+      setSeries([{ data: _.dropRight(priceData, 2) }]);
     });
   }, [priceRange, priceFrame, props.activeTicker]);
 
@@ -112,7 +112,7 @@ const Price = (props) => {
           options={options}
           series={series}
           type="candlestick"
-          height={413}
+          height={410}
         />
 
         <div className="row">
