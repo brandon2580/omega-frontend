@@ -96,6 +96,7 @@ const RiskAnalysis = (props) => {
 
   return (
     <Card
+      className="risk-card"
       title={props.title}
       extra={props.extra}
       style={{

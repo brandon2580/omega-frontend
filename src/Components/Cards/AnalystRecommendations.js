@@ -64,6 +64,7 @@ const AnalystRecommendations = (props) => {
 
   return (
     <Card
+    className="analystrecs-card"
       title={props.title}
       extra={props.extra}
       style={{

@@ -72,7 +72,7 @@ const Price = (props) => {
 
   return (
     <Card
-      className="hide-overflow"
+      className="hide-overflow price-card"
       title={props.title}
       extra={props.extra}
       style={{

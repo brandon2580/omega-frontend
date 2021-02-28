@@ -26,6 +26,7 @@ const News = (props) => {
 
   return (
     <Card
+    className="news-card"
       title={props.title}
       extra={props.extra}
       style={{
@@ -35,7 +36,7 @@ const News = (props) => {
     >
       <hr className="card-hr" />
 
-      <div className="news-card" style={{ height: 456 }}>
+      <div className="news-card-body" style={{ height: 456 }}>
         {news.map((news) => {
           return (
             <div>

@@ -59,6 +59,7 @@ const OverallReturns = (props) => {
 
   return (
     <Card
+    className="overallreturns-card"
       title={props.title}
       extra={props.extra}
       style={{

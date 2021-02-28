@@ -71,7 +71,7 @@ const Volatility = (props) => {
 
   return (
     <Card
-      className="hide-overflow"
+      className="hide-overflow volatility-card"
       title={props.title}
       extra={props.extra}
       style={{
