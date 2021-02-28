@@ -1,14 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../../App.scss";
 import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "../AddCardModal/AddCardModal";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
+import Autocomplete from "react-autocomplete";
 
 const TopNavbar = (props) => {
   const [allowedStocks, setAllowedStocks] = useState([]);
   const [ticker, setTicker] = useState("");
   const [invalidTicker, setInvalidTicker] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [theme, setTheme] = useState("");
+  const [textColor, setTextColor] = useState("");
+  const [highlightColor, setHighlightColor] = useState("");
+  const [scrollbarColor, setScrollbarColor] = useState("");
+
+  useEffect(() => {
+    props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
+    props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
+    props.darkMode ? setScrollbarColor("#152233 #131722") : setScrollbarColor("");
+
+    props.darkMode
+      ? setHighlightColor("#292929")
+      : setHighlightColor("lightgrey");
+  }, [props.darkMode]);
 
   useEffect(() => {
     const allowed_stocks = fetch(
@@ -20,6 +36,15 @@ const TopNavbar = (props) => {
     });
   }, [props.activeTicker]);
 
+  useEffect(() => {
+    let mapped = allowedStocks.map((stock) => {
+      return {
+        label: stock,
+      };
+    });
+    setSuggestions(mapped);
+  }, [allowedStocks]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (allowedStocks.includes(ticker)) {
@@ -28,7 +53,7 @@ const TopNavbar = (props) => {
     } else {
       setInvalidTicker(true);
     }
-    e.target.reset();
+    setTicker("");
   };
 
   return (
@@ -59,16 +84,45 @@ const TopNavbar = (props) => {
         </ul>
 
         <form onSubmit={handleSubmit}>
-          <input
-            className="react-autosuggest__input"
+          <Autocomplete
+            getItemValue={(item) => item.label}
+            items={suggestions}
+            shouldItemRender={(item, value) =>
+              item.label.toLowerCase().indexOf(value.toLowerCase()) > -1
+            }
+            inputProps={{
+              placeholder: "ticker",
+              color: "#DC143C",
+              type: "text",
+              className: "react-autosuggest__input black",
+            }}
+            menuStyle={{
+              scrollbarColor: scrollbarColor,
+              position: "fixed",
+              overflow: "auto",
+              maxHeight: "50%",
+            }}
+            renderItem={(item, isHighlighted) => (
+              <div
+                className="ticker-dropdown-item"
+                style={{ background: isHighlighted ? highlightColor : theme }}
+              >
+                {item.label}
+              </div>
+            )}
+            value={ticker}
             onChange={(e) => setTicker(e.target.value.toUpperCase())}
-            style={{ color: "black" }}
-            placeholder="ticker"
-            type="text"
+            onSelect={(val) => {
+              setTicker(val);
+            }}
           />
         </form>
 
-        {invalidTicker && <p style={{color: "red"}}>Please use a valid ticker in the DOW 30</p>}
+        {invalidTicker && (
+          <p style={{ color: "red" }}>
+            Please use a valid ticker in the DOW 30
+          </p>
+        )}
 
         <div className="ml-auto row">
           <div className="col-lg-3">
