@@ -111,6 +111,10 @@ const Earnings = (props) => {
     });
   }, [earningsPeriod, props.activeTicker]);
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   const dataSource = {
     chart: {
       yaxisname: "EPS",
@@ -205,12 +209,16 @@ const Earnings = (props) => {
         <hr className="card-hr" />
         <div style={{ height: 456 }}>
           <ResponsiveContainer>
-            <ComposedChart data={barViewData} width={500} >
-              <XAxis dataKey="name" allowDataOverflow={true}  />
-              <ReferenceLine y={0} stroke="grey"  />
+            <ComposedChart data={barViewData} width={500}>
+              <XAxis dataKey="name" allowDataOverflow={true} />
+              <ReferenceLine y={0} stroke="grey" />
               <YAxis />
-              <Tooltip />
-              <Legend />
+              <Tooltip
+                formatter={(value, label, props) => {
+                  return [value, capitalizeFirstLetter(label)];
+                }}
+              />
+              <Legend formatter={(label) => capitalizeFirstLetter(label)} />
               <Bar dataKey="actual" barSize={20} fill="#007bff" />
               <Line dataKey="consensus" stroke="#C0C0C0" />
             </ComposedChart>
