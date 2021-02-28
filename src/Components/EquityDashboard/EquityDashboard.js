@@ -3,8 +3,14 @@ import { useStorageState } from "../../hooks/useStorageState";
 import _ from "lodash";
 import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
+import Tour from "reactour";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import { CloseCircleOutlined, InfoCircleOutlined } from "@ant-design/icons";
+import {
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  CloseCircleOutlined,
+  InfoCircleOutlined,
+} from "@ant-design/icons";
 import { Popover } from "antd";
 import Loader from "react-loader-spinner";
 import Earnings from "../Cards/Earnings";
@@ -50,6 +56,14 @@ const HomeDashboard = (props) => {
   const [preRemovedLayout, setPreRemovedLayout] = useState([]);
   const [undoClicked, setUndoClicked] = useState(false);
   const [darkMode, setDarkMode] = useState();
+  const [theme, setTheme] = useState("");
+  const [textColor, setTextColor] = useState("");
+  const [isTourOpen, setIsTourOpen] = useState(true);
+
+  useEffect(() => {
+    darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
+    darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
+  }, [darkMode]);
 
   // This automatically saves mainLayout in localStorage
   const [storedLayouts, setStoredLayouts] = useStorageState(
@@ -63,12 +77,29 @@ const HomeDashboard = (props) => {
     "storedLayoutNames"
   );
 
+  const [isUserNewStatus, setIsUserNewStatus] = useStorageState(
+    true,
+    "isUserNew"
+  );
+
   // If the page is being loaded for the first time and
   // storedLayouts && storedLayoutNames don't exist, make them exist
   if (localStorage.getItem("storedLayouts" && "storedLayoutNames") == null) {
     localStorage.setItem("storedLayouts", JSON.stringify([]));
     localStorage.setItem("storedLayoutNames", JSON.stringify([]));
   }
+
+  if (localStorage.getItem("isUserNew") == null) {
+    localStorage.setItem("isUserNew", true);
+  }
+
+  useEffect(() => {
+    if (!isTourOpen) setIsUserNewStatus(false);
+  }, [isTourOpen]);
+
+  useEffect(() => {
+    if (!isUserNewStatus) setIsTourOpen(false);
+  }, [isUserNewStatus]);
 
   // Saves a new layout to state whenever the user edits the current one. This will be called
   // every time a card is moved, resized, deleted, or added
@@ -177,6 +208,83 @@ const HomeDashboard = (props) => {
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
 
+  const steps = [
+    {
+      selector: "body",
+      content:
+        "Welcome to Sigma7's Equity Dashboard! We are going to go through a short tour.",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".ticker-header",
+      content: "This is the Ticker Header",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".risk-card",
+      content: "This is the Risk Card",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+
+    {
+      selector: ".analystrecs-card",
+      content: "This is the Analyst Recs Card",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".news-card",
+      content: "This is the News Card",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".overallreturns-card",
+      content: "This is the Overall Returns Card",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".volatility-card",
+      content: "This is the Volatility Card",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".price-card",
+      content: "This is the Price Card",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".navbar",
+      content: "This is the Navbar",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+  ];
+
   if (props.loading) {
     return (
       <Loader
@@ -215,6 +323,17 @@ const HomeDashboard = (props) => {
           wasSelected={wasSelected}
           selectedCardsIndex={props.selectedCardsIndex}
           setSelectedCardsIndex={props.setSelectedCardsIndex}
+        />
+
+        <Tour
+          steps={steps}
+          isOpen={isTourOpen}
+          onRequestClose={() => setIsTourOpen(false)}
+          lastStepNextButton={<button>Lets begin!</button>}
+          accentColor={"#007bff"}
+          nextButton={<ArrowRightOutlined />}
+          prevButton={<ArrowLeftOutlined />}
+          rounded={10}
         />
 
         {/* Grid layout begins here */}
