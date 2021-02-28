@@ -76,11 +76,11 @@ const TopNavbar = (props) => {
               Dashboards
             </Link>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link to="/portfolio" className="nav-link">
               Portfolio
             </Link>
-          </li>
+          </li> */}
         </ul>
 
         <form onSubmit={handleSubmit}>

@@ -43,14 +43,14 @@ const Sidenavbar = (props) => {
             <a href="/dashboard">Dashboard</a>
           </NavText>
         </NavItem>
-        <NavItem eventKey="home">
+        {/* <NavItem eventKey="home">
           <NavIcon>
             <LineChartOutlined />
           </NavIcon>
           <NavText>
             <a href="/portfolio">Portfolio</a>
           </NavText>
-        </NavItem>
+        </NavItem> */}
         <NavItem eventKey="home">
           <NavText>
             <div className='col-lg-12'>
