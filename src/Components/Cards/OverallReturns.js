@@ -8,6 +8,7 @@ import {
   Cell,
   Tooltip,
   Legend,
+  Label,
 } from "recharts";
 
 const COLORS = ["#00FF00", "#FF0000"];
@@ -35,10 +36,8 @@ const OverallReturns = (props) => {
         return JSON.stringify(el.change);
       });
 
-      let positiveCount = changes.filter((change) => !change.includes("-"))
-        .length;
-      let negativeCount = changes.filter((change) => change.includes("-"))
-        .length;
+      let positiveCount = changes.filter((change) => !change.includes("-")).length;
+      let negativeCount = changes.filter((change) => change.includes("-")).length;
       let totalCount = positiveCount + negativeCount;
 
       let positivePercent = (positiveCount / totalCount) * 100;
@@ -78,6 +77,7 @@ const OverallReturns = (props) => {
               outerRadius={140}
               stroke={""}
               paddingAngle={5}
+              label={(obj) => (obj.percent * 100) + "%"}
             >
               {series.map((entry, index) => (
                 <Cell

@@ -38,7 +38,7 @@ const TickerHeader = (props) => {
                 <p>
                   CEO: {props.tickerCard.ceo}
                   <br />
-                  <a href={props.tickerCard.website}>
+                  <a target="_blank" href={props.tickerCard.website}>
                     {props.tickerCard.website}
                   </a>
                   <br />
@@ -50,17 +50,17 @@ const TickerHeader = (props) => {
             <div className="row">
               <div className="col-lg-1 justify-content">
                 <p className="center">
-                  Market Cap: <br /> ${props.tickerCard.market_cap}
+                  Market Cap<br /> $<span style={{color: "#007bff"}}>{props.tickerCard.market_cap}</span>
                 </p>
               </div>
               <div className="col-lg-1 justify-content">
                 <p className="center">
-                  Total Return: <br /> {props.tickerCard.total_return}x
+                  Total Return<br /> <span style={{color: "#007bff"}}>{props.tickerCard.total_return}</span>x
                 </p>
               </div>
               <div className="col-lg-1 justify-content">
                 <p className="center">
-                  Price: <br /> ${props.tickerCard.price}
+                  Price<br /> $<span style={{color: "#007bff"}}>{props.tickerCard.price}</span>
                 </p>
               </div>
               <div className="col-lg-9 justify-content">
