@@ -10,6 +10,19 @@ body.light-mode {
   transition: background-color 0.3s ease;
 }
 
+#simple-autocomplete-1-listbox{
+  background: white;
+}
+
+.rmd-list-item{
+  display: grid;
+  grid-template-columns: 0 1fr;
+  grid-gap: 1.75em;
+  align-items: start;
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
 body.dark-mode {
   background-color: #1a1a1f;
   color: white;
@@ -107,6 +120,10 @@ body.light-mode .main-svg {
 
 svg {
   color: white;
+}
+
+body.light-mode .reactour__close svg path{
+  fill: black !important;
 }
 
 body.light-mode .header {
@@ -488,13 +505,13 @@ body.light-mode .change-view-button {
   color: yellow;
 }
 
-body.dark-mode .news-card {
+body.dark-mode .news-card-body {
   overflow: scroll;
   scrollbar-color: #152233 #131722;
   overflow-x: hidden;
 }
 
-body.light-mode .news-card {
+body.light-mode .news-card-body {
   overflow: scroll;
   overflow-x: hidden;
 }
@@ -537,6 +554,22 @@ body.dark-mode .news-header {
 .dashboards-text {
   display: inline-block;
 }
+
+body.dark-mode .ticker-dropdown-item{
+ color: white !important;
+ height: 30px;
+ padding-left: 15px;
+ font-size: large;
+ padding-left: 15px;
+}
+
+body.light-mode .ticker-dropdown-item{
+  color: rgb(0, 0, 0) !important;
+  height: 30px;
+  padding-left: 15px;
+  font-size: large;
+  padding-left: 15px;
+ }
 
 .dashboards-hr {
   border-color: grey;
@@ -599,6 +632,10 @@ body.dark-mode .news-header {
 
 #SvgjsG8854 {
   display: none;
+}
+
+.black{
+  color: black !important;
 }
 
 .react-autosuggest__container {
