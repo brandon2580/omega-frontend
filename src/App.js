@@ -15,6 +15,7 @@ import {
 } from "react-router-dom";
 import Portfolio from "./Components/Portfolio/Portfolio";
 import ErrorNotFound from "./Components/ErrorNotFound";
+import LandingPage from "./LandingPage/LandingPage";
 
 function App() {
   const [activeTicker, setActiveTicker] = useState("AAPL");
@@ -395,10 +396,7 @@ function App() {
           <Switch>
             {" "}
             <Route exact path="/">
-              <h1>Welcome</h1>
-              <h1>
-                <a href="/dashboard">Dashboard</a>{" "}
-              </h1>
+            <LandingPage />
             </Route>
             <Route path="/dashboard">
               <EquityDashboard
