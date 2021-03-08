@@ -212,7 +212,7 @@ const HomeDashboard = (props) => {
     {
       selector: "body",
       content:
-        "Welcome to Sigma7's Equity Dashboard! We are going to go through a short tour.",
+        "Welcome to sigma7! We are going to go through a short tour.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -220,7 +220,7 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".ticker-header",
-      content: "This is the Ticker Header",
+      content: "This is where you can find general information about the company you're researching.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -228,7 +228,7 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".risk-card",
-      content: "This is the Risk Card",
+      content: "This is the Performance Card. This card gives detail on a company's overall risk adjusted performance. More specifically, it compares its returns to the risk it took to obtain these returns and computes this onto a simple meter.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -237,7 +237,7 @@ const HomeDashboard = (props) => {
 
     {
       selector: ".analystrecs-card",
-      content: "This is the Analyst Recs Card",
+      content: "This is the Analyst Recommendations card. This card gives displays a broad overview of Wall Street's recommendations on a stock. These recommendations usually dictate whether or not one should buy, sell, or hold a stock.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -245,7 +245,7 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".news-card",
-      content: "This is the News Card",
+      content: "This is the News Card. Live aggregated news will appear here.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -253,7 +253,7 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".overallreturns-card",
-      content: "This is the Overall Returns Card",
+      content: "This is the Overall Returns card. This card displays the ratio of days that a company went up versus the ratio of days a company went down.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -261,7 +261,7 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".volatility-card",
-      content: "This is the Volatility Card",
+      content: "This is the Volatility Card. Volatility is usually defined as variation in stock returns. More specifically, a volatile stock tends to go up and down drastically. Many investors associate risk with volatility. The Volatility Card compares the company in question with its competitors and the market at large (DOW 30).",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -269,15 +269,7 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".price-card",
-      content: "This is the Price Card",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".navbar",
-      content: "This is the Navbar",
+      content: "This is the Price Card. Mouse over specific candles and dates to get more info on the data!. Likewise, there are configuration buttons below to change the time horizon and time frame.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -308,6 +300,7 @@ const HomeDashboard = (props) => {
           wasTaken={wasTaken}
           setDarkMode={setDarkMode}
           darkMode={darkMode}
+          setIsTourOpen={setIsTourOpen}
           setNewLayoutName={setNewLayoutName}
         />
 
@@ -329,7 +322,7 @@ const HomeDashboard = (props) => {
           steps={steps}
           isOpen={isTourOpen}
           onRequestClose={() => setIsTourOpen(false)}
-          lastStepNextButton={<button>Lets begin!</button>}
+          lastStepNextButton={<a className="lets-begin-link">Lets begin!</a>}
           accentColor={"#007bff"}
           nextButton={<ArrowRightOutlined />}
           prevButton={<ArrowLeftOutlined />}
