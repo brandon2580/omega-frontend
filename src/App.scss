@@ -44,10 +44,12 @@ body.dark-mode {
 
 body.dark-mode .navbar {
   background-image: linear-gradient(315deg, black 0%, black 74%);
+  height: 60px;
 }
 
 body.light-mode .navbar {
   background-image: linear-gradient(315deg, white 0%, white 74%);
+  height: 60px;
   color: black !important;
 }
 
@@ -114,7 +116,7 @@ body.light-mode .main-svg {
 }
 
 .sidenav {
-  margin-top: 60px;
+  margin-top: 70px;
   width: 1px;
 }
 
@@ -397,7 +399,7 @@ body.dark-mode .error-message {
   margin-top: 15px;
 }
 
-.side-margin {
+.side-margin .dashboard {
   margin-left: 75px;
   margin-right: 15px;
   margin-bottom: 40px;
@@ -606,14 +608,42 @@ body.light-mode .ticker-dropdown-item{
   margin-bottom: 10px !important;
 }
 
-.verticalSpan {
+.lets-begin-link{
+  color: #007bff;
+}
+
+body.dark-mode .verticalSpan {
   border-right: 1px solid white;
-  margin-left: 12px;
+  margin-left: 25px;
+  margin-right: 5px;
+}
+
+body.dark-mode .verticalSpan2 {
+  border-right: 1px solid white;
+  margin-left: 10px;
   margin-right: 15px;
 }
 
-.verticalSpan2 {
+body.dark-mode .verticalSpan3 {
   border-right: 1px solid white;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+body.light-mode .verticalSpan {
+  border-right: 1px solid black;
+  margin-left: 25px;
+  margin-right: 5px;
+}
+
+body.light-mode .verticalSpan2 {
+  border-right: 1px solid black;
+  margin-left: 10px;
+  margin-right: 15px;
+}
+
+body.light-mode .verticalSpan3 {
+  border-right: 1px solid black;
   margin-left: 15px;
   margin-right: 15px;
 }
