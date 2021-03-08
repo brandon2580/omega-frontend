@@ -1,6 +1,7 @@
 import React from "react";
 import ScriptTag from "react-script-tag";
-import DefaultDashboard from "./images/DefaultDashboard.png";
+import logo from "./images/logo.png";
+import fullLogo from "./images/fullLogo.png";
 import "./css/base.css";
 import "./css/elements.css";
 import "./css/font-awesome.min.css";
@@ -31,89 +32,55 @@ const LandingPage = () => {
     <div>
       <header className="header-style5" id="header-section12">
         {/* nav */}
-        <nav className="navbar tz-header-bg black-header alt-font no-margin shrink-transparent-header-dark dark-header header-border-light">
-          <div className="container navigation-menu">
-            <div className="row">
-              {/* logo */}
-              <div className="col-md-3 col-sm-4 col-xs-6">
-                <a href="#home" className="inner-link">
-                  <img
-                    alt
-                    src="images/logo-white.png"
-                    data-img-size="(W)163px X (H)40px"
-                  />
-                </a>
-              </div>
-              {/* end logo */}
-              <div className="col-md-9 col-sm-8 col-xs-6 position-inherit xs-no-padding-left">
-                <button
-                  data-target="#bs-example-navbar-collapse-1"
-                  data-toggle="collapse"
-                  className="navbar-toggle collapsed"
-                  type="button"
-                >
-                  <span className="sr-only">Toggle navigation</span>
-                  <span className="icon-bar" />
-                  <span className="icon-bar" />
-                  <span className="icon-bar" />
-                </button>
-                {/* social elements */}
-                <div className="social float-right pull-right">
-                  <a href="#">
-                    <i className="fa fa-facebook tz-icon-color" />
-                  </a>
-                  <a href="#">
-                    <i className="fa fa-twitter tz-icon-color" />
-                  </a>
-                  <a href="#">
-                    <i className="fa fa-linkedin tz-icon-color" />
-                  </a>
-                  <a href="#">
-                    <i className="fa fa-google-plus tz-icon-color" />
-                  </a>
-                </div>
-                {/* end social elements */}
-                <div
-                  id="bs-example-navbar-collapse-1"
-                  className="collapse navbar-collapse pull-right"
-                >
-                  <ul className="nav navbar-nav">
-                    <li className="propClone">
-                      <a className="inner-link" href="#feature-section27">
-                        ABOUT
-                      </a>
-                    </li>
-                    <li className="propClone">
-                      <a className="inner-link" href="#content-section44">
-                        FEATURES
-                      </a>
-                    </li>
-                    <li className="propClone">
-                      <a className="inner-link" href="#hero-section20">
-                        HOW IT WORK
-                      </a>
-                    </li>
-                    <li className="propClone">
-                      <a className="inner-link" href="#pricing-table4">
-                        PRICING
-                      </a>
-                    </li>
-                    <li className="propClone">
-                      <a className="inner-link" href="#subscribe-section6">
-                        DOWNLOAD
-                      </a>
-                    </li>
-                    <li className="propClone">
-                      <a className="inner-link" href="#contact-section5">
-                        CONTACT
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+        <div className="landing-navbar">
+          <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/">
+                <img
+                  src={logo}
+                  width="45"
+                  class="d-inline-block align-top"
+                  alt="sigma7"
+                />
+              </a>
+              <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+              >
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a
+                      class="nav-link tz-text nav-text"
+                      aria-current="page"
+                      href="dashboard"
+                    >
+                      Demo
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link nav-text" href="#content-section44">
+                      About
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link nav-text" href="#subscribe-section6">
+                      Contact
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
-          </div>
-        </nav>
+          </nav>
+        </div>
+
         {/* end nav */}
       </header>
       <section
@@ -130,48 +97,27 @@ const LandingPage = () => {
             <div className="slider-typography xs-position-static text-center">
               <div className="slider-text-middle-main">
                 <div className="slider-text-middle text-center xs-padding-fifteen xs-no-padding-lr">
-                  <div className="col-md-9 col-sm-12 col-xs-12 center-col margin-twenty-five-top">
+                  <div className="col-md-9 col-sm-12 col-xs-12 center-col ">
                     {/* title */}
-                    <h1 className="title-extra-large-3 md-title-extra-large-2 xs-title-extra-large-3 letter-spacing-minus-1 text-white alt-font margin-one-bottom sm-margin-three-bottom tz-text center-col">
-                      sigma7
-                    </h1>
-                    <div className="text-white text-extra-large font-weight-300 center-col xs-text-extra-large tz-text margin-eight-bottom sm-margin-six-bottom xs-margin-eleven-bottom sm-margin-nine-bottom">
-                      <p className="sm-width-80 center-col">
-                        Random thing goes here lorem ipsum iurh oej
-                      </p>
-                    </div>
+                    <img className="full-logo" src={fullLogo} width="50%" />
                     {/* end title */}
                     <div className="btn-dual">
                       <a
                         className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
-                        href="#subscribe-section6"
+                        href="dashboard"
                       >
-                        <span className="tz-text">
-                          <a className="demo-link" href="/dashboard">
-                            DEMO
-                          </a>
-                        </span>
+                        <span className="tz-text">Demo</span>
                         <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
                       </a>
                       <a
                         className="btn btn-large propClone main-light-blue  btn-circle xs-margin-ten-bottom xs-width-100"
-                        href="#feature-section27"
+                        href="#callto-action2"
                       >
-                        <span className="tz-text text-white">READ MORE</span>
+                        <span className="tz-text text-white">Read More</span>
                         <i className="fa fa-angle-right text-extra-medium tz-icon-color text-white" />
                       </a>
                     </div>
                   </div>
-                  {/* image */}
-                  <div className="col-md-11 col-sm-12 col-xs-12 center-col margin-fourteen-top hero-bottom-img">
-                    <img
-                      src={DefaultDashboard}
-                      className="width-100"
-                      data-img-size="(W)1700px X (H)981px"
-                      alt
-                    />
-                  </div>
-                  {/* end image */}
                 </div>
               </div>
             </div>
@@ -517,7 +463,7 @@ const LandingPage = () => {
                       SARA SMITH
                     </span>
                     <span className="text-extra-small alt-font display-block tz-text">
-                    DEVELOPER
+                      DEVELOPER
                     </span>
                   </div>
                 </div>

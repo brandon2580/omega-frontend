@@ -34,6 +34,20 @@ Table of contents
     color: black;
 }
 
+.full-logo{
+    margin-top: 25px;
+}
+
+.landing-navbar .navbar{
+    height: 60px !important;
+    background-image: linear-gradient(315deg, #24252A 0%, #24252A 74%) !important;
+}
+
+.nav-text{
+    color: white !important;
+    font-size: 15px !important;
+}
+
 img { max-width:100%; height:auto;  }
 p {margin:0 0 22px 0}
 video { background-size: cover; display: table-cell; vertical-align: middle; width: 100%; }
@@ -231,7 +245,7 @@ dl {list-style-position: outside;}
 .slider-text-middle-main { display: table; height: 100%; width: 100% }
 .slider-text-bottom { display: table-cell; vertical-align: bottom; }
 .slider-text-top { display: table-cell; vertical-align: top; }
-.slider-text-middle { display: table-cell; vertical-align: middle; }
+.slider-text-middle { display: table-cell; vertical-align: auto; padding-top: 100px; }
 .slider-typography { height: 100%; position: absolute; z-index: 1; right: 0; left: 0; }
 .slider-content-box { position: relative; z-index: 2}
 
