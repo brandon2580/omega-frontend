@@ -396,18 +396,20 @@ function App() {
           <Switch>
             {" "}
             <Route exact path="/">
-            <LandingPage />
+              <LandingPage />
             </Route>
             <Route path="/dashboard">
-              <EquityDashboard
-                availableCards={availableCards}
-                setAvailableCards={setAvailableCards}
-                selectedCardsIndex={selectedCardsIndex}
-                setSelectedCardsIndex={setSelectedCardsIndex}
-                setActiveTicker={setActiveTicker}
-                activeTicker={activeTicker}
-                loading={loading}
-              />
+              <div className="dashboard">
+                <EquityDashboard
+                  availableCards={availableCards}
+                  setAvailableCards={setAvailableCards}
+                  selectedCardsIndex={selectedCardsIndex}
+                  setSelectedCardsIndex={setSelectedCardsIndex}
+                  setActiveTicker={setActiveTicker}
+                  activeTicker={activeTicker}
+                  loading={loading}
+                />
+              </div>
             </Route>
             <Route path="/portfolio">
               <Portfolio />
