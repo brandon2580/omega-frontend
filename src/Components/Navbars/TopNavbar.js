@@ -5,6 +5,7 @@ import AddCardModal from "../AddCardModal/AddCardModal";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
 import Autocomplete from "react-autocomplete";
+import logo from "./logo.png";
 
 const TopNavbar = (props) => {
   const [allowedStocks, setAllowedStocks] = useState([]);
@@ -19,7 +20,9 @@ const TopNavbar = (props) => {
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
     props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
-    props.darkMode ? setScrollbarColor("#152233 #131722") : setScrollbarColor("");
+    props.darkMode
+      ? setScrollbarColor("#152233 #131722")
+      : setScrollbarColor("");
 
     props.darkMode
       ? setHighlightColor("#292929")
@@ -58,6 +61,14 @@ const TopNavbar = (props) => {
 
   return (
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/">
+        <img
+          src={logo}
+          width="45"
+          class="d-inline-block align-top"
+          alt="sigma7"
+        />
+      </a>
       <button
         className="navbar-toggler"
         type="button"
@@ -69,6 +80,7 @@ const TopNavbar = (props) => {
       >
         <span className="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li className="nav-item active">
@@ -91,7 +103,7 @@ const TopNavbar = (props) => {
               item.label.toLowerCase().indexOf(value.toLowerCase()) > -1
             }
             inputProps={{
-              placeholder: "ticker",
+              placeholder: "Ticker",
               color: "#DC143C",
               type: "text",
               className: "react-autosuggest__input black",
@@ -125,11 +137,17 @@ const TopNavbar = (props) => {
         )}
 
         <div className="ml-auto row">
-          <div className="col-lg-3">
+          <div className="col-lg-2">
             <DarkModeToggle setDarkMode={props.setDarkMode} />
           </div>
 
           <span className="verticalSpan" />
+
+          <div className="col-lg-2">
+            <button onClick={() => props.setIsTourOpen(true)} className="btn btn-primary">Tour</button>
+          </div>
+
+          <span className="verticalSpan2" />
 
           <AddCardModal
             availableCards={props.availableCards}
@@ -139,7 +157,7 @@ const TopNavbar = (props) => {
             darkMode={props.darkMode}
             activeTicker={props.activeTicker}
           />
-          <span className="verticalSpan2" />
+          <span className="verticalSpan3" />
 
           {/* Button that allows user to save layout goes here */}
           <SaveLayoutButton
