@@ -27,10 +27,7 @@ const AnalystRecommendations = (props) => {
         { name: "Buy", value: analyst_recs.rating_buy },
         { name: "Hold", value: analyst_recs.rating_hold },
         { name: "Sell", value: analyst_recs.rating_sell },
-        {
-          name: "Strong Sell",
-          value: analyst_recs.rating_underweight,
-        },
+        { name: "Strong Sell", value: analyst_recs.rating_underweight },
       ];
       setSeries(analystRecsData);
 

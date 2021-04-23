@@ -60,20 +60,7 @@ const AverageReturns = (props) => {
     },
     categories: [
       {
-        category: [
-          {
-            x: "1",
-          },
-          {
-            x: "2",
-          },
-          {
-            x: "3",
-          },
-          {
-            x: "4",
-          },
-        ],
+        category: [{ x: "1" }, { x: "2" }, { x: "3" }, { x: "4" }],
       },
     ],
     dataset: [
