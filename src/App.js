@@ -22,8 +22,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const apiBaseUrl = "https://sigma7apis.azure-api.net/omega";
-  const apiCode = "pcRfOm56RQRqa9ixWAyq9qWtlofFpzIZZbVAcNxGwJBEMaA4z1Q5Qw";
-
+  const apiCode = process.env.REACT_APP_API_KEY;
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default.
   // These are the initial "selected" cards that render by default
   const [selectedCardsIndex, setSelectedCardsIndex] = useState([

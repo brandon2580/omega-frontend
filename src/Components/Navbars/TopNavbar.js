@@ -31,7 +31,7 @@ const TopNavbar = (props) => {
 
   useEffect(() => {
     const allowed_stocks = fetch(
-      `https://sigma7apis.azure-api.net/omega/master?code=pcRfOm56RQRqa9ixWAyq9qWtlofFpzIZZbVAcNxGwJBEMaA4z1Q5Qw==&all=1`
+      `https://sigma7apis.azure-api.net/omega/master?code=${process.env.REACT_APP_API_KEY}==&all=1`
     ).then((res) => res.json());
 
     Promise.resolve(allowed_stocks).then((allowed_stocks) => {
