@@ -13,24 +13,14 @@ import "./css/owl.carousel.css";
 import "./css/owl.transitions.css";
 import "./css/responsive.css";
 import "./css/themify-icons.css";
-// import './js/counter.js'
-// import './js/equalize.min.js'
-// import './js/html5shiv.min.js'
-// import './js/imagesloaded.pkgd.min.js'
-// import './js/jquery.appear.js'
-// import './js/jquery.countTo.js'
-// import './js/jquery.fitvids.js'
-// import './js/jquery.isotope.min.js'
-// import './js/jquery.magnific-popup.min.js'
-// import './js/jquery.min.js'
-// import './js/jquery.nav.js'
-// import './js/main.js'
-// import './js/owl.carousel.min.js'
-// import './js/smooth-scroll.js'
-// import './js/twitterFetcher_min.js'
-// import './js/wow.min.js'
+import LoginButton from "../Auth/LoginButton";
+import LogoutButton from "../Auth/LogoutButton";
+
+import { useAuth0 } from "@auth0/auth0-react";
 
 const LandingPage = () => {
+  const { isAuthenticated } = useAuth0();
+
   const [wasEmailSent, setWasEmailSent] = useState(false);
   const [wasEmailFailed, setWasEmailFailed] = useState(false);
   function sendEmail(e) {
@@ -51,7 +41,6 @@ const LandingPage = () => {
         }
       );
   }
-
   return (
     <div>
       <header className="header-style5" id="header-section12">
@@ -100,6 +89,9 @@ const LandingPage = () => {
                     </a>
                   </li>
                 </ul>
+              </div>
+              <div className="ml-auto row">
+                {isAuthenticated ? <LogoutButton /> : <LoginButton />}
               </div>
             </div>
           </nav>
@@ -493,86 +485,6 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/jquery.min.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/jquery.appear.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/smooth-scroll.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/bootstrap.min.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/wow.min.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/owl.carousel.min.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/imagesloaded.pkgd.min.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/jquery.isotope.min.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/jquery.magnific-popup.min.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/jquery.nav.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/equalize.min.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/jquery.fitvids.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/jquery.countTo.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/counter.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/twitterFetcher_min.js"
-      ></ScriptTag>
-      <ScriptTag
-        isHydrating={true}
-        type="text/javascript"
-        src="js/main.js"
-      ></ScriptTag>
     </div>
   );
 };

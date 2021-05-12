@@ -16,8 +16,12 @@ import {
 import Portfolio from "./Components/Portfolio/Portfolio";
 import ErrorNotFound from "./Components/ErrorNotFound";
 import LandingPage from "./LandingPage/LandingPage";
+import Profile from "./Auth/Profile";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
+
   const [activeTicker, setActiveTicker] = useState("AAPL");
   const [loading, setLoading] = useState(true);
 
@@ -412,6 +416,9 @@ function App() {
             </Route>
             <Route path="/portfolio">
               <Portfolio />
+            </Route>
+            <Route path="/profile">
+              {isAuthenticated ? <Profile /> : <h1>Please Log In</h1>}
             </Route>
             <Route component={ErrorNotFound} />
           </Switch>
