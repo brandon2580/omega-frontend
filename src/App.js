@@ -1,48 +1,30 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
-import EquityDashboard from "./Components/EquityDashboard/EquityDashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/js/src/collapse.js";
 import "antd/dist/antd.css";
 import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  Index,
-} from "react-router-dom";
+import EquityDashboard from "./Components/EquityDashboard/EquityDashboard";
 import Portfolio from "./Components/Portfolio/Portfolio";
 import ErrorNotFound from "./Components/ErrorNotFound";
 import LandingPage from "./LandingPage/LandingPage";
-import Profile from "./Auth/Profile";
+import Profile from "./Auth/Profile/Profile";
+import Loader from "react-loader-spinner";
 import { useAuth0 } from "@auth0/auth0-react";
+import db from "./firebase";
 
 function App() {
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
-
+  const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
   const [activeTicker, setActiveTicker] = useState("AAPL");
-  const [loading, setLoading] = useState(true);
-
   const apiBaseUrl = "https://sigma7apis.azure-api.net/omega";
   const apiCode = process.env.REACT_APP_API_KEY;
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default.
   // These are the initial "selected" cards that render by default
   const [selectedCardsIndex, setSelectedCardsIndex] = useState([
-    6,
-    2,
-    8,
-    10,
-    14,
-    4,
+    6, 2, 8, 10, 14, 4,
   ]);
-
-  useEffect(() => {
-    selectedCardsIndex.sort(function (a, b) {
-      return a - b;
-    });
-  }, [selectedCardsIndex]);
 
   // These are every single available card throughout the platform, each identified by an id
   // which helps with identifying which cards are rendered on the dashboard and which ones aren't
@@ -60,8 +42,7 @@ function App() {
       id: 1,
       name: "Earnings",
       title: "Earnings",
-      info:
-        "Wall Street has expectations set for companies and their earnings/revenue. Compares the estimated earnings/revenue expectations vs the real earnings/revenue expectations. This typically dictates whether or not the company is underperforming, overperforming, or performing as expected. If a company is overperforming, that usually means their earnings are higher than what Wall Street expected. If a company is underperforming, that usually means their earnings are lower than what Wall Street expected.",
+      info: "Wall Street has expectations set for companies and their earnings/revenue. Compares the estimated earnings/revenue expectations vs the real earnings/revenue expectations. This typically dictates whether or not the company is underperforming, overperforming, or performing as expected. If a company is overperforming, that usually means their earnings are higher than what Wall Street expected. If a company is underperforming, that usually means their earnings are lower than what Wall Street expected.",
       infoVisible: false,
       x: 0,
       y: 2,
@@ -77,8 +58,7 @@ function App() {
       id: 2,
       name: "AnalystRecommendations",
       title: "Analyst Recommendations",
-      info:
-        "Wall Street has recommendations set for companies. These recommendations typically are Strong Buy, Buy, Hold, Sell, Strong Sell. This usually dictates Wall Streets view on this, and we can aggregate the data on this for interesting insights. Sigma7 is displaying this in the format of a pie chart to dictate the proportions of the recommendations. ",
+      info: "Wall Street has recommendations set for companies. These recommendations typically are Strong Buy, Buy, Hold, Sell, Strong Sell. This usually dictates Wall Streets view on this, and we can aggregate the data on this for interesting insights. Sigma7 is displaying this in the format of a pie chart to dictate the proportions of the recommendations. ",
       infoVisible: false,
       x: 12,
       y: 0,
@@ -94,8 +74,7 @@ function App() {
       id: 3,
       name: "Dividends",
       title: "Dividends",
-      info:
-        "Dividends are effectively cash payments paid out to investors from a company. Dividends are usually profits leftover from the business that are passed onto the investor in the form of a dividend. Likewise, this usually is a sign of stability and consistent returns. Most companies only issue dividends when their profits are consistent and stable. A growing dividend trend is usually a good sign of a stable business.",
+      info: "Dividends are effectively cash payments paid out to investors from a company. Dividends are usually profits leftover from the business that are passed onto the investor in the form of a dividend. Likewise, this usually is a sign of stability and consistent returns. Most companies only issue dividends when their profits are consistent and stable. A growing dividend trend is usually a good sign of a stable business.",
       infoVisible: false,
       x: 3,
       y: 2,
@@ -111,8 +90,7 @@ function App() {
       id: 4,
       name: "Price",
       title: "Price",
-      info:
-        "This price card protrays the price of a stock in the format of candlesticks. Candlesticks display the price in a high, open, low, and close format. The wicks themselves are the highs and lows, and the bodies of the candles are the open and close. If a candlestick is red, that means it ended the day losing value. If a candlestick is green that means it ended the day growing in value. For more info, please google stock candlesticks explained.",
+      info: "This price card protrays the price of a stock in the format of candlesticks. Candlesticks display the price in a high, open, low, and close format. The wicks themselves are the highs and lows, and the bodies of the candles are the open and close. If a candlestick is red, that means it ended the day losing value. If a candlestick is green that means it ended the day growing in value. For more info, please google stock candlesticks explained.",
       infoVisible: false,
       x: 3,
       y: 0,
@@ -128,8 +106,7 @@ function App() {
       id: 5,
       name: "PriceTarget",
       title: "Price Target",
-      info:
-        "Wall Street sets price targets usually at the same time it recommends a particular stock. These price targets are usually a range of targets, an expected best case scenario price (high), an expected average price (average), and an expected worst case scenario (low). Sigma7 has averaged these recommendations and plotted them accordingly ontop of the price history. This gives an indication as to where the stock price is heading according to Wall Street's recommendations.",
+      info: "Wall Street sets price targets usually at the same time it recommends a particular stock. These price targets are usually a range of targets, an expected best case scenario price (high), an expected average price (average), and an expected worst case scenario (low). Sigma7 has averaged these recommendations and plotted them accordingly ontop of the price history. This gives an indication as to where the stock price is heading according to Wall Street's recommendations.",
       infoVisible: false,
       x: 6,
       y: 2,
@@ -145,8 +122,7 @@ function App() {
       id: 6,
       name: "RiskAnalysis",
       title: "Performance (Risk Adjusted)",
-      info:
-        "Sigma7 has taken the average return and the average volatility (or risk) of a stock and used compared the two values to determine the overall stocks performance. Generally speaking, a stock that performs well is one that grows/earns more money than the risk it holds. Likewise, a stock that carries a lot of risk but not a lot of return, is a poor performing stock. ",
+      info: "Sigma7 has taken the average return and the average volatility (or risk) of a stock and used compared the two values to determine the overall stocks performance. Generally speaking, a stock that performs well is one that grows/earns more money than the risk it holds. Likewise, a stock that carries a lot of risk but not a lot of return, is a poor performing stock. ",
       infoVisible: false,
       x: 0,
       y: 0,
@@ -162,8 +138,7 @@ function App() {
       id: 7,
       name: "PriceCalendar",
       title: "Price Calendar",
-      info:
-        "Sigma7 has averaged the overall returns of a stock by month, and then plotted them on a price radial calendar. This hopefully gives insight on the historical monthly trends of a stock. This may also show insight into what seasons a stock best performs or underperforms in.",
+      info: "Sigma7 has averaged the overall returns of a stock by month, and then plotted them on a price radial calendar. This hopefully gives insight on the historical monthly trends of a stock. This may also show insight into what seasons a stock best performs or underperforms in.",
       infoVisible: false,
       x: 9,
       y: 2,
@@ -179,8 +154,7 @@ function App() {
       id: 8,
       name: "News",
       title: "News",
-      info:
-        "Sigma7 has aggregated all of the news related to this particular stock.",
+      info: "Sigma7 has aggregated all of the news related to this particular stock.",
       infoVisible: false,
       x: 0,
       y: 0,
@@ -196,8 +170,7 @@ function App() {
       id: 10,
       name: "OverallReturns",
       title: "Overall Returns",
-      info:
-        "Sigma7 has consolidated all the returns and losses of a stock and compared them on a pie chart. More specifically, how many days does the stock go up in value vs how many days does it go down in value. This gives the investor an idea what the historical chances of a green or red day is.",
+      info: "Sigma7 has consolidated all the returns and losses of a stock and compared them on a pie chart. More specifically, how many days does the stock go up in value vs how many days does it go down in value. This gives the investor an idea what the historical chances of a green or red day is.",
       infoVisible: false,
       x: 0,
       y: 0,
@@ -213,8 +186,7 @@ function App() {
       id: 11,
       name: "AverageReturns",
       title: "Cumulative Gains vs. Cumulative Losses",
-      info:
-        "This compares the cumulative returns and the cumulative losses of a stock. This is calculated by taking the average return and average loss of a stock by month, and then multiplying by the number of months the stock is green or red (respectively). ",
+      info: "This compares the cumulative returns and the cumulative losses of a stock. This is calculated by taking the average return and average loss of a stock by month, and then multiplying by the number of months the stock is green or red (respectively). ",
       infoVisible: false,
       x: 0,
       y: 2,
@@ -230,8 +202,7 @@ function App() {
       id: 12,
       name: "EarningsRatio",
       title: "Earnings Ratio",
-      info:
-        "How often does this stock outperform expectations or underperform? This card computes how often overperformance and underperformance occurs and plots this onto a pie chart. This gives an idea how historical performance has been at the earnings/revenue level. A company with large growth often outperforms expectations.",
+      info: "How often does this stock outperform expectations or underperform? This card computes how often overperformance and underperformance occurs and plots this onto a pie chart. This gives an idea how historical performance has been at the earnings/revenue level. A company with large growth often outperforms expectations.",
       infoVisible: false,
       x: 3,
       y: 2,
@@ -247,8 +218,7 @@ function App() {
       id: 13,
       name: "Valuation",
       title: "Valuation",
-      info:
-        "This card compares the current valuations of a stock to its competitors (average) valuation and the (average) valuation of the entire market. This gives an idea as to whether or not a stock is overpriced or not. Note: Just because a stock has a higher valuation than its competitors, does not necessarily mean its overpriced. It may mean that its competitors are undervalued and the stock in question is correctly valued. It may also mean the stock in question is an overperformer and therefore correctly valued to its underperforming peers.",
+      info: "This card compares the current valuations of a stock to its competitors (average) valuation and the (average) valuation of the entire market. This gives an idea as to whether or not a stock is overpriced or not. Note: Just because a stock has a higher valuation than its competitors, does not necessarily mean its overpriced. It may mean that its competitors are undervalued and the stock in question is correctly valued. It may also mean the stock in question is an overperformer and therefore correctly valued to its underperforming peers.",
       infoVisible: false,
       x: 6,
       y: 2,
@@ -264,8 +234,7 @@ function App() {
       id: 14,
       name: "Volatility",
       title: "Volatility",
-      info:
-        "Volatility is the word used to describe how much a stock moves (up AND down). Generally speaking, a stock that is volatile is more risky, although risk is not always synonymous to volatility. Sigma7 has compared the volatility of a stock to its competitors and the market at large. This card gives an idea on the price swings one may experience owning this stock.",
+      info: "Volatility is the word used to describe how much a stock moves (up AND down). Generally speaking, a stock that is volatile is more risky, although risk is not always synonymous to volatility. Sigma7 has compared the volatility of a stock to its competitors and the market at large. This card gives an idea on the price swings one may experience owning this stock.",
       infoVisible: false,
       x: 3,
       y: 0,
@@ -279,72 +248,23 @@ function App() {
   ]);
 
   useEffect(() => {
-    const company = fetch(
-      `${apiBaseUrl}/company?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());
-
-    const prices = fetch(
-      `${apiBaseUrl}/prices?code=${apiCode}==&symbol=${activeTicker}&range=1y`
-    ).then((res) => res.json());
-
-    const price_target = fetch(
-      `${apiBaseUrl}/price_targets?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());
-
-    const analyst_recs = fetch(
-      `${apiBaseUrl}/analyst_recs?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());
-
-    const news = fetch(
-      `https://cloud.iexapis.com/stable/stock/${activeTicker}/news/last/50?token=pk_756d2eedb1d64c5192084581943ee4b9`
-    ).then((res) => res.json());
-
-    const valuation = fetch(
-      `${apiBaseUrl}/compare_metric?code=${apiCode}==&symbol=${activeTicker}&metric=pe_ratio`
-    ).then((res) => res.json());
-
-    const volatility = fetch(
-      `${apiBaseUrl}/compare_metric?code=${apiCode}==&symbol=${activeTicker}&metric=beta`
-    ).then((res) => res.json());
-
-    const risk = fetch(
-      `${apiBaseUrl}/risk_metrics?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());
-
-    const average_returns = fetch(
-      `${apiBaseUrl}/return_compare?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());
-
-    const dividends = fetch(
-      `${apiBaseUrl}/dividends?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());
-
-    const earnings = fetch(
-      `${apiBaseUrl}/earnings?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());
-
-    const price_calendar = fetch(
-      `${apiBaseUrl}/avg_return?code=${apiCode}==&symbol=${activeTicker}`
-    ).then((res) => res.json());
-
-    let allReqs = [
-      company,
-      price_target,
-      prices,
-      analyst_recs,
-      news,
-      valuation,
-      volatility,
-      risk,
-      average_returns,
-      dividends,
-      earnings,
-      price_calendar,
-    ];
-    Promise.all(allReqs).then(() => {
-      setLoading(false);
-    });
-  });
+    if (isAuthenticated) {
+      db.collection("users")
+        .doc(user.sub)
+        .set({
+          name: user.name,
+          email: user.email,
+          email_verified: user.email_verified,
+          id: user.sub,
+        })
+        .then((docRef) => {
+          console.log("Document written with ID: ", docRef.id);
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+        });
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const company = fetch(
@@ -410,7 +330,6 @@ function App() {
                   setSelectedCardsIndex={setSelectedCardsIndex}
                   setActiveTicker={setActiveTicker}
                   activeTicker={activeTicker}
-                  loading={loading}
                 />
               </div>
             </Route>
@@ -418,7 +337,28 @@ function App() {
               <Portfolio />
             </Route>
             <Route path="/profile">
-              {isAuthenticated ? <Profile /> : <h1>Please Log In</h1>}
+              {/* 
+                Is the page loading? Show loading icon. Then make sure
+                the user is authenticated. If they are, show them their profile. Redirect them to login
+              */}
+              {isLoading ? (
+                <Loader
+                  className="fullyCentered"
+                  type="Puff"
+                  color="#007bff"
+                  height={100}
+                  width={100}
+                />
+              ) : isAuthenticated ? (
+                <Profile />
+              ) : (
+                <h1 className="login-prompt">
+                  Please{" "}
+                  <a className="login-link" onClick={loginWithRedirect}>
+                    Login
+                  </a>
+                </h1>
+              )}
             </Route>
             <Route component={ErrorNotFound} />
           </Switch>
