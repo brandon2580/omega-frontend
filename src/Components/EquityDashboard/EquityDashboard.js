@@ -5,6 +5,7 @@ import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import Tour from "reactour";
 import { Responsive, WidthProvider } from "react-grid-layout";
+import uuid from 'react-uuid'
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
@@ -31,11 +32,12 @@ import EarningsRatio from "../Cards/EarningsRatio";
 import Valuation from "../Cards/Valuation";
 import Volatility from "../Cards/Volatility";
 import { useAuth0 } from "@auth0/auth0-react";
+import db from "../../firebase";
 
 const GridLayout = WidthProvider(Responsive);
 
 const HomeDashboard = (props) => {
-  const { isLoading, isAuthenticated, loginWithRedirect } = useAuth0();
+  const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
 
   // mainLayout is the default layout that the user will see when they first load the page
   // It consists of x amount cards identified by their id (i). They are assigned their default
@@ -157,6 +159,31 @@ const HomeDashboard = (props) => {
       );
     });
   }
+
+  useEffect(() => {
+    let dashboards_object = Object.assign({}, storedLayouts);
+   
+    let dashboards_with_keys = Object.keys(dashboards_object).map(function(layout, index) {
+     return {
+       [uuid()]: dashboards_object[index]
+     }
+   });
+ 
+    if (isAuthenticated) {
+      db.collection("saved_dashboards")
+        .doc(user.sub)
+        .set({
+          id: user.sub,
+          dashboards: dashboards_with_keys,
+        })
+        .then((docRef) => {
+          console.log("Document written with ID: ", docRef.id);
+        })
+        .catch((error) => {
+          console.error("Error adding document: ", error);
+        });
+    }
+  }, [isAuthenticated]);
 
   const removeCardFromLayout = (id) => {
     // Card was selected, remove it
@@ -285,157 +312,149 @@ const HomeDashboard = (props) => {
     },
   ];
 
+  // Display a loading icon while the page is loading. Check if the user
+  // is authenticated. If true, load the page. Otherwise, prompt them to login.
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return (
+      <Loader
+        className="fullyCentered"
+        type="Puff"
+        color="#007bff"
+        height={100}
+        width={100}
+      />
+    );
   } else {
     if (isAuthenticated) {
-      if (props.loading) {
-        return (
-          <Loader
-            className="fullyCentered"
-            type="Puff"
-            color="#007bff"
-            height={100}
-            width={100}
+      return (
+        <div>
+          <TopNavbar
+            availableCards={props.availableCards}
+            setAvailableCards={props.setAvailableCards}
+            selectedCardsIndex={props.selectedCardsIndex}
+            setSelectedCardsIndex={props.setSelectedCardsIndex}
+            setActiveTicker={props.setActiveTicker}
+            activeTicker={props.activeTicker}
+            isAuthenticated={isAuthenticated}
+            wasTaken={wasTaken}
+            setDarkMode={setDarkMode}
+            darkMode={darkMode}
+            setIsTourOpen={setIsTourOpen}
+            setNewLayoutName={setNewLayoutName}
           />
-        );
-      } else {
-        return (
-          <div>
-            <TopNavbar
-              availableCards={props.availableCards}
-              setAvailableCards={props.setAvailableCards}
-              selectedCardsIndex={props.selectedCardsIndex}
-              setSelectedCardsIndex={props.setSelectedCardsIndex}
-              setActiveTicker={props.setActiveTicker}
-              activeTicker={props.activeTicker}
-              wasTaken={wasTaken}
-              setDarkMode={setDarkMode}
-              darkMode={darkMode}
-              setIsTourOpen={setIsTourOpen}
-              setNewLayoutName={setNewLayoutName}
-            />
 
-            <h1 className="center header">Equity Dashboard</h1>
-            {isAuthenticated ? (
-              <a href="/profile">
-                <button className="btn btn-primary">Profile</button>
-              </a>
-            ) : null}
+          <h1 className="center header">Equity Dashboard</h1>
 
-            {/* TickerHeader goes here */}
-            <TickerHeader tickerCard={props.availableCards[0]} />
+          {/* TickerHeader goes here */}
+          <TickerHeader tickerCard={props.availableCards[0]} />
 
-            {/* Sidenavbar goes here */}
-            <Sidenavbar
-              setSelectedLayoutIndex={setSelectedLayoutIndex}
-              setWasSelected={setWasSelected}
-              wasSelected={wasSelected}
-              selectedCardsIndex={props.selectedCardsIndex}
-              setSelectedCardsIndex={props.setSelectedCardsIndex}
-            />
+          {/* Sidenavbar goes here */}
+          <Sidenavbar
+            setSelectedLayoutIndex={setSelectedLayoutIndex}
+            setWasSelected={setWasSelected}
+            wasSelected={wasSelected}
+            selectedCardsIndex={props.selectedCardsIndex}
+            setSelectedCardsIndex={props.setSelectedCardsIndex}
+          />
 
-            <Tour
-              steps={steps}
-              isOpen={isTourOpen}
-              onRequestClose={() => setIsTourOpen(false)}
-              lastStepNextButton={
-                <a className="lets-begin-link">Lets begin!</a>
-              }
-              accentColor={"#007bff"}
-              nextButton={<ArrowRightOutlined />}
-              prevButton={<ArrowLeftOutlined />}
-              rounded={10}
-            />
+          <Tour
+            steps={steps}
+            isOpen={isTourOpen}
+            onRequestClose={() => setIsTourOpen(false)}
+            lastStepNextButton={<a className="lets-begin-link">Lets begin!</a>}
+            accentColor={"#007bff"}
+            nextButton={<ArrowRightOutlined />}
+            prevButton={<ArrowLeftOutlined />}
+            rounded={10}
+          />
 
-            {/* Grid layout begins here */}
-            <GridLayout
-              className="layout"
-              layouts={layout}
-              breakpoints={{ lg: 1200, s: 300 }}
-              onLayoutChange={handleLayoutChange}
-              draggableHandle={".ant-card-head"}
-              cols={{ lg: 12, s: 1 }}
-              rowHeight={575}
-              width={1200}
-            >
-              {/*
+          {/* Grid layout begins here */}
+          <GridLayout
+            className="layout"
+            layouts={layout}
+            breakpoints={{ lg: 1200, s: 300 }}
+            onLayoutChange={handleLayoutChange}
+            draggableHandle={".ant-card-head"}
+            cols={{ lg: 12, s: 1 }}
+            rowHeight={575}
+            width={1200}
+          >
+            {/*
               For reference, if we console.log(props.selectedCardsIndex), at first an empty array is returned. However if we 
               were to select a card that has an id value of 9 {id: 9}, then Array [9] would be logged. If we were to then 
               select a card with an id of 10 {id: 10}, it would return Array [9, 10]. 
             */}
-              {props.selectedCardsIndex.map((cardId, index) => {
-                const card = props.availableCards.find((c) => c.id === cardId);
+            {props.selectedCardsIndex.map((cardId, index) => {
+              const card = props.availableCards.find((c) => c.id === cardId);
 
-                const defaultDataGrid = {
-                  x: card.x,
-                  y: card.y,
-                  w: card.w,
-                  h: card.h,
-                  minW: card.minW,
-                  isResizable: card.isResizable,
-                };
+              const defaultDataGrid = {
+                x: card.x,
+                y: card.y,
+                w: card.w,
+                h: card.h,
+                minW: card.minW,
+                isResizable: card.isResizable,
+              };
 
-                const extra = (
-                  <div>
-                    <Popover
-                      content={card.info}
-                      title={card.title}
-                      trigger="click"
-                      visible={card.infoVisible}
-                    >
-                      <span className="span-margin">
-                        <InfoCircleOutlined
-                          className="blue-button"
-                          onClick={() =>
-                            props.setAvailableCards((arr) =>
-                              arr.map((item) =>
-                                item.id == card.id
-                                  ? { ...item, infoVisible: !item.infoVisible }
-                                  : item
-                              )
+              const extra = (
+                <div>
+                  <Popover
+                    content={card.info}
+                    title={card.title}
+                    trigger="click"
+                    visible={card.infoVisible}
+                  >
+                    <span className="span-margin">
+                      <InfoCircleOutlined
+                        className="blue-button"
+                        onClick={() =>
+                          props.setAvailableCards((arr) =>
+                            arr.map((item) =>
+                              item.id == card.id
+                                ? { ...item, infoVisible: !item.infoVisible }
+                                : item
                             )
-                          }
-                        />
-                      </span>{" "}
-                    </Popover>
+                          )
+                        }
+                      />
+                    </span>{" "}
+                  </Popover>
 
-                    <span onClick={() => removeCardFromLayout(card.id)}>
-                      <CloseCircleOutlined />
-                    </span>
+                  <span onClick={() => removeCardFromLayout(card.id)}>
+                    <CloseCircleOutlined />
+                  </span>
+                </div>
+              );
+
+              if (card.name in availableCardsObject) {
+                const CustomTag = availableCardsObject[card.name];
+                return (
+                  <div key={card.id} data-grid={defaultDataGrid}>
+                    <CustomTag
+                      {...card}
+                      extra={extra}
+                      darkMode={darkMode}
+                      activeTicker={props.activeTicker}
+                    />
                   </div>
                 );
+              }
+            })}
+          </GridLayout>
 
-                if (card.name in availableCardsObject) {
-                  const CustomTag = availableCardsObject[card.name];
-                  return (
-                    <div key={card.id} data-grid={defaultDataGrid}>
-                      <CustomTag
-                        {...card}
-                        extra={extra}
-                        darkMode={darkMode}
-                        activeTicker={props.activeTicker}
-                      />
-                    </div>
-                  );
-                }
-              })}
-            </GridLayout>
-
-            {/* Only renders when the user deletes a card from the page (for 5 seconds) */}
-            {wasRemoved && (
-              <UndoPrompt
-                selectedCardsIndex={props.selectedCardsIndex}
-                setSelectedCardsIndex={props.setSelectedCardsIndex}
-                availableCards={props.availableCards}
-                setWasRemoved={setWasRemoved}
-                setUndoClicked={setUndoClicked}
-                removedCardId={removedCard}
-              />
-            )}
-          </div>
-        );
-      }
+          {/* Only renders when the user deletes a card from the page (for 5 seconds) */}
+          {wasRemoved && (
+            <UndoPrompt
+              selectedCardsIndex={props.selectedCardsIndex}
+              setSelectedCardsIndex={props.setSelectedCardsIndex}
+              availableCards={props.availableCards}
+              setWasRemoved={setWasRemoved}
+              setUndoClicked={setUndoClicked}
+              removedCardId={removedCard}
+            />
+          )}
+        </div>
+      );
     } else {
       loginWithRedirect();
     }
