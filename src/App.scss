@@ -10,11 +10,11 @@ body.light-mode {
   transition: background-color 0.3s ease;
 }
 
-#simple-autocomplete-1-listbox{
+#simple-autocomplete-1-listbox {
   background: white;
 }
 
-.rmd-list-item{
+.rmd-list-item {
   display: grid;
   grid-template-columns: 0 1fr;
   grid-gap: 1.75em;
@@ -124,7 +124,7 @@ svg {
   color: white;
 }
 
-body.light-mode .reactour__close svg path{
+body.light-mode .reactour__close svg path {
   fill: black !important;
 }
 
@@ -371,14 +371,14 @@ body.light-mode .apexcharts-grid {
   fill: white !important;
 }
 
-body.dark-mode .react-grid-item > .react-resizable-handle::after{
+body.dark-mode .react-grid-item > .react-resizable-handle::after {
   border-right: 2px solid white !important;
-  border-bottom: 2px solid white !important
+  border-bottom: 2px solid white !important;
 }
 
-body.light-mode .react-grid-item > .react-resizable-handle::after{
+body.light-mode .react-grid-item > .react-resizable-handle::after {
   border-right: 2px solid black !important;
-  border-bottom: 2px solid black !important
+  border-bottom: 2px solid black !important;
 }
 
 .save-layout-modal {
@@ -391,6 +391,17 @@ body.light-mode .react-grid-item > .react-resizable-handle::after{
 
 .center {
   text-align: center;
+}
+
+.center-element {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 15%;
+}
+
+.user-profile-info {
+  margin-top: 25px;
 }
 
 body.dark-mode .error-message {
@@ -422,6 +433,10 @@ body.dark-mode .error-message {
   width: 85% !important;
 }
 
+.warning-modal {
+  width: 35% !important;
+}
+
 .span-margin {
   margin-right: 15px;
 }
@@ -430,7 +445,7 @@ body.dark-mode .error-message {
   fill: #007bff !important;
 }
 
-.blue{
+.blue {
   color: #007bff;
 }
 
@@ -439,10 +454,10 @@ body.dark-mode .error-message {
 }
 
 .ant-popover {
-  width: 500px !important; 
+  width: 500px !important;
 }
 
-body.dark-mode .ant-popover-inner-content{
+body.dark-mode .ant-popover-inner-content {
   color: white !important;
 }
 
@@ -557,21 +572,21 @@ body.dark-mode .news-header {
   display: inline-block;
 }
 
-body.dark-mode .ticker-dropdown-item{
- color: white !important;
- height: 30px;
- padding-left: 15px;
- font-size: large;
- padding-left: 15px;
+body.dark-mode .ticker-dropdown-item {
+  color: white !important;
+  height: 30px;
+  padding-left: 15px;
+  font-size: large;
+  padding-left: 15px;
 }
 
-body.light-mode .ticker-dropdown-item{
+body.light-mode .ticker-dropdown-item {
   color: rgb(0, 0, 0) !important;
   height: 30px;
   padding-left: 15px;
   font-size: large;
   padding-left: 15px;
- }
+}
 
 .dashboards-hr {
   border-color: grey;
@@ -608,20 +623,29 @@ body.light-mode .ticker-dropdown-item{
   margin-bottom: 10px !important;
 }
 
-.lets-begin-link{
+.lets-begin-link {
+  color: #007bff;
+}
+
+.login-prompt {
+  color: white;
+  text-align: center;
+}
+
+.login-link {
   color: #007bff;
 }
 
 body.dark-mode .verticalSpan {
   border-right: 1px solid white;
-  margin-left: 25px;
+  margin-left: 10px;
   margin-right: 5px;
 }
 
 body.dark-mode .verticalSpan2 {
   border-right: 1px solid white;
-  margin-left: 10px;
   margin-right: 15px;
+  margin-left: -3px;
 }
 
 body.dark-mode .verticalSpan3 {
@@ -630,19 +654,31 @@ body.dark-mode .verticalSpan3 {
   margin-right: 15px;
 }
 
+body.dark-mode .verticalSpan4 {
+  border-right: 1px solid white;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
 body.light-mode .verticalSpan {
   border-right: 1px solid black;
-  margin-left: 25px;
+  margin-left: 10px;
   margin-right: 5px;
 }
 
 body.light-mode .verticalSpan2 {
   border-right: 1px solid black;
-  margin-left: 10px;
   margin-right: 15px;
+  margin-left: -3px;
 }
 
 body.light-mode .verticalSpan3 {
+  border-right: 1px solid black;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+body.light-mode .verticalSpan4 {
   border-right: 1px solid black;
   margin-left: 15px;
   margin-right: 15px;
@@ -664,8 +700,17 @@ body.light-mode .verticalSpan3 {
   display: none;
 }
 
-.black{
+.black {
   color: black !important;
+}
+
+.white {
+  color: white !important;
+}
+
+.profile-page {
+  margin: 0 auto;
+  float: none;
 }
 
 .react-autosuggest__container {
