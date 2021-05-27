@@ -14,6 +14,7 @@ import Profile from "./Auth/Profile/Profile";
 import Loader from "react-loader-spinner";
 import { useAuth0 } from "@auth0/auth0-react";
 import db from "./firebase";
+import Explore from "./Components/Explore/Explore";
 
 function App() {
   const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
@@ -335,6 +336,9 @@ function App() {
             </Route>
             <Route path="/portfolio">
               <Portfolio />
+            </Route>
+            <Route path="/explore">
+              <Explore />
             </Route>
             <Route path="/profile">
               {/* 

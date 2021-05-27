@@ -5,7 +5,7 @@ import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import Tour from "reactour";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import uuid from 'react-uuid'
+import uuid from "react-uuid";
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
@@ -23,7 +23,7 @@ import RiskAnalysis from "../Cards/RiskAnalysis";
 import Sidenavbar from "../Navbars/Sidenavbar";
 import UndoPrompt from "./UndoPrompt";
 import TickerHeader from "./TickerHeader";
-import TopNavbar from "../Navbars/TopNavbar";
+import DashboardNavbar from "../Navbars/DashboardNavbar";
 import News from "../Cards/News";
 import PriceCalendar from "../Cards/PriceCalendar";
 import OverallReturns from "../Cards/OverallReturns";
@@ -162,13 +162,16 @@ const HomeDashboard = (props) => {
 
   useEffect(() => {
     let dashboards_object = Object.assign({}, storedLayouts);
-   
-    let dashboards_with_keys = Object.keys(dashboards_object).map(function(layout, index) {
-     return {
-       [uuid()]: dashboards_object[index]
-     }
-   });
- 
+
+    let dashboards_with_keys = Object.keys(dashboards_object).map(function (
+      layout,
+      index
+    ) {
+      return {
+        [uuid()]: dashboards_object[index],
+      };
+    });
+
     if (isAuthenticated) {
       db.collection("saved_dashboards")
         .doc(user.sub)
@@ -328,7 +331,7 @@ const HomeDashboard = (props) => {
     if (isAuthenticated) {
       return (
         <div>
-          <TopNavbar
+          <DashboardNavbar
             availableCards={props.availableCards}
             setAvailableCards={props.setAvailableCards}
             selectedCardsIndex={props.selectedCardsIndex}

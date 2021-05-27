@@ -7,7 +7,7 @@ import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
 import Autocomplete from "react-autocomplete";
 import logo from "./logo.png";
 
-const TopNavbar = (props) => {
+const DashboardNavbar = (props) => {
   const [allowedStocks, setAllowedStocks] = useState([]);
   const [ticker, setTicker] = useState("");
   const [invalidTicker, setInvalidTicker] = useState(false);
@@ -84,15 +84,10 @@ const TopNavbar = (props) => {
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li className="nav-item active">
-            <Link to="/dashboard" className="nav-link">
-              Dashboards
-            </Link>
+            <a className="nav-link" href="/dashboard">
+              Dashboard
+            </a>
           </li>
-          {/* <li className="nav-item">
-            <Link to="/portfolio" className="nav-link">
-              Portfolio
-            </Link>
-          </li> */}
         </ul>
 
         <form onSubmit={handleSubmit}>
@@ -169,17 +164,26 @@ const TopNavbar = (props) => {
             wasTaken={props.wasTaken}
             setNewLayoutName={props.setNewLayoutName}
           />
+
           <span className="verticalSpan4" />
 
-          {props.isAuthenticated ? (
-            <a href="/profile">
-              <button className="btn btn-primary">Profile</button>
-            </a>
-          ) : null}
+          <div className="col-lg-1">
+            {props.isAuthenticated ? (
+              <a href="/profile">
+                <button className="btn btn-primary">Profile</button>
+              </a>
+            ) : null}
+          </div>
+
+          <span className="verticalSpan5" />
+
+          <a href="/explore">
+            <button className="btn btn-success">Explore</button>
+          </a>
         </div>
       </div>
     </nav>
   );
 };
 
-export default TopNavbar;
+export default DashboardNavbar;

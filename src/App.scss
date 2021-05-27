@@ -410,6 +410,16 @@ body.dark-mode .error-message {
   margin-top: 15px;
 }
 
+.explore-header{
+  margin-bottom: 0px !important;
+}
+
+.test-image{
+  width: 450px;
+  margin: auto;
+  margin-top: 50px;
+}
+
 .side-margin .dashboard {
   margin-left: 75px;
   margin-right: 15px;
@@ -638,14 +648,13 @@ body.light-mode .ticker-dropdown-item {
 
 body.dark-mode .verticalSpan {
   border-right: 1px solid white;
-  margin-left: 10px;
   margin-right: 5px;
 }
 
 body.dark-mode .verticalSpan2 {
   border-right: 1px solid white;
   margin-right: 15px;
-  margin-left: -3px;
+  margin-left: -20px;
 }
 
 body.dark-mode .verticalSpan3 {
@@ -657,19 +666,24 @@ body.dark-mode .verticalSpan3 {
 body.dark-mode .verticalSpan4 {
   border-right: 1px solid white;
   margin-left: 15px;
+  margin-right: 0px;
+}
+
+body.dark-mode .verticalSpan5 {
+  border-right: 1px solid white;
+  margin-left: 50px;
   margin-right: 15px;
 }
 
 body.light-mode .verticalSpan {
   border-right: 1px solid black;
-  margin-left: 10px;
   margin-right: 5px;
 }
 
 body.light-mode .verticalSpan2 {
   border-right: 1px solid black;
   margin-right: 15px;
-  margin-left: -3px;
+  margin-left: -20px;
 }
 
 body.light-mode .verticalSpan3 {
@@ -681,8 +695,15 @@ body.light-mode .verticalSpan3 {
 body.light-mode .verticalSpan4 {
   border-right: 1px solid black;
   margin-left: 15px;
+  margin-right: 0px;
+}
+
+body.light-mode .verticalSpan5 {
+  border-right: 1px solid black;
+  margin-left: 50px;
   margin-right: 15px;
 }
+
 
 .header-parent {
   display: flex;
