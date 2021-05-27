@@ -13,8 +13,8 @@ import "./css/owl.carousel.css";
 import "./css/owl.transitions.css";
 import "./css/responsive.css";
 import "./css/themify-icons.css";
-import LoginButton from "../Auth/LoginButton";
-import LogoutButton from "../Auth/LogoutButton";
+import LoginButton from "../Auth/Buttons/LoginButton";
+import LogoutButton from "../Auth/Buttons/LogoutButton";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
