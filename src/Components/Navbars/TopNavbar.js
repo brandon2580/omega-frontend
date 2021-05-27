@@ -144,7 +144,12 @@ const TopNavbar = (props) => {
           <span className="verticalSpan" />
 
           <div className="col-lg-2">
-            <button onClick={() => props.setIsTourOpen(true)} className="btn btn-primary">Tour</button>
+            <button
+              onClick={() => props.setIsTourOpen(true)}
+              className="btn btn-primary"
+            >
+              Tour
+            </button>
           </div>
 
           <span className="verticalSpan2" />
@@ -164,6 +169,13 @@ const TopNavbar = (props) => {
             wasTaken={props.wasTaken}
             setNewLayoutName={props.setNewLayoutName}
           />
+          <span className="verticalSpan4" />
+
+          {props.isAuthenticated ? (
+            <a href="/profile">
+              <button className="btn btn-primary">Profile</button>
+            </a>
+          ) : null}
         </div>
       </div>
     </nav>
