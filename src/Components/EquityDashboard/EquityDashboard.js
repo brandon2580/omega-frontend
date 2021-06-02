@@ -75,34 +75,17 @@ const HomeDashboard = (props) => {
     darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
   }, [darkMode]);
 
-  // This automatically saves mainLayout in localStorage
-  const [storedLayouts, setStoredLayouts] = useStorageState(
-    [mainLayout],
-    "storedLayouts"
-  );
-
-  // This assigned the name of "Default Layout" to mainLayout in localStorage
-  const [storedLayoutNames, setStoredLayoutNames] = useStorageState(
-    ["Default Layout"],
-    "storedLayoutNames"
-  );
-
   const [isUserNewStatus, setIsUserNewStatus] = useStorageState(
     true,
     "isUserNew"
   );
 
-  // If the page is being loaded for the first time and
-  // storedLayouts && storedLayoutNames don't exist, make them exist
-  if (localStorage.getItem("storedLayouts" && "storedLayoutNames") == null) {
-    localStorage.setItem("storedLayouts", JSON.stringify([]));
-    localStorage.setItem("storedLayoutNames", JSON.stringify([]));
-  }
-
   if (localStorage.getItem("isUserNew") == null) {
     localStorage.setItem("isUserNew", true);
   }
 
+  // This checks to see if the current user has a saved_dashboards collection.
+  // If not, create one and set mainLayout as the default
   useEffect(() => {
     if (isAuthenticated) {
       const data = db.collection("saved_dashboards").doc(user.sub);
@@ -148,18 +131,22 @@ const HomeDashboard = (props) => {
           .get()
           .then((doc) => {
             if (doc.exists) {
-              let f = Object.values(doc.data().dashboards);
+              let dashboards = Object.values(doc.data().dashboards);
 
-              let mapped = f.flatMap((el) => {
+              let mappedDashboards = dashboards.flatMap((el) => {
                 return Object.keys(Object.values(el)[0]);
               });
 
-
-              if (!mapped.includes(newLayoutName)) {
+              // Checks to see if the layoutName already exists.
+              // If not, save the layout & the layoutName to firebase
+              if (!mappedDashboards.includes(newLayoutName)) {
+                // newLayout has some undefined values, so we automatically remove them here.
                 let newLayoutExcludeUndefined = newLayout.map((card) => {
-                  Object.keys(card).forEach(key => card[key] === undefined && delete card[key])
-                  return card
-                })
+                  Object.keys(card).forEach(
+                    (key) => card[key] === undefined && delete card[key]
+                  );
+                  return card;
+                });
 
                 db.collection("saved_dashboards")
                   .doc(user.sub)
@@ -167,8 +154,9 @@ const HomeDashboard = (props) => {
                     {
                       id: user.sub,
                       dashboards: firebase.firestore.FieldValue.arrayUnion({
-                        // CHANGE THIS
-                        [uuid()]: { [newLayoutName]: newLayoutExcludeUndefined },
+                        [uuid()]: {
+                          [newLayoutName]: newLayoutExcludeUndefined,
+                        },
                       }),
                     },
                     { merge: true }
@@ -185,7 +173,6 @@ const HomeDashboard = (props) => {
                 return;
               }
             } else {
-              // doc.data() will be undefined in this case
               console.log("No such document!");
             }
           })
@@ -196,53 +183,7 @@ const HomeDashboard = (props) => {
     }
   }, [newLayoutName]);
 
-  // // We use a ref to make sure that this useEffect hook is NOT called on the
-  // // initial render of the page. Only when the state value of newLayoutName changes
-  // const initialRender = useRef(true);
-  // useEffect(() => {
-  //   if (initialRender.current) {
-  //     initialRender.current = false;
-  //   } else {
-  //     // If layout name does not already exist, proceed.
-  //     if (!storedLayoutNames.includes(newLayoutName)) {
-  //       // Add the new layout to storedLayouts and add the new layout name to storedLayoutNames
-  //       setStoredLayouts([...storedLayouts, newLayout]);
-  //       setStoredLayoutNames([...storedLayoutNames, newLayoutName]);
-  //       let dashboards_object = Object.assign({}, storedLayouts);
-
-  //       let mappedLayout = storedLayouts.map((layout, i) => {
-  //         let namesMap = storedLayoutNames.map((name) => {
-  //           return name;
-  //         });
-  //         return {
-  //           [uuid()]: { [namesMap[i]]: dashboards_object[i] },
-  //         };
-  //       });
-
-  //       let objectified_layout = Object.assign({}, mappedLayout);
-
-  //       console.log(objectified_layout)
-
-  //       db.collection("saved_dashboards")
-  //         .doc(user.sub)
-  //         .set({
-  //           id: user.sub,
-  //           dashboards: objectified_layout,
-  //         })
-  //         .then(() => {
-  //           console.log("Document successfully written!");
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error writing document: ", error);
-  //         });
-  //       setWasTaken(false);
-  //     } else {
-  //       setWasTaken(true);
-  //       return;
-  //     }
-  //   }
-  // }, [newLayoutName]);
-
+  // If a layout was selected from the SideNav, change the mainLayout to whatever they selected.
   if (wasSelected) {
     let docRef = db.collection("saved_dashboards").doc(user.sub);
 
@@ -253,6 +194,7 @@ const HomeDashboard = (props) => {
           let data = doc.data().dashboards[selectedLayoutIndex];
           if (data) {
             let currentLayout = Object.values(data)[0];
+
             // If a layout was selected from the Sidenavbar, turn the item dashboard from firebase into an array,
             let mappedLayoutIndex = Object.values(currentLayout)
               .flat()
@@ -260,12 +202,10 @@ const HomeDashboard = (props) => {
                 return parseInt(card.i);
               });
 
-            console.log(Object.values(currentLayout).flat());
-
             // We setMainlayout to a null array
             setMainLayout([], setWasSelected(false));
 
-            // Set 'setMainLayout' to storedLayouts at the index of whatever the index of the selected layout name was.
+            // Set mainLayout to the layout that the user selected.
             setTimeout(() => {
               setMainLayout(
                 Object.values(currentLayout).flat(),
@@ -274,7 +214,6 @@ const HomeDashboard = (props) => {
             });
           }
         } else {
-          // doc.data() will be undefined in this case
           console.log("No such document!");
         }
       })
@@ -283,63 +222,12 @@ const HomeDashboard = (props) => {
       });
   }
 
-  // useEffect(() => {
-  //   let dashboards_object = Object.assign({}, storedLayouts);
-
-  //   let mappedLayout = storedLayouts.map((layout, i) => {
-  //     let namesMap = storedLayoutNames.map((name) => {
-  //       return name;
-  //     });
-  //     return {
-  //       [uuid()]: { [namesMap[i]]: dashboards_object[i] },
-  //     };
-  //   });
-
-  //   let objectified_layout = Object.assign({}, mappedLayout);
-
-  //   if (isAuthenticated) {
-  //     db.collection("saved_dashboards")
-  //       .doc(user.sub)
-  //       .set({
-  //         id: user.sub,
-  //         dashboards: objectified_layout,
-  //       })
-  //       .then((docRef) => {
-  //         console.log("Document written with ID: ", docRef.id);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error adding document: ", error);
-  //       });
-
-  //     var docRef = db.collection("saved_dashboards").doc(user.sub);
-  //     docRef
-  //       .get()
-  //       .then((doc) => {
-  //         if (doc.exists) {
-  //           let currentLayout = Object.values(
-  //             doc.data().dashboards[selectedLayoutIndex]
-  //           )[0];
-  //           console.log("Document data:", Object.values(currentLayout).flat());
-  //         } else {
-  //           // doc.data() will be undefined in this case
-  //           console.log("No such document!");
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.log("Error getting document:", error);
-  //       });
-  //   }
-  // }, [selectedLayoutIndex]);
-
   const shareDashboard = () => {
     db.collection("shared_dashboards")
       .doc()
       .set({
         belongs_to: user.sub,
-        dashboard: {
-          [storedLayoutNames[selectedLayoutIndex]]:
-            storedLayouts[selectedLayoutIndex],
-        },
+        dashboard: mainLayout,
       })
       .then((docRef) => {
         console.log("Document written with ID: ", docRef.id);
@@ -528,10 +416,6 @@ const HomeDashboard = (props) => {
             darkMode={darkMode}
             setIsTourOpen={setIsTourOpen}
             setNewLayoutName={setNewLayoutName}
-            storedLayouts={storedLayouts}
-            setStoredLayouts={setStoredLayouts}
-            storedLayoutNames={storedLayoutNames}
-            setStoredLayoutNames={setStoredLayoutNames}
           />
 
           <h1 className="center header">Equity Dashboard</h1>
