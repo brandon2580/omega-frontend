@@ -1,23 +1,66 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
-import { HomeOutlined, LineChartOutlined, LayoutOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  LineChartOutlined,
+  LayoutOutlined,
+} from "@ant-design/icons";
+import { useAuth0 } from "@auth0/auth0-react";
+import db from "../../firebase";
 
 const Sidenavbar = (props) => {
+  const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
   const [sidenavHeaderStyle, setSidenavHeaderStyle] = useState("hidden");
+  const [arr, setArr] = useState([]);
 
   const handleClick = (e) => {
-    props.setSelectedLayoutIndex(e.target.getAttribute('data-index'));
+    props.setSelectedLayoutIndex(e.target.getAttribute("data-index"));
     props.setWasSelected(true);
   };
 
-  let localStorageIDs = localStorage.getItem("storedLayoutNames");
-  let storedLayoutNames = JSON.parse(localStorageIDs.split());
+  useEffect(() => {
+    var docRef = db.collection("saved_dashboards").doc(user.sub);
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          console.log("Document data:", Object.values(doc.data().dashboards));
+
+          let mapped = Object.values(doc.data().dashboards).map((el, i) => {
+            let values = Object.values(el)[0];
+            let names = Object.keys(values);
+            return (
+              <NavItem eventKey="home">
+                <NavIcon>
+                  <LayoutOutlined />
+                </NavIcon>
+                <NavText>
+                  <a value={names} data-index={i} onClick={handleClick}>
+                    {names}
+                  </a>
+                </NavText>
+              </NavItem>
+            );
+          });
+
+          setArr(mapped);
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+      });
+  }, []);
 
   return (
     <SideNav
       onToggle={(isExpanded) => {
-        isExpanded ? setSidenavHeaderStyle("visible") : setSidenavHeaderStyle("hidden");
+        isExpanded
+          ? setSidenavHeaderStyle("visible")
+          : setSidenavHeaderStyle("hidden");
       }}
       className="sidenav"
       style={{
@@ -29,10 +72,15 @@ const Sidenavbar = (props) => {
       <SideNav.Nav defaultSelected="home">
         <NavItem eventKey="home">
           <NavText>
-            <div className='col-lg-12'>
-              <p style={{ visibility: sidenavHeaderStyle }} className='dashboards-text'>Pages</p>
+            <div className="col-lg-12">
+              <p
+                style={{ visibility: sidenavHeaderStyle }}
+                className="dashboards-text"
+              >
+                Pages
+              </p>
             </div>
-            <hr className='dashboards-hr' />
+            <hr className="dashboards-hr" />
           </NavText>
         </NavItem>
         <NavItem eventKey="home">
@@ -43,41 +91,20 @@ const Sidenavbar = (props) => {
             <a href="/dashboard">Dashboard</a>
           </NavText>
         </NavItem>
-        {/* <NavItem eventKey="home">
-          <NavIcon>
-            <LineChartOutlined />
-          </NavIcon>
-          <NavText>
-            <a href="/portfolio">Portfolio</a>
-          </NavText>
-        </NavItem> */}
         <NavItem eventKey="home">
           <NavText>
-            <div className='col-lg-12'>
-              <p style={{ visibility: sidenavHeaderStyle }} className='dashboards-text'>Dashboards</p>
+            <div className="col-lg-12">
+              <p
+                style={{ visibility: sidenavHeaderStyle }}
+                className="dashboards-text"
+              >
+                Dashboards
+              </p>
             </div>
-            <hr className='dashboards-hr' />
+            <hr className="dashboards-hr" />
           </NavText>
         </NavItem>
-        {storedLayoutNames.map((name, index) => {
-          return (
-            <NavItem eventKey="home">
-              <NavIcon>
-                <LayoutOutlined />
-              </NavIcon>
-              <NavText>
-                <a
-                  value={name}
-                  data-index={index}
-                  onClick={handleClick}
-                >
-                  {name}
-                </a>
-              </NavText>
-            </NavItem>
-          );
-        })}
-
+        {arr}
       </SideNav.Nav>
     </SideNav>
   );

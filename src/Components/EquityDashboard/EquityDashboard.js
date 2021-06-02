@@ -34,6 +34,10 @@ import Volatility from "../Cards/Volatility";
 import { useAuth0 } from "@auth0/auth0-react";
 import db from "../../firebase";
 
+import firebase from "firebase/app";
+
+import "firebase/firestore";
+
 const GridLayout = WidthProvider(Responsive);
 
 const HomeDashboard = (props) => {
@@ -64,6 +68,7 @@ const HomeDashboard = (props) => {
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
   const [isTourOpen, setIsTourOpen] = useState(true);
+  const [dashboardLink, setDashboardLink] = useState("");
 
   useEffect(() => {
     darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -99,6 +104,21 @@ const HomeDashboard = (props) => {
   }
 
   useEffect(() => {
+    if (isAuthenticated) {
+      const data = db.collection("saved_dashboards").doc(user.sub);
+
+      data.get().then((docSnapshot) => {
+        if (!docSnapshot.exists) {
+          data.set({
+            id: user.sub,
+            dashboards: [{ [uuid()]: { "Default Layout": mainLayout } }],
+          });
+        }
+      });
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
     if (!isTourOpen) setIsUserNewStatus(false);
   }, [isTourOpen]);
 
@@ -122,71 +142,235 @@ const HomeDashboard = (props) => {
     if (initialRender.current) {
       initialRender.current = false;
     } else {
-      //Saves layout to localstorage
-      let localStorageLayoutNames = localStorage.getItem("storedLayoutNames");
-      let storedLayoutNames = JSON.parse(localStorageLayoutNames.split());
+      if (isAuthenticated) {
+        var docRef = db.collection("saved_dashboards").doc(user.sub);
+        docRef
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              let f = Object.values(doc.data().dashboards);
 
-      // If layout name does not already exist, proceed.
-      if (!storedLayoutNames.includes(newLayoutName)) {
-        // Add the new layout to storedLayouts and add the new layout name to storedLayoutNames
-        setStoredLayouts([...storedLayouts, newLayout]);
-        setStoredLayoutNames([...storedLayoutNames, newLayoutName]);
-        setWasTaken(false);
-      } else {
-        setWasTaken(true);
-        return;
+              let mapped = f.flatMap((el) => {
+                return Object.keys(Object.values(el)[0]);
+              });
+
+
+              if (!mapped.includes(newLayoutName)) {
+                let newLayoutExcludeUndefined = newLayout.map((card) => {
+                  Object.keys(card).forEach(key => card[key] === undefined && delete card[key])
+                  return card
+                })
+
+                db.collection("saved_dashboards")
+                  .doc(user.sub)
+                  .set(
+                    {
+                      id: user.sub,
+                      dashboards: firebase.firestore.FieldValue.arrayUnion({
+                        // CHANGE THIS
+                        [uuid()]: { [newLayoutName]: newLayoutExcludeUndefined },
+                      }),
+                    },
+                    { merge: true }
+                  )
+                  .then(() => {
+                    console.log("Document successfully written!");
+                  })
+                  .catch((error) => {
+                    console.error("Error writing document: ", error);
+                  });
+                setWasTaken(false);
+              } else {
+                setWasTaken(true);
+                return;
+              }
+            } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+            }
+          })
+          .catch((error) => {
+            console.log("Error getting document:", error);
+          });
       }
     }
   }, [newLayoutName]);
 
+  // // We use a ref to make sure that this useEffect hook is NOT called on the
+  // // initial render of the page. Only when the state value of newLayoutName changes
+  // const initialRender = useRef(true);
+  // useEffect(() => {
+  //   if (initialRender.current) {
+  //     initialRender.current = false;
+  //   } else {
+  //     // If layout name does not already exist, proceed.
+  //     if (!storedLayoutNames.includes(newLayoutName)) {
+  //       // Add the new layout to storedLayouts and add the new layout name to storedLayoutNames
+  //       setStoredLayouts([...storedLayouts, newLayout]);
+  //       setStoredLayoutNames([...storedLayoutNames, newLayoutName]);
+  //       let dashboards_object = Object.assign({}, storedLayouts);
+
+  //       let mappedLayout = storedLayouts.map((layout, i) => {
+  //         let namesMap = storedLayoutNames.map((name) => {
+  //           return name;
+  //         });
+  //         return {
+  //           [uuid()]: { [namesMap[i]]: dashboards_object[i] },
+  //         };
+  //       });
+
+  //       let objectified_layout = Object.assign({}, mappedLayout);
+
+  //       console.log(objectified_layout)
+
+  //       db.collection("saved_dashboards")
+  //         .doc(user.sub)
+  //         .set({
+  //           id: user.sub,
+  //           dashboards: objectified_layout,
+  //         })
+  //         .then(() => {
+  //           console.log("Document successfully written!");
+  //         })
+  //         .catch((error) => {
+  //           console.error("Error writing document: ", error);
+  //         });
+  //       setWasTaken(false);
+  //     } else {
+  //       setWasTaken(true);
+  //       return;
+  //     }
+  //   }
+  // }, [newLayoutName]);
+
   if (wasSelected) {
-    let localStorageLayouts = localStorage.getItem("storedLayouts");
-    let storedLayouts = JSON.parse(localStorageLayouts.split());
+    let docRef = db.collection("saved_dashboards").doc(user.sub);
 
-    // If a layout was selected from the Sidenavbar, turn the item 'storedLayouts' from localstorage into an array,
-    let mappedLayoutIndex = storedLayouts[selectedLayoutIndex].map((card) => {
-      return parseInt(card.i);
-    });
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          let data = doc.data().dashboards[selectedLayoutIndex];
+          if (data) {
+            let currentLayout = Object.values(data)[0];
+            // If a layout was selected from the Sidenavbar, turn the item dashboard from firebase into an array,
+            let mappedLayoutIndex = Object.values(currentLayout)
+              .flat()
+              .map((card) => {
+                return parseInt(card.i);
+              });
 
-    // We setMainlayout to a null array
-    setMainLayout([], setWasSelected(false));
+            console.log(Object.values(currentLayout).flat());
 
-    // Set 'setMainLayout' to storedLayouts at the index of whatever the index of the selected layout name was.
-    setTimeout(() => {
-      setMainLayout(
-        storedLayouts[selectedLayoutIndex],
-        props.setSelectedCardsIndex(mappedLayoutIndex)
-      );
-    });
+            // We setMainlayout to a null array
+            setMainLayout([], setWasSelected(false));
+
+            // Set 'setMainLayout' to storedLayouts at the index of whatever the index of the selected layout name was.
+            setTimeout(() => {
+              setMainLayout(
+                Object.values(currentLayout).flat(),
+                props.setSelectedCardsIndex(mappedLayoutIndex)
+              );
+            });
+          }
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+      });
   }
 
-  useEffect(() => {
-    let dashboards_object = Object.assign({}, storedLayouts);
+  // useEffect(() => {
+  //   let dashboards_object = Object.assign({}, storedLayouts);
 
-    let dashboards_with_keys = Object.keys(dashboards_object).map(function (
-      layout,
-      index
-    ) {
-      return {
-        [uuid()]: dashboards_object[index],
-      };
-    });
+  //   let mappedLayout = storedLayouts.map((layout, i) => {
+  //     let namesMap = storedLayoutNames.map((name) => {
+  //       return name;
+  //     });
+  //     return {
+  //       [uuid()]: { [namesMap[i]]: dashboards_object[i] },
+  //     };
+  //   });
 
-    if (isAuthenticated) {
-      db.collection("saved_dashboards")
-        .doc(user.sub)
-        .set({
-          id: user.sub,
-          dashboards: dashboards_with_keys,
-        })
-        .then((docRef) => {
-          console.log("Document written with ID: ", docRef.id);
-        })
-        .catch((error) => {
-          console.error("Error adding document: ", error);
-        });
-    }
-  }, [isAuthenticated]);
+  //   let objectified_layout = Object.assign({}, mappedLayout);
+
+  //   if (isAuthenticated) {
+  //     db.collection("saved_dashboards")
+  //       .doc(user.sub)
+  //       .set({
+  //         id: user.sub,
+  //         dashboards: objectified_layout,
+  //       })
+  //       .then((docRef) => {
+  //         console.log("Document written with ID: ", docRef.id);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error adding document: ", error);
+  //       });
+
+  //     var docRef = db.collection("saved_dashboards").doc(user.sub);
+  //     docRef
+  //       .get()
+  //       .then((doc) => {
+  //         if (doc.exists) {
+  //           let currentLayout = Object.values(
+  //             doc.data().dashboards[selectedLayoutIndex]
+  //           )[0];
+  //           console.log("Document data:", Object.values(currentLayout).flat());
+  //         } else {
+  //           // doc.data() will be undefined in this case
+  //           console.log("No such document!");
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.log("Error getting document:", error);
+  //       });
+  //   }
+  // }, [selectedLayoutIndex]);
+
+  const shareDashboard = () => {
+    db.collection("shared_dashboards")
+      .doc()
+      .set({
+        belongs_to: user.sub,
+        dashboard: {
+          [storedLayoutNames[selectedLayoutIndex]]:
+            storedLayouts[selectedLayoutIndex],
+        },
+      })
+      .then((docRef) => {
+        console.log("Document written with ID: ", docRef.id);
+      })
+      .catch((error) => {
+        console.error("Error adding document: ", error);
+      });
+  };
+
+  const copyLink = () => {
+    var docRef = db.collection("saved_dashboards").doc(user.sub);
+
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          setDashboardLink(
+            `sigma7.io/dashboards/${user.sub}/${Object.keys(
+              doc.data().dashboards[selectedLayoutIndex]
+            )}`
+          );
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+      });
+  };
 
   const removeCardFromLayout = (id) => {
     // Card was selected, remove it
@@ -344,9 +528,20 @@ const HomeDashboard = (props) => {
             darkMode={darkMode}
             setIsTourOpen={setIsTourOpen}
             setNewLayoutName={setNewLayoutName}
+            storedLayouts={storedLayouts}
+            setStoredLayouts={setStoredLayouts}
+            storedLayoutNames={storedLayoutNames}
+            setStoredLayoutNames={setStoredLayoutNames}
           />
 
           <h1 className="center header">Equity Dashboard</h1>
+          <button onClick={shareDashboard} className="btn btn-primary">
+            Share Dashboard
+          </button>
+
+          <button onClick={copyLink} className="btn btn-primary">
+            Copy Link
+          </button>
 
           {/* TickerHeader goes here */}
           <TickerHeader tickerCard={props.availableCards[0]} />
