@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import "../../App.scss";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
 import logo from "./logo.png";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 const BasicNavbar = (props) => {
+  const { isAuthenticated, user } = useAuth0();
+
   return (
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
       <a class="navbar-brand" href="/">
@@ -30,9 +32,13 @@ const BasicNavbar = (props) => {
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li className="nav-item active">
-            <a className="nav-link" href="/dashboard">
-              Dashboard
-            </a>
+            {isAuthenticated ? (
+              <a className="nav-link" href={`dashboard/${user.sub}`}>
+                Dashboard
+              </a>
+            ) : (
+              <h1>loading</h1>
+            )}
           </li>
         </ul>
       </div>

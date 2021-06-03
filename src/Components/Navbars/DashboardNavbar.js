@@ -7,7 +7,10 @@ import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
 import Autocomplete from "react-autocomplete";
 import logo from "./logo.png";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 const DashboardNavbar = (props) => {
+  const { isAuthenticated, user } = useAuth0();
   const [allowedStocks, setAllowedStocks] = useState([]);
   const [ticker, setTicker] = useState("");
   const [invalidTicker, setInvalidTicker] = useState(false);
@@ -84,9 +87,13 @@ const DashboardNavbar = (props) => {
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li className="nav-item active">
-            <a className="nav-link" href="/dashboard">
-              Dashboard
-            </a>
+            {isAuthenticated ? (
+              <a className="nav-link" href={`dashboard/${user.sub}`}>
+                Dashboard
+              </a>
+            ) : (
+              <h1>loading</h1>
+            )}
           </li>
         </ul>
 

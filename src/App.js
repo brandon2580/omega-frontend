@@ -314,6 +314,7 @@ function App() {
   return (
     <div className="app">
       <div className="side-margin">
+
         <Router>
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
@@ -322,7 +323,8 @@ function App() {
             <Route exact path="/">
               <LandingPage />
             </Route>
-            <Route path="/dashboard">
+            
+            <Route path={`/dashboard/:userID`}>
               <div className="dashboard">
                 <EquityDashboard
                   availableCards={availableCards}

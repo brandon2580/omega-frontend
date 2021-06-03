@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import emailjs from "emailjs-com";
-import ScriptTag from "react-script-tag";
 import logo from "./images/logo.png";
 import fullLogo from "./images/fullLogo.png";
 import dashboard from "./images/dashboard.png";
@@ -19,7 +18,7 @@ import LogoutButton from "../Auth/Buttons/LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const LandingPage = () => {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
   const [wasEmailSent, setWasEmailSent] = useState(false);
   const [wasEmailFailed, setWasEmailFailed] = useState(false);
@@ -70,13 +69,17 @@ const LandingPage = () => {
               <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a
-                      class="nav-link tz-text nav-text"
-                      aria-current="page"
-                      href="dashboard"
-                    >
-                      Demo
-                    </a>
+                    {isAuthenticated ? (
+                      <a
+                        class="nav-link tz-text nav-text"
+                        aria-current="page"
+                        href={`dashboard/${user.sub}`}
+                      >
+                        Demo
+                      </a>
+                    ) : (
+                      <h1>loading</h1>
+                    )}
                   </li>
                   <li class="nav-item">
                     <a class="nav-link nav-text" href="#content-section44">
@@ -118,14 +121,18 @@ const LandingPage = () => {
                     <img className="full-logo" src={fullLogo} width="50%" />
                     {/* end title */}
                     <div className="btn-dual">
-                      <a
-                        className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
-                        href="dashboard"
-                      >
-                        <span className="tz-text">Demo</span>
+                      {isAuthenticated ? (
+                        <a
+                          className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
+                          href={`dashboard/${user.sub}`}
+                        >
+                          <span className="tz-text">Demo</span>
 
-                        <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
-                      </a>
+                          <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
+                        </a>
+                      ) : (
+                        <h1>loading</h1>
+                      )}
                       <a
                         className="btn btn-large propClone main-light-blue  btn-circle xs-margin-ten-bottom xs-width-100"
                         href="#callto-action2"

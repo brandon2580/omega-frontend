@@ -10,7 +10,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import db from "../../firebase";
 
 const Sidenavbar = (props) => {
-  const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
+  const { user } = useAuth0();
   const [sidenavHeaderStyle, setSidenavHeaderStyle] = useState("hidden");
   const [arr, setArr] = useState([]);
 
@@ -20,7 +20,7 @@ const Sidenavbar = (props) => {
   };
 
   useEffect(() => {
-    var docRef = db.collection("saved_dashboards").doc(user.sub);
+    var docRef = db.collection("saved_dashboards").doc(props.userID);
     docRef
       .get()
       .then((doc) => {

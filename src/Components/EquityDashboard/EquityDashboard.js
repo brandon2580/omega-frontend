@@ -5,7 +5,15 @@ import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
 import Tour from "reactour";
 import { Responsive, WidthProvider } from "react-grid-layout";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom";
 import uuid from "react-uuid";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
@@ -41,6 +49,10 @@ import "firebase/firestore";
 const GridLayout = WidthProvider(Responsive);
 
 const HomeDashboard = (props) => {
+  // We can use the `useParams` hook here to access
+  // the dynamic pieces of the URL.
+  let { userID } = useParams();
+
   const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
 
   // mainLayout is the default layout that the user will see when they first load the page
@@ -68,7 +80,6 @@ const HomeDashboard = (props) => {
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
   const [isTourOpen, setIsTourOpen] = useState(true);
-  const [dashboardLink, setDashboardLink] = useState("");
 
   useEffect(() => {
     darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -88,12 +99,12 @@ const HomeDashboard = (props) => {
   // If not, create one and set mainLayout as the default
   useEffect(() => {
     if (isAuthenticated) {
-      const data = db.collection("saved_dashboards").doc(user.sub);
+      const data = db.collection("saved_dashboards").doc(userID);
 
       data.get().then((docSnapshot) => {
         if (!docSnapshot.exists) {
           data.set({
-            id: user.sub,
+            id: userID,
             dashboards: [{ [uuid()]: { "Default Layout": mainLayout } }],
           });
         }
@@ -126,7 +137,7 @@ const HomeDashboard = (props) => {
       initialRender.current = false;
     } else {
       if (isAuthenticated) {
-        var docRef = db.collection("saved_dashboards").doc(user.sub);
+        var docRef = db.collection("saved_dashboards").doc(userID);
         docRef
           .get()
           .then((doc) => {
@@ -149,10 +160,10 @@ const HomeDashboard = (props) => {
                 });
 
                 db.collection("saved_dashboards")
-                  .doc(user.sub)
+                  .doc(userID)
                   .set(
                     {
-                      id: user.sub,
+                      id: userID,
                       dashboards: firebase.firestore.FieldValue.arrayUnion({
                         [uuid()]: {
                           [newLayoutName]: newLayoutExcludeUndefined,
@@ -185,7 +196,7 @@ const HomeDashboard = (props) => {
 
   // If a layout was selected from the SideNav, change the mainLayout to whatever they selected.
   if (wasSelected) {
-    let docRef = db.collection("saved_dashboards").doc(user.sub);
+    let docRef = db.collection("saved_dashboards").doc(userID);
 
     docRef
       .get()
@@ -226,7 +237,7 @@ const HomeDashboard = (props) => {
     db.collection("shared_dashboards")
       .doc()
       .set({
-        belongs_to: user.sub,
+        belongs_to: userID,
         dashboard: mainLayout,
       })
       .then((docRef) => {
@@ -234,29 +245,6 @@ const HomeDashboard = (props) => {
       })
       .catch((error) => {
         console.error("Error adding document: ", error);
-      });
-  };
-
-  const copyLink = () => {
-    var docRef = db.collection("saved_dashboards").doc(user.sub);
-
-    docRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          console.log("Document data:", doc.data());
-          setDashboardLink(
-            `sigma7.io/dashboards/${user.sub}/${Object.keys(
-              doc.data().dashboards[selectedLayoutIndex]
-            )}`
-          );
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-        }
-      })
-      .catch((error) => {
-        console.log("Error getting document:", error);
       });
   };
 
@@ -386,7 +374,7 @@ const HomeDashboard = (props) => {
       },
     },
   ];
-
+  const url = window.location.href;
   // Display a loading icon while the page is loading. Check if the user
   // is authenticated. If true, load the page. Otherwise, prompt them to login.
   if (isLoading) {
@@ -423,9 +411,9 @@ const HomeDashboard = (props) => {
             Share Dashboard
           </button>
 
-          <button onClick={copyLink} className="btn btn-primary">
-            Copy Link
-          </button>
+          <CopyToClipboard text={url}>
+            <button className="btn btn-primary">Copy Link</button>
+          </CopyToClipboard>
 
           {/* TickerHeader goes here */}
           <TickerHeader tickerCard={props.availableCards[0]} />
@@ -437,6 +425,7 @@ const HomeDashboard = (props) => {
             wasSelected={wasSelected}
             selectedCardsIndex={props.selectedCardsIndex}
             setSelectedCardsIndex={props.setSelectedCardsIndex}
+            userID={userID}
           />
 
           <Tour
