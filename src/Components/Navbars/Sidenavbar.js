@@ -6,13 +6,11 @@ import {
   LineChartOutlined,
   LayoutOutlined,
 } from "@ant-design/icons";
-import { useAuth0 } from "@auth0/auth0-react";
 import db from "../../firebase";
 
 const Sidenavbar = (props) => {
-  const { user } = useAuth0();
   const [sidenavHeaderStyle, setSidenavHeaderStyle] = useState("hidden");
-  const [arr, setArr] = useState([]);
+  const [dashboardNames, setDashboardNames] = useState([]);
 
   const handleClick = (e) => {
     props.setSelectedLayoutIndex(e.target.getAttribute("data-index"));
@@ -25,7 +23,6 @@ const Sidenavbar = (props) => {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          console.log("Document data:", Object.values(doc.data().dashboards));
 
           let mapped = Object.values(doc.data().dashboards).map((el, i) => {
             let values = Object.values(el)[0];
@@ -44,7 +41,7 @@ const Sidenavbar = (props) => {
             );
           });
 
-          setArr(mapped);
+          setDashboardNames(mapped);
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -104,7 +101,7 @@ const Sidenavbar = (props) => {
             <hr className="dashboards-hr" />
           </NavText>
         </NavItem>
-        {arr}
+        {dashboardNames}
       </SideNav.Nav>
     </SideNav>
   );
