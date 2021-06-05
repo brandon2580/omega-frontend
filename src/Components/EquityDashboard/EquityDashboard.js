@@ -12,6 +12,7 @@ import {
   Link,
   useParams,
 } from "react-router-dom";
+import { useHistory } from "react-router";
 import uuid from "react-uuid";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
@@ -41,17 +42,15 @@ import Valuation from "../Cards/Valuation";
 import Volatility from "../Cards/Volatility";
 import { useAuth0 } from "@auth0/auth0-react";
 import db from "../../firebase";
-
 import firebase from "firebase/app";
-
 import "firebase/firestore";
+import history from "../../history";
+import { useLocation } from "react-router-dom";
 
 const GridLayout = WidthProvider(Responsive);
 
 const HomeDashboard = (props) => {
-  // We can use the `useParams` hook here to access
-  // the dynamic pieces of the URL.
-  let { userID } = useParams();
+  let { userID, dashboardID } = useParams();
 
   const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
 
@@ -106,6 +105,27 @@ const HomeDashboard = (props) => {
           data.set({
             id: userID,
             dashboards: [{ [uuid()]: { "Default Layout": mainLayout } }],
+          });
+        } else {
+          docSnapshot.data().dashboards.map((el) => {
+            let f = Object.values(el)[0];
+            let keys = Object.keys(f);
+
+            keys.forEach((key) => {
+              if (key == dashboardID) {
+                // If a layout was selected from the Sidenavbar, turn the item dashboard from firebase into an array,
+                let mappedLayoutIndex = Object.values(f[key])
+                  .flat()
+                  .map((card) => {
+                    return parseInt(card.i);
+                  });
+
+                setMainLayout(
+                  f[key],
+                  props.setSelectedCardsIndex(mappedLayoutIndex)
+                );
+              }
+            });
           });
         }
       });
@@ -194,6 +214,7 @@ const HomeDashboard = (props) => {
     }
   }, [newLayoutName]);
 
+  const routerHistory = useHistory();
   // If a layout was selected from the SideNav, change the mainLayout to whatever they selected.
   if (wasSelected) {
     let docRef = db.collection("saved_dashboards").doc(userID);
@@ -205,6 +226,7 @@ const HomeDashboard = (props) => {
           let data = doc.data().dashboards[selectedLayoutIndex];
           if (data) {
             let currentLayout = Object.values(data)[0];
+            console.log(data);
 
             // If a layout was selected from the Sidenavbar, turn the item dashboard from firebase into an array,
             let mappedLayoutIndex = Object.values(currentLayout)
@@ -213,9 +235,12 @@ const HomeDashboard = (props) => {
                 return parseInt(card.i);
               });
 
+            let selectedLayoutName = Object.keys(currentLayout).flat()[0];
+            routerHistory.push(`/dashboard/${userID}/${selectedLayoutName}`);
+
             // We setMainlayout to a null array
             setMainLayout([], setWasSelected(false));
-
+            console.log(mappedLayoutIndex);
             // Set mainLayout to the layout that the user selected.
             setTimeout(() => {
               setMainLayout(

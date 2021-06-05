@@ -1,4 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom";
+import uuid from "react-uuid";
 import emailjs from "emailjs-com";
 import logo from "./images/logo.png";
 import fullLogo from "./images/fullLogo.png";
@@ -14,14 +22,32 @@ import "./css/responsive.css";
 import "./css/themify-icons.css";
 import LoginButton from "../Auth/Buttons/LoginButton";
 import LogoutButton from "../Auth/Buttons/LogoutButton";
+import db from "../firebase";
+import firebase from "firebase/app";
+import "firebase/firestore";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
 const LandingPage = () => {
   const { isAuthenticated, user } = useAuth0();
-
+  let { userID, dashboardID } = useParams();
   const [wasEmailSent, setWasEmailSent] = useState(false);
   const [wasEmailFailed, setWasEmailFailed] = useState(false);
+  const [defaultLayoutURL, setDefaultLayoutURL] = useState("");
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const data = db.collection("saved_dashboards").doc(user.sub);
+
+      data.get().then((docSnapshot) => {
+        if (docSnapshot.exists) {
+          console.log(Object.keys(Object.values(docSnapshot.data().dashboards[0])[0])[0]);
+          setDefaultLayoutURL(Object.keys(Object.values(docSnapshot.data().dashboards[0])[0])[0])
+        }
+      });
+    }
+  }, [isAuthenticated]);
+
   function sendEmail(e) {
     e.preventDefault();
     emailjs
@@ -73,7 +99,7 @@ const LandingPage = () => {
                       <a
                         class="nav-link tz-text nav-text"
                         aria-current="page"
-                        href={`dashboard/${user.sub}`}
+                        href={`dashboard/${user.sub}/${defaultLayoutURL}`}
                       >
                         Demo
                       </a>
@@ -124,7 +150,7 @@ const LandingPage = () => {
                       {isAuthenticated ? (
                         <a
                           className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
-                          href={`dashboard/${user.sub}`}
+                          href={`dashboard/${user.sub}/${defaultLayoutURL}`}
                         >
                           <span className="tz-text">Demo</span>
 

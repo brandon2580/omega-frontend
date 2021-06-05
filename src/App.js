@@ -15,6 +15,7 @@ import Loader from "react-loader-spinner";
 import { useAuth0 } from "@auth0/auth0-react";
 import db from "./firebase";
 import Explore from "./Components/Explore/Explore";
+import history from './history';
 
 function App() {
   const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
@@ -315,16 +316,15 @@ function App() {
     <div className="app">
       <div className="side-margin">
 
-        <Router>
+        <Router history={history}>
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
           <Switch>
-            {" "}
             <Route exact path="/">
               <LandingPage />
             </Route>
-            
-            <Route path={`/dashboard/:userID`}>
+
+            <Route path={`/dashboard/:userID/:dashboardID`} component={EquityDashboard}>
               <div className="dashboard">
                 <EquityDashboard
                   availableCards={availableCards}
