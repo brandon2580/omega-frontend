@@ -77,6 +77,7 @@ const HomeDashboard = (props) => {
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
   const [isTourOpen, setIsTourOpen] = useState(true);
+  const [dashboardNames, setDashboardNames] = useState([]);
 
   useEffect(() => {
     darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -224,7 +225,6 @@ const HomeDashboard = (props) => {
           let data = doc.data().dashboards[selectedLayoutIndex];
           if (data) {
             let currentLayout = Object.values(data)[0];
-            console.log(data);
 
             // If a layout was selected from the Sidenavbar, turn the item dashboard from firebase into an array,
             let mappedLayoutIndex = Object.values(currentLayout)
@@ -238,7 +238,7 @@ const HomeDashboard = (props) => {
 
             // We setMainlayout to a null array
             setMainLayout([], setWasSelected(false));
-            console.log(mappedLayoutIndex);
+
             // Set mainLayout to the layout that the user selected.
             setTimeout(() => {
               setMainLayout(
@@ -427,6 +427,11 @@ const HomeDashboard = (props) => {
             darkMode={darkMode}
             setIsTourOpen={setIsTourOpen}
             setNewLayoutName={setNewLayoutName}
+            userID={userID}
+            dashboardNames={dashboardNames}
+            setDashboardNames={setDashboardNames}
+            setSelectedLayoutIndex={setSelectedLayoutIndex}
+            setWasSelected={setWasSelected}
           />
 
           <h1 className="center header">Equity Dashboard</h1>
@@ -449,6 +454,8 @@ const HomeDashboard = (props) => {
             selectedCardsIndex={props.selectedCardsIndex}
             setSelectedCardsIndex={props.setSelectedCardsIndex}
             userID={userID}
+            dashboardNames={dashboardNames}
+            setDashboardNames={setDashboardNames}
           />
 
           <Tour

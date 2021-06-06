@@ -10,7 +10,6 @@ import db from "../../firebase";
 
 const Sidenavbar = (props) => {
   const [sidenavHeaderStyle, setSidenavHeaderStyle] = useState("hidden");
-  const [dashboardNames, setDashboardNames] = useState([]);
 
   const handleClick = (e) => {
     props.setSelectedLayoutIndex(e.target.getAttribute("data-index"));
@@ -23,7 +22,6 @@ const Sidenavbar = (props) => {
       .get()
       .then((doc) => {
         if (doc.exists) {
-
           let mapped = Object.values(doc.data().dashboards).map((el, i) => {
             let values = Object.values(el)[0];
             let names = Object.keys(values);
@@ -41,7 +39,7 @@ const Sidenavbar = (props) => {
             );
           });
 
-          setDashboardNames(mapped);
+          props.setDashboardNames(mapped);
         } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
@@ -101,7 +99,7 @@ const Sidenavbar = (props) => {
             <hr className="dashboards-hr" />
           </NavText>
         </NavItem>
-        {dashboardNames}
+        {props.dashboardNames}
       </SideNav.Nav>
     </SideNav>
   );

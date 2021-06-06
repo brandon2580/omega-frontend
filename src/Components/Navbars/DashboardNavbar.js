@@ -170,6 +170,11 @@ const DashboardNavbar = (props) => {
           <SaveLayoutButton
             wasTaken={props.wasTaken}
             setNewLayoutName={props.setNewLayoutName}
+            userID={props.userID}
+            dashboardNames={props.dashboardNames}
+            setDashboardNames={props.setDashboardNames}
+            setSelectedLayoutIndex={props.setSelectedLayoutIndex}
+            setWasSelected={props.setWasSelected}
           />
 
           <span className="verticalSpan4" />
