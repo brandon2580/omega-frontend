@@ -44,8 +44,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import db from "../../firebase";
 import firebase from "firebase/app";
 import "firebase/firestore";
-import history from "../../history";
-import { useLocation } from "react-router-dom";
 
 const GridLayout = WidthProvider(Responsive);
 
