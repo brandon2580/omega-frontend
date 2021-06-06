@@ -10,7 +10,7 @@ ReactDOM.render(
     domain="sigma7.us.auth0.com"
     clientId="nhoaYEy41X2uaON17iw4eKpD0ZXB0wBG"
     // After a user signs in or creates an account, redirect them to the equity dashboard
-    redirectUri={window.location.origin + "/dashboard"}
+    redirectUri={window.location.origin + "/"}
   >
     <App />
   </Auth0Provider>,
