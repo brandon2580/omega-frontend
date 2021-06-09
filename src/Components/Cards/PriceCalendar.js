@@ -7,6 +7,7 @@ import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts/core";
 import Radar from "fusioncharts/viz/radar";
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import Loader from "react-loader-spinner";
 
 ReactFC.fcRoot(FusionCharts, Radar, FusionTheme);
 
@@ -15,6 +16,7 @@ const PriceCalendar = (props) => {
   const [calendarFrame, setCalendarFrame] = useState("max");
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -36,6 +38,7 @@ const PriceCalendar = (props) => {
         });
       priceCalendarData.shift();
       setSeries(priceCalendarData);
+      setIsLoading(false);
     });
   }, [calendarFrame, props.activeTicker]);
 
@@ -147,37 +150,60 @@ const PriceCalendar = (props) => {
     </Menu>
   );
 
-  return (
-    <Card
-      className="hide-overflow"
-      title={props.title}
-      extra={props.extra}
-      style={{
-        height: "100%",
-        overflow: "auto",
-      }}
-    >
-      <hr className="card-hr" />
-      <div style={{ height: 456 }}>
-        <ReactFC
-          type="radar"
-          width="100%"
-          height="80%"
-          dataFormat="JSON"
-          dataSource={dataSource}
-        />
+  if (isLoading) {
+    return (
+      <Card
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
 
-        <div className="row">
-          <div className="col-sm-12">
-            <Dropdown overlay={menu}>
-              <btn className="ant-dropdown-link">
-                Frame <DownOutlined />
-              </btn>
-            </Dropdown>
+        <Loader
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
+        />
+      </Card>
+    );
+  } else {
+    return (
+      <Card
+        className="hide-overflow"
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <div style={{ height: 456 }}>
+          <ReactFC
+            type="radar"
+            width="100%"
+            height="80%"
+            dataFormat="JSON"
+            dataSource={dataSource}
+          />
+
+          <div className="row">
+            <div className="col-sm-12">
+              <Dropdown overlay={menu}>
+                <btn className="ant-dropdown-link">
+                  Frame <DownOutlined />
+                </btn>
+              </Dropdown>
+            </div>
           </div>
         </div>
-      </div>
-    </Card>
-  );
+      </Card>
+    );
+  }
 };
 export default PriceCalendar;

@@ -9,12 +9,14 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import Loader from "react-loader-spinner";
 
 const COLORS = ["#23807E", "#41FFC9", "#007bff", "#FE3636", "#520000"];
 
 const AnalystRecommendations = (props) => {
   const [series, setSeries] = useState([]);
   const [totalRecs, setTotalRecs] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const analyst_recs = fetch(
@@ -36,6 +38,7 @@ const AnalystRecommendations = (props) => {
       });
 
       setTotalRecs(totalRecsArr.reduce((a, b) => a + b, 0));
+      setIsLoading(false);
     });
   }, [props.activeTicker]);
 
@@ -59,44 +62,67 @@ const AnalystRecommendations = (props) => {
     return null;
   };
 
-  return (
-    <Card
-    className="analystrecs-card"
-      title={props.title}
-      extra={props.extra}
-      style={{
-        height: "100%",
-        overflow: "auto",
-      }}
-    >
-      <hr className="card-hr" />
+  if (isLoading) {
+    return (
+      <Card
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
 
-      <div style={{ height: 456 }}>
-        <ResponsiveContainer>
-          <PieChart>
-            <Pie
-              data={series}
-              dataKey="value"
-              innerRadius={110}
-              outerRadius={140}
-              stroke={""}
-              paddingAngle={5}
-            >
-              {series.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
-            </Pie>
+        <Loader
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
+        />
+      </Card>
+    );
+  } else {
+    return (
+      <Card
+        className="analystrecs-card"
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
 
-            <Tooltip content={<CustomTooltip />} />
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-    </Card>
-  );
+        <div style={{ height: 456 }}>
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                data={series}
+                dataKey="value"
+                innerRadius={110}
+                outerRadius={140}
+                stroke={""}
+                paddingAngle={5}
+              >
+                {series.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+
+              <Tooltip content={<CustomTooltip />} />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </Card>
+    );
+  }
 };
 
 export default AnalystRecommendations;

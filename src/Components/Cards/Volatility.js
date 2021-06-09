@@ -5,6 +5,7 @@ import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts/core";
 import Column2d from "fusioncharts/viz/column2d";
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import Loader from "react-loader-spinner";
 
 ReactFC.fcRoot(FusionCharts, Column2d, FusionTheme);
 
@@ -12,6 +13,7 @@ const Volatility = (props) => {
   const [series, setSeries] = useState([]);
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -42,6 +44,7 @@ const Volatility = (props) => {
           color: "#00FF00",
         },
       ]);
+      setIsLoading(false);
     });
   }, [props.activeTicker]);
 
@@ -69,27 +72,50 @@ const Volatility = (props) => {
     data: series,
   };
 
-  return (
-    <Card
-      className="hide-overflow volatility-card"
-      title={props.title}
-      extra={props.extra}
-      style={{
-        height: "100%",
-        overflow: "auto",
-      }}
-    >
-      <hr className="card-hr" />
-      <div style={{ height: 456 }}>
-        <ReactFC
-          type="column2d"
-          width="100%"
-          height="80%"
-          dataFormat="JSON"
-          dataSource={dataSource}
+  if (isLoading) {
+    return (
+      <Card
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+
+        <Loader
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
         />
-      </div>
-    </Card>
-  );
+      </Card>
+    );
+  } else {
+    return (
+      <Card
+        className="hide-overflow volatility-card"
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <div style={{ height: 456 }}>
+          <ReactFC
+            type="column2d"
+            width="100%"
+            height="80%"
+            dataFormat="JSON"
+            dataSource={dataSource}
+          />
+        </div>
+      </Card>
+    );
+  }
 };
 export default Volatility;

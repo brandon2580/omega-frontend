@@ -5,6 +5,7 @@ import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts/core";
 import Bubble from "fusioncharts/viz/bubble";
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import Loader from "react-loader-spinner";
 
 ReactFC.fcRoot(FusionCharts, Bubble, FusionTheme);
 
@@ -19,6 +20,7 @@ const AverageReturns = (props) => {
   });
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -32,10 +34,9 @@ const AverageReturns = (props) => {
     Promise.resolve(average_returns).then((average_returns) => {
       let averageReturnsData = average_returns;
       setSeries(averageReturnsData);
+      setIsLoading(false);
     });
   }, [props.activeTicker]);
-
-  useEffect(() => {}, [props.data]);
 
   const dataSource = {
     chart: {
@@ -93,72 +94,96 @@ const AverageReturns = (props) => {
       },
     ],
   };
-  return (
-    <Card
-      title={props.title}
-      extra={props.extra}
-      style={{
-        height: "100%",
-        overflow: "auto",
-      }}
-    >
-      <hr className="card-hr" />
 
-      <div style={{ height: 456 }}>
-        <ReactFC
-          type="bubble"
-          width="100%"
-          height="80%"
-          dataFormat="JSON"
-          dataSource={dataSource}
+  if (isLoading) {
+    return (
+      <Card
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+
+        <Loader
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
         />
-        <div className="row">
-          <div className="col-lg-12 d-flex flex-row justify-content-center align-items-center">
-            <svg
-              class="recharts-surface"
-              width="14"
-              height="14"
-              style={{
-                display: "inlineBlock",
-                verticalAlign: "middle",
-                marginRight: "4px",
-              }}
-              viewBox="0 0 32 32"
-              version="1.1"
-            >
-              <path
-                stroke="none"
-                fill="#00FF00"
-                d="M0,4h32v24h-32z"
-                class="recharts-legend-icon"
-              ></path>
-            </svg>
-            <span style={{ marginRight: "15px" }}>Total Gain</span>
-            <svg
-              class="recharts-surface"
-              width="14"
-              height="14"
-              style={{
-                display: "inlineBlock",
-                verticalAlign: "middle",
-                marginRight: "4px",
-              }}
-              viewBox="0 0 32 32"
-              version="1.1"
-            >
-              <path
-                stroke="none"
-                fill="#FF0000"
-                d="M0,4h32v24h-32z"
-                class="recharts-legend-icon"
-              ></path>
-            </svg>
-            <span>Total Loss</span>
+      </Card>
+    );
+  } else {
+    return (
+      <Card
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+
+        <div style={{ height: 456 }}>
+          <ReactFC
+            type="bubble"
+            width="100%"
+            height="80%"
+            dataFormat="JSON"
+            dataSource={dataSource}
+          />
+          <div className="row">
+            <div className="col-lg-12 d-flex flex-row justify-content-center align-items-center">
+              <svg
+                class="recharts-surface"
+                width="14"
+                height="14"
+                style={{
+                  display: "inlineBlock",
+                  verticalAlign: "middle",
+                  marginRight: "4px",
+                }}
+                viewBox="0 0 32 32"
+                version="1.1"
+              >
+                <path
+                  stroke="none"
+                  fill="#00FF00"
+                  d="M0,4h32v24h-32z"
+                  class="recharts-legend-icon"
+                ></path>
+              </svg>
+              <span style={{ marginRight: "15px" }}>Total Gain</span>
+              <svg
+                class="recharts-surface"
+                width="14"
+                height="14"
+                style={{
+                  display: "inlineBlock",
+                  verticalAlign: "middle",
+                  marginRight: "4px",
+                }}
+                viewBox="0 0 32 32"
+                version="1.1"
+              >
+                <path
+                  stroke="none"
+                  fill="#FF0000"
+                  d="M0,4h32v24h-32z"
+                  class="recharts-legend-icon"
+                ></path>
+              </svg>
+              <span>Total Loss</span>
+            </div>
           </div>
         </div>
-      </div>
-    </Card>
-  );
+      </Card>
+    );
+  }
 };
 
 export default AverageReturns;

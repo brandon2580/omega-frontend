@@ -16,6 +16,7 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
+import Loader from "react-loader-spinner";
 
 ReactFC.fcRoot(FusionCharts, Scatter, FusionTheme);
 
@@ -28,6 +29,7 @@ const Earnings = (props) => {
   const [dates, setDates] = useState([]);
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -108,6 +110,7 @@ const Earnings = (props) => {
       setActual(actualEPS);
       setDates(formattedDates);
       setBarViewData(barViewDataMap);
+      setIsLoading(false);
     });
   }, [earningsPeriod, props.activeTicker]);
 
@@ -174,10 +177,10 @@ const Earnings = (props) => {
     </div>
   );
 
-  if (view == "scatter") {
+  if (isLoading) {
     return (
       <Card
-        title={scatterHeader}
+        title={props.title}
         extra={props.extra}
         style={{
           height: "100%",
@@ -185,47 +188,70 @@ const Earnings = (props) => {
         }}
       >
         <hr className="card-hr" />
-        <div style={{ height: 456 }}>
-          <ReactFC
-            type="scatter"
-            width="100%"
-            height="85%"
-            dataFormat="JSON"
-            dataSource={dataSource}
-          />
-        </div>
+
+        <Loader
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
+        />
       </Card>
     );
   } else {
-    return (
-      <Card
-        title={barHeader}
-        extra={props.extra}
-        style={{
-          height: "100%",
-          overflow: "auto",
-        }}
-      >
-        <hr className="card-hr" />
-        <div style={{ height: 456 }}>
-          <ResponsiveContainer>
-            <ComposedChart data={barViewData} width={500}>
-              <XAxis dataKey="name" allowDataOverflow={true} />
-              <ReferenceLine y={0} stroke="grey" />
-              <YAxis />
-              <Tooltip
-                formatter={(value, label, props) => {
-                  return [value, capitalizeFirstLetter(label)];
-                }}
-              />
-              <Legend formatter={(label) => capitalizeFirstLetter(label)} />
-              <Bar dataKey="actual" barSize={20} fill="#007bff" />
-              <Line dataKey="consensus" stroke="#C0C0C0" />
-            </ComposedChart>
-          </ResponsiveContainer>
-        </div>
-      </Card>
-    );
+    if (view == "scatter") {
+      return (
+        <Card
+          title={scatterHeader}
+          extra={props.extra}
+          style={{
+            height: "100%",
+            overflow: "auto",
+          }}
+        >
+          <hr className="card-hr" />
+          <div style={{ height: 456 }}>
+            <ReactFC
+              type="scatter"
+              width="100%"
+              height="85%"
+              dataFormat="JSON"
+              dataSource={dataSource}
+            />
+          </div>
+        </Card>
+      );
+    } else {
+      return (
+        <Card
+          title={barHeader}
+          extra={props.extra}
+          style={{
+            height: "100%",
+            overflow: "auto",
+          }}
+        >
+          <hr className="card-hr" />
+          <div style={{ height: 456 }}>
+            <ResponsiveContainer>
+              <ComposedChart data={barViewData} width={500}>
+                <XAxis dataKey="name" allowDataOverflow={true} />
+                <ReferenceLine y={0} stroke="grey" />
+                <YAxis />
+                <Tooltip
+                  formatter={(value, label, props) => {
+                    return [value, capitalizeFirstLetter(label)];
+                  }}
+                />
+                <Legend formatter={(label) => capitalizeFirstLetter(label)} />
+                <Bar dataKey="actual" barSize={20} fill="#007bff" />
+                <Line dataKey="consensus" stroke="#C0C0C0" />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+      );
+    }
   }
 };
 

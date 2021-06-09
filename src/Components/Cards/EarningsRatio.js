@@ -9,6 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import Loader from "react-loader-spinner";
 
 const COLORS = ["#00FF00", "#FF0000"];
 
@@ -40,6 +41,7 @@ const EarningsRatio = (props) => {
     { name: "% Beat", value: 0 },
     { name: "% Missed", value: 0 },
   ]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const earnings = fetch(
@@ -61,44 +63,68 @@ const EarningsRatio = (props) => {
         { name: "% Beat", value: percentTimesBeat },
         { name: "% Missed", value: percentTimesMissed },
       ]);
+      setIsLoading(false);
     });
   }, [earningsPeriod, props.activeTicker]);
 
-  return (
-    <Card
-      title={props.title}
-      extra={props.extra}
-      style={{
-        height: "100%",
-        overflow: "auto",
-      }}
-    >
-      <hr className="card-hr" />
+  if (isLoading) {
+    return (
+      <Card
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
 
-      <div style={{ height: 456 }}>
-        <ResponsiveContainer>
-          <PieChart>
-            <Pie
-              data={series}
-              innerRadius={110}
-              outerRadius={140}
-              stroke={""}
-              paddingAngle={5}
-            >
-              {series.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
-            </Pie>
-            <Legend />
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-    </Card>
-  );
+        <Loader
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
+        />
+      </Card>
+    );
+  } else {
+    return (
+      <Card
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+
+        <div style={{ height: 456 }}>
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                data={series}
+                innerRadius={110}
+                outerRadius={140}
+                stroke={""}
+                paddingAngle={5}
+              >
+                {series.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Legend />
+              <Tooltip />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </Card>
+    );
+  }
 };
 
 export default EarningsRatio;

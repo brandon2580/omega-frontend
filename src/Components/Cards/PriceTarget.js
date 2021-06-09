@@ -6,6 +6,7 @@ import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts/core";
 import Line from "fusioncharts/viz/line";
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import Loader from "react-loader-spinner";
 
 ReactFC.fcRoot(FusionCharts, Line, FusionTheme);
 
@@ -16,6 +17,7 @@ const PriceTarget = (props) => {
   const [low, setLow] = useState();
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -58,6 +60,7 @@ const PriceTarget = (props) => {
       setHigh(priceTargetData[1].high);
       setAverage(priceTargetData[1].average);
       setLow(priceTargetData[1].low);
+      setIsLoading(false);
     });
   }, [props.activeTicker]);
 
@@ -112,27 +115,50 @@ const PriceTarget = (props) => {
     ],
   };
 
-  return (
-    <Card
-      title={props.title}
-      extra={props.extra}
-      style={{
-        height: "100%",
-        overflow: "auto",
-      }}
-    >
-      <hr className="card-hr" />
-      <div style={{ height: 456 }}>
-        <ReactFC
-          type="line"
-          width="100%"
-          height="80%"
-          dataFormat="JSON"
-          dataSource={dataSource}
+  if (isLoading) {
+    return (
+      <Card
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+
+        <Loader
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
         />
-      </div>
-    </Card>
-  );
+      </Card>
+    );
+  } else {
+    return (
+      <Card
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <div style={{ height: 456 }}>
+          <ReactFC
+            type="line"
+            width="100%"
+            height="80%"
+            dataFormat="JSON"
+            dataSource={dataSource}
+          />
+        </div>
+      </Card>
+    );
+  }
 };
 
 export default PriceTarget;

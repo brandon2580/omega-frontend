@@ -4,6 +4,7 @@ import { Card } from "antd";
 import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts/core";
 import AngularGauge from "fusioncharts/viz/angulargauge";
+import Loader from "react-loader-spinner";
 
 ReactFC.fcRoot(FusionCharts, AngularGauge);
 
@@ -14,6 +15,7 @@ const RiskAnalysis = (props) => {
   const [theme, setTheme] = useState("");
   const [dialColor, setDialColor] = useState("");
   const [textColor, setTextColor] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -29,6 +31,7 @@ const RiskAnalysis = (props) => {
     Promise.resolve(risk).then((risk) => {
       let riskData = risk;
       setSharpe(riskData.sharpe_ratio);
+      setIsLoading(false);
     });
   }, [props.activeTicker]);
 
@@ -94,30 +97,53 @@ const RiskAnalysis = (props) => {
     },
   };
 
-  return (
-    <Card
-      className="risk-card"
-      title={props.title}
-      extra={props.extra}
-      style={{
-        height: "100%",
-        overflow: "auto",
-      }}
-    >
-      <hr className="card-hr" />
-      <div style={{ height: 456 }}>
-        <div className="gauge-risk">
-          <ReactFC
-            type="angulargauge"
-            width="100%"
-            height="45%"
-            dataFormat="JSON"
-            dataSource={dataSource}
-          />
+  if (isLoading) {
+    return (
+      <Card
+        className="news-card"
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+
+        <Loader
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
+        />
+      </Card>
+    );
+  } else {
+    return (
+      <Card
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <div style={{ height: 456 }}>
+          <div className="gauge-risk">
+            <ReactFC
+              type="angulargauge"
+              width="100%"
+              height="45%"
+              dataFormat="JSON"
+              dataSource={dataSource}
+            />
+          </div>
         </div>
-      </div>
-    </Card>
-  );
+      </Card>
+    );
+  }
 };
 
 export default RiskAnalysis;

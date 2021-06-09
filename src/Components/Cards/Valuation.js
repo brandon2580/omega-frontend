@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
 import ReactApexChart from "react-apexcharts";
+import Loader from "react-loader-spinner";
 
 const Valuation = (props) => {
   const [series, setSeries] = useState([0, 0, 0]);
   const [ticker, setTicker] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const valuation = fetch(
@@ -20,9 +22,9 @@ const Valuation = (props) => {
         valuationData.dow_pe_ratio.toFixed(2),
       ]);
       setTicker(valuationData.symbol);
+      setIsLoading(false);
     });
   }, [props.activeTicker]);
-
 
   let options = {
     series: series,
@@ -75,26 +77,49 @@ const Valuation = (props) => {
     },
   };
 
-  return (
-    <Card
-      className="hide-overflow"
-      title={props.title}
-      extra={props.extra}
-      style={{
-        height: "100%",
-        overflow: "auto",
-      }}
-    >
-      <hr className="card-hr" />
-      <div style={{ height: 456 }}>
-        <ReactApexChart
-          options={options}
-          series={series}
-          type="radialBar"
-          height={413}
+  if (isLoading) {
+    return (
+      <Card
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+
+        <Loader
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
         />
-      </div>
-    </Card>
-  );
+      </Card>
+    );
+  } else {
+    return (
+      <Card
+        className="hide-overflow"
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <div style={{ height: 456 }}>
+          <ReactApexChart
+            options={options}
+            series={series}
+            type="radialBar"
+            height={413}
+          />
+        </div>
+      </Card>
+    );
+  }
 };
 export default Valuation;
