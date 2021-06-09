@@ -12,8 +12,6 @@ const Explore = (props) => {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
           setDashboards((prevSelected) => [
             ...prevSelected,
             doc.data().dashboard,
@@ -22,11 +20,9 @@ const Explore = (props) => {
       });
   }, []);
 
-  const saveLayout = () => {
-
-  }
-
-  console.log(props);
+  const saveLayout = (e) => {
+    console.log(e.target.value);
+  };
 
   return (
     <div>
@@ -35,7 +31,20 @@ const Explore = (props) => {
       <div className="center explore-dashboards-section container-fluid">
         <div className="row">
           {dashboards.map((dashboard) => {
-            return <p>{JSON.stringify(dashboard)} <button onClick={saveLayout} className="btn btn-primary">Save</button></p>;
+            return (
+              <div className="col-lg-4">
+                <img className="test-image" src={image} />
+                <p>
+                  <button
+                    value={dashboard}
+                    onClick={saveLayout}
+                    className="btn btn-primary"
+                  >
+                    Save
+                  </button>
+                </p>
+              </div>
+            );
           })}
         </div>
 
