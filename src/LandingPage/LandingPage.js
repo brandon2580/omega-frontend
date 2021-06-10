@@ -41,8 +41,12 @@ const LandingPage = () => {
 
       data.get().then((docSnapshot) => {
         if (docSnapshot.exists) {
-          console.log(Object.keys(Object.values(docSnapshot.data().dashboards[0])[0])[0]);
-          setDefaultLayoutURL(Object.keys(Object.values(docSnapshot.data().dashboards[0])[0])[0])
+          console.log(
+            Object.keys(Object.values(docSnapshot.data().dashboards[0])[0])[0]
+          );
+          setDefaultLayoutURL(
+            Object.keys(Object.values(docSnapshot.data().dashboards[0])[0])[0]
+          );
         }
       });
     }
@@ -104,7 +108,9 @@ const LandingPage = () => {
                         Demo
                       </a>
                     ) : (
-                      <h1>loading</h1>
+                      <a class="nav-link tz-text nav-text" aria-current="page">
+                        Please Login
+                      </a>
                     )}
                   </li>
                   <li class="nav-item">
@@ -157,7 +163,11 @@ const LandingPage = () => {
                           <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
                         </a>
                       ) : (
-                        <h1>loading</h1>
+                        <a className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100">
+                          <span className="tz-text">Please Login</span>
+
+                          <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
+                        </a>
                       )}
                       <a
                         className="btn btn-large propClone main-light-blue  btn-circle xs-margin-ten-bottom xs-width-100"
