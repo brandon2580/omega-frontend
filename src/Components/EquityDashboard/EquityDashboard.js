@@ -31,7 +31,7 @@ import PriceTarget from "../Cards/PriceTarget";
 import RiskAnalysis from "../Cards/RiskAnalysis";
 import Sidenavbar from "../Navbars/Sidenavbar";
 import UndoPrompt from "./UndoPrompt";
-import TickerHeader from "./TickerHeader";
+import CompanyHeader from "./CompanyHeader";
 import DashboardNavbar from "../Navbars/DashboardNavbar";
 import News from "../Cards/News";
 import PriceCalendar from "../Cards/PriceCalendar";
@@ -443,8 +443,8 @@ const HomeDashboard = (props) => {
             <button className="btn btn-primary">Copy Link</button>
           </CopyToClipboard>
 
-          {/* TickerHeader goes here */}
-          <TickerHeader tickerCard={props.availableCards[0]} />
+          {/* CompanyHeader goes here */}
+          <CompanyHeader tickerCard={props.availableCards[0]} />
 
           {/* Sidenavbar goes here */}
           <Sidenavbar
