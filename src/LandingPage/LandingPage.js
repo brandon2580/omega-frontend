@@ -75,18 +75,18 @@ const LandingPage = () => {
       <header className="header-style5" id="header-section12">
         {/* nav */}
         <div className="landing-navbar">
-          <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="/">
+          <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <div className="container-fluid">
+              <a className="navbar-brand" href="/">
                 <img
                   src={logo}
                   width="45"
-                  class="d-inline-block align-top"
+                  className="d-inline-block align-top"
                   alt="sigma7"
                 />
               </a>
               <button
-                class="navbar-toggler"
+                className="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarNav"
@@ -94,32 +94,32 @@ const LandingPage = () => {
                 aria-expanded="false"
                 aria-label="Toggle navigation"
               >
-                <span class="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"></span>
               </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
+              <div className="collapse navbar-collapse" id="navbarNav">
+                <ul className="navbar-nav">
+                  <li className="nav-item">
                     {isAuthenticated ? (
                       <a
-                        class="nav-link tz-text nav-text"
+                      className="nav-link tz-text nav-text"
                         aria-current="page"
                         href={`dashboard/${user.sub}/${defaultLayoutURL}`}
                       >
                         Demo
                       </a>
                     ) : (
-                      <a class="nav-link tz-text nav-text" aria-current="page">
+                      <a className="nav-link tz-text nav-text" aria-current="page">
                         Please Login
                       </a>
                     )}
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link nav-text" href="#content-section44">
+                  <li className="nav-item">
+                    <a className="nav-link nav-text" href="#content-section44">
                       About
                     </a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link nav-text" href="#subscribe-section6">
+                  <li className="nav-item">
+                    <a className="nav-link nav-text" href="#subscribe-section6">
                       Contact
                     </a>
                   </li>

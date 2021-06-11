@@ -10,7 +10,6 @@ ReactFC.fcRoot(FusionCharts, AngularGauge);
 
 const RiskAnalysis = (props) => {
   const [sharpe, setSharpe] = useState([{}]);
-  const [currentRating, setCurrentRating] = useState("Rating");
   const [chartValue, setChartValue] = useState([]);
   const [theme, setTheme] = useState("");
   const [dialColor, setDialColor] = useState("");
@@ -37,16 +36,12 @@ const RiskAnalysis = (props) => {
 
   useEffect(() => {
     if (sharpe < 0.45) {
-      setCurrentRating("Poor");
       setChartValue([12.5]);
     } else if (sharpe <= 0.8 && sharpe >= 0.45) {
-      setCurrentRating("Average");
       setChartValue([37.5]);
     } else if (sharpe <= 1.15 && sharpe >= 0.81) {
-      setCurrentRating("Good");
       setChartValue([62.5]);
     } else if (sharpe > 1.15) {
-      setCurrentRating("Exceptional");
       setChartValue([87.5]);
     }
   }, [sharpe]);

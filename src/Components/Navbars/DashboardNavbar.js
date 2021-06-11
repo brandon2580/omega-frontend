@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "../AddCardModal/AddCardModal";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
 import Autocomplete from "react-autocomplete";
 import logo from "./logo.png";
@@ -16,13 +15,11 @@ const DashboardNavbar = (props) => {
   const [invalidTicker, setInvalidTicker] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [theme, setTheme] = useState("");
-  const [textColor, setTextColor] = useState("");
   const [highlightColor, setHighlightColor] = useState("");
   const [scrollbarColor, setScrollbarColor] = useState("");
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
-    props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
     props.darkMode
       ? setScrollbarColor("#152233 #131722")
       : setScrollbarColor("");
@@ -63,12 +60,12 @@ const DashboardNavbar = (props) => {
   };
 
   return (
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="/">
+    <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+      <a className="navbar-brand" href="/">
         <img
           src={logo}
           width="45"
-          class="d-inline-block align-top"
+          className="d-inline-block align-top"
           alt="sigma7"
         />
       </a>
@@ -84,8 +81,8 @@ const DashboardNavbar = (props) => {
         <span className="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+      <div className="collapse navbar-collapse" id="navbarNav">
+        <ul className="navbar-nav">
           <li className="nav-item active">
             {isAuthenticated ? (
               <a className="nav-link" href={`dashboard/${user.sub}`}>

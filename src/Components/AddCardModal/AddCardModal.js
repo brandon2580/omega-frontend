@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../../App.scss";
 import { Modal, Popover } from "antd";
 import AutoSuggest from "react-autosuggest";

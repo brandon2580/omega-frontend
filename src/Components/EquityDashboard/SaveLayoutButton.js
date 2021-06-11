@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Modal } from "antd";
-import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
-import {
-  HomeOutlined,
-  LineChartOutlined,
-  LayoutOutlined,
-} from "@ant-design/icons";
+import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
+import { LayoutOutlined } from "@ant-design/icons";
 import db from "../../firebase";
-import firebase from "firebase/app";
 import "firebase/firestore";
 
 const SaveLayoutButton = (props) => {
@@ -18,7 +13,7 @@ const SaveLayoutButton = (props) => {
     props.setSelectedLayoutIndex(e.target.getAttribute("data-index"));
     props.setWasSelected(true);
   };
-  
+
   // Shows modal
   const showModal = () => {
     setModalVisible(true);
@@ -57,7 +52,7 @@ const SaveLayoutButton = (props) => {
                 </NavItem>
               );
             });
-            props.setDashboardNames(mapped)
+            props.setDashboardNames(mapped);
           } else {
             console.log("No such document!");
           }

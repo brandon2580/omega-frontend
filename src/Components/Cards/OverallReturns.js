@@ -8,7 +8,6 @@ import {
   Cell,
   Tooltip,
   Legend,
-  Label,
 } from "recharts";
 import Loader from "react-loader-spinner";
 
