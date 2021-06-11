@@ -8,9 +8,11 @@ const News = (props) => {
   const [news, setNews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const pk_key = process.env.IEX_PK_KEY;
+
   useEffect(() => {
     const news = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/news/last/50?token=pk_756d2eedb1d64c5192084581943ee4b9`
+      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/news/last/50?token=${pk_key}`
     ).then((res) => res.json());
 
     Promise.resolve(news).then((news) => {

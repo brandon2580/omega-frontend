@@ -248,22 +248,16 @@ function App() {
     },
   ]);
 
+  const pk_key = process.env.IEX_PK_KEY;
+
   useEffect(() => {
     if (isAuthenticated) {
-      db.collection("users")
-        .doc(user.sub)
-        .set({
-          name: user.name,
-          email: user.email,
-          email_verified: user.email_verified,
-          id: user.sub,
-        })
-        .then((docRef) => {
-          console.log("Document written with ID: ", docRef.id);
-        })
-        .catch((error) => {
-          console.error("Error adding document: ", error);
-        });
+      db.collection("users").doc(user.sub).set({
+        name: user.name,
+        email: user.email,
+        email_verified: user.email_verified,
+        id: user.sub,
+      });
     }
   }, [isAuthenticated]);
 
@@ -273,7 +267,7 @@ function App() {
     ).then((res) => res.json());
 
     const price = fetch(
-      `https://cloud.iexapis.com/stable/stock/${activeTicker}/price?token=pk_756d2eedb1d64c5192084581943ee4b9`
+      `https://cloud.iexapis.com/stable/stock/${activeTicker}/price?token=${pk_key}`
     ).then((res) => res.json());
 
     // We use this function to add necessary commas (when needed) to large numbers such as market cap
@@ -314,7 +308,6 @@ function App() {
   return (
     <div className="app">
       <div className="side-margin">
-
         <Router>
           {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
@@ -323,7 +316,10 @@ function App() {
               <LandingPage />
             </Route>
 
-            <Route path={`/dashboard/:userID/:dashboardID`} component={EquityDashboard}>
+            <Route
+              path={`/dashboard/:userID/:dashboardID`}
+              component={EquityDashboard}
+            >
               <div className="dashboard">
                 <EquityDashboard
                   availableCards={availableCards}
