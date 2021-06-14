@@ -3,6 +3,7 @@ import "../../App.scss";
 import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "../AddCardModal/AddCardModal";
 import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
+import ShareLayoutModal from "../ShareLayoutModal/ShareLayoutModal";
 import Autocomplete from "react-autocomplete";
 import logo from "./logo.png";
 
@@ -136,13 +137,10 @@ const DashboardNavbar = (props) => {
         )}
 
         <div className="ml-auto row">
-          <div className="col-lg-2">
+          <div className="dashboard-nav-button">
             <DarkModeToggle setDarkMode={props.setDarkMode} />
           </div>
-
-          <span className="verticalSpan" />
-
-          <div className="col-lg-2">
+          <div className="dashboard-nav-button">
             <button
               onClick={() => props.setIsTourOpen(true)}
               className="btn btn-primary"
@@ -150,45 +148,46 @@ const DashboardNavbar = (props) => {
               Tour
             </button>
           </div>
-
-          <span className="verticalSpan2" />
-
-          <AddCardModal
-            availableCards={props.availableCards}
-            setAvailableCards={props.setAvailableCards}
-            selectedCardsIndex={props.selectedCardsIndex}
-            setSelectedCardsIndex={props.setSelectedCardsIndex}
-            darkMode={props.darkMode}
-            activeTicker={props.activeTicker}
-          />
-          <span className="verticalSpan3" />
-
-          {/* Button that allows user to save layout goes here */}
-          <SaveLayoutButton
-            wasTaken={props.wasTaken}
-            setNewLayoutName={props.setNewLayoutName}
-            userID={props.userID}
-            dashboardNames={props.dashboardNames}
-            setDashboardNames={props.setDashboardNames}
-            setSelectedLayoutIndex={props.setSelectedLayoutIndex}
-            setWasSelected={props.setWasSelected}
-          />
-
-          <span className="verticalSpan4" />
-
-          <div className="col-lg-1">
+          <div className="dashboard-nav-button">
+            <AddCardModal
+              availableCards={props.availableCards}
+              setAvailableCards={props.setAvailableCards}
+              selectedCardsIndex={props.selectedCardsIndex}
+              setSelectedCardsIndex={props.setSelectedCardsIndex}
+              darkMode={props.darkMode}
+              activeTicker={props.activeTicker}
+            />{" "}
+          </div>
+          <div className="dashboard-nav-button">
+            {/* Button that allows user to save layout goes here */}
+            <SaveLayoutButton
+              wasTaken={props.wasTaken}
+              setNewLayoutName={props.setNewLayoutName}
+              userID={props.userID}
+              dashboardNames={props.dashboardNames}
+              setDashboardNames={props.setDashboardNames}
+              setSelectedLayoutIndex={props.setSelectedLayoutIndex}
+              setWasSelected={props.setWasSelected}
+            />{" "}
+          </div>
+          <div className="dashboard-nav-button">
             {props.isAuthenticated ? (
               <a href="/profile">
                 <button className="btn btn-primary">Profile</button>
               </a>
             ) : null}
           </div>
-
-          <span className="verticalSpan5" />
-
-          <a href="/explore">
-            <button className="btn btn-success">Explore</button>
-          </a>
+          <div className="dashboard-nav-button">
+            <ShareLayoutModal
+              userID={props.userID}
+              mainLayout={props.mainLayout}
+            />{" "}
+          </div>
+          <div className="dashboard-nav-button">
+            <a href="/explore">
+              <button className="btn btn-success">Explore</button>
+            </a>
+          </div>{" "}
         </div>
       </div>
     </nav>

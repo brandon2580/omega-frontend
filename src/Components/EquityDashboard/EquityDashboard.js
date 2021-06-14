@@ -256,21 +256,6 @@ const HomeDashboard = (props) => {
       });
   }
 
-  const shareDashboard = () => {
-    db.collection("shared_dashboards")
-      .doc()
-      .set({
-        belongs_to: userID,
-        dashboard: mainLayout,
-      })
-      .then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
-  };
-
   const removeCardFromLayout = (id) => {
     // Card was selected, remove it
     if (props.selectedCardsIndex.includes(id)) {
@@ -397,7 +382,7 @@ const HomeDashboard = (props) => {
       },
     },
   ];
-  const url = window.location.href;
+
   // Display a loading icon while the page is loading. Check if the user
   // is authenticated. If true, load the page. Otherwise, prompt them to login.
   if (isLoading) {
@@ -432,16 +417,10 @@ const HomeDashboard = (props) => {
             setDashboardNames={setDashboardNames}
             setSelectedLayoutIndex={setSelectedLayoutIndex}
             setWasSelected={setWasSelected}
+            mainLayout={mainLayout}
           />
 
           <h1 className="center header">Equity Dashboard</h1>
-          <button onClick={shareDashboard} className="btn btn-primary">
-            Share Dashboard
-          </button>
-
-          <CopyToClipboard text={url}>
-            <button className="btn btn-primary">Copy Link</button>
-          </CopyToClipboard>
 
           {/* CompanyHeader goes here */}
           <CompanyHeader tickerCard={props.availableCards[0]} />
