@@ -12,7 +12,7 @@ const News = (props) => {
 
   useEffect(() => {
     const news = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/news/last/50?token=${pk_key}`
+      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/news/last/50?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
     Promise.resolve(news).then((news) => {

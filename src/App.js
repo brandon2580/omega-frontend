@@ -267,7 +267,7 @@ function App() {
     ).then((res) => res.json());
 
     const price = fetch(
-      `https://cloud.iexapis.com/stable/stock/${activeTicker}/price?token=${pk_key}`
+      `https://cloud.iexapis.com/stable/stock/${activeTicker}/price?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
     // We use this function to add necessary commas (when needed) to large numbers such as market cap
