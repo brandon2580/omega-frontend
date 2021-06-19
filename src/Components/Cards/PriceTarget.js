@@ -26,11 +26,11 @@ const PriceTarget = (props) => {
 
   useEffect(() => {
     const price_target = fetch(
-      `${props.apiBaseUrl}/price_targets?code=${props.apiCode}==&symbol=${props.activeTicker}`
+      `https://sandbox.iexapis.com/stable/stock/${props.activeTicker}/price-target?token=Tpk_0a80aa79cd7244838ccc02f6ad231450`
     ).then((res) => res.json());
 
     const prices = fetch(
-      `${props.apiBaseUrl}/prices?code=${props.apiCode}==&symbol=${props.activeTicker}&range=1y`
+      `https://sandbox.iexapis.com/stable/stock/${props.activeTicker}/chart/1y?token=Tpk_0a80aa79cd7244838ccc02f6ad231450`
     ).then((res) => res.json());
 
     const allReqs = [prices, price_target];
@@ -40,19 +40,18 @@ const PriceTarget = (props) => {
 
       let priceTargetData = [
         Object.keys(prices)
-          .reverse()
           .map(function (key) {
             return {
-              label: key,
-              value: prices[key].adj_close,
+              label: prices[key].date,
+              value: prices[key].close,
             };
           }),
         {
-          last_updated: price_target.update_date,
-          average: price_target.price_target_avg,
-          high: price_target.price_target_high,
-          low: price_target.price_target_low,
-          numOfAnalysts: price_target.num_of_analysts,
+          last_updated: price_target.updatedData,
+          average: price_target.priceTargetAverage,
+          high: price_target.priceTargetHigh,
+          low: price_target.priceTargetLow,
+          numOfAnalysts: price_target.numberOfAnalysts,
         },
       ];
 

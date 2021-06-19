@@ -40,22 +40,21 @@ const Price = (props) => {
       },
     },
   };
-
+  
   useEffect(() => {
     const prices = fetch(
-      `${props.apiBaseUrl}/prices?code=${props.apiCode}==&symbol=${props.activeTicker}&range=${priceRange}&frame=${priceFrame}`
+      `https://sandbox.iexapis.com/stable/stock/${props.activeTicker}/chart/${priceRange}?token=Tpk_0a80aa79cd7244838ccc02f6ad231450`
     ).then((res) => res.json());
     Promise.resolve(prices).then((price) => {
       let priceData = Object.keys(price)
-        .reverse()
         .map(function (key) {
           return {
-            x: key,
+            x: price[key].date,
             y: [
-              price[key].adj_open,
-              price[key].adj_high,
-              price[key].adj_low,
-              price[key].adj_close,
+              price[key].open,
+              price[key].high,
+              price[key].low,
+              price[key].close,
             ],
           };
         });
@@ -107,7 +106,7 @@ const Price = (props) => {
       >
         <hr className="card-hr" />
         <div style={{ height: 456 }}>
-          <div className="row">
+          {/* <div className="row">
             <div className="col-lg-12">
               <button
                 className="range-button btn btn-link btn-sm shadow-none"
@@ -131,7 +130,7 @@ const Price = (props) => {
                 Monthly
               </button>
             </div>
-          </div>
+          </div> */}
 
           <ReactApexChart
             options={options}

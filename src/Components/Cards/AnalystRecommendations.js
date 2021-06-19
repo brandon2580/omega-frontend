@@ -20,16 +20,16 @@ const AnalystRecommendations = (props) => {
 
   useEffect(() => {
     const analyst_recs = fetch(
-      `${props.apiBaseUrl}/analyst_recs?code=${props.apiCode}==&symbol=${props.activeTicker}`
+      `https://sandbox.iexapis.com/stable/stock/${props.activeTicker}/recommendation-trends?token=Tpk_0a80aa79cd7244838ccc02f6ad231450`
     ).then((res) => res.json());
 
     Promise.resolve(analyst_recs).then((analyst_recs) => {
       let analystRecsData = [
-        { name: "Strong Buy", value: analyst_recs.rating_overweight },
-        { name: "Buy", value: analyst_recs.rating_buy },
-        { name: "Hold", value: analyst_recs.rating_hold },
-        { name: "Sell", value: analyst_recs.rating_sell },
-        { name: "Strong Sell", value: analyst_recs.rating_underweight },
+        { name: "Strong Buy", value: analyst_recs[0].ratingOverweight },
+        { name: "Buy", value: analyst_recs[0].ratingBuy },
+        { name: "Hold", value: analyst_recs[0].ratingHold },
+        { name: "Sell", value: analyst_recs[0].ratingSell },
+        { name: "Strong Sell", value: analyst_recs[0].ratingUnderweight },
       ];
       setSeries(analystRecsData);
 

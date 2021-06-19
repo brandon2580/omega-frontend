@@ -267,7 +267,7 @@ function App() {
     ).then((res) => res.json());
 
     const price = fetch(
-      `https://cloud.iexapis.com/stable/stock/${activeTicker}/price?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sandbox.iexapis.com/stable/stock/${activeTicker}/price?token=${pk_key}`
     ).then((res) => res.json());
 
     // We use this function to add necessary commas (when needed) to large numbers such as market cap
@@ -334,7 +334,7 @@ function App() {
             <Route path="/portfolio">
               <Portfolio />
             </Route>
-            <Route path="/explore">
+            <Route component={Explore} path={`/explore/:userID`}>
               <Explore />
             </Route>
             <Route path="/profile">
