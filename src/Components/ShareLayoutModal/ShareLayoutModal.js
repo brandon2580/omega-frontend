@@ -32,6 +32,7 @@ const ShareLayoutModal = (props) => {
       .doc()
       .set({
         belongs_to: props.userID,
+        dashboard_name: props.selectedDashboardName,
         dashboard: props.mainLayout,
       })
       .then(() => {

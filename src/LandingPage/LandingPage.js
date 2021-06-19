@@ -37,7 +37,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      const data = db.collection("saved_dashboards").doc(user.sub);
+      const data = db.collection("user_dashboards").doc(user.sub);
 
       data.get().then((docSnapshot) => {
         if (docSnapshot.exists) {
