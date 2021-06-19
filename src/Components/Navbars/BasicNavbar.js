@@ -33,7 +33,7 @@ const BasicNavbar = (props) => {
         <ul class="navbar-nav">
           <li className="nav-item active">
             {isAuthenticated ? (
-              <a className="nav-link" href={`dashboard/${user.sub}`}>
+              <a className="nav-link" href={`dashboard/${user.sub}/Default Layout`}>
                 Dashboard
               </a>
             ) : (
