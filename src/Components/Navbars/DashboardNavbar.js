@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
+import { useHistory } from "react-router";
 import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "../AddCardModal/AddCardModal";
 import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
@@ -18,6 +19,8 @@ const DashboardNavbar = (props) => {
   const [theme, setTheme] = useState("");
   const [highlightColor, setHighlightColor] = useState("");
   const [scrollbarColor, setScrollbarColor] = useState("");
+
+  const routerHistory = useHistory();
 
   useEffect(() => {
     props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -51,9 +54,10 @@ const DashboardNavbar = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (allowedStocks.includes(ticker)) {
+    if (!allowedStocks.includes(ticker)) {
       setInvalidTicker(false);
       props.setActiveTicker(ticker);
+      routerHistory.push(`/dashboard/${props.userID}/${props.selectedLayoutName}/${ticker}`);
     } else {
       setInvalidTicker(true);
     }

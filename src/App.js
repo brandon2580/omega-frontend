@@ -317,7 +317,7 @@ function App() {
             </Route>
 
             <Route
-              path={`/dashboard/:userID/:dashboardID`}
+              path={`/dashboard/:userID/:dashboardID/:urlTicker`}
               component={EquityDashboard}
             >
               <div className="dashboard">

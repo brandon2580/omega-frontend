@@ -47,7 +47,7 @@ import "firebase/firestore";
 const GridLayout = WidthProvider(Responsive);
 
 const HomeDashboard = (props) => {
-  let { userID, dashboardID } = useParams();
+  let { userID, dashboardID, urlTicker } = useParams();
 
   const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
 
@@ -79,6 +79,7 @@ const HomeDashboard = (props) => {
   const [isTourOpen, setIsTourOpen] = useState(true);
   const [dashboardNames, setDashboardNames] = useState([]);
   const [selectedDashboardName, setSelectedDashboardName] = useState("");
+  const [selectedLayoutName, setSelectedLayoutName] = useState("Default Layout");
 
   useEffect(() => {
     darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -251,8 +252,8 @@ const HomeDashboard = (props) => {
                 return parseInt(card.i);
               });
 
-            let selectedLayoutName = Object.keys(currentLayout).flat()[0];
-            routerHistory.push(`/dashboard/${userID}/${selectedLayoutName}`);
+            setSelectedLayoutName(Object.keys(currentLayout).flat()[0]);
+            routerHistory.push(`/dashboard/${userID}/${selectedLayoutName}/${urlTicker}`);
 
             // We setMainlayout to a null array
             setMainLayout([], setWasYourDashboardSelected(false));
@@ -293,8 +294,8 @@ const HomeDashboard = (props) => {
                 return parseInt(card.i);
               });
 
-            let selectedLayoutName = Object.keys(currentLayout).flat()[0];
-            routerHistory.push(`/dashboard/${userID}/${selectedLayoutName}`);
+            setSelectedLayoutName(Object.keys(currentLayout).flat()[0]);
+            routerHistory.push(`/dashboard/${userID}/${selectedLayoutName}/${urlTicker}`);
 
             // We setMainlayout to a null array
             setMainLayout([], setWasSavedDashboardSelected(false));
@@ -466,13 +467,15 @@ const HomeDashboard = (props) => {
             setSelectedCardsIndex={props.setSelectedCardsIndex}
             setActiveTicker={props.setActiveTicker}
             activeTicker={props.activeTicker}
+            urlTicker={urlTicker}
+            userID={userID}
+            selectedLayoutName={selectedLayoutName}
             isAuthenticated={isAuthenticated}
             wasTaken={wasTaken}
             setDarkMode={setDarkMode}
             darkMode={darkMode}
             setIsTourOpen={setIsTourOpen}
             setNewLayoutName={setNewLayoutName}
-            userID={userID}
             dashboardNames={dashboardNames}
             setDashboardNames={setDashboardNames}
             setSelectedLayoutIndex={setSelectedLayoutIndex}
@@ -577,7 +580,7 @@ const HomeDashboard = (props) => {
                       {...card}
                       extra={extra}
                       darkMode={darkMode}
-                      activeTicker={props.activeTicker}
+                      activeTicker={urlTicker}
                     />
                   </div>
                 );
