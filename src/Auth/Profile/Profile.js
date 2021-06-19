@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Card } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import WarningModal from "./WarningModal";
+import BasicNavbar from "../../Components/Navbars/BasicNavbar";
 
 const Profile = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -14,6 +15,7 @@ const Profile = () => {
   return (
     isAuthenticated && (
       <div className="profile-page col-xl-7">
+        <BasicNavbar />
         <h1 className="header center">Profile</h1>
         <Card
           style={{
@@ -29,16 +31,12 @@ const Profile = () => {
           />
           <div className="user-profile-info">
             <h4 className="white center">
-              <span className="blue">Name:</span> {user.name} <EditOutlined />
+              <span className="blue">Name:</span> {user.name}
             </h4>
             <h4 className="white center">
-              <span className="blue">Email:</span> {user.email} <EditOutlined />{" "}
+              <span className="blue">Email:</span> {user.email}
             </h4>
-            <h4 className="white center">
-              <span className="blue">Location:</span> California, US{" "}
-              <EditOutlined />
-            </h4>
-            <WarningModal />
+            {/* <WarningModal /> */}
           </div>
         </Card>
       </div>
