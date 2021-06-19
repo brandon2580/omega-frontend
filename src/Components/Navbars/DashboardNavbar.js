@@ -141,14 +141,6 @@ const DashboardNavbar = (props) => {
             <DarkModeToggle setDarkMode={props.setDarkMode} />
           </div>
           <div className="dashboard-nav-button">
-            <button
-              onClick={() => props.setIsTourOpen(true)}
-              className="btn btn-primary"
-            >
-              Tour
-            </button>
-          </div>
-          <div className="dashboard-nav-button">
             <AddCardModal
               availableCards={props.availableCards}
               setAvailableCards={props.setAvailableCards}
@@ -167,25 +159,39 @@ const DashboardNavbar = (props) => {
               dashboardNames={props.dashboardNames}
               setDashboardNames={props.setDashboardNames}
               setSelectedLayoutIndex={props.setSelectedLayoutIndex}
-              setWasSelected={props.setWasSelected}
+              setWasYourDashboardSelected={props.setWasYourDashboardSelected}
             />{" "}
-          </div>
-          <div className="dashboard-nav-button">
-            {props.isAuthenticated ? (
-              <a href="/profile">
-                <button className="btn btn-primary">Profile</button>
-              </a>
-            ) : null}
           </div>
           <div className="dashboard-nav-button">
             <ShareLayoutModal
               userID={props.userID}
               mainLayout={props.mainLayout}
+              selectedDashboardName={props.selectedDashboardName}
             />{" "}
           </div>
           <div className="dashboard-nav-button">
-            <a href="/explore">
-              <button className="btn btn-success">Explore</button>
+            <a href={`/explore/${props.userID}`}>
+              <button className="btn btn-primary">Explore</button>
+            </a>
+          </div>{" "}
+          <div className="dashboard-nav-button">
+            {props.isAuthenticated ? (
+              <a href="/profile">
+                <button className="btn btn-info">Profile</button>
+              </a>
+            ) : null}
+          </div>
+          <div className="dashboard-nav-button">
+            <button
+              onClick={() => props.setIsTourOpen(true)}
+              className="btn btn-info"
+            >
+              Tour
+            </button>
+          </div>
+          <div className="dashboard-nav-button">
+            <a href={`/explore/${props.userID}`}>
+              <button className="btn btn-info">Feedback</button>
             </a>
           </div>{" "}
         </div>
