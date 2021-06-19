@@ -11,7 +11,7 @@ const SaveLayoutButton = (props) => {
 
   const handleClick = (e) => {
     props.setSelectedLayoutIndex(e.target.getAttribute("data-index"));
-    props.setWasSelected(true);
+    props.setWasYourDashboardSelected(true);
   };
 
   // Shows modal
@@ -29,13 +29,12 @@ const SaveLayoutButton = (props) => {
     props.setNewLayoutName(layoutName);
 
     setTimeout(() => {
-      var docRef = db.collection("saved_dashboards").doc(props.userID);
+      var docRef = db.collection("user_dashboards").doc(props.userID);
 
       docRef
         .get()
         .then((doc) => {
           if (doc.exists) {
-            console.log(doc.data().dashboards);
             let mapped = Object.values(doc.data().dashboards).map((el, i) => {
               let values = Object.values(el)[0];
               let names = Object.keys(values);

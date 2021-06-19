@@ -14,7 +14,6 @@ import {
 } from "react-router-dom";
 import { useHistory } from "react-router";
 import uuid from "react-uuid";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   ArrowLeftOutlined,
   ArrowRightOutlined,
@@ -67,7 +66,8 @@ const HomeDashboard = (props) => {
   const [newLayoutName, setNewLayoutName] = useState();
   const [selectedLayoutIndex, setSelectedLayoutIndex] = useState(0);
   const [wasTaken, setWasTaken] = useState(false);
-  const [wasSelected, setWasSelected] = useState();
+  const [wasYourDashboardSelected, setWasYourDashboardSelected] = useState();
+  const [wasSavedDashboardSelected, setWasSavedDashboardSelected] = useState();
   const [value, setValue] = useState(true);
   const [wasRemoved, setWasRemoved] = useState(false);
   const [removedCard, setRemovedCard] = useState();
@@ -78,6 +78,7 @@ const HomeDashboard = (props) => {
   const [textColor, setTextColor] = useState("");
   const [isTourOpen, setIsTourOpen] = useState(true);
   const [dashboardNames, setDashboardNames] = useState([]);
+  const [selectedDashboardName, setSelectedDashboardName] = useState("");
 
   useEffect(() => {
     darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -93,11 +94,19 @@ const HomeDashboard = (props) => {
     localStorage.setItem("isUserNew", true);
   }
 
-  // This checks to see if the current user has a saved_dashboards collection.
+  useEffect(() => {
+    if (!isTourOpen) setIsUserNewStatus(false);
+  }, [isTourOpen]);
+
+  useEffect(() => {
+    if (!isUserNewStatus) setIsTourOpen(false);
+  }, [isUserNewStatus]);
+
+  // This checks to see if the current user has a user_dashboards collection.
   // If not, create one and set mainLayout as the default
   useEffect(() => {
     if (isAuthenticated) {
-      const data = db.collection("saved_dashboards").doc(userID);
+      const data = db.collection("user_dashboards").doc(userID);
 
       data.get().then((docSnapshot) => {
         if (!docSnapshot.exists) {
@@ -131,14 +140,6 @@ const HomeDashboard = (props) => {
     }
   }, [isAuthenticated]);
 
-  useEffect(() => {
-    if (!isTourOpen) setIsUserNewStatus(false);
-  }, [isTourOpen]);
-
-  useEffect(() => {
-    if (!isUserNewStatus) setIsTourOpen(false);
-  }, [isUserNewStatus]);
-
   // Saves a new layout to state whenever the user edits the current one. This will be called
   // every time a card is moved, resized, deleted, or added
   const handleLayoutChange = (layout) => {
@@ -148,15 +149,32 @@ const HomeDashboard = (props) => {
     debounced();
   };
 
+  // Gets the name of the currently selected layout. We use this info for when the user wants
+  // to share a layout to the Explore page. This way, each layout is labeled.
+  useEffect(() => {
+    var docRef = db.collection("user_dashboards").doc(userID);
+    docRef.get().then((doc) => {
+      if (doc.exists) {
+        let mapped = Object.values(doc.data().dashboards).flatMap((el, i) => {
+          let values = Object.values(el)[0];
+          let names = Object.keys(values);
+          return names;
+        });
+        setSelectedDashboardName(mapped[selectedLayoutIndex]);
+      }
+    });
+  }, [selectedLayoutIndex]);
+
   // We use a ref to make sure that this useEffect hook is NOT called on the
-  // initial render of the page. Only when the state value of newLayoutName changes
+  // initial render of the page. Only when the state value of newLayoutName changes (aka when
+  // the user saves a new dashboard)
   const initialRender = useRef(true);
   useEffect(() => {
     if (initialRender.current) {
       initialRender.current = false;
     } else {
       if (isAuthenticated) {
-        var docRef = db.collection("saved_dashboards").doc(userID);
+        var docRef = db.collection("user_dashboards").doc(userID);
         docRef
           .get()
           .then((doc) => {
@@ -178,7 +196,7 @@ const HomeDashboard = (props) => {
                   return card;
                 });
 
-                db.collection("saved_dashboards")
+                db.collection("user_dashboards")
                   .doc(userID)
                   .set(
                     {
@@ -214,8 +232,50 @@ const HomeDashboard = (props) => {
   }, [newLayoutName]);
 
   const routerHistory = useHistory();
-  // If a layout was selected from the SideNav, change the mainLayout to whatever they selected.
-  if (wasSelected) {
+  // If a layout from "Your Dashboards" was selected from the SideNav, change the mainLayout to whatever they selected.
+  if (wasYourDashboardSelected) {
+    let docRef = db.collection("user_dashboards").doc(userID);
+
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          let data = doc.data().dashboards[selectedLayoutIndex];
+          if (data) {
+            let currentLayout = Object.values(data)[0];
+
+            // If a layout was selected from the Sidenavbar, turn the item dashboard from firebase into an array,
+            let mappedLayoutIndex = Object.values(currentLayout)
+              .flat()
+              .map((card) => {
+                return parseInt(card.i);
+              });
+
+            let selectedLayoutName = Object.keys(currentLayout).flat()[0];
+            routerHistory.push(`/dashboard/${userID}/${selectedLayoutName}`);
+
+            // We setMainlayout to a null array
+            setMainLayout([], setWasYourDashboardSelected(false));
+
+            // Set mainLayout to the layout that the user selected.
+            setTimeout(() => {
+              setMainLayout(
+                Object.values(currentLayout).flat(),
+                props.setSelectedCardsIndex(mappedLayoutIndex)
+              );
+            });
+          }
+        } else {
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
+      });
+  }
+
+  // If a layout from "Saved Dashboards" was selected from the SideNav, change the mainLayout to whatever they selected.
+  if (wasSavedDashboardSelected) {
     let docRef = db.collection("saved_dashboards").doc(userID);
 
     docRef
@@ -237,7 +297,7 @@ const HomeDashboard = (props) => {
             routerHistory.push(`/dashboard/${userID}/${selectedLayoutName}`);
 
             // We setMainlayout to a null array
-            setMainLayout([], setWasSelected(false));
+            setMainLayout([], setWasSavedDashboardSelected(false));
 
             // Set mainLayout to the layout that the user selected.
             setTimeout(() => {
@@ -416,11 +476,12 @@ const HomeDashboard = (props) => {
             dashboardNames={dashboardNames}
             setDashboardNames={setDashboardNames}
             setSelectedLayoutIndex={setSelectedLayoutIndex}
-            setWasSelected={setWasSelected}
+            setWasYourDashboardSelected={setWasYourDashboardSelected}
             mainLayout={mainLayout}
+            selectedDashboardName={selectedDashboardName}
           />
 
-          <h1 className="center header">Equity Dashboard</h1>
+          <h1 className="center header">{selectedDashboardName}</h1>
 
           {/* CompanyHeader goes here */}
           <CompanyHeader tickerCard={props.availableCards[0]} />
@@ -428,8 +489,10 @@ const HomeDashboard = (props) => {
           {/* Sidenavbar goes here */}
           <Sidenavbar
             setSelectedLayoutIndex={setSelectedLayoutIndex}
-            setWasSelected={setWasSelected}
-            wasSelected={wasSelected}
+            setWasYourDashboardSelected={setWasYourDashboardSelected}
+            wasYourDashboardSelected={wasYourDashboardSelected}
+            setWasSavedDashboardSelected={setWasSavedDashboardSelected}
+            wasSavedDashboardSelected={wasSavedDashboardSelected}
             selectedCardsIndex={props.selectedCardsIndex}
             setSelectedCardsIndex={props.setSelectedCardsIndex}
             userID={userID}

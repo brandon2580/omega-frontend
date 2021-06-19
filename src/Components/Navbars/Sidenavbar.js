@@ -10,14 +10,64 @@ import db from "../../firebase";
 
 const Sidenavbar = (props) => {
   const [sidenavHeaderStyle, setSidenavHeaderStyle] = useState("hidden");
+  const [savedDashboards, setSavedDashboards] = useState([]);
+  const [savedDashboardNames, setSavedDashboardNames] = useState([]);
 
-  const handleClick = (e) => {
+  const handleYourDashboardsClick = (e) => {
     props.setSelectedLayoutIndex(e.target.getAttribute("data-index"));
-    props.setWasSelected(true);
+    props.setWasYourDashboardSelected(true);
+  };
+
+  const handleSavedDashboardsClick = (e) => {
+    props.setSelectedLayoutIndex(e.target.getAttribute("data-index"));
+    props.setWasSavedDashboardSelected(true);
   };
 
   useEffect(() => {
-    var docRef = db.collection("saved_dashboards").doc(props.userID);
+    db.collection("saved_dashboards")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          setSavedDashboards((prevSelected) => [...prevSelected, doc.data()]);
+        });
+      });
+  }, []);
+
+  useEffect(() => {
+    // We have a decent amount of nesting to do here (as seen with the 3 maps)
+    let firstLayer = savedDashboards.flatMap((el, i) => {
+      return el.dashboards;
+    });
+
+    let secondLayer = firstLayer.flatMap((el, i) => {
+      return Object.values(el);
+    });
+
+    let dashboardNames = secondLayer.flatMap((name, i) => {
+      let names = Object.keys(name);
+      return (
+        <NavItem eventKey="home">
+          <NavIcon>
+            <LayoutOutlined />
+          </NavIcon>
+          <NavText>
+            <a
+              value={names}
+              data-index={i}
+              onClick={handleSavedDashboardsClick}
+            >
+              {names}
+            </a>
+          </NavText>
+        </NavItem>
+      );
+    });
+
+    setSavedDashboardNames(dashboardNames);
+  }, [savedDashboards]);
+
+  useEffect(() => {
+    var docRef = db.collection("user_dashboards").doc(props.userID);
     docRef
       .get()
       .then((doc) => {
@@ -31,7 +81,11 @@ const Sidenavbar = (props) => {
                   <LayoutOutlined />
                 </NavIcon>
                 <NavText>
-                  <a value={names} data-index={i} onClick={handleClick}>
+                  <a
+                    value={names}
+                    data-index={i}
+                    onClick={handleYourDashboardsClick}
+                  >
                     {names}
                   </a>
                 </NavText>
@@ -93,13 +147,27 @@ const Sidenavbar = (props) => {
                 style={{ visibility: sidenavHeaderStyle }}
                 className="dashboards-text"
               >
-                Dashboards
+                Your Dashboards
               </p>
             </div>
             <hr className="dashboards-hr" />
           </NavText>
         </NavItem>
         {props.dashboardNames}
+        <NavItem eventKey="home">
+          <NavText>
+            <div className="col-lg-12">
+              <p
+                style={{ visibility: sidenavHeaderStyle }}
+                className="dashboards-text"
+              >
+                Saved Dashboards
+              </p>
+            </div>
+            <hr className="dashboards-hr" />
+          </NavText>
+        </NavItem>
+        {savedDashboardNames}
       </SideNav.Nav>
     </SideNav>
   );
