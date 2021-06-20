@@ -7,6 +7,8 @@ import {
   LayoutOutlined,
 } from "@ant-design/icons";
 import db from "../../firebase";
+import firebase from "firebase/app";
+import "firebase/firestore";
 
 const Sidenavbar = (props) => {
   const [sidenavHeaderStyle, setSidenavHeaderStyle] = useState("hidden");
@@ -23,6 +25,16 @@ const Sidenavbar = (props) => {
     props.setWasSavedDashboardSelected(true);
   };
 
+  // const handleDelete = (e) => {
+  //   let index = e.target.getAttribute("data-index");
+    
+  //   var ref = db.collection('user_dashboards').doc(props.userID);
+
+  //   ref.update({
+  //       dashboards: firebase.firestore.FieldValue.delete()
+  //   });
+  // };
+
   useEffect(() => {
     db.collection("saved_dashboards")
       .get()
@@ -30,6 +42,55 @@ const Sidenavbar = (props) => {
         querySnapshot.forEach((doc) => {
           setSavedDashboards((prevSelected) => [...prevSelected, doc.data()]);
         });
+      });
+  }, []);
+
+  useEffect(() => {
+    var docRef = db.collection("user_dashboards").doc(props.userID);
+    docRef
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          let mapped = Object.values(doc.data().dashboards).map((el, i) => {
+            let values = Object.values(el)[0];
+            let names = Object.keys(values);
+            return (
+              <NavItem eventKey="home">
+                <NavIcon>
+                  <LayoutOutlined />
+                </NavIcon>
+                <NavText>
+                  <a
+                    value={names}
+                    data-index={i}
+                    onClick={handleYourDashboardsClick}
+                  >
+                    {names}
+                  </a>
+                  {/* <button
+                    value={names}
+                    data-index={i}
+                    onClick={handleDelete}
+                    className="btn btn-danger"
+                  >
+                    delete
+                  </button> */}
+                </NavText>
+                <NavIcon>
+                  <LayoutOutlined />
+                </NavIcon>
+              </NavItem>
+            );
+          });
+
+          props.setDashboardNames(mapped);
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch((error) => {
+        console.log("Error getting document:", error);
       });
   }, []);
 
@@ -65,44 +126,6 @@ const Sidenavbar = (props) => {
 
     setSavedDashboardNames(dashboardNames);
   }, [savedDashboards]);
-
-  useEffect(() => {
-    var docRef = db.collection("user_dashboards").doc(props.userID);
-    docRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          let mapped = Object.values(doc.data().dashboards).map((el, i) => {
-            let values = Object.values(el)[0];
-            let names = Object.keys(values);
-            return (
-              <NavItem eventKey="home">
-                <NavIcon>
-                  <LayoutOutlined />
-                </NavIcon>
-                <NavText>
-                  <a
-                    value={names}
-                    data-index={i}
-                    onClick={handleYourDashboardsClick}
-                  >
-                    {names}
-                  </a>
-                </NavText>
-              </NavItem>
-            );
-          });
-
-          props.setDashboardNames(mapped);
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-        }
-      })
-      .catch((error) => {
-        console.log("Error getting document:", error);
-      });
-  }, []);
 
   return (
     <SideNav
