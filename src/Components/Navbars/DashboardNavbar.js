@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { useHistory } from "react-router";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom";
 import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "../AddCardModal/AddCardModal";
 import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
@@ -9,6 +16,7 @@ import Autocomplete from "react-autocomplete";
 import logo from "./logo.png";
 
 import { useAuth0 } from "@auth0/auth0-react";
+import Feedback from "../Feedback/Feedback";
 
 const DashboardNavbar = (props) => {
   const { isAuthenticated, user } = useAuth0();
@@ -57,7 +65,9 @@ const DashboardNavbar = (props) => {
     if (!allowedStocks.includes(ticker)) {
       setInvalidTicker(false);
       props.setActiveTicker(ticker);
-      routerHistory.push(`/dashboard/${props.userID}/${props.selectedLayoutName}/${ticker}`);
+      routerHistory.push(
+        `/dashboard/${props.userID}/${props.selectedLayoutName}/${ticker}`
+      );
     } else {
       setInvalidTicker(true);
     }
@@ -185,16 +195,16 @@ const DashboardNavbar = (props) => {
               </a>
             ) : null}
           </div>
-          <div className="dashboard-nav-button">
+          {/* <div className="dashboard-nav-button">
             <button
               onClick={() => props.setIsTourOpen(true)}
               className="btn btn-info"
             >
               Tour
             </button>
-          </div>
+          </div> */}
           <div className="dashboard-nav-button">
-            <a href={`/explore/${props.userID}`}>
+            <a href={`/feedback/${props.userID}`}>
               <button className="btn btn-info">Feedback</button>
             </a>
           </div>{" "}
