@@ -15,6 +15,7 @@ import Loader from "react-loader-spinner";
 import { useAuth0 } from "@auth0/auth0-react";
 import db from "./firebase";
 import Explore from "./Components/Explore/Explore";
+import Feedback from "./Components/Feedback/Feedback";
 
 function App() {
   const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
@@ -360,6 +361,9 @@ function App() {
                   </a>
                 </h1>
               )}
+            </Route>
+            <Route component={Feedback} path={`/feedback/:userID`}>
+              <Feedback />
             </Route>
             <Route component={ErrorNotFound} />
           </Switch>
