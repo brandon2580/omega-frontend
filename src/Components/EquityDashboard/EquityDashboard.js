@@ -79,7 +79,8 @@ const HomeDashboard = (props) => {
   const [isTourOpen, setIsTourOpen] = useState(true);
   const [dashboardNames, setDashboardNames] = useState([]);
   const [selectedDashboardName, setSelectedDashboardName] = useState("");
-  const [selectedLayoutName, setSelectedLayoutName] = useState("Default Layout");
+  const [selectedLayoutName, setSelectedLayoutName] =
+    useState("Default_Layout");
 
   useEffect(() => {
     darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -95,10 +96,14 @@ const HomeDashboard = (props) => {
     localStorage.setItem("isUserNew", true);
   }
 
+  // If the tour gets closed, the user is obviously no longer "new".
+  // We set their "new" status to false.
   useEffect(() => {
     if (!isTourOpen) setIsUserNewStatus(false);
   }, [isTourOpen]);
 
+  // If the user is NOT new, make sure to not open the Tour when 
+  // the page loads. The Tour is only intended for new users.
   useEffect(() => {
     if (!isUserNewStatus) setIsTourOpen(false);
   }, [isUserNewStatus]);
@@ -107,30 +112,68 @@ const HomeDashboard = (props) => {
   // If not, create one and set mainLayout as the default
   useEffect(() => {
     if (isAuthenticated) {
-      const data = db.collection("user_dashboards").doc(userID);
+      const user_dashboard_data = db.collection("user_dashboards").doc(userID);
 
-      data.get().then((docSnapshot) => {
+      user_dashboard_data.get().then((docSnapshot) => {
         if (!docSnapshot.exists) {
-          data.set({
+          user_dashboard_data.set({
             id: userID,
             dashboards: [{ [uuid()]: { "Default Layout": mainLayout } }],
           });
         } else {
           docSnapshot.data().dashboards.map((el) => {
-            let f = Object.values(el)[0];
-            let keys = Object.keys(f);
+            let values = Object.values(el)[0];
+            let keys = Object.keys(values);
 
             keys.forEach((key) => {
-              if (key == dashboardID) {
+              let split = key.split(" ").join("_");
+              if (split == dashboardID) {
                 // If a layout was selected from the Sidenavbar, turn the item dashboard from firebase into an array,
-                let mappedLayoutIndex = Object.values(f[key])
-                  .flat()
-                  .map((card) => {
+                let mappedLayoutIndex = Object.values(values[key]).flatMap(
+                  (card) => {
                     return parseInt(card.i);
-                  });
+                  }
+                );
 
                 setMainLayout(
-                  f[key],
+                  values[key],
+                  props.setSelectedCardsIndex(mappedLayoutIndex)
+                );
+              }
+            });
+          });
+        }
+      });
+
+      const saved_dashboard_data = db
+        .collection("saved_dashboards")
+        .doc(userID);
+
+      saved_dashboard_data.get().then((docSnapshot) => {
+        if (!docSnapshot.exists) {
+          saved_dashboard_data.set({
+            id: userID,
+            dashboards: [],
+          });
+        } else {
+          docSnapshot.data().dashboards.map((el) => {
+            let values = Object.values(el)[0];
+            let keys = Object.keys(values);
+
+            keys.forEach((key) => {
+              let split = key.split(" ").join("_");
+              if (split == dashboardID) {
+                console.log(key);
+
+                // If a layout was selected from the Sidenavbar, turn the item dashboard from firebase into an array,
+                let mappedLayoutIndex = Object.values(values[key]).flatMap(
+                  (card) => {
+                    return parseInt(card.i);
+                  }
+                );
+
+                setMainLayout(
+                  values[key],
                   props.setSelectedCardsIndex(mappedLayoutIndex)
                 );
               }
@@ -251,9 +294,14 @@ const HomeDashboard = (props) => {
               .map((card) => {
                 return parseInt(card.i);
               });
+            console.log(mappedLayoutIndex);
 
-            setSelectedLayoutName(Object.keys(currentLayout).flat()[0]);
-            routerHistory.push(`/dashboard/${userID}/${selectedLayoutName}/${urlTicker}`);
+            setSelectedLayoutName(
+              Object.keys(currentLayout).flat()[0].split(" ").join("_")
+            );
+            routerHistory.push(
+              `/dashboard/${userID}/${selectedLayoutName}/${urlTicker.toUpperCase()}`
+            );
 
             // We setMainlayout to a null array
             setMainLayout([], setWasYourDashboardSelected(false));
@@ -294,8 +342,12 @@ const HomeDashboard = (props) => {
                 return parseInt(card.i);
               });
 
-            setSelectedLayoutName(Object.keys(currentLayout).flat()[0]);
-            routerHistory.push(`/dashboard/${userID}/${selectedLayoutName}/${urlTicker}`);
+            setSelectedLayoutName(
+              Object.keys(currentLayout).flat()[0].split(" ").join("_")
+            );
+            routerHistory.push(
+              `/dashboard/${userID}/${selectedLayoutName}/${urlTicker.toUpperCase()}`
+            );
 
             // We setMainlayout to a null array
             setMainLayout([], setWasSavedDashboardSelected(false));
