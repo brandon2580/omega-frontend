@@ -7,12 +7,16 @@ import Loader from "react-loader-spinner";
 const News = (props) => {
   const [news, setNews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const pk_key = process.env.IEX_PK_KEY;
+  const [titleColor, setTitleColor] = useState({
+    positive: "lime",
+    neutral: "grey",
+    mixed: "yellow",
+    negative: "red",
+  });
 
   useEffect(() => {
     const news = fetch(
-      `https://sandbox.iexapis.com/stable/stock/${props.activeTicker}/news/last/50?token=${pk_key}`
+      `https://sigma7-analytics-apim.azure-api.net/sigma7-analytics/sentiment_news?symbol=${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(news).then((news) => {
@@ -22,6 +26,7 @@ const News = (props) => {
           source: news[key].source,
           summary: news[key].summary,
           url: news[key].url,
+          sentiment: news[key].sentiment,
         };
       });
       setNews(newsData);
@@ -67,7 +72,10 @@ const News = (props) => {
           {news.map((news) => {
             return (
               <div>
-                <h4 className="news-header">
+                <h4
+                  className="news-header"
+                  style={{ color: titleColor[news.sentiment] }}
+                >
                   {news.source}: {news.title}
                 </h4>
                 <p>{news.summary}</p>
