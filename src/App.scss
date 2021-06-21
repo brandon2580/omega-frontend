@@ -410,8 +410,22 @@ body.dark-mode .error-message {
   margin-top: 15px;
 }
 
-.explore-header{
+.explore-header, .feedback-header{
   margin-bottom: 0px !important;
+}
+
+body.dark-mode .feedback-subheader{
+  color: white;
+  margin-top: 10px !important;
+  width: 500px !important;
+  margin: 0 auto;
+}
+
+body.light-mode .feedback-subheader{
+  color: black;
+  margin-top: 10px !important;
+  width: 500px !important;
+  margin: 0 auto;
 }
 
 .test-image{
@@ -586,6 +600,10 @@ body.dark-mode .news-header {
   display: inline-block;
 }
 
+.feedback-form{
+  margin-top: 25px;
+}
+
 body.dark-mode .ticker-dropdown-item {
   color: white !important;
   height: 30px;
@@ -664,7 +682,7 @@ body.dark-mode .dashboard-nav-button{
 
 body.light-mode .dashboard-nav-button{
   margin: 7px;
-  border-right: normal solid black;
+  border-right: thin solid black;
   padding-right: 14px;
 }
 
