@@ -117,7 +117,7 @@ const DashboardNavbar = (props) => {
               item.label.toLowerCase().indexOf(value.toLowerCase()) > -1
             }
             inputProps={{
-              placeholder: "Ticker",
+              placeholder: "Stock Symbol",
               color: "#DC143C",
               type: "text",
               className: "react-autosuggest__input black",
