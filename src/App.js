@@ -25,7 +25,7 @@ function App() {
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default.
   // These are the initial "selected" cards that render by default
   const [selectedCardsIndex, setSelectedCardsIndex] = useState([
-    6, 2, 8, 10, 14, 4,
+    5, 2, 7, 3, 6, 4
   ]);
 
   // These are every single available card throughout the platform, each identified by an id
@@ -96,7 +96,7 @@ function App() {
       infoVisible: false,
       x: 3,
       y: 0,
-      w: 6,
+      w: 3,
       h: 1,
       minW: 3,
       maxH: 1,
@@ -107,24 +107,8 @@ function App() {
     {
       id: 5,
       name: "PriceTarget",
-      title: "Price Target",
+      title: "Price Target (1 Year Out)",
       info: "Wall Street sets price targets usually at the same time it recommends a particular stock. These price targets are usually a range of targets, an expected best case scenario price (high), an expected average price (average), and an expected worst case scenario (low). Sigma7 has averaged these recommendations and plotted them accordingly ontop of the price history. This gives an indication as to where the stock price is heading according to Wall Street's recommendations.",
-      infoVisible: false,
-      x: 6,
-      y: 2,
-      w: 3,
-      h: 1,
-      minW: 3,
-      maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
-    },
-
-    {
-      id: 6,
-      name: "RiskAnalysis",
-      title: "Performance (Risk Adjusted)",
-      info: "Sigma7 has taken the average return and the average volatility (or risk) of a stock and used compared the two values to determine the overall stocks performance. Generally speaking, a stock that performs well is one that grows/earns more money than the risk it holds. Likewise, a stock that carries a lot of risk but not a lot of return, is a poor performing stock. ",
       infoVisible: false,
       x: 0,
       y: 0,
@@ -137,23 +121,7 @@ function App() {
     },
 
     {
-      id: 7,
-      name: "PriceCalendar",
-      title: "Price Calendar",
-      info: "Sigma7 has averaged the overall returns of a stock by month, and then plotted them on a price radial calendar. This hopefully gives insight on the historical monthly trends of a stock. This may also show insight into what seasons a stock best performs or underperforms in.",
-      infoVisible: false,
-      x: 9,
-      y: 2,
-      w: 3,
-      h: 1,
-      minW: 3,
-      maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
-    },
-
-    {
-      id: 8,
+      id: 6,
       name: "News",
       title: "News",
       info: "Sigma7 has aggregated all of the news related to this particular stock.",
@@ -169,39 +137,7 @@ function App() {
     },
 
     {
-      id: 10,
-      name: "OverallReturns",
-      title: "Overall Returns",
-      info: "Sigma7 has consolidated all the returns and losses of a stock and compared them on a pie chart. More specifically, how many days does the stock go up in value vs how many days does it go down in value. This gives the investor an idea what the historical chances of a green or red day is.",
-      infoVisible: false,
-      x: 0,
-      y: 0,
-      w: 3,
-      h: 1,
-      minW: 3,
-      maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
-    },
-
-    {
-      id: 11,
-      name: "AverageReturns",
-      title: "Cumulative Gains vs. Cumulative Losses",
-      info: "This compares the cumulative returns and the cumulative losses of a stock. This is calculated by taking the average return and average loss of a stock by month, and then multiplying by the number of months the stock is green or red (respectively). ",
-      infoVisible: false,
-      x: 0,
-      y: 2,
-      w: 3,
-      h: 1,
-      minW: 3,
-      maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
-    },
-
-    {
-      id: 12,
+      id: 7,
       name: "EarningsRatio",
       title: "Earnings Ratio",
       info: "How often does this stock outperform expectations or underperform? This card computes how often overperformance and underperformance occurs and plots this onto a pie chart. This gives an idea how historical performance has been at the earnings/revenue level. A company with large growth often outperforms expectations.",
@@ -215,14 +151,13 @@ function App() {
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
     },
-
     {
-      id: 13,
-      name: "Valuation",
-      title: "Valuation",
-      info: "This card compares the current valuations of a stock to its competitors (average) valuation and the (average) valuation of the entire market. This gives an idea as to whether or not a stock is overpriced or not. Note: Just because a stock has a higher valuation than its competitors, does not necessarily mean its overpriced. It may mean that its competitors are undervalued and the stock in question is correctly valued. It may also mean the stock in question is an overperformer and therefore correctly valued to its underperforming peers.",
+      id: 8,
+      name: "CompareReturns",
+      title: "Compare Returns",
+      info: "Compares returns of stock vs. competitors",
       infoVisible: false,
-      x: 6,
+      x: 3,
       y: 2,
       w: 3,
       h: 1,
@@ -231,15 +166,14 @@ function App() {
       apiBaseUrl: apiBaseUrl,
       apiCode: apiCode,
     },
-
     {
-      id: 14,
-      name: "Volatility",
-      title: "Volatility",
-      info: "Volatility is the word used to describe how much a stock moves (up AND down). Generally speaking, a stock that is volatile is more risky, although risk is not always synonymous to volatility. Sigma7 has compared the volatility of a stock to its competitors and the market at large. This card gives an idea on the price swings one may experience owning this stock.",
+      id: 9,
+      name: "CorrelatedMarkets",
+      title: "Correlated Markets",
+      info: "Compares correlation",
       infoVisible: false,
       x: 3,
-      y: 0,
+      y: 2,
       w: 3,
       h: 1,
       minW: 3,
@@ -264,17 +198,18 @@ function App() {
 
   useEffect(() => {
     const company = fetch(
-      `${apiBaseUrl}/company_info?code=${apiCode}==&symbol=${activeTicker}`
+      `https://sigma7-analytics.azure-api.net/sigma7-analytics/ticker_card?symbol=${activeTicker}`
     ).then((res) => res.json());
 
     const price = fetch(
-      `https://sandbox.iexapis.com/stable/stock/${activeTicker}/price?token=${pk_key}`
+      `https://cloud.iexapis.com/stable/stock/${activeTicker}/price?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
     // We use this function to add necessary commas (when needed) to large numbers such as market cap
     function numberWithCommas(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
 
     Promise.all([company, price]).then((values) => {
       // Function syntax of setState to use the previous value from the state, as recommended by React
@@ -283,9 +218,10 @@ function App() {
         return prevCards.map((card) => {
           switch (card.name) {
             case "TickerHeader":
+
               return {
                 ...card,
-                company_name: values[0].company_name,
+                company_name: values[0].companyName,
                 ticker: activeTicker,
                 description: values[0].description,
                 industry: values[0].industry,
@@ -293,8 +229,7 @@ function App() {
                 phone: values[0].phone,
                 website: values[0].website,
                 ceo: values[0].ceo,
-                market_cap: numberWithCommas(values[0].mktcap),
-                total_return: values[0].total_return,
+                market_cap: numberWithCommas(values[0].marketcap),
                 price: values[1],
               };
           }
