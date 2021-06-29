@@ -71,7 +71,7 @@ const CompanyHeader = (props) => {
               <div className="row">
                 <div className="col-lg-1 justify-content">
                   <p className="center">
-                    Market Cap
+                    Total Value
                     <br /> $
                     <span style={{ color: "#007bff" }}>
                       {props.tickerCard.market_cap}
