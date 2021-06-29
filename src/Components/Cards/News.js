@@ -16,7 +16,7 @@ const News = (props) => {
 
   useEffect(() => {
     const news = fetch(
-      `https://sigma7-analytics-apim.azure-api.net/sigma7-analytics/sentiment_news?symbol=${props.activeTicker}`
+      `https://sigma7-analytics.azure-api.net/sigma7-analytics/sentiment_news?symbol=${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(news).then((news) => {
@@ -76,12 +76,13 @@ const News = (props) => {
                   className="news-header"
                   style={{ color: titleColor[news.sentiment] }}
                 >
-                  {news.source}: {news.title}
+                  {news.title}
                 </h4>
                 <p>{news.summary}</p>
                 <a target="_blank" href={news.url}>
                   {news.url}
-                </a>
+                </a>{" "}
+                | {news.source}
                 <hr className="news-hr" />
               </div>
             );

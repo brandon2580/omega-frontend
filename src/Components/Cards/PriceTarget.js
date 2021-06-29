@@ -11,10 +11,12 @@ import Loader from "react-loader-spinner";
 ReactFC.fcRoot(FusionCharts, Line, FusionTheme);
 
 const PriceTarget = (props) => {
-  const [series, setSeries] = useState();
+  const [series, setSeries] = useState([]);
   const [high, setHigh] = useState();
   const [average, setAverage] = useState();
   const [low, setLow] = useState();
+  const [currentPrice, setCurrentPrice] = useState();
+  const [outlook, setOutlook] = useState("");
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -26,11 +28,11 @@ const PriceTarget = (props) => {
 
   useEffect(() => {
     const price_target = fetch(
-      `https://sandbox.iexapis.com/stable/stock/${props.activeTicker}/price-target?token=Tpk_0a80aa79cd7244838ccc02f6ad231450`
+      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/price-target?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
     const prices = fetch(
-      `https://sandbox.iexapis.com/stable/stock/${props.activeTicker}/chart/1y?token=Tpk_0a80aa79cd7244838ccc02f6ad231450`
+      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/chart/1y?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
     const allReqs = [prices, price_target];
@@ -39,13 +41,12 @@ const PriceTarget = (props) => {
       const [prices, price_target] = allResp;
 
       let priceTargetData = [
-        Object.keys(prices)
-          .map(function (key) {
-            return {
-              label: prices[key].date,
-              value: prices[key].close,
-            };
-          }),
+        Object.keys(prices).map(function (key) {
+          return {
+            label: prices[key].date,
+            value: prices[key].close,
+          };
+        }),
         {
           last_updated: price_target.updatedData,
           average: price_target.priceTargetAverage,
@@ -62,6 +63,28 @@ const PriceTarget = (props) => {
       setIsLoading(false);
     });
   }, [props.activeTicker]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      let recentPrice = series.slice(-1)[0].value;
+      setCurrentPrice(recentPrice);
+    }
+  }, [isLoading, series]);
+
+  useEffect(() => {
+    function percentChange(a, b) {
+      return ((b - a) / a) * 100;
+    }
+
+    let diff = percentChange(currentPrice, average);
+    if (diff > 8) {
+      setOutlook("Great");
+    } else if (diff <= 8 && diff >= -8) {
+      setOutlook("Neutral");
+    } else if (diff < -8) {
+      setOutlook("Poor");
+    }
+  }, [currentPrice, average]);
 
   const dataSource = {
     chart: {
@@ -150,10 +173,11 @@ const PriceTarget = (props) => {
           <ReactFC
             type="line"
             width="100%"
-            height="80%"
+            height="78%"
             dataFormat="JSON"
             dataSource={dataSource}
           />
+          <p className="price-target-outlook center">Outlook: <span className="blue">{outlook}</span></p>
         </div>
       </Card>
     );

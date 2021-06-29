@@ -24,18 +24,16 @@ const Dividends = (props) => {
 
   useEffect(() => {
     const dividends = fetch(
-      `${props.apiBaseUrl}/dividends?code=${props.apiCode}==&symbol=${props.activeTicker}&lastN=${dividendRange}`
+      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/dividends/5y?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
     Promise.resolve(dividends).then((dividends) => {
-      let dividendData = Object.keys(dividends.amount)
-        .reverse()
-        .map(function (key) {
-          return {
-            label: key,
-            value: dividends.amount[key].toFixed(2),
-          };
-        });
+      let dividendData = dividends.reverse().map((el) => {
+        return {
+          label: el.recordDate,
+          value: el.amount
+        }
+      })
 
       setSeries(dividendData);
       setIsLoading(false);

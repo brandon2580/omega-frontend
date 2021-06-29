@@ -38,33 +38,30 @@ const Earnings = (props) => {
 
   useEffect(() => {
     const earnings = fetch(
-      `${props.apiBaseUrl}/earnings?code=${props.apiCode}==&symbol=${props.activeTicker}&lastN=4&period=${earningsPeriod}`
+      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/earnings/4?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
     Promise.resolve(earnings).then((earnings) => {
-      let dates = Object.keys(earnings.fiscal_period)
-        .sort()
-        .map(function (key, i) {
-          return earnings.fiscal_period[key];
-        });
+      let earningsArray = earnings.earnings;
 
-      let consensusMap = Object.keys(earnings.consensus_eps)
-        .sort()
-        .map(function (key, i) {
-          return {
-            x: dates[i],
-            y: earnings.consensus_eps[key].toFixed(2),
-          };
-        });
+      let dates = earningsArray.reverse().map((el, i) => {
+        return el.fiscalPeriod;
+      });
 
-      let actualMap = Object.keys(earnings.real_eps)
-        .sort()
-        .map(function (key, i) {
-          return {
-            x: dates[i],
-            y: earnings.real_eps[key].toFixed(2),
-          };
-        });
+      let consensusMap = earningsArray.map((el, i) => {
+        return {
+          x: dates[i],
+          y: el.consensusEPS,
+        };
+      });
+
+      let actualMap = earningsArray.map((el, i) => {
+        return {
+          x: dates[i],
+          y: el.actualEPS,
+        };
+      });
+      console.log(actualMap);
 
       let earningsObject = {
         actual: {
@@ -77,6 +74,7 @@ const Earnings = (props) => {
           eps: consensusMap,
         },
       };
+
       let consensusEPS = earningsObject.consensus.eps.map((el, i) => {
         return {
           x: i + 1,
