@@ -8,14 +8,11 @@ import AnalystRecommendations from "../Cards/AnalystRecommendations";
 import Dividends from "../Cards/Dividends";
 import Price from "../Cards/Price";
 import PriceTarget from "../Cards/PriceTarget";
-import RiskAnalysis from "../Cards/RiskAnalysis";
 import News from "../Cards/News";
-import PriceCalendar from "../Cards/PriceCalendar";
-import OverallReturns from "../Cards/OverallReturns";
-import AverageReturns from "../Cards/AverageReturns";
 import EarningsRatio from "../Cards/EarningsRatio";
-import Valuation from "../Cards/Valuation";
-import Volatility from "../Cards/Volatility";
+import CompareReturns from "../Cards/CompareReturns";
+import CorrelatedMarkets from "../Cards/CorrelatedMarkets";
+
 import { InfoCircleOutlined } from "@ant-design/icons";
 
 const AddCardModal = (props) => {
@@ -53,14 +50,10 @@ const AddCardModal = (props) => {
     Dividends,
     Price,
     PriceTarget,
-    RiskAnalysis,
     News,
-    PriceCalendar,
-    OverallReturns,
-    AverageReturns,
     EarningsRatio,
-    Valuation,
-    Volatility,
+    CompareReturns,
+    CorrelatedMarkets,
   };
 
   return (
@@ -132,7 +125,7 @@ const AddCardModal = (props) => {
 
               if (card.name in availableCardsObject && defaultConditionals) {
                 const CustomTag = availableCardsObject[card.name];
-                
+
                 return (
                   <div className="col-xl-4 modal-card">
                     <CustomTag
