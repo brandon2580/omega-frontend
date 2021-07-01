@@ -1,11 +1,12 @@
 import React from "react";
 import "../../App.scss";
 import logo from "./logo.png";
-
+import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
-const BasicNavbar = (props) => {
+const BasicNavbar = () => {
   const { isAuthenticated, user } = useAuth0();
+  let history = useHistory();
 
   return (
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
@@ -33,8 +34,8 @@ const BasicNavbar = (props) => {
         <ul class="navbar-nav">
           <li className="nav-item active">
             {isAuthenticated ? (
-              <a className="nav-link" href={`dashboard/${user.sub}/Default_Layout/AAPL`}>
-                Dashboard
+              <a className="nav-link" onClick={() => history.goBack()}>
+                Return
               </a>
             ) : (
               <h1>loading</h1>
