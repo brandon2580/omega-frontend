@@ -53,8 +53,8 @@ const HomeDashboard = (props) => {
   const [mainLayout, setMainLayout] = useState([
     { i: "5", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
     { i: "2", x: 6, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
-    { i: "7", x: 0, y: 0, w: 12, h: 1, minW: 3, maxH: 1 },
-    { i: "3", x: 0, y: 0, w: 3, h: 1, minW: 3, maxH: 1 },
+    { i: "8", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+    { i: "3", x: 6, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
     { i: "6", x: 3, y: 0, w: 3, h: 1, minW: 3, maxH: 1 },
     { i: "4", x: 6, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
   ]);

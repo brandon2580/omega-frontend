@@ -25,7 +25,7 @@ function App() {
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default.
   // These are the initial "selected" cards that render by default
   const [selectedCardsIndex, setSelectedCardsIndex] = useState([
-    5, 2, 7, 3, 6, 4
+    5, 2, 8, 3, 6, 4
   ]);
 
   // These are every single available card throughout the platform, each identified by an id
