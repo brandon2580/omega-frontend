@@ -80,7 +80,7 @@ const News = (props) => {
                 </h4>
                 <p>{news.summary}</p>
                 <a target="_blank" href={news.url}>
-                  {news.url}
+                  Link
                 </a>{" "}
                 | {news.source}
                 <hr className="news-hr" />
