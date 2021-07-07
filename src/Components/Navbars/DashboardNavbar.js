@@ -43,18 +43,26 @@ const DashboardNavbar = (props) => {
 
   useEffect(() => {
     const allowed_stocks = fetch(
-      `https://sigma7apis.azure-api.net/omega/master?code=${process.env.REACT_APP_API_KEY}==&all=1`
+      `https://cloud.iexapis.com/stable/ref-data/symbols?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
     Promise.resolve(allowed_stocks).then((allowed_stocks) => {
-      setAllowedStocks(Object.keys(allowed_stocks.tick_ex));
+      let mapped = allowed_stocks.map((el, i) => {
+        return {
+          symbol: el.symbol,
+          name: el.name
+        }
+      })
+      setAllowedStocks(mapped);
     });
   }, [props.activeTicker]);
 
   useEffect(() => {
     let mapped = allowedStocks.map((stock) => {
       return {
-        label: stock,
+        name: stock.name,
+        value: stock.name + ' - ' + stock.symbol,
+        symbol: stock.symbol
       };
     });
     setSuggestions(mapped);
@@ -62,7 +70,12 @@ const DashboardNavbar = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!allowedStocks.includes(ticker)) {
+
+    let allowed_stocks = allowedStocks.map((el, i) => {
+      return el.symbol
+    })
+
+    if (allowed_stocks.includes(ticker)) {
       setInvalidTicker(false);
       props.setActiveTicker(ticker);
       routerHistory.push(
@@ -111,10 +124,12 @@ const DashboardNavbar = (props) => {
 
         <form onSubmit={handleSubmit}>
           <Autocomplete
-            getItemValue={(item) => item.label}
-            items={suggestions}
+            getItemValue={(item) => item.value}
+            items={suggestions.map((el, i) => {
+              return el
+            })}
             shouldItemRender={(item, value) =>
-              item.label.toLowerCase().indexOf(value.toLowerCase()) > -1
+              item.value.toLowerCase().indexOf(value.toLowerCase()) > -1
             }
             inputProps={{
               placeholder: "Stock Symbol",
@@ -133,20 +148,22 @@ const DashboardNavbar = (props) => {
                 className="ticker-dropdown-item"
                 style={{ background: isHighlighted ? highlightColor : theme }}
               >
-                {item.label}
+                {item.name} - <span className="blue">{item.symbol}</span>
               </div>
             )}
             value={ticker}
             onChange={(e) => setTicker(e.target.value.toUpperCase())}
             onSelect={(val) => {
-              setTicker(val);
+              let parts = val.split('- ');
+              let answer = parts[parts.length - 1];
+              setTicker(answer);
             }}
           />
         </form>
 
         {invalidTicker && (
           <p style={{ color: "red" }}>
-            Please use a valid ticker in the DOW 30
+            Please use a valid stock symbol
           </p>
         )}
 
