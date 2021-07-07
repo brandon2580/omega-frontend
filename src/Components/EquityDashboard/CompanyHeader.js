@@ -33,7 +33,7 @@ const CompanyHeader = (props) => {
   } else {
     return (
       <div className="row">
-        <div className="col-lg-12">
+         <div className="col-lg-12">
           <Card title="Company" className="ticker-header">
             <hr className="card-hr" />
 
@@ -83,7 +83,7 @@ const CompanyHeader = (props) => {
                     Total Return
                     <br />{" "}
                     <span style={{ color: "#007bff" }}>
-                      {props.tickerCard.total_return}
+                      {props.tickerCard.totalReturn.toFixed(2)}
                     </span>
                     x
                   </p>
@@ -103,7 +103,7 @@ const CompanyHeader = (props) => {
               </div>
             </div>
           </Card>
-        </div>
+        </div> 
       </div>
     );
   }

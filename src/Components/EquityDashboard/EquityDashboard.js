@@ -104,6 +104,10 @@ const HomeDashboard = (props) => {
     if (!isUserNewStatus) setIsTourOpen(false);
   }, [isUserNewStatus]);
 
+  useEffect(() => {
+    props.setActiveTicker(urlTicker)
+  }, [])
+
   // This checks to see if the current user has a user_dashboards collection.
   // If not, create one and set mainLayout as the default
   useEffect(() => {

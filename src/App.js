@@ -19,7 +19,7 @@ import Feedback from "./Components/Feedback/Feedback";
 
 function App() {
   const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
-  const [activeTicker, setActiveTicker] = useState("AAPL");
+  const [activeTicker, setActiveTicker] = useState("");
   const apiBaseUrl = "https://sigma7apis.azure-api.net/omega";
   const apiCode = process.env.REACT_APP_API_KEY;
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default.
@@ -218,7 +218,6 @@ function App() {
         return prevCards.map((card) => {
           switch (card.name) {
             case "TickerHeader":
-
               return {
                 ...card,
                 company_name: values[0].companyName,
@@ -230,6 +229,7 @@ function App() {
                 website: values[0].website,
                 ceo: values[0].ceo,
                 market_cap: numberWithCommas(values[0].marketcap),
+                totalReturn: values[0].maxChangePercent,
                 price: values[1],
               };
           }
