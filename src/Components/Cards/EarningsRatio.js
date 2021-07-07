@@ -45,19 +45,29 @@ const EarningsRatio = (props) => {
 
   useEffect(() => {
     const earnings = fetch(
-      `${props.apiBaseUrl}/earnings?code=${props.apiCode}==&symbol=${props.activeTicker}&lastN=4&period=${earningsPeriod}`
+      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/earnings/4?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
     Promise.resolve(earnings).then((earnings) => {
-      let earningsRatioData = {
-        consensus: earnings.consensus_eps,
-        actual: earnings.real_eps,
-      };
-      let consensus = earningsRatioData[Object.keys(earningsRatioData)[0]];
-      let actual = earningsRatioData[Object.keys(earningsRatioData)[1]];
-      let timesMissed = compare(consensus, actual);
+      let earningsRatioData = earnings.earnings.map((el, i) => {
+        return {
+          consensus: el.consensusEPS,
+          actual: el.actualEPS
+        }
+      })
+
+      let consensus = earningsRatioData.map((el, i) => {
+        return el.consensus
+      })
+
+      let actual = earningsRatioData.map((el, i) => {
+        return el.actual
+      })
+
+      let timesMissed = compare(consensus, actual)
       let percentTimesMissed = (timesMissed / 4) * 100;
       let percentTimesBeat = 100 - percentTimesMissed;
+
 
       setSeries([
         { name: "% Beat", value: percentTimesBeat },
