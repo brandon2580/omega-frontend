@@ -162,8 +162,10 @@ const Sidenavbar = (props) => {
             <HomeOutlined />
           </NavIcon>
           <NavText>
-            <a href="/dashboard">Dashboard</a>
-          </NavText>
+            <a className="nav-link">
+              Dashboard
+            </a>          
+            </NavText>
         </NavItem>
         <NavItem eventKey="home">
           <NavText>

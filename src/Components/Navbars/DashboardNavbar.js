@@ -196,11 +196,11 @@ const DashboardNavbar = (props) => {
               selectedDashboardName={props.selectedDashboardName}
             />{" "}
           </div>
-          <div className="dashboard-nav-button">
+          {/* <div className="dashboard-nav-button">
             <a href={`/explore/${props.userID}`}>
               <button className="btn btn-primary">Explore</button>
             </a>
-          </div>{" "}
+          </div> */}
           <div className="dashboard-nav-button">
             {props.isAuthenticated ? (
               <a href="/profile">

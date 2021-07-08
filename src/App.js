@@ -284,9 +284,9 @@ function App() {
             <Route path="/portfolio">
               <Portfolio />
             </Route>
-            <Route component={Explore} path={`/explore/:userID`}>
+            {/* <Route component={Explore} path={`/explore/:userID`}>
               <Explore />
-            </Route>
+            </Route> */}
             <Route path="/profile">
               {/* 
                 Is the page loading? Show loading icon. Then make sure
