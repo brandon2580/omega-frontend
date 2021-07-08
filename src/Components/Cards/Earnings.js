@@ -42,73 +42,78 @@ const Earnings = (props) => {
     ).then((res) => res.json());
 
     Promise.resolve(earnings).then((earnings) => {
-      let earningsArray = earnings.earnings;
+      if(earnings.earnings == undefined){
+        setIsLoading(false)
+        return null
+      } else {
+        let earningsArray = earnings.earnings;
 
-      let dates = earningsArray.reverse().map((el, i) => {
-        return el.fiscalPeriod;
-      });
-
-      let consensusMap = earningsArray.map((el, i) => {
-        return {
-          x: dates[i],
-          y: el.consensusEPS,
+        let dates = earningsArray.reverse().map((el, i) => {
+          return el.fiscalPeriod;
+        });
+  
+        let consensusMap = earningsArray.map((el, i) => {
+          return {
+            x: dates[i],
+            y: el.consensusEPS,
+          };
+        });
+  
+        let actualMap = earningsArray.map((el, i) => {
+          return {
+            x: dates[i],
+            y: el.actualEPS,
+          };
+        });
+  
+        let earningsObject = {
+          actual: {
+            name: "Actual",
+            eps: actualMap,
+          },
+  
+          consensus: {
+            name: "Consensus",
+            eps: consensusMap,
+          },
         };
-      });
-
-      let actualMap = earningsArray.map((el, i) => {
-        return {
-          x: dates[i],
-          y: el.actualEPS,
-        };
-      });
-      console.log(actualMap);
-
-      let earningsObject = {
-        actual: {
-          name: "Actual",
-          eps: actualMap,
-        },
-
-        consensus: {
-          name: "Consensus",
-          eps: consensusMap,
-        },
-      };
-
-      let consensusEPS = earningsObject.consensus.eps.map((el, i) => {
-        return {
-          x: i + 1,
-          y: el.y,
-        };
-      });
-
-      let actualEPS = earningsObject.actual.eps.map((el, i) => {
-        return {
-          x: i + 1,
-          y: el.y,
-        };
-      });
-
-      let formattedDates = dates.map((el, i) => {
-        return {
-          x: i + 1,
-          label: el,
-        };
-      });
-
-      let barViewDataMap = consensusEPS.map((el, i) => {
-        return {
-          name: formattedDates[i].label,
-          consensus: el.y,
-          actual: actualEPS[i].y,
-        };
-      });
-
-      setConsensus(consensusEPS);
-      setActual(actualEPS);
-      setDates(formattedDates);
-      setBarViewData(barViewDataMap);
-      setIsLoading(false);
+  
+        let consensusEPS = earningsObject.consensus.eps.map((el, i) => {
+          return {
+            x: i + 1,
+            y: el.y,
+          };
+        });
+  
+        let actualEPS = earningsObject.actual.eps.map((el, i) => {
+          return {
+            x: i + 1,
+            y: el.y,
+          };
+        });
+  
+        let formattedDates = dates.map((el, i) => {
+          return {
+            x: i + 1,
+            label: el,
+          };
+        });
+  
+        let barViewDataMap = consensusEPS.map((el, i) => {
+          return {
+            name: formattedDates[i].label,
+            consensus: el.y,
+            actual: actualEPS[i].y,
+          };
+        });
+  
+        setConsensus(consensusEPS);
+        setActual(actualEPS);
+        setDates(formattedDates);
+        setBarViewData(barViewDataMap);
+        setIsLoading(false);
+      }
+      
     });
   }, [earningsPeriod, props.activeTicker]);
 

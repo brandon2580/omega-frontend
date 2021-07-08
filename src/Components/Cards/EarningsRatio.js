@@ -49,31 +49,36 @@ const EarningsRatio = (props) => {
     ).then((res) => res.json());
 
     Promise.resolve(earnings).then((earnings) => {
-      let earningsRatioData = earnings.earnings.map((el, i) => {
-        return {
-          consensus: el.consensusEPS,
-          actual: el.actualEPS
-        }
-      })
+      if (earnings.earnings == undefined) {
+        setIsLoading(false)
+        return null
+      } else {
+        let earningsRatioData = earnings.earnings.map((el, i) => {
+          return {
+            consensus: el.consensusEPS,
+            actual: el.actualEPS
+          }
+        })
 
-      let consensus = earningsRatioData.map((el, i) => {
-        return el.consensus
-      })
+        let consensus = earningsRatioData.map((el, i) => {
+          return el.consensus
+        })
 
-      let actual = earningsRatioData.map((el, i) => {
-        return el.actual
-      })
+        let actual = earningsRatioData.map((el, i) => {
+          return el.actual
+        })
 
-      let timesMissed = compare(consensus, actual)
-      let percentTimesMissed = (timesMissed / 4) * 100;
-      let percentTimesBeat = 100 - percentTimesMissed;
+        let timesMissed = compare(consensus, actual)
+        let percentTimesMissed = (timesMissed / 4) * 100;
+        let percentTimesBeat = 100 - percentTimesMissed;
 
 
-      setSeries([
-        { name: "% Beat", value: percentTimesBeat },
-        { name: "% Missed", value: percentTimesMissed },
-      ]);
-      setIsLoading(false);
+        setSeries([
+          { name: "% Beat", value: percentTimesBeat },
+          { name: "% Missed", value: percentTimesMissed },
+        ]);
+        setIsLoading(false);
+      }
     });
   }, [earningsPeriod, props.activeTicker]);
 

@@ -33,56 +33,61 @@ const AnalystRecommendations = (props) => {
     ).then((res) => res.json());
 
     Promise.resolve(analyst_recs).then((analyst_recs) => {
-      let pieSeriesData = [
-        { name: "Strong Buy", value: analyst_recs[0].ratingOverweight },
-        { name: "Buy", value: analyst_recs[0].ratingBuy },
-        { name: "Hold", value: analyst_recs[0].ratingHold },
-        { name: "Sell", value: analyst_recs[0].ratingSell },
-        { name: "Strong Sell", value: analyst_recs[0].ratingUnderweight },
-      ];
-
-      let barSeriesData = [
-        {
-          data: [
-            analyst_recs[0].ratingOverweight,
-            analyst_recs[0].ratingBuy,
-            analyst_recs[0].ratingHold,
-            analyst_recs[0].ratingSell,
-            analyst_recs[0].ratingUnderweight,
-          ],
-        },
-      ];
-
-      setPieSeries(pieSeriesData);
-      setBarSeries(barSeriesData);
-
-      let totalRecsArr = pieSeriesData.map((el) => {
-        return el.value;
-      });
-
-      let buyRecs = totalRecsArr[0] + totalRecsArr[1];
-      let holdRecs = totalRecsArr[2];
-      let sellRecs = totalRecsArr[3] + totalRecsArr[4];
-
-      let simplifiedArr = [buyRecs, holdRecs, sellRecs];
-
-      const max = simplifiedArr.reduce((m, n) => Math.max(m, n));
-      let overallIndex = [...simplifiedArr.keys()].filter(
-        (i) => simplifiedArr[i] === max
-      );
-
-      if (overallIndex == 0) {
-        setOverall("Buy");
-      } else if (overallIndex == 1) {
-        setOverall("Hold");
-      } else if (overallIndex == 2) {
-        setOverall("Sell");
+      if (analyst_recs[0] == undefined) {
+        setIsLoading(false)
+        return null
       } else {
-        setOverall("Mixed");
-      }
+        let pieSeriesData = [
+          { name: "Strong Buy", value: analyst_recs[0].ratingOverweight },
+          { name: "Buy", value: analyst_recs[0].ratingBuy },
+          { name: "Hold", value: analyst_recs[0].ratingHold },
+          { name: "Sell", value: analyst_recs[0].ratingSell },
+          { name: "Strong Sell", value: analyst_recs[0].ratingUnderweight },
+        ];
 
-      setTotalRecs(totalRecsArr.reduce((a, b) => a + b, 0));
-      setIsLoading(false);
+        let barSeriesData = [
+          {
+            data: [
+              analyst_recs[0].ratingOverweight,
+              analyst_recs[0].ratingBuy,
+              analyst_recs[0].ratingHold,
+              analyst_recs[0].ratingSell,
+              analyst_recs[0].ratingUnderweight,
+            ],
+          },
+        ];
+
+        setPieSeries(pieSeriesData);
+        setBarSeries(barSeriesData);
+
+        let totalRecsArr = pieSeriesData.map((el) => {
+          return el.value;
+        });
+
+        let buyRecs = totalRecsArr[0] + totalRecsArr[1];
+        let holdRecs = totalRecsArr[2];
+        let sellRecs = totalRecsArr[3] + totalRecsArr[4];
+
+        let simplifiedArr = [buyRecs, holdRecs, sellRecs];
+
+        const max = simplifiedArr.reduce((m, n) => Math.max(m, n));
+        let overallIndex = [...simplifiedArr.keys()].filter(
+          (i) => simplifiedArr[i] === max
+        );
+
+        if (overallIndex == 0) {
+          setOverall("Buy");
+        } else if (overallIndex == 1) {
+          setOverall("Hold");
+        } else if (overallIndex == 2) {
+          setOverall("Sell");
+        } else {
+          setOverall("Mixed");
+        }
+
+        setTotalRecs(totalRecsArr.reduce((a, b) => a + b, 0));
+        setIsLoading(false);
+      }
     });
   }, [props.activeTicker]);
 
@@ -165,7 +170,7 @@ const AnalystRecommendations = (props) => {
       column: {
         colors: "#2D2D2D",
         opacity: 1,
-    }, 
+      },
     },
   };
 
