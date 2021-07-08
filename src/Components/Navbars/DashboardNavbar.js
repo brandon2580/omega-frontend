@@ -12,8 +12,10 @@ import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "../AddCardModal/AddCardModal";
 import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
 import ShareLayoutModal from "../ShareLayoutModal/ShareLayoutModal";
-import Autocomplete from "react-autocomplete";
 import logo from "./logo.png";
+import TextField from '@material-ui/core/TextField';
+import { Autocomplete, createFilterOptions } from '@material-ui/lab';
+
 
 import { useAuth0 } from "@auth0/auth0-react";
 import Feedback from "../Feedback/Feedback";
@@ -87,6 +89,13 @@ const DashboardNavbar = (props) => {
     setTicker("");
   };
 
+  const OPTIONS_LIMIT = 30;
+  const defaultFilterOptions = createFilterOptions();
+
+  const filterOptions = (options, state) => {
+    return defaultFilterOptions(options, state).slice(0, OPTIONS_LIMIT);
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
       <a className="navbar-brand" href="/">
@@ -124,39 +133,26 @@ const DashboardNavbar = (props) => {
 
         <form onSubmit={handleSubmit}>
           <Autocomplete
-            getItemValue={(item) => item.value}
-            items={suggestions.map((el, i) => {
-              return el
-            })}
-            shouldItemRender={(item, value) =>
-              item.value.toLowerCase().indexOf(value.toLowerCase()) > -1
-            }
-            inputProps={{
-              placeholder: "Stock Symbol",
-              color: "#DC143C",
-              type: "text",
-              className: "react-autosuggest__input black",
-            }}
-            menuStyle={{
-              scrollbarColor: scrollbarColor,
-              position: "fixed",
-              overflow: "auto",
-              maxHeight: "50%",
-            }}
-            renderItem={(item, isHighlighted) => (
-              <div
-                className="ticker-dropdown-item"
-                style={{ background: isHighlighted ? highlightColor : theme }}
-              >
-                {item.name} - <span className="blue">{item.symbol}</span>
+            id="clear-on-blur"
+            clearOnBlur
+            style={{ backgroundColor: "white", width: 200, height: 35 }}
+            filterOptions={filterOptions}
+            options={suggestions}
+            getOptionLabel={(option) => option.name + " - " + option.symbol}
+
+            renderInput={(params) => <TextField placeholder="Stock Symbol" {...params} style={{ height: 35 }} variant="outlined" />}
+            renderOption={(option) => (
+              <div onClick={(e) => {
+                setTicker(e.target.innerText)
+              }}>
+                {option.name} - <span className="blue">{option.symbol}</span>
               </div>
             )}
-            value={ticker}
-            onChange={(e) => setTicker(e.target.value.toUpperCase())}
             onSelect={(val) => {
-              let parts = val.split('- ');
+              let parts = val.target.value.split('- ');
               let answer = parts[parts.length - 1];
-              setTicker(answer);
+              console.log(answer)
+              setTicker(answer.toUpperCase());
             }}
           />
         </form>
