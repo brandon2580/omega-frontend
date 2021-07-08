@@ -42,7 +42,7 @@ import db from "../../firebase";
 import firebase from "firebase/app";
 import "firebase/firestore";
 
-// hotjar.initialize(hjid, hjsv);
+// hotjar.initialize(2462125, hjsv);
 const GridLayout = WidthProvider(Responsive);
 
 
