@@ -582,6 +582,18 @@ body.dark-mode .news-header {
   cursor: default;
 }
 
+.MuiSvgIcon-root{
+  fill: black !important;
+}
+
+.MuiInputBase-root{
+  height: 35px !important;
+}
+
+.MuiOutlinedInput-input{
+  margin-top: -10px !important;
+}
+
 .ant-card-head:active {
   cursor: grabbing;
 }
