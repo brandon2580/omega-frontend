@@ -97,7 +97,7 @@ const DashboardNavbar = (props) => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-dark dashboard-navbar">
       <a className="navbar-brand" href="/">
         <img
           src={logo}
@@ -133,6 +133,7 @@ const DashboardNavbar = (props) => {
 
         <form onSubmit={handleSubmit}>
           <Autocomplete
+            className="stock-symbol-form"
             id="clear-on-blur"
             clearOnBlur
             style={{ backgroundColor: "white", width: 200, height: 35 }}
@@ -151,7 +152,6 @@ const DashboardNavbar = (props) => {
             onSelect={(val) => {
               let parts = val.target.value.split('- ');
               let answer = parts[parts.length - 1];
-              console.log(answer)
               setTicker(answer.toUpperCase());
             }}
           />
@@ -163,7 +163,7 @@ const DashboardNavbar = (props) => {
           </p>
         )}
 
-        <div className="ml-auto row">
+        <div className="ml-auto row dashboard-nav-buttons">
           <div className="dashboard-nav-button">
             <DarkModeToggle setDarkMode={props.setDarkMode} />
           </div>

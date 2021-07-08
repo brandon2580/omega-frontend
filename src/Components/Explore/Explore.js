@@ -42,13 +42,10 @@ const Explore = (props) => {
   }, []);
 
   const saveLayout = (e) => {
-    console.log(e.target.value);
-
     const data = db.collection("saved_dashboards").doc(userID);
 
     data.get().then(() => {
       const selectedIndex = e.target.getAttribute("data-key");
-      console.log(selectedIndex);
 
       let dashboard_names = dashboards.map((dashboard, i) => {
         return dashboard.dashboard_name;

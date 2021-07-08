@@ -14,7 +14,7 @@ import Profile from "./Auth/Profile/Profile";
 import Loader from "react-loader-spinner";
 import { useAuth0 } from "@auth0/auth0-react";
 import db from "./firebase";
-import Explore from "./Components/Explore/Explore";
+// import Explore from "./Components/Explore/Explore";
 import Feedback from "./Components/Feedback/Feedback";
 
 function App() {
@@ -197,8 +197,6 @@ function App() {
       apiCode: apiCode,
     },
   ]);
-
-  const pk_key = process.env.IEX_PK_KEY;
 
   useEffect(() => {
     if (isAuthenticated) {

@@ -13,6 +13,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { useHistory } from "react-router";
+import { hotjar } from 'react-hotjar';
 import uuid from "react-uuid";
 import {
   ArrowLeftOutlined,
@@ -41,7 +42,9 @@ import db from "../../firebase";
 import firebase from "firebase/app";
 import "firebase/firestore";
 
+// hotjar.initialize(hjid, hjsv);
 const GridLayout = WidthProvider(Responsive);
+
 
 const HomeDashboard = (props) => {
   let { userID, dashboardID, urlTicker } = useParams();
@@ -163,7 +166,6 @@ const HomeDashboard = (props) => {
             keys.forEach((key) => {
               let split = key.split(" ").join("_");
               if (split == dashboardID) {
-                console.log(key);
 
                 // If a layout was selected from the Sidenavbar, turn the item dashboard from firebase into an array,
                 let mappedLayoutIndex = Object.values(values[key]).flatMap(
@@ -294,7 +296,6 @@ const HomeDashboard = (props) => {
               .map((card) => {
                 return parseInt(card.i);
               });
-            console.log(mappedLayoutIndex);
 
             setSelectedLayoutName(
               Object.keys(currentLayout).flat()[0].split(" ").join("_")
@@ -429,18 +430,48 @@ const HomeDashboard = (props) => {
       },
     },
     {
-      selector: ".ticker-header",
-      content:
-        "This is where you can find general information about the company you're researching.",
+      selector: ".dashboard-navbar",
+      content: "This is the navigation bar where you can search for stocks, add cards, share dashboards, & more!",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
       },
     },
     {
-      selector: ".risk-card",
-      content:
-        "This is the Performance Card. This card gives detail on a company's overall risk adjusted performance. More specifically, it compares its returns to the risk it took to obtain these returns and computes this onto a simple meter.",
+      selector: ".stock-symbol-form",
+      content: "If you want to search up any given stock/company, this is where you would type it. Feel free to type in the whole name of the company or just the stock symbol.",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".dashboard-nav-buttons",
+      content: "This is where you can add cards to your dashboard, save a new layout, share dashboards, view your profile, and send us feedback!",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".sidenav",
+      content: "This is the side navigation bar. This is where you will find your saved layouts. In the future, you will be able to save other users' dashboards here on top of your own.",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".ticker-header",
+      content: "This is where you can find general information about the company you're researching.",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".price-card",
+      content: "This card displays the price movements of a given stock.This card's chart format may swap between a candlestick or line format.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -449,8 +480,24 @@ const HomeDashboard = (props) => {
 
     {
       selector: ".analystrecs-card",
+      content: "This card displays analyst recommendations from Wall Street. These recommendations are derived from extensive research and industry knowledge.",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".earningsratio-card",
+      content: "This card displays the rate in which a company meets or misses expectations set by research analysts. Typically, a company will see a significant value/price increase if they exceed or meet the expectations set for them. The inverse is true if companies fail to meet expectations set for them.",
+      style: {
+        backgroundColor: theme,
+        border: `1px solid ${textColor}`,
+      },
+    },
+    {
+      selector: ".pricetarget-card",
       content:
-        "This is the Analyst Recommendations card. This card gives displays a broad overview of Wall Street's recommendations on a stock. These recommendations usually dictate whether or not one should buy, sell, or hold a stock.",
+        "Much like Analyst Recommendations, Analysts from Wall Street set price targets for given stocks. These targets are essentially predictions set by experienced industry professionals within Wall Street. These targets can often dictate the price expectations of other investors.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -458,34 +505,7 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".news-card",
-      content: "This is the News Card. Live aggregated news will appear here.",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".overallreturns-card",
-      content:
-        "This is the Overall Returns card. This card displays the ratio of days that a company went up versus the ratio of days a company went down.",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".volatility-card",
-      content:
-        "This is the Volatility Card. Volatility is usually defined as variation in stock returns. More specifically, a volatile stock tends to go up and down drastically. Many investors associate risk with volatility. The Volatility Card compares the company in question with its competitors and the market at large (DOW 30).",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".price-card",
-      content:
-        "This is the Price Card. Mouse over specific candles and dates to get more info on the data!. Likewise, there are configuration buttons below to change the time horizon and time frame.",
+      content: "This card displays the most recent news articles for a particular stock, and color codes them according to their sentiment or feelings on the stock.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -581,7 +601,7 @@ const HomeDashboard = (props) => {
             */}
             {props.selectedCardsIndex.map((cardId, index) => {
               const card = props.availableCards.find((c) => c.id === cardId);
-              
+
               const defaultDataGrid = {
                 x: card.x,
                 y: card.y,

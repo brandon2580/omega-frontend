@@ -37,6 +37,7 @@ function compare(consensus, actual) {
 
 const EarningsRatio = (props) => {
   const [earningsPeriod, setEarningsPeriod] = useState("Q");
+  const [overall, setOverall] = useState("");
   const [series, setSeries] = useState([
     { name: "% Beat", value: 0 },
     { name: "% Missed", value: 0 },
@@ -72,6 +73,13 @@ const EarningsRatio = (props) => {
         let percentTimesMissed = (timesMissed / 4) * 100;
         let percentTimesBeat = 100 - percentTimesMissed;
 
+        if (percentTimesBeat < 50) {
+          setOverall("Poor")
+        } else if (percentTimesBeat > 50) {
+          setOverall("Great")
+        } else if (percentTimesBeat == 50) {
+          setOverall("Mixed")
+        }
 
         setSeries([
           { name: "% Beat", value: percentTimesBeat },
@@ -106,6 +114,7 @@ const EarningsRatio = (props) => {
   } else {
     return (
       <Card
+        className="earningsratio-card"
         title={props.title}
         extra={props.extra}
         style={{
@@ -136,6 +145,8 @@ const EarningsRatio = (props) => {
               <Tooltip />
             </PieChart>
           </ResponsiveContainer>
+          <p className="earnings-ratio-overall center">Overall: <span className="blue">{overall}</span></p>
+
         </div>
       </Card>
     );

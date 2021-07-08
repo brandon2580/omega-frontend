@@ -22,7 +22,6 @@ const Feedback = () => {
         },
         (error) => {
           setWasEmailFailed(true);
-          console.log(error)
         }
       );
   }

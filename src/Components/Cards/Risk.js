@@ -34,9 +34,7 @@ const Risk = (props) => {
             let competitorValues = Object.values(values[2]).map((competitorValue) => {
                 return competitorValue
             })
-            console.log(competitors)
 
-            console.log(competitorValues)
             setSeries([{
                 name: keys[0],
                 data: [
@@ -78,8 +76,6 @@ const Risk = (props) => {
             setIsLoading(false);
         });
     }, [props.activeTicker]);
-
-    console.log(series)
 
     let options = {
         chart: {

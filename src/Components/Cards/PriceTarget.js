@@ -161,6 +161,7 @@ const PriceTarget = (props) => {
   } else {
     return (
       <Card
+        className="pricetarget-card"
         title={props.title}
         extra={props.extra}
         style={{

@@ -20,7 +20,6 @@ const CorrelatedMarkets = (props) => {
     ).then((res) => res.json());
 
     Promise.resolve(correlated_markets).then((el) => {
-        console.log(el)
       let f = el.sorted;
 
       let values = Object.values(f).map((value) => {
@@ -43,19 +42,19 @@ const CorrelatedMarkets = (props) => {
       height: 350,
     },
     xaxis: {
-        labels: {
-          style: {
-            colors: [textColor],
-          },
+      labels: {
+        style: {
+          colors: [textColor],
         },
       },
-      yaxis: {
-        labels: {
-          style: {
-            colors: [textColor],
-          },
+    },
+    yaxis: {
+      labels: {
+        style: {
+          colors: [textColor],
         },
       },
+    },
     plotOptions: {
       bar: {
         borderRadius: 4,
