@@ -27,7 +27,7 @@ const Sidenavbar = (props) => {
 
   // const handleDelete = (e) => {
   //   let index = e.target.getAttribute("data-index");
-    
+
   //   var ref = db.collection('user_dashboards').doc(props.userID);
 
   //   ref.update({
@@ -46,28 +46,29 @@ const Sidenavbar = (props) => {
   }, []);
 
   useEffect(() => {
-    var docRef = db.collection("user_dashboards").doc(props.userID);
-    docRef
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          let mapped = Object.values(doc.data().dashboards).map((el, i) => {
-            let values = Object.values(el)[0];
-            let names = Object.keys(values);
-            return (
-              <NavItem eventKey="home">
-                <NavIcon>
-                  <LayoutOutlined />
-                </NavIcon>
-                <NavText>
-                  <a
-                    value={names}
-                    data-index={i}
-                    onClick={handleYourDashboardsClick}
-                  >
-                    {names}
-                  </a>
-                  {/* <button
+    setTimeout(() => {
+      var docRef = db.collection("user_dashboards").doc(props.userID);
+      docRef
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            let mapped = Object.values(doc.data().dashboards).map((el, i) => {
+              let values = Object.values(el)[0];
+              let names = Object.keys(values);
+              return (
+                <NavItem eventKey="home">
+                  <NavIcon>
+                    <LayoutOutlined />
+                  </NavIcon>
+                  <NavText>
+                    <a
+                      value={names}
+                      data-index={i}
+                      onClick={handleYourDashboardsClick}
+                    >
+                      {names}
+                    </a>
+                    {/* <button
                     value={names}
                     data-index={i}
                     onClick={handleDelete}
@@ -75,23 +76,24 @@ const Sidenavbar = (props) => {
                   >
                     delete
                   </button> */}
-                </NavText>
-                <NavIcon>
-                  <LayoutOutlined />
-                </NavIcon>
-              </NavItem>
-            );
-          });
+                  </NavText>
+                  <NavIcon>
+                    <LayoutOutlined />
+                  </NavIcon>
+                </NavItem>
+              );
+            });
 
-          props.setDashboardNames(mapped);
-        } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-        }
-      })
-      .catch((error) => {
-        console.log("Error getting document:", error);
-      });
+            props.setDashboardNames(mapped);
+          } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+          }
+        })
+        .catch((error) => {
+          console.log("Error getting document:", error);
+        });
+    }, 500)
   }, []);
 
   useEffect(() => {
