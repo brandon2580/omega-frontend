@@ -25,7 +25,7 @@ function App() {
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default.
   // These are the initial "selected" cards that render by default
   const [selectedCardsIndex, setSelectedCardsIndex] = useState([
-    5, 2, 8, 3, 6, 4
+    4, 2, 7, 5, 6
   ]);
 
   // These are every single available card throughout the platform, each identified by an id
@@ -59,7 +59,7 @@ function App() {
     {
       id: 2,
       name: "AnalystRecommendations",
-      title: "Analyst Recommendations",
+      title: "Wall St. Recommendations",
       info: "Wall Street has recommendations set for companies. These recommendations typically are Strong Buy, Buy, Hold, Sell, Strong Sell. This usually dictates Wall Streets view on this, and we can aggregate the data on this for interesting insights. Sigma7 is displaying this in the format of a pie chart to dictate the proportions of the recommendations. ",
       infoVisible: false,
       x: 12,
@@ -107,7 +107,7 @@ function App() {
     {
       id: 5,
       name: "PriceTarget",
-      title: "Price Target (1 Year Out)",
+      title: "Price Prediction (1 Year Out)",
       info: "Wall Street sets price targets usually at the same time it recommends a particular stock. These price targets are usually a range of targets, an expected best case scenario price (high), an expected average price (average), and an expected worst case scenario (low). Sigma7 has averaged these recommendations and plotted them accordingly ontop of the price history. This gives an indication as to where the stock price is heading according to Wall Street's recommendations.",
       infoVisible: false,
       x: 0,
@@ -155,7 +155,7 @@ function App() {
       id: 8,
       name: "CompareReturns",
       title: "Compare Returns",
-      info: "Compares returns of stock vs. competitors",
+      info: "This card compares the returns of a given stock to its competitors. The formats that are displayed are Year to Date or Total Return.",
       infoVisible: false,
       x: 3,
       y: 2,
@@ -170,7 +170,22 @@ function App() {
       id: 9,
       name: "CorrelatedMarkets",
       title: "Correlated Markets",
-      info: "Compares correlation",
+      info: "This card displays the top markets that a given stock is correlated to. This is determined by correlating the last year of price returns against the given security. The more correlated a stock is to a specific market, the more closely related they are in moving each others prices.",
+      infoVisible: false,
+      x: 3,
+      y: 2,
+      w: 3,
+      h: 1,
+      minW: 3,
+      maxH: 1,
+      apiBaseUrl: apiBaseUrl,
+      apiCode: apiCode,
+    },
+    {
+      id: 10,
+      name: "Risk",
+      title: "Risk",
+      info: "This card displays the historical risk adjusted performance of a given stock, its competitors, and the S&P 500. The historical performance is plotted on a scatter plot. Stocks or points that are towards the bottom right corner are performing poorly, and stocks towards the top left corner are performing well. ",
       infoVisible: false,
       x: 3,
       y: 2,
@@ -209,7 +224,6 @@ function App() {
     function numberWithCommas(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-
 
     Promise.all([company, price]).then((values) => {
       // Function syntax of setState to use the previous value from the state, as recommended by React
