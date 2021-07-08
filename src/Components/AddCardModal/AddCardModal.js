@@ -12,6 +12,7 @@ import News from "../Cards/News";
 import EarningsRatio from "../Cards/EarningsRatio";
 import CompareReturns from "../Cards/CompareReturns";
 import CorrelatedMarkets from "../Cards/CorrelatedMarkets";
+import Risk from "../Cards/Risk";
 
 import { InfoCircleOutlined } from "@ant-design/icons";
 
@@ -54,6 +55,7 @@ const AddCardModal = (props) => {
     EarningsRatio,
     CompareReturns,
     CorrelatedMarkets,
+    Risk
   };
 
   return (
