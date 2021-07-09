@@ -21,20 +21,15 @@ const CompareReturns = (props) => {
 
     Promise.resolve(compare_returns).then((compare_returns) => {
       Object.keys(compare_returns).map(function (el, key) {
-        let returns = Object.values(compare_returns.peer_metrics).map(
+        let returns = Object.values(compare_returns.output).map(
           (peer_return) => {
             return peer_return;
           }
         );
-        returns.push(compare_returns.average);
-        returns.reverse();
-        let names = Object.keys(compare_returns.peer_metrics).map(
-          (peer_name) => {
-            return peer_name;
-          }
-        );
-        names.push(compare_returns.symbol);
-        names.reverse();
+
+        let names = Object.keys(compare_returns.output).map((peer_name) => {
+          return peer_name;
+        });
 
         if (compare_returns.average > compare_returns.peerAvg) {
           setPerformanceStatus("Outperforming");
@@ -51,11 +46,11 @@ const CompareReturns = (props) => {
 
           return {
             x: name,
-            y: returnsMap[i].toFixed(2) * 100,
+            y: Math.round(returnsMap[i].toFixed(2)) * 100,
             goals: [
               {
                 name: "Avg. Competitor Return",
-                value: compare_returns.peerAvg.toFixed(2) * 100,
+                value: Math.round(compare_returns.peerAvg.toFixed(2)) * 100,
                 strokeWidth: 5,
                 strokeColor: "#00E396",
               },
