@@ -6,9 +6,13 @@ import Loader from "react-loader-spinner";
 const CompanyHeader = (props) => {
   const [ticker, setTicker] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [website, setWebsite] = useState("");
 
   useEffect(() => {
     setTicker(props.tickerCard.ticker);
+    if (!/^https?:\/\//i.test(props.tickerCard.website)) {
+      props.tickerCard.website = "http://" + props.tickerCard.website;
+    }
     setIsLoading(false);
   }, [props.tickerCard.ticker]);
 
