@@ -679,6 +679,38 @@ body.light-mode .ticker-dropdown-item {
   margin-left: 37.5% !important;
 }
 
+body.dark-mode .apexcharts-legend-text{
+  color: white !important;
+}
+
+body.light-mode .apexcharts-legend-text{
+  color: black !important;
+}
+
+body.dark-mode .apexcharts-xaxis-label{
+  fill: white !important;
+}
+
+body.light-mode .apexcharts-xaxis-label{
+  fill: black !important;
+}
+
+body.dark-mode .apexcharts-yaxis-label{
+  fill: white !important;
+}
+
+body.light-mode .apexcharts-yaxis-label{
+  fill: black !important;
+}
+
+body.dark-mode .recharts-text{
+  fill: white !important;
+}
+
+body.light-mode .recharts-text{
+  fill: black !important;
+}
+
 .ticker-header {
   margin-bottom: 10px !important;
 }
