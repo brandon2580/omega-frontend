@@ -83,16 +83,35 @@ const Risk = (props) => {
             height: 350,
         },
         xaxis: {
+            title: {
+                text: "Risk",
+                style: {
+                    color: textColor,
+                    fontSize: "large"
+
+                }
+            },
             labels: {
+                show: false,
                 style: {
                     colors: [textColor],
                 },
             },
         },
         yaxis: {
+            title: {
+                text: "Return",
+                style: {
+                    color: textColor,
+                    fontSize: "large"
+                }
+            },
             labels: {
+                show: false,
+
                 style: {
                     colors: [textColor],
+                    
                 },
             },
         },

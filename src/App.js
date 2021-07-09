@@ -4,6 +4,7 @@ import "./App.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/js/src/collapse.js";
 import "antd/dist/antd.css";
+import "./icons/uicons-regular-rounded/css/uicons-regular-rounded.css"
 import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
 import EquityDashboard from "./Components/EquityDashboard/EquityDashboard";
@@ -184,7 +185,7 @@ function App() {
     {
       id: 10,
       name: "Risk",
-      title: "Risk",
+      title: "Risk/Return",
       info: "This card displays the historical risk adjusted performance of a given stock, its competitors, and the S&P 500. The historical performance is plotted on a scatter plot. Stocks or points that are towards the bottom right corner are performing poorly, and stocks towards the top left corner are performing well. ",
       infoVisible: false,
       x: 3,
@@ -309,9 +310,9 @@ function App() {
                 </h1>
               )}
             </Route>
-            <Route component={Feedback} path={`/feedback/:userID`}>
+            {/* <Route component={Feedback} path={`/feedback/:userID`}>
               <Feedback />
-            </Route>
+            </Route> */}
             <Route component={ErrorNotFound} />
           </Switch>
         </Router>

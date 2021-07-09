@@ -20,7 +20,7 @@ const CorrelatedMarkets = (props) => {
     ).then((res) => res.json());
 
     Promise.resolve(correlated_markets).then((el) => {
-      let f = el.sorted;
+      let f = el.output;
 
       let values = Object.values(f).map((value) => {
         return value;

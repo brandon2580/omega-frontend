@@ -60,9 +60,8 @@ const AddCardModal = (props) => {
 
   return (
     <div>
-      <button className="btn btn-primary" type="button" onClick={showModal}>
-        Add Card
-      </button>
+    
+      <i style={{cursor: "pointer"}} onClick={showModal} className="fi-rr-apps-add top-nav-icon"></i>
       <Modal
         title="Add Card"
         className="add-card-modal"

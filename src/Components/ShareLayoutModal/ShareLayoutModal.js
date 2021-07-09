@@ -52,9 +52,7 @@ const ShareLayoutModal = (props) => {
 
   return (
     <div>
-      <button className="btn btn-primary" type="button" onClick={showModal}>
-        Share
-      </button>
+      <i style={{cursor: "pointer"}} onClick={showModal} className="fi-rr-share top-nav-icon"></i>
       <Modal
         title="Share"
         className="share-layout-modal"
@@ -64,11 +62,6 @@ const ShareLayoutModal = (props) => {
       >
         <div className="row center">
           <div className="col-lg-6">
-            <button onClick={shareDashboard} className="btn btn-primary">
-              Share to Explore Page
-            </button>
-          </div>
-          <div className="col-lg-6">
             <CopyToClipboard text={url}>
               <button onClick={() => {
                 setCopySuccess(true);
@@ -76,6 +69,11 @@ const ShareLayoutModal = (props) => {
               }} className="btn btn-primary">Copy Link</button>
             </CopyToClipboard>
           </div>{" "}
+          <div className="col-lg-6">
+            <button className="btn btn-primary" disabled>
+              Share to Explore Page (Coming Soon)
+            </button>
+          </div>
         </div>
         <div className="row">
           <div className="col-lg-12">

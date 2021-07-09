@@ -66,9 +66,7 @@ const SaveLayoutButton = (props) => {
 
   return (
     <div>
-      <button className="btn btn-primary" onClick={showModal}>
-        Save Layout
-      </button>
+      <i style={{cursor: "pointer"}} onClick={showModal} class="fi-rr-disk top-nav-icon"></i>
       <Modal
         title="Save Layout"
         className="save-layout-modal"

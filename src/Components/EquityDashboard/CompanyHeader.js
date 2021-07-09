@@ -81,7 +81,7 @@ const CompanyHeader = (props) => {
                     Total Return
                     <br />{" "}
                     <span style={{ color: "#007bff" }}>
-                      {props.tickerCard.totalReturn.toFixed(2)}
+                      {props.tickerCard.totalReturn}
                     </span>
                     %
                   </p>

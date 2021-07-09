@@ -272,13 +272,6 @@ const Price = (props) => {
                 </button>
                 <button
                   className="range-button btn btn-link btn-sm shadow-none"
-                  value="1w"
-                  onClick={changeTimeFrame}
-                >
-                  1w
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
                   value="ytd"
                   onClick={changeTimeFrame}
                 >

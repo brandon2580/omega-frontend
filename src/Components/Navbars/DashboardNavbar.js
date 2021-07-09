@@ -122,7 +122,7 @@ const DashboardNavbar = (props) => {
         <ul className="navbar-nav">
           <li className="nav-item active">
             {isAuthenticated ? (
-              <a className="nav-link" href={`dashboard/${user.sub}`}>
+              <a className="nav-link">
                 Dashboard
               </a>
             ) : (
@@ -136,7 +136,6 @@ const DashboardNavbar = (props) => {
             className="stock-symbol-form"
             id="clear-on-blur"
             clearOnBlur
-            style={{ backgroundColor: "white", width: 200, height: 35 }}
             filterOptions={filterOptions}
             options={suggestions}
             getOptionLabel={(option) => option.name + " - " + option.symbol}
@@ -204,7 +203,7 @@ const DashboardNavbar = (props) => {
           <div className="dashboard-nav-button">
             {props.isAuthenticated ? (
               <a href="/profile">
-                <button className="btn btn-info">Profile</button>
+                <i style={{ cursor: "pointer" }} className="fi-rr-user top-nav-icon"></i>
               </a>
             ) : null}
           </div>
@@ -217,8 +216,8 @@ const DashboardNavbar = (props) => {
             </button>
           </div> */}
           <div className="dashboard-nav-button">
-            <a href={`/feedback/${props.userID}`}>
-              <button className="btn btn-info">Feedback</button>
+            <a target="_blank" href={`https://docs.google.com/forms/d/e/1FAIpQLScnw1acXUSDOxrKqz-CkY1Uskis8e5AkQf5KVCes8BvSupGHg/viewform`}>
+              <i style={{ cursor: "pointer" }} className="fi-rr-edit top-nav-icon"></i>
             </a>
           </div>{" "}
         </div>

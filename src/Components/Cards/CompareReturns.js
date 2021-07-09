@@ -51,11 +51,11 @@ const CompareReturns = (props) => {
 
           return {
             x: name,
-            y: returnsMap[i].toFixed(2),
+            y: returnsMap[i].toFixed(2) * 100,
             goals: [
               {
                 name: "Avg. Competitor Return",
-                value: compare_returns.peerAvg.toFixed(2),
+                value: compare_returns.peerAvg.toFixed(2) * 100,
                 strokeWidth: 5,
                 strokeColor: "#00E396",
               },
@@ -119,7 +119,7 @@ const CompareReturns = (props) => {
     legend: {
       show: true,
       showForSingleSeries: true,
-      customLegendItems: ["Return %", "Avg. Return %"],
+      customLegendItems: ["Total Return %", "Average Total Return %"],
       markers: {
         fillColors: ["#007bff", "#00E396"],
       },
