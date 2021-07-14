@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../App.scss";
-import { Modal, Alert } from "antd";
+import { Modal, Alert, Popover } from "antd";
 import CopyToClipboard from "react-copy-to-clipboard";
 import db from "../../firebase";
 import firebase from "firebase/app";
@@ -20,7 +20,7 @@ const ShareLayoutModal = (props) => {
   // Handles exit of modal
   const handleExit = () => {
     setModalVisible(false);
-    
+
     // Automatically set shareSuccess and shareFailed to false so the status messages reset for when
     // the user re-opens the modal
     setShareSuccess(false);
@@ -45,14 +45,19 @@ const ShareLayoutModal = (props) => {
       .catch((error) => {
         console.error("Error adding document: ", error);
         setShareFailed(true);
-        setTimeout(() => setShareFailed(false), 5000)
+        setTimeout(() => setShareFailed(false), 5000);
       });
   };
+
   const url = window.location.href;
 
   return (
     <div>
-      <i style={{cursor: "pointer"}} onClick={showModal} className="fi-rr-share top-nav-icon"></i>
+      <i
+        style={{ cursor: "pointer" }}
+        onClick={showModal}
+        className="fi-rr-share top-nav-icon"
+      ></i>
       <Modal
         title="Share"
         className="share-layout-modal"
@@ -63,10 +68,15 @@ const ShareLayoutModal = (props) => {
         <div className="row center">
           <div className="col-lg-6">
             <CopyToClipboard text={url}>
-              <button onClick={() => {
-                setCopySuccess(true);
-                setTimeout(() => setCopySuccess(false), 5000)
-              }} className="btn btn-primary">Copy Link</button>
+              <button
+                onClick={() => {
+                  setCopySuccess(true);
+                  setTimeout(() => setCopySuccess(false), 5000);
+                }}
+                className="btn btn-primary"
+              >
+                Copy Link
+              </button>
             </CopyToClipboard>
           </div>{" "}
           <div className="col-lg-6">
@@ -88,7 +98,11 @@ const ShareLayoutModal = (props) => {
               <Alert className="status-message" message="Error." type="error" />
             )}
             {copySuccess && (
-              <Alert className="status-message" message="Copied!" type="success" />
+              <Alert
+                className="status-message"
+                message="Copied!"
+                type="success"
+              />
             )}
           </div>
         </div>

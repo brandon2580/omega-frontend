@@ -55,13 +55,16 @@ const AddCardModal = (props) => {
     EarningsRatio,
     CompareReturns,
     CorrelatedMarkets,
-    Risk
+    Risk,
   };
 
   return (
     <div>
-    
-      <i style={{cursor: "pointer"}} onClick={showModal} className="fi-rr-apps-add top-nav-icon"></i>
+      <i
+        style={{ cursor: "pointer" }}
+        onClick={showModal}
+        className="fi-rr-apps-add top-nav-icon"
+      ></i>
       <Modal
         title="Add Card"
         className="add-card-modal"

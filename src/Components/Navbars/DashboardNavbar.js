@@ -8,14 +8,14 @@ import {
   Link,
   useParams,
 } from "react-router-dom";
+import { Popover } from "antd";
 import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "../AddCardModal/AddCardModal";
 import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
 import ShareLayoutModal from "../ShareLayoutModal/ShareLayoutModal";
 import logo from "./logo.png";
-import TextField from '@material-ui/core/TextField';
-import { Autocomplete, createFilterOptions } from '@material-ui/lab';
-
+import TextField from "@material-ui/core/TextField";
+import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import Feedback from "../Feedback/Feedback";
@@ -52,9 +52,9 @@ const DashboardNavbar = (props) => {
       let mapped = allowed_stocks.map((el, i) => {
         return {
           symbol: el.symbol,
-          name: el.name
-        }
-      })
+          name: el.name,
+        };
+      });
       setAllowedStocks(mapped);
     });
   }, [props.activeTicker]);
@@ -63,8 +63,8 @@ const DashboardNavbar = (props) => {
     let mapped = allowedStocks.map((stock) => {
       return {
         name: stock.name,
-        value: stock.name + ' - ' + stock.symbol,
-        symbol: stock.symbol
+        value: stock.name + " - " + stock.symbol,
+        symbol: stock.symbol,
       };
     });
     setSuggestions(mapped);
@@ -74,8 +74,8 @@ const DashboardNavbar = (props) => {
     e.preventDefault();
 
     let allowed_stocks = allowedStocks.map((el, i) => {
-      return el.symbol
-    })
+      return el.symbol;
+    });
 
     if (allowed_stocks.includes(ticker)) {
       setInvalidTicker(false);
@@ -122,9 +122,7 @@ const DashboardNavbar = (props) => {
         <ul className="navbar-nav">
           <li className="nav-item active">
             {isAuthenticated ? (
-              <a className="nav-link">
-                Dashboard
-              </a>
+              <a className="nav-link">Dashboard</a>
             ) : (
               <h1>loading</h1>
             )}
@@ -139,17 +137,25 @@ const DashboardNavbar = (props) => {
             filterOptions={filterOptions}
             options={suggestions}
             getOptionLabel={(option) => option.name + " - " + option.symbol}
-
-            renderInput={(params) => <TextField placeholder="Stock Symbol" {...params} style={{ height: 35 }} variant="outlined" />}
+            renderInput={(params) => (
+              <TextField
+                placeholder="Stock Symbol"
+                {...params}
+                style={{ height: 35 }}
+                variant="outlined"
+              />
+            )}
             renderOption={(option) => (
-              <div onClick={(e) => {
-                setTicker(e.target.innerText)
-              }}>
+              <div
+                onClick={(e) => {
+                  setTicker(e.target.innerText);
+                }}
+              >
                 {option.name} - <span className="blue">{option.symbol}</span>
               </div>
             )}
             onSelect={(val) => {
-              let parts = val.target.value.split('- ');
+              let parts = val.target.value.split("- ");
               let answer = parts[parts.length - 1];
               setTicker(answer.toUpperCase());
             }}
@@ -157,9 +163,7 @@ const DashboardNavbar = (props) => {
         </form>
 
         {invalidTicker && (
-          <p style={{ color: "red" }}>
-            Please use a valid stock symbol
-          </p>
+          <p style={{ color: "red" }}>Please use a valid stock symbol</p>
         )}
 
         <div className="ml-auto row dashboard-nav-buttons">
@@ -167,33 +171,54 @@ const DashboardNavbar = (props) => {
             <DarkModeToggle setDarkMode={props.setDarkMode} />
           </div>
           <div className="dashboard-nav-button">
-            <AddCardModal
-              availableCards={props.availableCards}
-              setAvailableCards={props.setAvailableCards}
-              selectedCardsIndex={props.selectedCardsIndex}
-              setSelectedCardsIndex={props.setSelectedCardsIndex}
-              darkMode={props.darkMode}
-              activeTicker={props.activeTicker}
-            />{" "}
+            <Popover
+              overlayInnerStyle={{ textAlign: "center" }}
+              overlayClassName="navbar-popover"
+              content={<h5 className="navbar-popover-text">Add Card</h5>}
+              placement="bottom"
+            >
+              <AddCardModal
+                availableCards={props.availableCards}
+                setAvailableCards={props.setAvailableCards}
+                selectedCardsIndex={props.selectedCardsIndex}
+                setSelectedCardsIndex={props.setSelectedCardsIndex}
+                darkMode={props.darkMode}
+                activeTicker={props.activeTicker}
+              />{" "}
+            </Popover>
           </div>
           <div className="dashboard-nav-button">
             {/* Button that allows user to save layout goes here */}
-            <SaveLayoutButton
-              wasTaken={props.wasTaken}
-              setNewLayoutName={props.setNewLayoutName}
-              userID={props.userID}
-              dashboardNames={props.dashboardNames}
-              setDashboardNames={props.setDashboardNames}
-              setSelectedLayoutIndex={props.setSelectedLayoutIndex}
-              setWasYourDashboardSelected={props.setWasYourDashboardSelected}
-            />{" "}
+            <Popover
+              overlayInnerStyle={{ textAlign: "center" }}
+              overlayClassName="navbar-popover"
+              content={<h5 className="navbar-popover-text">Save Layout</h5>}
+              placement="bottom"
+            >
+              <SaveLayoutButton
+                wasTaken={props.wasTaken}
+                setNewLayoutName={props.setNewLayoutName}
+                userID={props.userID}
+                dashboardNames={props.dashboardNames}
+                setDashboardNames={props.setDashboardNames}
+                setSelectedLayoutIndex={props.setSelectedLayoutIndex}
+                setWasYourDashboardSelected={props.setWasYourDashboardSelected}
+              />{" "}
+            </Popover>
           </div>
           <div className="dashboard-nav-button">
-            <ShareLayoutModal
-              userID={props.userID}
-              mainLayout={props.mainLayout}
-              selectedDashboardName={props.selectedDashboardName}
-            />{" "}
+            <Popover
+              overlayInnerStyle={{ textAlign: "center" }}
+              overlayClassName="navbar-popover"
+              content={<h5 className="navbar-popover-text">Share</h5>}
+              placement="bottom"
+            >
+              <ShareLayoutModal
+                userID={props.userID}
+                mainLayout={props.mainLayout}
+                selectedDashboardName={props.selectedDashboardName}
+              />{" "}
+            </Popover>
           </div>
           {/* <div className="dashboard-nav-button">
             <a href={`/explore/${props.userID}`}>
@@ -203,7 +228,17 @@ const DashboardNavbar = (props) => {
           <div className="dashboard-nav-button">
             {props.isAuthenticated ? (
               <a href="/profile">
-                <i style={{ cursor: "pointer" }} className="fi-rr-user top-nav-icon"></i>
+                <Popover
+                  overlayInnerStyle={{ textAlign: "center" }}
+                  overlayClassName="navbar-popover"
+                  content={<h5 className="navbar-popover-text">Profile</h5>}
+                  placement="bottom"
+                >
+                  <i
+                    style={{ cursor: "pointer" }}
+                    className="fi-rr-user top-nav-icon"
+                  ></i>
+                </Popover>
               </a>
             ) : null}
           </div>
@@ -216,8 +251,21 @@ const DashboardNavbar = (props) => {
             </button>
           </div> */}
           <div className="dashboard-nav-button">
-            <a target="_blank" href={`https://docs.google.com/forms/d/e/1FAIpQLScnw1acXUSDOxrKqz-CkY1Uskis8e5AkQf5KVCes8BvSupGHg/viewform`}>
-              <i style={{ cursor: "pointer" }} className="fi-rr-edit top-nav-icon"></i>
+            <a
+              target="_blank"
+              href={`https://docs.google.com/forms/d/e/1FAIpQLScnw1acXUSDOxrKqz-CkY1Uskis8e5AkQf5KVCes8BvSupGHg/viewform`}
+            >
+              <Popover
+                overlayInnerStyle={{ textAlign: "center" }}
+                overlayClassName="navbar-popover"
+                content={<h5 className="navbar-popover-text">Feedback</h5>}
+                placement="bottomLeft"
+              >
+                <i
+                  style={{ cursor: "pointer" }}
+                  className="fi-rr-edit top-nav-icon"
+                ></i>
+              </Popover>
             </a>
           </div>{" "}
         </div>

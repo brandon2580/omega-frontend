@@ -93,7 +93,7 @@ const Sidenavbar = (props) => {
         .catch((error) => {
           console.log("Error getting document:", error);
         });
-    }, 500)
+    }, 500);
   }, []);
 
   useEffect(() => {
@@ -162,10 +162,8 @@ const Sidenavbar = (props) => {
             <HomeOutlined />
           </NavIcon>
           <NavText>
-            <a className="nav-link">
-              Dashboard
-            </a>          
-            </NavText>
+            <a className="nav-link">Dashboard</a>
+          </NavText>
         </NavItem>
         <NavItem eventKey="home">
           <NavText>
