@@ -19,7 +19,7 @@ import LogoutButton from "../Auth/Buttons/LogoutButton";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const LandingPage = () => {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, user, loginWithRedirect } = useAuth0();
   const [wasEmailSent, setWasEmailSent] = useState(false);
   const [wasEmailFailed, setWasEmailFailed] = useState(false);
 
@@ -83,6 +83,7 @@ const LandingPage = () => {
                       <a
                         className="nav-link tz-text nav-text"
                         aria-current="page"
+                        onClick={loginWithRedirect}
                       >
                         Please Login
                       </a>
@@ -138,7 +139,7 @@ const LandingPage = () => {
                           <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
                         </a>
                       ) : (
-                        <a className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100">
+                        <a onClick={loginWithRedirect} className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100">
                           <span className="tz-text">Please Login</span>
 
                           <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
