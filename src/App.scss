@@ -719,6 +719,19 @@ body.light-mode .recharts-text{
   color: #007bff;
 }
 
+.navbar-popover{
+  width: 150px !important;
+}
+
+.react-grid-placeholder{
+  background-color: #007bff !important;
+}
+
+body.dark-mode .navbar-popover-text{
+  color: white;
+  text-align: center;
+}
+
 .login-prompt {
   color: white;
   text-align: center;
