@@ -8,7 +8,6 @@ import Loader from "react-loader-spinner";
 const Price = (props) => {
   const [candlestickSeries, setCandlestickSeries] = useState([{}]);
   const [areaSeries, setAreaSeries] = useState([{}]);
-
   const [priceRange, setPriceRange] = useState("1y");
   const [priceFrame, setPriceFrame] = useState("daily");
   const [isLoading, setIsLoading] = useState(true);
@@ -23,15 +22,36 @@ const Price = (props) => {
       },
     },
     tooltip: {
-      x: {
-        show: true,
-      },
-      y: {
-        title: {
-          formatter: function () {
-            return "$";
-          },
-        },
+      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+        console.log(candlestickSeries);
+        let a = candlestickSeries[0];
+        let b = a.data;
+        let c = b[dataPointIndex].y;
+
+        return (
+          '<div class="ohlc-tooltip">' +
+          "<span class='row ohlc-row'>Open: " +
+          "<span class='blue'>&nbsp; $" +
+          c[0] +
+          "</span>" +
+          "</span>" +
+          "<span class='row ohlc-row'>High: " +
+          "<span class='blue'>&nbsp; $" +
+          c[1] +
+          "</span>" +
+          "</span>" +
+          "<span class='row ohlc-row'>Low :" +
+          "<span class='blue'>&nbsp; $" +
+          c[2] +
+          "</span>" +
+          "</span>" +
+          "<span class='row ohlc-row'>Close: " +
+          "<span class='blue'>&nbsp; $" +
+          c[3] +
+          "</span>" +
+          "</span>" +
+          "</div>"
+        );
       },
     },
     grid: {
@@ -65,15 +85,14 @@ const Price = (props) => {
       },
     },
     tooltip: {
-      x: {
-        show: true,
-      },
-      y: {
-        title: {
-          formatter: function () {
-            return "";
-          },
-        },
+      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+        return (
+          '<div class="arrow_box">' +
+          "<span> $" +
+          series[seriesIndex][dataPointIndex] +
+          "</span>" +
+          "</div>"
+        );
       },
     },
     dataLabels: {
@@ -134,7 +153,6 @@ const Price = (props) => {
 
     const areaPrices = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/chart/${priceRange}?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
-      
     ).then((res) => res.json());
 
     Promise.resolve(areaPrices).then((price) => {
@@ -198,174 +216,172 @@ const Price = (props) => {
         />
       </Card>
     );
-  } else {
-    if (view == "candlestick") {
-      return (
-        <Card
-          className="hide-overflow price-card"
-          title={candlestickHeader}
-          extra={props.extra}
-          style={{
-            height: "100%",
-            overflow: "auto",
-          }}
-        >
-          <hr className="card-hr" />
-          <div style={{ height: 456 }}>
-            <ReactApexChart
-              options={candlestickOptions}
-              series={candlestickSeries}
-              type="candlestick"
-              height={410}
-            />
+  } else if (view == "area") {
+    return (
+<Card
+className="hide-overflow price-card"
+title={areaHeader}
+extra={props.extra}
+style={{
+  height: "100%",
+  overflow: "auto",
+}}
+>
+<hr className="card-hr" />
+<div style={{ height: 456 }}>
+  <ReactApexChart
+    options={areaOptions}
+    series={areaSeries}
+    type="area"
+    height={410}
+  />
 
-            <div className="row">
-              <div className="col-lg-12">
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="5y"
-                  onClick={changeTimeFrame}
-                >
-                  5y
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="2y"
-                  onClick={changeTimeFrame}
-                >
-                  2y
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="1y"
-                  onClick={changeTimeFrame}
-                >
-                  1y
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="6m"
-                  onClick={changeTimeFrame}
-                >
-                  6m
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="3m"
-                  onClick={changeTimeFrame}
-                >
-                  3m
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="1m"
-                  onClick={changeTimeFrame}
-                >
-                  1m
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="2w"
-                  onClick={changeTimeFrame}
-                >
-                  2w
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="ytd"
-                  onClick={changeTimeFrame}
-                >
-                  ytd
-                </button>
-              </div>
-            </div>
-          </div>
-        </Card>
-      );
-    } else if (view == "area") {
-      return (
-        <Card
-          className="hide-overflow price-card"
-          title={areaHeader}
-          extra={props.extra}
-          style={{
-            height: "100%",
-            overflow: "auto",
-          }}
-        >
-          <hr className="card-hr" />
-          <div style={{ height: 456 }}>
-            <ReactApexChart
-              options={areaOptions}
-              series={areaSeries}
-              type="area"
-              height={410}
-            />
+  <div className="row">
+    <div className="col-lg-12">
+      <button
+        className="range-button btn btn-link btn-sm shadow-none"
+        value="5y"
+        onClick={changeTimeFrame}
+      >
+        5y
+      </button>
+      <button
+        className="range-button btn btn-link btn-sm shadow-none"
+        value="2y"
+        onClick={changeTimeFrame}
+      >
+        2y
+      </button>
+      <button
+        className="range-button btn btn-link btn-sm shadow-none"
+        value="1y"
+        onClick={changeTimeFrame}
+      >
+        1y
+      </button>
+      <button
+        className="range-button btn btn-link btn-sm shadow-none"
+        value="6m"
+        onClick={changeTimeFrame}
+      >
+        6m
+      </button>
+      <button
+        className="range-button btn btn-link btn-sm shadow-none"
+        value="3m"
+        onClick={changeTimeFrame}
+      >
+        3m
+      </button>
+      <button
+        className="range-button btn btn-link btn-sm shadow-none"
+        value="1m"
+        onClick={changeTimeFrame}
+      >
+        1m
+      </button>
+      <button
+        className="range-button btn btn-link btn-sm shadow-none"
+        value="2w"
+        onClick={changeTimeFrame}
+      >
+        2w
+      </button>
+      <button
+        className="range-button btn btn-link btn-sm shadow-none"
+        value="ytd"
+        onClick={changeTimeFrame}
+      >
+        ytd
+      </button>
+    </div>
+  </div>
+</div>
+</Card>
+    );
+  } else if (view == "candlestick") {
+    return (
+      <Card
+      className="hide-overflow price-card"
+      title={candlestickHeader}
+      extra={props.extra}
+      style={{
+        height: "100%",
+        overflow: "auto",
+      }}
+    >
+      <hr className="card-hr" />
+      <div style={{ height: 456 }}>
+        <ReactApexChart
+          options={candlestickOptions}
+          series={candlestickSeries}
+          type="candlestick"
+          height={410}
+        />
 
-            <div className="row">
-              <div className="col-lg-12">
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="5y"
-                  onClick={changeTimeFrame}
-                >
-                  5y
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="2y"
-                  onClick={changeTimeFrame}
-                >
-                  2y
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="1y"
-                  onClick={changeTimeFrame}
-                >
-                  1y
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="6m"
-                  onClick={changeTimeFrame}
-                >
-                  6m
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="3m"
-                  onClick={changeTimeFrame}
-                >
-                  3m
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="1m"
-                  onClick={changeTimeFrame}
-                >
-                  1m
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="2w"
-                  onClick={changeTimeFrame}
-                >
-                  2w
-                </button>
-                <button
-                  className="range-button btn btn-link btn-sm shadow-none"
-                  value="ytd"
-                  onClick={changeTimeFrame}
-                >
-                  ytd
-                </button>
-              </div>
-            </div>
+        <div className="row">
+          <div className="col-lg-12">
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="5y"
+              onClick={changeTimeFrame}
+            >
+              5y
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="2y"
+              onClick={changeTimeFrame}
+            >
+              2y
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="1y"
+              onClick={changeTimeFrame}
+            >
+              1y
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="6m"
+              onClick={changeTimeFrame}
+            >
+              6m
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="3m"
+              onClick={changeTimeFrame}
+            >
+              3m
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="1m"
+              onClick={changeTimeFrame}
+            >
+              1m
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="2w"
+              onClick={changeTimeFrame}
+            >
+              2w
+            </button>
+            <button
+              className="range-button btn btn-link btn-sm shadow-none"
+              value="ytd"
+              onClick={changeTimeFrame}
+            >
+              ytd
+            </button>
           </div>
-        </Card>
-      );
-    }
+        </div>
+      </div>
+    </Card>
+    );
   }
 };
 export default Price;
