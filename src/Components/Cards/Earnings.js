@@ -25,6 +25,7 @@ const Earnings = (props) => {
   const [view, setView] = useState("bar");
   const [consensus, setConsensus] = useState();
   const [actual, setActual] = useState();
+  const [overall, setOverall] = useState();
   const [barViewData, setBarViewData] = useState([]);
   const [dates, setDates] = useState([]);
   const [theme, setTheme] = useState("");
@@ -36,69 +37,111 @@ const Earnings = (props) => {
     props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
   }, [props.darkMode]);
 
+  function getOccurrence(array, value) {
+    var count = 0;
+    array.forEach((v) => v === value && count++);
+    return count;
+  }
+
+  // This function ultimately returns the amount of times earnings has missed
+  function compare(consensus, actual) {
+    let consensusData = Object.values(consensus);
+    let actualData = Object.values(actual);
+
+    let compareValues = actualData.map((actual, i) => {
+      return actual - consensusData[i];
+    });
+
+    let negativeOccurences = compareValues.map((value) => {
+      return Math.sign(value);
+    });
+
+    return getOccurrence(negativeOccurences, -1);
+  }
+
   useEffect(() => {
     const earnings = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/earnings/4?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
     Promise.resolve(earnings).then((earnings) => {
-      if(earnings.earnings == undefined){
-        setIsLoading(false)
-        return null
+      if (earnings.earnings == undefined) {
+        setIsLoading(false);
+        return null;
       } else {
         let earningsArray = earnings.earnings;
 
         let dates = earningsArray.reverse().map((el, i) => {
           return el.fiscalPeriod;
         });
-  
+
         let consensusMap = earningsArray.map((el, i) => {
           return {
             x: dates[i],
             y: el.consensusEPS,
           };
         });
-  
+
         let actualMap = earningsArray.map((el, i) => {
           return {
             x: dates[i],
             y: el.actualEPS,
           };
         });
-  
+
         let earningsObject = {
           actual: {
             name: "Actual",
             eps: actualMap,
           },
-  
+
           consensus: {
             name: "Consensus",
             eps: consensusMap,
           },
         };
-  
+
         let consensusEPS = earningsObject.consensus.eps.map((el, i) => {
           return {
             x: i + 1,
             y: el.y,
           };
         });
-  
+
         let actualEPS = earningsObject.actual.eps.map((el, i) => {
           return {
             x: i + 1,
             y: el.y,
           };
         });
-  
+
+        let plainConsensusArr = consensusEPS.map((el) => {
+          return el.y;
+        });
+
+        let plainActualArr = actualEPS.map((el) => {
+          return el.y;
+        });
+
+        let timesMissed = compare(plainConsensusArr, plainActualArr);
+        let percentTimesMissed = (timesMissed / 4) * 100;
+        let percentTimesBeat = 100 - percentTimesMissed;
+
+        if (percentTimesBeat < 50) {
+          setOverall("Underperforming");
+        } else if (percentTimesBeat > 50) {
+          setOverall("Outperforming");
+        } else if (percentTimesBeat == 50) {
+          setOverall("Mixed");
+        }
+
         let formattedDates = dates.map((el, i) => {
           return {
             x: i + 1,
             label: el,
           };
         });
-  
+
         let barViewDataMap = consensusEPS.map((el, i) => {
           return {
             name: formattedDates[i].label,
@@ -106,20 +149,20 @@ const Earnings = (props) => {
             actual: actualEPS[i].y,
           };
         });
-  
+
         setConsensus(consensusEPS);
         setActual(actualEPS);
         setDates(formattedDates);
         setBarViewData(barViewDataMap);
         setIsLoading(false);
       }
-      
     });
   }, [earningsPeriod, props.activeTicker]);
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+  console.log(overall);
 
   const dataSource = {
     chart: {
@@ -217,10 +260,13 @@ const Earnings = (props) => {
             <ReactFC
               type="scatter"
               width="100%"
-              height="85%"
+              height="77%"
               dataFormat="JSON"
               dataSource={dataSource}
             />
+            <p className="earnings-overall center">
+              Overall: <span className="blue">{overall}</span>
+            </p>
           </div>
         </Card>
       );
@@ -236,7 +282,7 @@ const Earnings = (props) => {
         >
           <hr className="card-hr" />
           <div style={{ height: 456 }}>
-            <ResponsiveContainer>
+            <ResponsiveContainer height={434}>
               <ComposedChart data={barViewData} width={500}>
                 <XAxis dataKey="name" allowDataOverflow={true} />
                 <ReferenceLine y={0} stroke="grey" />
@@ -251,6 +297,9 @@ const Earnings = (props) => {
                 <Line dataKey="consensus" stroke="#C0C0C0" />
               </ComposedChart>
             </ResponsiveContainer>
+            <p className="earnings-overall center">
+              Overall: <span className="blue">{overall}</span>
+            </p>
           </div>
         </Card>
       );
