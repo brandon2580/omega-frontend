@@ -107,8 +107,7 @@ const Risk = (props) => {
           ],
         },
       ]);
-      console.log(series);
-
+      
       setIsLoading(false);
     });
   }, [props.activeTicker, isLoading]);

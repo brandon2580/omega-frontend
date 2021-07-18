@@ -23,7 +23,6 @@ const Price = (props) => {
     },
     tooltip: {
       custom: function ({ series, seriesIndex, dataPointIndex, w }) {
-        console.log(candlestickSeries);
         let a = candlestickSeries[0];
         let b = a.data;
         let c = b[dataPointIndex].y;
