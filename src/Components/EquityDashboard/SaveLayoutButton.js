@@ -66,7 +66,11 @@ const SaveLayoutButton = (props) => {
 
   return (
     <div>
-      <i style={{cursor: "pointer"}} onClick={showModal} class="fi-rr-disk top-nav-icon"></i>
+      <i
+        style={{ cursor: "pointer" }}
+        onClick={showModal}
+        class="fi-rr-disk top-nav-icon"
+      ></i>
       <Modal
         title="Save Layout"
         className="save-layout-modal"
@@ -77,6 +81,7 @@ const SaveLayoutButton = (props) => {
         <form className="form-inline ml-auto col-lg-9" onSubmit={onSubmit}>
           <input
             type="text"
+            autoFocus
             className="react-autosuggest__input"
             placeholder="Layout Name"
             onChange={(e) => setLayoutName(e.target.value)}
