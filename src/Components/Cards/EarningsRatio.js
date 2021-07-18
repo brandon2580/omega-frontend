@@ -38,6 +38,7 @@ function compare(consensus, actual) {
 const EarningsRatio = (props) => {
   const [earningsPeriod, setEarningsPeriod] = useState("Q");
   const [overall, setOverall] = useState("");
+  const [paddingAngle, setPaddingAngle] = useState(5);
   const [series, setSeries] = useState([
     { name: "% Beat", value: 0 },
     { name: "% Missed", value: 0 },
@@ -79,6 +80,12 @@ const EarningsRatio = (props) => {
           setOverall("Great")
         } else if (percentTimesBeat == 50) {
           setOverall("Mixed")
+        }
+
+        if (percentTimesBeat == 100 || 0){
+          setPaddingAngle(0)
+        } else {
+          setPaddingAngle(5)
         }
 
         setSeries([
@@ -132,7 +139,7 @@ const EarningsRatio = (props) => {
                 innerRadius={110}
                 outerRadius={140}
                 stroke={""}
-                paddingAngle={5}
+                paddingAngle={paddingAngle}
               >
                 {series.map((entry, index) => (
                   <Cell
