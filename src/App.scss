@@ -410,25 +410,26 @@ body.dark-mode .error-message {
   margin-top: 15px;
 }
 
-.explore-header, .feedback-header{
+.explore-header,
+.feedback-header {
   margin-bottom: 0px !important;
 }
 
-body.dark-mode .feedback-subheader{
+body.dark-mode .feedback-subheader {
   color: white;
   margin-top: 10px !important;
   width: 500px !important;
   margin: 0 auto;
 }
 
-body.light-mode .feedback-subheader{
+body.light-mode .feedback-subheader {
   color: black;
   margin-top: 10px !important;
   width: 500px !important;
   margin: 0 auto;
 }
 
-.test-image{
+.test-image {
   width: 450px;
   margin: auto;
   margin-top: 50px;
@@ -457,7 +458,7 @@ body.light-mode .feedback-subheader{
   width: 85% !important;
 }
 
-.share-layout-modal{
+.share-layout-modal {
   width: 30% !important;
 }
 
@@ -521,11 +522,11 @@ body.light-mode .change-view-button {
   padding: 10px !important;
 }
 
-.top-nav-icon{
+.top-nav-icon {
   font-size: 25px !important;
 }
 
-.stock-symbol-form{
+.stock-symbol-form {
   background-color: white;
   width: 200px;
   height: 35px;
@@ -592,15 +593,15 @@ body.dark-mode .news-header {
   cursor: default;
 }
 
-.MuiSvgIcon-root{
+.MuiSvgIcon-root {
   fill: black !important;
 }
 
-.MuiInputBase-root{
+.MuiInputBase-root {
   height: 35px !important;
 }
 
-.MuiOutlinedInput-input{
+.MuiOutlinedInput-input {
   margin-top: -10px !important;
 }
 
@@ -622,7 +623,7 @@ body.dark-mode .news-header {
   display: inline-block;
 }
 
-.feedback-form{
+.feedback-form {
   margin-top: 25px;
 }
 
@@ -673,41 +674,41 @@ body.light-mode .ticker-dropdown-item {
   margin-left: 25%;
 }
 
-.status-message{
+.status-message {
   margin-top: 20px !important;
   width: 25% !important;
   margin-left: 37.5% !important;
 }
 
-body.dark-mode .apexcharts-legend-text{
+body.dark-mode .apexcharts-legend-text {
   color: white !important;
 }
 
-body.light-mode .apexcharts-legend-text{
+body.light-mode .apexcharts-legend-text {
   color: black !important;
 }
 
-body.dark-mode .apexcharts-xaxis-label{
+body.dark-mode .apexcharts-xaxis-label {
   fill: white !important;
 }
 
-body.light-mode .apexcharts-xaxis-label{
+body.light-mode .apexcharts-xaxis-label {
   fill: black !important;
 }
 
-body.dark-mode .apexcharts-yaxis-label{
+body.dark-mode .apexcharts-yaxis-label {
   fill: white !important;
 }
 
-body.light-mode .apexcharts-yaxis-label{
+body.light-mode .apexcharts-yaxis-label {
   fill: black !important;
 }
 
-body.dark-mode .recharts-text{
+body.dark-mode .recharts-text {
   fill: white !important;
 }
 
-body.light-mode .recharts-text{
+body.light-mode .recharts-text {
   fill: black !important;
 }
 
@@ -719,15 +720,15 @@ body.light-mode .recharts-text{
   color: #007bff;
 }
 
-.navbar-popover{
+.navbar-popover {
   width: 150px !important;
 }
 
-.react-grid-placeholder{
+.react-grid-placeholder {
   background-color: #007bff !important;
 }
 
-body.dark-mode .navbar-popover-text{
+body.dark-mode .navbar-popover-text {
   color: white;
   text-align: center;
 }
@@ -741,64 +742,88 @@ body.dark-mode .navbar-popover-text{
   color: #007bff;
 }
 
-.price-target-outlook{
+.price-target-outlook {
   font-size: large;
 }
 
-.analyst-recs-overall-pie{
+.analyst-recs-overall-pie {
   margin-top: 12px;
-  font-size: large
-}
-
-.analyst-recs-overall-bar{
-  font-size: large
-}
-
-.compare-returns-overall{
-  font-size: large
-}
-
-.earnings-ratio-overall{
   font-size: large;
 }
 
-.earnings-overall{
+.analyst-recs-overall-bar {
   font-size: large;
 }
 
-.risk-tooltip-content{
-  padding:  10px !important;
+.compare-returns-overall {
+  font-size: large;
 }
 
-.risk-potential-risk{
+.earnings-ratio-overall {
+  font-size: large;
+}
+
+.earnings-overall {
+  font-size: large;
+}
+
+.risk-tooltip-content {
+  padding: 10px !important;
+}
+
+.risk-potential-risk {
   font-size: large;
   margin-top: -10px;
   margin-bottom: 5px;
 }
 
-.risk-potential-return{
+.risk-potential-return {
   font-size: large;
 }
 
-.ohlc-tooltip{
+.ohlc-tooltip {
   width: 125px !important;
   padding: 10px !important;
 }
 
-.ohlc-row{
+.ohlc-row {
   padding-left: 10px !important;
 }
 
-body.dark-mode .dashboard-nav-button{
+body.dark-mode .dashboard-nav-button {
   margin: 7px;
   border-right: thin solid white;
   padding-right: 14px;
 }
 
-body.light-mode .dashboard-nav-button{
+body.light-mode .dashboard-nav-button {
   margin: 7px;
   border-right: thin solid black;
   padding-right: 14px;
+}
+
+.risk-chart > .apexcharts-canvas {
+  /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#13aa00+25,ffc405+50,e50003+75 */
+  background: #13aa00; /* Old browsers */
+  background: -moz-linear-gradient(
+    -45deg,
+    #13aa00 25%,
+    #ffc405 50%,
+    #e50003 75%
+  ); /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    -45deg,
+    #13aa00 25%,
+    #ffc405 50%,
+    #e50003 75%
+  ); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+    135deg,
+    #13aa00 25%,
+    #ffc405 50%,
+    #e50003 75%
+  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#13aa00', endColorstr='#e50003',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 .header-parent {

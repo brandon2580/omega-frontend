@@ -107,7 +107,7 @@ const Risk = (props) => {
           ],
         },
       ]);
-      
+
       setIsLoading(false);
     });
   }, [props.activeTicker, isLoading]);
@@ -173,7 +173,6 @@ const Risk = (props) => {
         },
       },
     },
-
     dataLabels: {
       enabled: false,
     },
@@ -213,19 +212,19 @@ const Risk = (props) => {
         <hr className="card-hr" />
         <div style={{ height: 456 }}>
           <ReactApexChart
+            className="risk-chart"
             options={options}
             series={series}
             type="bubble"
             height={400}
           />
           <p className="risk-potential-risk center">
-          Potential Risk: <span className="blue">{overallRisk}</span>
-        </p>
-        <p className="risk-potential-return center">
-          Potential Return: <span className="blue">{overallReturn}</span>
-        </p>
+            Potential Risk: <span className="blue">{overallRisk}</span>
+          </p>
+          <p className="risk-potential-return center">
+            Potential Return: <span className="blue">{overallReturn}</span>
+          </p>
         </div>
-        
       </Card>
     );
   }
