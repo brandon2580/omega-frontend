@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "jquery";
+import "bootstrap/dist/js/bootstrap";
+import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/js/src/collapse.js";
 import "antd/dist/antd.css";
 import "./icons/uicons-regular-rounded/css/uicons-regular-rounded.css"
