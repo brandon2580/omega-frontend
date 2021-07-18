@@ -5,7 +5,11 @@ import Loader from "react-loader-spinner";
 import ReactApexChart from "react-apexcharts";
 
 const Risk = (props) => {
-  const [series, setSeries] = useState();
+  const [series, setSeries] = useState([]);
+  const [competitors, setCompetitors] = useState([]);
+  const [allTickers, setAllTickers] = useState([]);
+  const [overallRisk, setOverallRisk] = useState("");
+  const [overallReturn, setOverallReturn] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [textColor, setTextColor] = useState("");
 
@@ -27,13 +31,31 @@ const Risk = (props) => {
         return value;
       });
 
-      let competitors = Object.keys(values[2]).map((competitor) => {
-        return competitor;
-      });
+      setCompetitors(
+        Object.keys(values[2]).map((competitor) => {
+          return competitor;
+        })
+      );
 
       let competitorValues = Object.values(values[2]).map((competitorValue) => {
         return competitorValue;
       });
+
+      if (values[0].std > values[1].std) {
+        setOverallRisk("High");
+      } else if (values[0].std < values[1].std) {
+        setOverallRisk("Low");
+      } else {
+        setOverallRisk("Average");
+      }
+
+      if (values[0].avg_return > values[1].avg_return) {
+        setOverallReturn("High");
+      } else if (values[0].avg_return < values[1].avg_return) {
+        setOverallReturn("Low");
+      } else {
+        setOverallReturn("Average");
+      }
 
       setSeries([
         {
@@ -85,17 +107,38 @@ const Risk = (props) => {
           ],
         },
       ]);
+      console.log(series);
+
       setIsLoading(false);
     });
-  }, [props.activeTicker]);
+  }, [props.activeTicker, isLoading]);
+
+  useEffect(() => {
+    let updated = series.map((el) => {
+      return el.name;
+    });
+
+    setAllTickers(updated);
+  }, [series]);
 
   let options = {
     chart: {
       type: "bubble",
       height: 350,
+      toolbar: {
+        show: false,
+      },
     },
     tooltip: {
-      enabled: false,
+      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+        return (
+          '<div class="risk-tooltip-content">' +
+          "<span>" +
+          allTickers[seriesIndex] +
+          "</span>" +
+          "</div>"
+        );
+      },
     },
     xaxis: {
       title: {
@@ -110,6 +153,9 @@ const Risk = (props) => {
         style: {
           colors: [textColor],
         },
+      },
+      tooltip: {
+        enabled: false,
       },
     },
     yaxis: {
@@ -128,6 +174,7 @@ const Risk = (props) => {
         },
       },
     },
+
     dataLabels: {
       enabled: false,
     },
@@ -170,9 +217,16 @@ const Risk = (props) => {
             options={options}
             series={series}
             type="bubble"
-            height={420}
+            height={400}
           />
+          <p className="risk-potential-risk center">
+          Potential Risk: <span className="blue">{overallRisk}</span>
+        </p>
+        <p className="risk-potential-return center">
+          Potential Return: <span className="blue">{overallReturn}</span>
+        </p>
         </div>
+        
       </Card>
     );
   }
