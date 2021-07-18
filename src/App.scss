@@ -762,6 +762,33 @@ body.dark-mode .navbar-popover-text{
   font-size: large;
 }
 
+.earnings-overall{
+  font-size: large;
+}
+
+.risk-tooltip-content{
+  padding:  10px !important;
+}
+
+.risk-potential-risk{
+  font-size: large;
+  margin-top: -10px;
+  margin-bottom: 5px;
+}
+
+.risk-potential-return{
+  font-size: large;
+}
+
+.ohlc-tooltip{
+  width: 125px !important;
+  padding: 10px !important;
+}
+
+.ohlc-row{
+  padding-left: 10px !important;
+}
+
 body.dark-mode .dashboard-nav-button{
   margin: 7px;
   border-right: thin solid white;
