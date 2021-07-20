@@ -24,14 +24,16 @@ const Dividends = (props) => {
 
   useEffect(() => {
     const dividends = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/dividends/5y?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-analytics.azure-api.net/sigma7-analytics/div_yield?symbol=${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(dividends).then((dividends) => {
-      let dividendData = dividends.reverse().map((el) => {
+      let yields = dividends.chart.yield
+
+      let dividendData = Object.keys(yields).map((el, i) => {
         return {
-          label: el.recordDate,
-          value: el.amount
+          label: el,
+          value: yields[el]
         }
       })
 
@@ -46,7 +48,7 @@ const Dividends = (props) => {
 
   const dataSource = {
     chart: {
-      numberPrefix: "$",
+      numberSuffix: "%",
       rotateLabels: 0,
       canvasbgColor: theme,
       canvasbgAlpha: "100",
@@ -68,55 +70,55 @@ const Dividends = (props) => {
     data: series,
   };
 
-  const menu = (
-    <Menu>
-      <Menu.Item>
-        <button
-          className="btn btn-sm shadow-none dropdown-btn"
-          onClick={handleClick}
-          value="5"
-        >
-          5
-        </button>
-      </Menu.Item>
-      <Menu.Item>
-        <button
-          className="btn btn-sm shadow-none dropdown-btn"
-          onClick={handleClick}
-          value="10"
-        >
-          10
-        </button>
-      </Menu.Item>
-      <Menu.Item>
-        <button
-          className="btn btn-sm shadow-none dropdown-btn"
-          onClick={handleClick}
-          value="15"
-        >
-          15
-        </button>
-      </Menu.Item>
-      <Menu.Item>
-        <button
-          className="btn btn-sm shadow-none dropdown-btn"
-          onClick={handleClick}
-          value="20"
-        >
-          20
-        </button>
-      </Menu.Item>
-      <Menu.Item>
-        <button
-          className="btn btn-sm shadow-none dropdown-btn"
-          onClick={handleClick}
-          value="25"
-        >
-          25
-        </button>
-      </Menu.Item>
-    </Menu>
-  );
+  // const menu = (
+  //   <Menu>
+  //     <Menu.Item>
+  //       <button
+  //         className="btn btn-sm shadow-none dropdown-btn"
+  //         onClick={handleClick}
+  //         value="5"
+  //       >
+  //         5
+  //       </button>
+  //     </Menu.Item>
+  //     <Menu.Item>
+  //       <button
+  //         className="btn btn-sm shadow-none dropdown-btn"
+  //         onClick={handleClick}
+  //         value="10"
+  //       >
+  //         10
+  //       </button>
+  //     </Menu.Item>
+  //     <Menu.Item>
+  //       <button
+  //         className="btn btn-sm shadow-none dropdown-btn"
+  //         onClick={handleClick}
+  //         value="15"
+  //       >
+  //         15
+  //       </button>
+  //     </Menu.Item>
+  //     <Menu.Item>
+  //       <button
+  //         className="btn btn-sm shadow-none dropdown-btn"
+  //         onClick={handleClick}
+  //         value="20"
+  //       >
+  //         20
+  //       </button>
+  //     </Menu.Item>
+  //     <Menu.Item>
+  //       <button
+  //         className="btn btn-sm shadow-none dropdown-btn"
+  //         onClick={handleClick}
+  //         value="25"
+  //       >
+  //         25
+  //       </button>
+  //     </Menu.Item>
+  //   </Menu>
+  // );
 
   if (isLoading) {
     return (
@@ -154,11 +156,11 @@ const Dividends = (props) => {
           <ReactFC
             type="line"
             width="100%"
-            height="80%"
+            height="85%"
             dataFormat="JSON"
             dataSource={dataSource}
           />
-          <div className="row">
+          {/* <div className="row">
             <div className="col-sm-12">
               <Dropdown overlay={menu}>
                 <btn className="ant-dropdown-link">
@@ -166,7 +168,7 @@ const Dividends = (props) => {
                 </btn>
               </Dropdown>
             </div>
-          </div>{" "}
+          </div> */}
         </div>
       </Card>
     );

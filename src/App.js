@@ -78,7 +78,7 @@ function App() {
     {
       id: 3,
       name: "Dividends",
-      title: "Dividends",
+      title: "Dividend Yield (5y)",
       info: "Dividends are effectively cash payments paid out to investors from a company. Dividends are usually profits leftover from the business that are passed onto the investor in the form of a dividend. Likewise, this usually is a sign of stability and consistent returns. Most companies only issue dividends when their profits are consistent and stable. A growing dividend trend is usually a good sign of a stable business.",
       infoVisible: false,
       x: 3,
