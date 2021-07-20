@@ -13,6 +13,8 @@ ReactFC.fcRoot(FusionCharts, Line, FusionTheme);
 const Dividends = (props) => {
   const [series, setSeries] = useState();
   const [dividendRange, setDividendRange] = useState(25);
+  const [oneYearGrowth, setOneYearGrowth] = useState(0);
+  const [threeYearGrowth, setThreeYearGrowth] = useState(0);
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -28,14 +30,16 @@ const Dividends = (props) => {
     ).then((res) => res.json());
 
     Promise.resolve(dividends).then((dividends) => {
-      let yields = dividends.chart.yield
+      let yields = dividends.chart.yield;
 
       let dividendData = Object.keys(yields).map((el, i) => {
         return {
           label: el,
-          value: yields[el]
-        }
-      })
+          value: yields[el],
+        };
+      });
+      setOneYearGrowth(dividends["1yr_growth"])
+      setThreeYearGrowth(dividends["3yr_growth"])
 
       setSeries(dividendData);
       setIsLoading(false);
@@ -156,10 +160,16 @@ const Dividends = (props) => {
           <ReactFC
             type="line"
             width="100%"
-            height="85%"
+            height="75%"
             dataFormat="JSON"
             dataSource={dataSource}
           />
+          <p className="dividends-growth-1y center">
+            1yr Growth: <span className="blue">{oneYearGrowth.toFixed(2)}%</span>
+          </p>
+          <p className="dividends-growth-3y center">
+            3yr Growth: <span className="blue">{threeYearGrowth.toFixed(2)}%</span>
+          </p>
           {/* <div className="row">
             <div className="col-sm-12">
               <Dropdown overlay={menu}>
