@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import {
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend,
-} from "recharts";
 import Loader from "react-loader-spinner";
-
-const COLORS = ["#00FF00", "#FF0000"];
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 
 function getOccurrence(array, value) {
   var count = 0;
@@ -38,10 +32,9 @@ function compare(consensus, actual) {
 const EarningsRatio = (props) => {
   const [earningsPeriod, setEarningsPeriod] = useState("Q");
   const [overall, setOverall] = useState("");
-  const [paddingAngle, setPaddingAngle] = useState(5);
   const [series, setSeries] = useState([
-    { name: "% Beat", value: 0 },
-    { name: "% Missed", value: 0 },
+    { name: "% Beat", value: 0, color: am4core.color("#00FF00") },
+    { name: "% Missed", value: 0, color: am4core.color("#FF0000") },
   ]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -52,50 +45,95 @@ const EarningsRatio = (props) => {
 
     Promise.resolve(earnings).then((earnings) => {
       if (earnings.earnings == undefined) {
-        setIsLoading(false)
-        return null
+        setIsLoading(false);
+        return null;
       } else {
         let earningsRatioData = earnings.earnings.map((el, i) => {
           return {
             consensus: el.consensusEPS,
-            actual: el.actualEPS
-          }
-        })
+            actual: el.actualEPS,
+          };
+        });
 
         let consensus = earningsRatioData.map((el, i) => {
-          return el.consensus
-        })
+          return el.consensus;
+        });
 
         let actual = earningsRatioData.map((el, i) => {
-          return el.actual
-        })
+          return el.actual;
+        });
 
-        let timesMissed = compare(consensus, actual)
+        let timesMissed = compare(consensus, actual);
         let percentTimesMissed = (timesMissed / 4) * 100;
         let percentTimesBeat = 100 - percentTimesMissed;
 
         if (percentTimesBeat < 50) {
-          setOverall("Poor")
+          setOverall("Poor");
         } else if (percentTimesBeat > 50) {
-          setOverall("Great")
+          setOverall("Great");
         } else if (percentTimesBeat == 50) {
-          setOverall("Mixed")
-        }
-
-        if (percentTimesBeat == 100 || 0){
-          setPaddingAngle(0)
-        } else {
-          setPaddingAngle(5)
+          setOverall("Mixed");
         }
 
         setSeries([
-          { name: "% Beat", value: percentTimesBeat },
-          { name: "% Missed", value: percentTimesMissed },
+          {
+            name: "% Beat",
+            value: percentTimesBeat,
+            color: am4core.color("#00FF00"),
+          },
+          {
+            name: "% Missed",
+            value: percentTimesMissed,
+            color: am4core.color("#FF0000"),
+          },
         ]);
         setIsLoading(false);
       }
     });
   }, [earningsPeriod, props.activeTicker]);
+
+  // Create chart
+  useEffect(() => {
+    am4core.useTheme(am4themes_animated);
+    am4core.useTheme(am4themes_dark);
+
+    // Create chart instance
+    var chart = am4core.create("earnings-ratio-chart-div", am4charts.PieChart);
+
+    // Add and configure Series
+    var pieSeries = chart.series.push(new am4charts.PieSeries());
+    pieSeries.dataFields.value = "value";
+    pieSeries.dataFields.category = "name";
+
+    // Let's cut a hole in our Pie chart the size of 55% the radius
+    chart.innerRadius = am4core.percent(55);
+    pieSeries.slices.template.propertyFields.fill = "color";
+
+    // Remove ugly labels
+    pieSeries.labels.template.disabled = true;
+
+    // Create a base filter effect (as if it's not there) for the hover to return to
+    var shadow = pieSeries.slices.template.filters.push(
+      new am4core.DropShadowFilter()
+    );
+    shadow.opacity = 0;
+
+    // Create hover state
+    var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
+
+    // Slightly shift the shadow and make it more prominent on hover
+    var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter());
+    hoverShadow.opacity = 0.7;
+    hoverShadow.blur = 5;
+
+    // Add a legend
+    ///chart.legend = new am4charts.Legend();
+    chart.svgContainer.measure();
+
+    // Get series data and set it
+    chart.data = series;
+  }, [isLoading, series]);
+  // End create chart
 
   if (isLoading) {
     return (
@@ -132,28 +170,10 @@ const EarningsRatio = (props) => {
         <hr className="card-hr" />
 
         <div style={{ height: 456 }}>
-          <ResponsiveContainer>
-            <PieChart>
-              <Pie
-                data={series}
-                innerRadius={110}
-                outerRadius={140}
-                stroke={""}
-                paddingAngle={paddingAngle}
-              >
-                {series.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Legend />
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
-          <p className="earnings-ratio-overall center">Overall: <span className="blue">{overall}</span></p>
-
+          <div style={{ height: 456 }} id="earnings-ratio-chart-div" />
+          <p className="earnings-ratio-overall center">
+            Overall: <span className="blue">{overall}</span>
+          </p>
         </div>
       </Card>
     );

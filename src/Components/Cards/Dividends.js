@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card, Menu, Dropdown } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import ReactFC from "react-fusioncharts";
-import FusionCharts from "fusioncharts/core";
-import Line from "fusioncharts/viz/line";
-import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_dark from "@amcharts/amcharts4/themes/dark";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import Loader from "react-loader-spinner";
 
-ReactFC.fcRoot(FusionCharts, Line, FusionTheme);
-
 const Dividends = (props) => {
-  const [series, setSeries] = useState();
+  const [dividendYieldsSeries, setDividendYieldsSeries] = useState([]);
+  const [dividendRawSeries, setDividendRawSeries] = useState([]);
+  const [view, setView] = useState("yield");
   const [dividendRange, setDividendRange] = useState(25);
   const [oneYearGrowth, setOneYearGrowth] = useState(0);
   const [threeYearGrowth, setThreeYearGrowth] = useState(0);
@@ -25,23 +25,40 @@ const Dividends = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
-    const dividends = fetch(
+    const dividend_yields = fetch(
       `https://sigma7-analytics.azure-api.net/sigma7-analytics/div_yield?symbol=${props.activeTicker}`
     ).then((res) => res.json());
 
-    Promise.resolve(dividends).then((dividends) => {
-      let yields = dividends.chart.yield;
+    const dividend_raw = fetch(
+      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/dividends/5y?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+    ).then((res) => res.json());
+
+    Promise.resolve(dividend_raw).then((dividend_raw) => {
+      let dividendData = dividend_raw.reverse().map((el) => {
+        return {
+          x: el.recordDate,
+          y: el.amount,
+          color: "#007bff"
+        };
+      });
+      setDividendRawSeries(dividendData);
+      setIsLoading(false);
+    });
+
+    Promise.resolve(dividend_yields).then((dividend_yields) => {
+      let yields = dividend_yields.chart.yield;
 
       let dividendData = Object.keys(yields).map((el, i) => {
         return {
-          label: el,
-          value: yields[el],
+          x: el,
+          y: yields[el],
+          color: "#007bff"
         };
       });
-      setOneYearGrowth(dividends["1yr_growth"])
-      setThreeYearGrowth(dividends["3yr_growth"])
+      setOneYearGrowth(dividend_yields["1yr_growth"]);
+      setThreeYearGrowth(dividend_yields["3yr_growth"]);
 
-      setSeries(dividendData);
+      setDividendYieldsSeries(dividendData);
       setIsLoading(false);
     });
   }, [dividendRange, props.activeTicker]);
@@ -50,79 +67,107 @@ const Dividends = (props) => {
     setDividendRange(e.target.value);
   };
 
-  const dataSource = {
-    chart: {
-      numberSuffix: "%",
-      rotateLabels: 0,
-      canvasbgColor: theme,
-      canvasbgAlpha: "100",
-      canvasBorderThickness: "0",
-      showAlternateHGridColor: "0",
-      bgColor: theme,
-      bgAlpha: "100",
-      showBorder: "0",
-      palettecolors: "#007bff",
-      anchorBgColor: "#007bff",
-      showhovereffect: "1",
-      crosslinealpha: "100",
-      plotcolorintooltip: "1",
-      drawcrossline: "1",
-      crosslinecolor: "#808080",
-      baseFontColor: textColor,
-      toolTipBgColor: theme,
-    },
-    data: series,
-  };
+  useEffect(() => {
+    // Themes begin
+    am4core.useTheme(am4themes_dark);
+    am4core.useTheme(am4themes_animated);
+    // Themes end
 
-  // const menu = (
-  //   <Menu>
-  //     <Menu.Item>
-  //       <button
-  //         className="btn btn-sm shadow-none dropdown-btn"
-  //         onClick={handleClick}
-  //         value="5"
-  //       >
-  //         5
-  //       </button>
-  //     </Menu.Item>
-  //     <Menu.Item>
-  //       <button
-  //         className="btn btn-sm shadow-none dropdown-btn"
-  //         onClick={handleClick}
-  //         value="10"
-  //       >
-  //         10
-  //       </button>
-  //     </Menu.Item>
-  //     <Menu.Item>
-  //       <button
-  //         className="btn btn-sm shadow-none dropdown-btn"
-  //         onClick={handleClick}
-  //         value="15"
-  //       >
-  //         15
-  //       </button>
-  //     </Menu.Item>
-  //     <Menu.Item>
-  //       <button
-  //         className="btn btn-sm shadow-none dropdown-btn"
-  //         onClick={handleClick}
-  //         value="20"
-  //       >
-  //         20
-  //       </button>
-  //     </Menu.Item>
-  //     <Menu.Item>
-  //       <button
-  //         className="btn btn-sm shadow-none dropdown-btn"
-  //         onClick={handleClick}
-  //         value="25"
-  //       >
-  //         25
-  //       </button>
-  //     </Menu.Item>
-  //   </Menu>
-  // );
+    // Create chart instance
+    var chart = am4core.create("dividend-yield-div", am4charts.XYChart);
+
+    // Add data
+    chart.data = dividendYieldsSeries;
+    console.log(dividendYieldsSeries)
+
+    // Create axes
+    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    dateAxis.renderer.minGridDistance = 50;
+
+    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+    // Create series
+    var series = chart.series.push(new am4charts.LineSeries());
+    series.dataFields.valueY = "y";
+    series.dataFields.dateX = "x";
+    series.strokeWidth = 2;
+    series.propertyFields.stroke = "color"
+    series.propertyFields.fill = "color"
+    series.minBulletDistance = 10;
+    series.tooltipText = "{valueY}";
+    series.tooltip.pointerOrientation = "vertical";
+    series.tooltip.background.cornerRadius = 20;
+    series.tooltip.background.fillOpacity = 0.5;
+    series.tooltip.label.padding(12, 12, 12, 12);
+
+    // Add cursor
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.xAxis = dateAxis;
+    chart.cursor.snapToSeries = series;
+  }, [isLoading, dividendYieldsSeries, view]);
+
+
+  useEffect(() => {
+    // Themes begin
+    am4core.useTheme(am4themes_dark);
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+
+    // Create chart instance
+    var chart = am4core.create("dividend-raw-div", am4charts.XYChart);
+
+    // Add data
+    chart.data = dividendRawSeries;
+
+    // Create axes
+    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    dateAxis.renderer.minGridDistance = 50;
+
+    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+    // Create series
+    var series = chart.series.push(new am4charts.LineSeries());
+    series.dataFields.valueY = "y";
+    series.dataFields.dateX = "x";
+    series.strokeWidth = 2;
+    series.propertyFields.stroke = "color"
+    series.propertyFields.fill = "color"
+    series.minBulletDistance = 10;
+    series.tooltipText = "{valueY}";
+    series.tooltip.pointerOrientation = "vertical";
+    series.tooltip.background.cornerRadius = 20;
+    series.tooltip.background.fillOpacity = 0.5;
+    series.tooltip.label.padding(12, 12, 12, 12);
+
+    // Add cursor
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.xAxis = dateAxis;
+    chart.cursor.snapToSeries = series;
+  }, [isLoading, dividendRawSeries, view]);
+
+  let yieldHeader = (
+    <div>
+      Dividend Yield
+      <button
+        className="btn btn-primary change-view-button"
+        onClick={() => setView("raw")}
+      >
+        Change View
+      </button>
+    </div>
+  );
+
+  let rawHeader = (
+    <div>
+      Dividend Per Share
+      <button
+        className="btn btn-primary change-view-button"
+        onClick={() => setView("yield")}
+      >
+        Change View
+      </button>
+    </div>
+  );
 
   if (isLoading) {
     return (
@@ -146,42 +191,78 @@ const Dividends = (props) => {
       </Card>
     );
   } else {
-    return (
-      <Card
-        title={props.title}
-        extra={props.extra}
-        style={{
-          height: "100%",
-          overflow: "auto",
-        }}
-      >
-        <hr className="card-hr" />
-        <div style={{ height: 456 }}>
-          <ReactFC
-            type="line"
-            width="100%"
-            height="75%"
-            dataFormat="JSON"
-            dataSource={dataSource}
-          />
-          <p className="dividends-growth-1y center">
-            1yr Growth: <span className="blue">{oneYearGrowth.toFixed(2)}%</span>
-          </p>
-          <p className="dividends-growth-3y center">
-            3yr Growth: <span className="blue">{threeYearGrowth.toFixed(2)}%</span>
-          </p>
-          {/* <div className="row">
-            <div className="col-sm-12">
-              <Dropdown overlay={menu}>
-                <btn className="ant-dropdown-link">
-                  Range <DownOutlined />
-                </btn>
-              </Dropdown>
+    if (view == "yield") {
+      return (
+        <Card
+          title={yieldHeader}
+          extra={props.extra}
+          style={{
+            height: "100%",
+            overflow: "auto",
+          }}
+        >
+          <hr className="card-hr" />
+          <div style={{ height: 456 }}>
+
+          <div style={{ height: 430 }} id="dividend-yield-div" />
+
+            <p className="dividends-growth-1y center">
+              1yr Growth:{" "}
+              <span className="blue">{oneYearGrowth.toFixed(2)}%</span>
+            </p>
+            <p className="dividends-growth-3y center">
+              3yr Growth:{" "}
+              <span className="blue">{threeYearGrowth.toFixed(2)}%</span>
+            </p>
+            {/* <div className="row">
+              <div className="col-sm-12">
+                <Dropdown overlay={menu}>
+                  <btn className="ant-dropdown-link">
+                    Range <DownOutlined />
+                  </btn>
+                </Dropdown>
+              </div>
+            </div> */}
+          </div>
+        </Card>
+      );
+    } else {
+      if (view == "raw") {
+        return (
+          <Card
+            title={rawHeader}
+            extra={props.extra}
+            style={{
+              height: "100%",
+              overflow: "auto",
+            }}
+          >
+            <hr className="card-hr" />
+            <div style={{ height: 456 }}>
+            <div style={{ height: 456 }} id="dividend-raw-div" />
+
+              <p className="dividends-growth-1y center">
+                1yr Growth:{" "}
+                <span className="blue">{oneYearGrowth.toFixed(2)}%</span>
+              </p>
+              <p className="dividends-growth-3y center">
+                3yr Growth:{" "}
+                <span className="blue">{threeYearGrowth.toFixed(2)}%</span>
+              </p>
+              {/* <div className="row">
+                <div className="col-sm-12">
+                  <Dropdown overlay={menu}>
+                    <btn className="ant-dropdown-link">
+                      Range <DownOutlined />
+                    </btn>
+                  </Dropdown>
+                </div>
+              </div> */}
             </div>
-          </div> */}
-        </div>
-      </Card>
-    );
+          </Card>
+        );
+      }
+    }
   }
 };
 

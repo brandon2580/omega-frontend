@@ -9,13 +9,15 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import ReactApexChart from "react-apexcharts";
 import Loader from "react-loader-spinner";
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_dark from "@amcharts/amcharts4/themes/dark";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 const COLORS = ["#41FFC9", "#23807E", "#808080", "#FE3636", "#520000"];
-
 const AnalystRecommendations = (props) => {
-  const [pieSeries, setPieSeries] = useState([]);
+  const [pieData, setPieData] = useState([]);
   const [barSeries, setBarSeries] = useState([]);
   const [totalRecs, setTotalRecs] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,33 +36,93 @@ const AnalystRecommendations = (props) => {
 
     Promise.resolve(analyst_recs).then((analyst_recs) => {
       if (analyst_recs[0] == undefined) {
-        setIsLoading(false)
-        return null
+        setIsLoading(false);
+        return null;
       } else {
         let pieSeriesData = [
-          { name: "Strong Buy", value: analyst_recs[0].ratingOverweight },
-          { name: "Buy", value: analyst_recs[0].ratingBuy },
-          { name: "Hold", value: analyst_recs[0].ratingHold },
-          { name: "Sell", value: analyst_recs[0].ratingSell },
-          { name: "Strong Sell", value: analyst_recs[0].ratingUnderweight },
+          {
+            "Strong Buy": analyst_recs[0].ratingOverweight,
+            Buy: analyst_recs[0].ratingBuy,
+            Hold: analyst_recs[0].ratingHold,
+            Sell: analyst_recs[0].ratingSell,
+            "Strong Sell": analyst_recs[0].ratingUnderweight,
+          },
         ];
 
         let barSeriesData = [
           {
-            data: [
-              analyst_recs[0].ratingOverweight,
-              analyst_recs[0].ratingBuy,
-              analyst_recs[0].ratingHold,
-              analyst_recs[0].ratingSell,
-              analyst_recs[0].ratingUnderweight,
-            ],
+            "Strong Buy": analyst_recs[0].ratingOverweight,
+            Buy: analyst_recs[0].ratingBuy,
+            Hold: analyst_recs[0].ratingHold,
+            Sell: analyst_recs[0].ratingSell,
+            "Strong Sell": analyst_recs[0].ratingUnderweight,
           },
         ];
 
-        setPieSeries(pieSeriesData);
-        setBarSeries(barSeriesData);
+        let mappedBarSeriesData = barSeriesData.map((el) => {
+          return [
+            {
+              rating: "Strong Buy",
+              value: el["Strong Buy"],
+              color: am4core.color("#41FFC9"),
+            },
+            {
+              rating: "Buy",
+              value: el["Buy"],
+              color: am4core.color("#23807E"),
+            },
+            {
+              rating: "Hold",
+              value: el["Hold"],
+              color: am4core.color("#808080"),
+            },
+            {
+              rating: "Sell",
+              value: el["Sell"],
+              color: am4core.color("#FE3636"),
+            },
+            {
+              rating: "Strong Sell",
+              value: el["Strong Sell"],
+              color: am4core.color("#520000"),
+            },
+          ];
+        });
 
-        let totalRecsArr = pieSeriesData.map((el) => {
+        let mappedPieSeriesData = pieSeriesData.map((el) => {
+          return [
+            {
+              rating: "Strong Buy",
+              value: el["Strong Buy"],
+              color: am4core.color("#41FFC9"),
+            },
+            {
+              rating: "Buy",
+              value: el["Buy"],
+              color: am4core.color("#23807E"),
+            },
+            {
+              rating: "Hold",
+              value: el["Hold"],
+              color: am4core.color("#808080"),
+            },
+            {
+              rating: "Sell",
+              value: el["Sell"],
+              color: am4core.color("#FE3636"),
+            },
+            {
+              rating: "Strong Sell",
+              value: el["Strong Sell"],
+              color: am4core.color("#520000"),
+            },
+          ];
+        });
+
+        setPieData(mappedPieSeriesData[0]);
+        setBarSeries(mappedBarSeriesData[0]);
+
+        let totalRecsArr = pieData.map((el) => {
           return el.value;
         });
 
@@ -91,89 +153,6 @@ const AnalystRecommendations = (props) => {
     });
   }, [props.activeTicker]);
 
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active) {
-      let percentOfRecs = (payload[0].value / totalRecs) * 100;
-      return (
-        <div className="custom-tooltip">
-          <p className="recharts-tooltip-label">
-            Number of Recommendations:{" "}
-            <span className="blue">{payload[0].value}</span>
-          </p>
-          <p className="desc">
-            Percentage of Recommendations:{" "}
-            <span className="blue">{percentOfRecs.toFixed(2)}%</span>
-          </p>
-        </div>
-      );
-    }
-
-    return null;
-  };
-
-  const options = {
-    chart: {
-      type: "bar",
-    },
-    tooltip: {
-      x: {
-        show: true,
-      },
-      y: {
-        title: {
-          formatter: function () {
-            return "";
-          },
-        },
-      },
-    },
-    plotOptions: {
-      bar: {
-        barHeight: "75%",
-        borderRadius: 10,
-        distributed: true,
-        horizontal: true,
-        dataLabels: {
-          position: "bottom",
-        },
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    colors: COLORS,
-    xaxis: {
-      categories: ["Strong Buy", "Buy", "Hold", "Sell", "Strong Sell"],
-      labels: {
-        style: {
-          colors: [textColor]
-        }
-      }
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: [textColor]
-        }
-      }
-    },
-    legend: {
-      labels: {
-        colors: [textColor]
-      }
-    },
-    grid: {
-      row: {
-        colors: "#2D2D2D",
-        opacity: 1,
-      },
-      column: {
-        colors: "#2D2D2D",
-        opacity: 1,
-      },
-    },
-  };
-
   let pieHeader = (
     <div>
       {props.title}
@@ -197,6 +176,106 @@ const AnalystRecommendations = (props) => {
       </button>
     </div>
   );
+
+  // -------------------
+  useEffect(() => {
+    // Themes begin
+    am4core.useTheme(am4themes_dark);
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+
+    /**
+     * Chart design taken from Samsung health app
+     */
+
+    var chart = am4core.create("bar-div", am4charts.XYChart);
+    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+    chart.paddingRight = 40;
+
+    chart.data = barSeries;
+
+    var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "rating";
+    categoryAxis.renderer.grid.template.strokeOpacity = 0;
+    categoryAxis.renderer.minGridDistance = 10;
+    categoryAxis.renderer.labels.template.dx = -40;
+    categoryAxis.renderer.minWidth = 120;
+    categoryAxis.renderer.tooltip.dx = -40;
+
+    var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+    valueAxis.renderer.inside = true;
+    valueAxis.renderer.labels.template.fillOpacity = 0.3;
+    valueAxis.renderer.grid.template.strokeOpacity = 0;
+    valueAxis.min = 0;
+    valueAxis.cursorTooltipEnabled = false;
+    valueAxis.renderer.baseGrid.strokeOpacity = 0;
+    valueAxis.renderer.labels.template.dy = 20;
+
+    var series = chart.series.push(new am4charts.ColumnSeries());
+    series.dataFields.valueX = "value";
+    series.dataFields.categoryY = "rating";
+    series.tooltipText = "{valueX.value}";
+    series.tooltip.pointerOrientation = "vertical";
+    series.tooltip.dy = -30;
+    series.columnsContainer.zIndex = 100;
+
+    var columnTemplate = series.columns.template;
+    columnTemplate.height = am4core.percent(75);
+    columnTemplate.maxHeight = 75;
+    columnTemplate.column.cornerRadius(0, 50, 0, 50);
+    columnTemplate.strokeOpacity = 0;
+    series.mainContainer.mask = undefined;
+    // Set the colors
+    series.columns.template.propertyFields.fill = "color";
+
+    var cursor = new am4charts.XYCursor();
+    chart.cursor = cursor;
+    cursor.lineX.disabled = true;
+    cursor.lineY.disabled = true;
+    cursor.behavior = "none";
+  }, [isLoading, barSeries, view]);
+
+  useEffect(() => {
+    am4core.useTheme(am4themes_animated);
+    am4core.useTheme(am4themes_dark);
+
+    // Create chart instance
+    var chart = am4core.create("pie-div", am4charts.PieChart);
+
+    // Add and configure Series
+    var pieSeries = chart.series.push(new am4charts.PieSeries());
+    pieSeries.dataFields.value = "value";
+    pieSeries.dataFields.category = "rating";
+
+    // Let's cut a hole in our Pie chart the size of 55% the radius
+    chart.innerRadius = am4core.percent(55);
+    pieSeries.slices.template.propertyFields.fill = "color";
+
+    // Remove ugly labels
+    pieSeries.labels.template.disabled = true;
+
+    // Create a base filter effect (as if it's not there) for the hover to return to
+    var shadow = pieSeries.slices.template.filters.push(
+      new am4core.DropShadowFilter()
+    );
+    shadow.opacity = 0;
+
+    // Create hover state
+    var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
+
+    // Slightly shift the shadow and make it more prominent on hover
+    var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter());
+    hoverShadow.opacity = 0.7;
+    hoverShadow.blur = 5;
+
+    // Add a legend
+    ///chart.legend = new am4charts.Legend();
+    chart.svgContainer.measure();
+
+    // Get series data and set it
+    chart.data = pieData;
+  }, [isLoading, pieData, view]);
 
   if (isLoading) {
     return (
@@ -234,29 +313,11 @@ const AnalystRecommendations = (props) => {
           <hr className="card-hr" />
 
           <div style={{ height: 456 }}>
-            <ResponsiveContainer height={420}>
-              <PieChart>
-                <Pie
-                  data={pieSeries}
-                  dataKey="value"
-                  innerRadius={110}
-                  outerRadius={140}
-                  stroke={""}
-                  paddingAngle={5}
-                >
-                  {pieSeries.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
+            <div style={{ height: 456 }} id="pie-div"></div>
 
-                <Tooltip content={<CustomTooltip />} />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-            <p className="analyst-recs-overall-pie center">Overall: <span className="blue">{overall}</span></p>
+            <p className="analyst-recs-overall-pie center">
+              Overall: <span className="blue">{overall}</span>
+            </p>
           </div>
         </Card>
       );
@@ -274,13 +335,10 @@ const AnalystRecommendations = (props) => {
           <hr className="card-hr" />
 
           <div style={{ height: 456 }}>
-            <ReactApexChart
-              options={options}
-              series={barSeries}
-              type="bar"
-              height={420}
-            />
-            <p className="analyst-recs-overall-bar center">Overall: <span className="blue">{overall}</span></p>
+            <div style={{ height: 456 }} id="bar-div"></div>
+            <p className="analyst-recs-overall-bar center">
+              Overall: <span className="blue">{overall}</span>
+            </p>
           </div>
         </Card>
       );

@@ -20,6 +20,7 @@ const AddCardModal = (props) => {
   const [value, setValue] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const selectCard = (id) => {
     // Card was selected, remove it
@@ -38,6 +39,7 @@ const AddCardModal = (props) => {
   // Shows modal
   const showModal = () => {
     setModalVisible(true);
+    setIsLoading(true)
   };
 
   // Handles exit of modal
@@ -137,6 +139,8 @@ const AddCardModal = (props) => {
                       extra={extra}
                       darkMode={props.darkMode}
                       activeTicker={props.activeTicker}
+                      isLoading={isLoading}
+                      setIsLoading={setIsLoading}
                     />
                     <AddToLayoutButton selectCard={selectCard} card={card} />
                   </div>

@@ -5,7 +5,7 @@ import Loader from "react-loader-spinner";
 import ReactApexChart from "react-apexcharts";
 
 const CompareReturns = (props) => {
-  const [series, setSeries] = useState();
+  const [series, setSeries] = useState([]);
   const [performanceStatus, setPerformanceStatus] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [textColor, setTextColor] = useState("");
@@ -75,6 +75,11 @@ const CompareReturns = (props) => {
     chart: {
       height: 350,
       type: "bar",
+      events: {
+        mounted: function(chartContext, config) {
+          console.log(chartContext)
+        }
+      }
     },
     dataLabels: {
       formatter: function (val, opt) {

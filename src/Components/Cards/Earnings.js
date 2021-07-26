@@ -3,7 +3,6 @@ import "../../App.scss";
 import { Card } from "antd";
 import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts/core";
-import Scatter from "fusioncharts/viz/scatter";
 import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 import {
   ComposedChart,
@@ -16,9 +15,11 @@ import {
   ResponsiveContainer,
   ReferenceLine,
 } from "recharts";
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_dark from "@amcharts/amcharts4/themes/dark";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import Loader from "react-loader-spinner";
-
-ReactFC.fcRoot(FusionCharts, Scatter, FusionTheme);
 
 const Earnings = (props) => {
   const [earningsPeriod, setEarningsPeriod] = useState("Q");
@@ -147,6 +148,7 @@ const Earnings = (props) => {
             name: formattedDates[i].label,
             consensus: el.y,
             actual: actualEPS[i].y,
+            color: "#007bff",
           };
         });
 
@@ -159,68 +161,62 @@ const Earnings = (props) => {
     });
   }, [earningsPeriod, props.activeTicker]);
 
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  useEffect(() => {
+    // Themes begin
+    am4core.useTheme(am4themes_dark);
+    am4core.useTheme(am4themes_animated);
+    // Themes end
 
-  const dataSource = {
-    chart: {
-      yaxisname: "EPS",
-      ynumberprefix: "$",
-      canvasbgAlpha: "100",
-      anchorRadius: "7",
-      anchorSides: "1",
-      canvasPadding: "50",
-      showBorder: "0",
-      canvasBorderThickness: "0",
-      showAlternateHGridColor: "0",
-      canvasbgColor: theme,
-      bgColor: theme,
-      bgAlpha: "100",
-      legendBgColor: theme,
-      baseFontColor: textColor,
-      toolTipBgColor: theme,
-    },
-    categories: [{ category: dates }],
-    dataset: [
-      {
-        seriesname: "Consensus",
-        color: "#C0C0C0",
-        anchorBgColor: "#C0C0C0",
-        data: consensus,
-      },
-      {
-        seriesname: "Actual",
-        color: "#007bff",
-        anchorBgColor: "#007bff",
-        data: actual,
-      },
-    ],
-  };
+    // Create chart instance
+    var chart = am4core.create("chartdiv", am4charts.XYChart);
 
-  let scatterHeader = (
-    <div>
-      {props.title}
-      <button
-        className="btn btn-primary change-view-button"
-        onClick={() => setView("bar")}
-      >
-        Change View
-      </button>
-    </div>
-  );
+    // Export
+    chart.exporting.menu = new am4core.ExportMenu();
 
-  let barHeader = (
-    <div>
-      {props.title}
-      <button
-        className="btn btn-primary change-view-button"
-        onClick={() => setView("scatter")}
-      >
-        Change View
-      </button>
-    </div>
-  );
+    /* Create axes */
+    var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "name";
+    categoryAxis.renderer.minGridDistance = 30;
+
+    /* Create value axis */
+    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+    /* Create series */
+    var columnSeries = chart.series.push(new am4charts.ColumnSeries());
+    columnSeries.name = "Actual";
+    columnSeries.dataFields.valueY = "actual";
+    columnSeries.dataFields.categoryX = "name";
+
+    columnSeries.columns.template.tooltipText =
+      "[#fff font-size: 15px]Actual in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]";
+    columnSeries.columns.template.propertyFields.fillOpacity = "fillOpacity";
+    columnSeries.columns.template.propertyFields.stroke = "stroke";
+    columnSeries.columns.template.propertyFields.strokeWidth = "strokeWidth";
+    columnSeries.columns.template.propertyFields.strokeDasharray = "columnDash";
+    columnSeries.columns.template.propertyFields.fill = "color";
+    columnSeries.tooltip.label.textAlign = "middle";
+
+    var lineSeries = chart.series.push(new am4charts.LineSeries());
+    lineSeries.name = "Consensus";
+    lineSeries.dataFields.valueY = "consensus";
+    lineSeries.dataFields.categoryX = "name";
+
+    lineSeries.stroke = am4core.color("#FFFFFF");
+    lineSeries.strokeWidth = 3;
+    lineSeries.propertyFields.strokeDasharray = "lineDash";
+    lineSeries.tooltip.label.textAlign = "middle";
+
+    var bullet = lineSeries.bullets.push(new am4charts.Bullet());
+    bullet.fill = am4core.color("#000000"); // tooltips grab fill from parent by default
+    bullet.tooltipText =
+      "[#fff font-size: 15px]Consensus in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]";
+    var circle = bullet.createChild(am4core.Circle);
+    circle.radius = 4;
+    circle.fill = am4core.color("#fff");
+    circle.strokeWidth = 3;
+
+    chart.data = barViewData;
+  }, [barViewData, isLoading]);
 
   if (isLoading) {
     return (
@@ -244,65 +240,24 @@ const Earnings = (props) => {
       </Card>
     );
   } else {
-    if (view == "scatter") {
-      return (
-        <Card
-          title={scatterHeader}
-          extra={props.extra}
-          style={{
-            height: "100%",
-            overflow: "auto",
-          }}
-        >
-          <hr className="card-hr" />
-          <div style={{ height: 456 }}>
-            <ReactFC
-              type="scatter"
-              width="100%"
-              height="77%"
-              dataFormat="JSON"
-              dataSource={dataSource}
-            />
-            <p className="earnings-overall center">
-              Overall: <span className="blue">{overall}</span>
-            </p>
-          </div>
-        </Card>
-      );
-    } else {
-      return (
-        <Card
-          title={barHeader}
-          extra={props.extra}
-          style={{
-            height: "100%",
-            overflow: "auto",
-          }}
-        >
-          <hr className="card-hr" />
-          <div style={{ height: 456 }}>
-            <ResponsiveContainer height={434}>
-              <ComposedChart data={barViewData} width={500}>
-                <XAxis dataKey="name" allowDataOverflow={true} />
-                <ReferenceLine y={0} stroke="grey" />
-                <YAxis />
-                <Tooltip
-                  formatter={(value, label, props) => {
-                    return [value, capitalizeFirstLetter(label)];
-                  }}
-                />
-                <Legend formatter={(label) => capitalizeFirstLetter(label)} />
-                <Bar dataKey="actual" barSize={20} fill="#007bff" />
-                <Line dataKey="consensus" stroke="#C0C0C0" />
-              </ComposedChart>
-            </ResponsiveContainer>
-            <p className="earnings-overall center">
-              Overall: <span className="blue">{overall}</span>
-            </p>
-          </div>
-        </Card>
-      );
-    }
+    return (
+      <Card
+        title={props.title}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <div style={{ height: 456 }}>
+          <div style={{ height: 456 }} id="chartdiv" />
+          <p className="earnings-overall center">
+            Overall: <span className="blue">{overall}</span>
+          </p>
+        </div>
+      </Card>
+    );
   }
 };
 

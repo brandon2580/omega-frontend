@@ -6,7 +6,7 @@ import "bootstrap/dist/js/bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/js/src/collapse.js";
 import "antd/dist/antd.css";
-import "./icons/uicons-regular-rounded/css/uicons-regular-rounded.css"
+import "./icons/uicons-regular-rounded/css/uicons-regular-rounded.css";
 import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
 import EquityDashboard from "./Components/EquityDashboard/EquityDashboard";
@@ -23,13 +23,9 @@ import Feedback from "./Components/Feedback/Feedback";
 function App() {
   const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
   const [activeTicker, setActiveTicker] = useState("");
-  const apiBaseUrl = "https://sigma7apis.azure-api.net/omega";
-  const apiCode = process.env.REACT_APP_API_KEY;
   // The 7 values in the state array are the id's of the cards that render on the dashboard by default.
   // These are the initial "selected" cards that render by default
-  const [selectedCardsIndex, setSelectedCardsIndex] = useState([
-    4, 2, 7, 5, 6
-  ]);
+  const [selectedCardsIndex, setSelectedCardsIndex] = useState([4, 2, 7, 5, 6]);
 
   // These are every single available card throughout the platform, each identified by an id
   // which helps with identifying which cards are rendered on the dashboard and which ones aren't
@@ -55,8 +51,6 @@ function App() {
       h: 1,
       minW: 3,
       maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
     },
 
     {
@@ -71,14 +65,12 @@ function App() {
       h: 1,
       minW: 3,
       maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
     },
 
     {
       id: 3,
       name: "Dividends",
-      title: "Dividend Yield (5y)",
+      title: "Dividends",
       info: "Dividends are effectively cash payments paid out to investors from a company. Dividends are usually profits leftover from the business that are passed onto the investor in the form of a dividend. Likewise, this usually is a sign of stability and consistent returns. Most companies only issue dividends when their profits are consistent and stable. A growing dividend trend is usually a good sign of a stable business.",
       infoVisible: false,
       x: 3,
@@ -87,8 +79,6 @@ function App() {
       h: 1,
       minW: 3,
       maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
     },
 
     {
@@ -103,8 +93,6 @@ function App() {
       h: 1,
       minW: 3,
       maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
     },
 
     {
@@ -119,8 +107,6 @@ function App() {
       h: 1,
       minW: 3,
       maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
     },
 
     {
@@ -135,8 +121,6 @@ function App() {
       h: 1,
       minW: 3,
       maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
     },
 
     {
@@ -151,8 +135,6 @@ function App() {
       h: 1,
       minW: 3,
       maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
     },
     {
       id: 8,
@@ -166,8 +148,6 @@ function App() {
       h: 1,
       minW: 3,
       maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
     },
     {
       id: 9,
@@ -181,8 +161,6 @@ function App() {
       h: 1,
       minW: 3,
       maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
     },
     {
       id: 10,
@@ -196,8 +174,6 @@ function App() {
       h: 1,
       minW: 3,
       maxH: 1,
-      apiBaseUrl: apiBaseUrl,
-      apiCode: apiCode,
     },
   ]);
 
