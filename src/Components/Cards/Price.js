@@ -97,7 +97,8 @@ const Price = (props) => {
 
     // Add data
     chart.data = areaSeries;
-    chart.numberFormatter.numberFormat = "'$' #";
+    chart.numberFormatter.numberFormat = '$#,###';
+    
     // Create axes
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 50;

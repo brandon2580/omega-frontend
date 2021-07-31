@@ -126,6 +126,7 @@ const PriceTarget = (props) => {
 
     // Add data
     chart.data = chartData;
+    chart.numberFormatter.numberFormat = '$#,###';
 
     // Create axes
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -159,7 +160,7 @@ const PriceTarget = (props) => {
       trend.data = data;
 
       var bullet = trend.bullets.push(new am4charts.CircleBullet());
-      bullet.tooltipText = "{date}\n[bold font-size: 17px]${valueY}[/]";
+      bullet.tooltipText = "{date}\n[bold font-size: 17px]{valueY}[/]";
       bullet.strokeWidth = 2;
       bullet.propertyFields.stroke = "color"
       bullet.propertyFields.fill = "color"

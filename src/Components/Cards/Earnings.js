@@ -155,6 +155,7 @@ const Earnings = (props) => {
 
     // Create chart instance
     var chart = am4core.create("earningsdiv", am4charts.XYChart);
+    chart.numberFormatter.numberFormat = '$#,###';
 
     // Export
     chart.exporting.menu = new am4core.ExportMenu();
@@ -164,7 +165,6 @@ const Earnings = (props) => {
     categoryAxis.dataFields.category = "name";
     categoryAxis.renderer.minGridDistance = 30;
     categoryAxis.renderer.labels.template.fill = textColor;
-
     /* Create value axis */
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.renderer.labels.template.fill = textColor;
@@ -176,7 +176,7 @@ const Earnings = (props) => {
     columnSeries.dataFields.categoryX = "name";
 
     columnSeries.columns.template.tooltipText =
-      "[#fff font-size: 15px]Actual in {categoryX}:\n[/][#fff font-size: 20px]${valueY}[/] [#fff]{additional}[/]";
+      "[#fff font-size: 15px]Actual in {categoryX}:\n[/][#fff font-size: 20px]{valueY}/share[/] [#fff]{additional}[/]";
     columnSeries.columns.template.propertyFields.fillOpacity = "fillOpacity";
     columnSeries.columns.template.propertyFields.stroke = "stroke";
     columnSeries.columns.template.propertyFields.strokeWidth = "strokeWidth";
@@ -185,7 +185,7 @@ const Earnings = (props) => {
     columnSeries.tooltip.label.textAlign = "middle";
 
     var lineSeries = chart.series.push(new am4charts.LineSeries());
-    lineSeries.name = "Consensus";
+    lineSeries.name = "Expectation";
     lineSeries.dataFields.valueY = "consensus";
     lineSeries.dataFields.categoryX = "name";
 
@@ -197,7 +197,7 @@ const Earnings = (props) => {
     var bullet = lineSeries.bullets.push(new am4charts.Bullet());
     bullet.fill = am4core.color("orange"); // tooltips grab fill from parent by default
     bullet.tooltipText =
-      "[#fff font-size: 15px]Consensus in {categoryX}:\n[/][#fff font-size: 20px]${valueY}[/] [#fff]{additional}[/]";
+      "[#fff font-size: 15px]Expectation in {categoryX}:\n[/][#fff font-size: 20px]{valueY}/share[/] [#fff]{additional}[/]";
     var circle = bullet.createChild(am4core.Circle);
     circle.radius = 4;
     circle.fill = am4core.color("#fff");

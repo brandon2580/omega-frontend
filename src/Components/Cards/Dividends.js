@@ -78,7 +78,7 @@ const Dividends = (props) => {
 
     // Add data
     chart.data = dividendYieldsSeries;
-    console.log(dividendYieldsSeries);
+    chart.numberFormatter.numberFormat = "#'%";
 
     // Create axes
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -96,7 +96,7 @@ const Dividends = (props) => {
     series.propertyFields.stroke = "color";
     series.propertyFields.fill = "color";
     series.minBulletDistance = 10;
-    series.tooltipText = "{valueY}%";
+    series.tooltipText = "{valueY}";
     series.tooltip.pointerOrientation = "vertical";
     series.tooltip.background.cornerRadius = 20;
     series.tooltip.background.fillOpacity = 0.5;
@@ -119,6 +119,7 @@ const Dividends = (props) => {
 
     // Add data
     chart.data = dividendRawSeries;
+    chart.numberFormatter.numberFormat = '$#,###';
 
     // Create axes
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -136,7 +137,7 @@ const Dividends = (props) => {
     series.propertyFields.stroke = "color";
     series.propertyFields.fill = "color";
     series.minBulletDistance = 10;
-    series.tooltipText = "${valueY}/share";
+    series.tooltipText = "{valueY}/share";
     series.tooltip.pointerOrientation = "vertical";
     series.tooltip.background.cornerRadius = 20;
     series.tooltip.background.fillOpacity = 0.5;
