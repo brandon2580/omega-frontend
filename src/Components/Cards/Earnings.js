@@ -1,20 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import ReactFC from "react-fusioncharts";
-import FusionCharts from "fusioncharts/core";
-import FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
-import {
-  ComposedChart,
-  Line,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  ReferenceLine,
-} from "recharts";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
@@ -146,8 +132,8 @@ const Earnings = (props) => {
         let barViewDataMap = consensusEPS.map((el, i) => {
           return {
             name: formattedDates[i].label,
-            consensus: el.y,
-            actual: actualEPS[i].y,
+            consensus: el.y.toFixed(2),
+            actual: actualEPS[i].y.toFixed(2),
             color: "#007bff",
           };
         });
@@ -168,7 +154,7 @@ const Earnings = (props) => {
     // Themes end
 
     // Create chart instance
-    var chart = am4core.create("chartdiv", am4charts.XYChart);
+    var chart = am4core.create("earningsdiv", am4charts.XYChart);
 
     // Export
     chart.exporting.menu = new am4core.ExportMenu();
@@ -177,9 +163,11 @@ const Earnings = (props) => {
     var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     categoryAxis.dataFields.category = "name";
     categoryAxis.renderer.minGridDistance = 30;
+    categoryAxis.renderer.labels.template.fill = textColor;
 
     /* Create value axis */
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.renderer.labels.template.fill = textColor;
 
     /* Create series */
     var columnSeries = chart.series.push(new am4charts.ColumnSeries());
@@ -188,7 +176,7 @@ const Earnings = (props) => {
     columnSeries.dataFields.categoryX = "name";
 
     columnSeries.columns.template.tooltipText =
-      "[#fff font-size: 15px]Actual in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]";
+      "[#fff font-size: 15px]Actual in {categoryX}:\n[/][#fff font-size: 20px]${valueY}[/] [#fff]{additional}[/]";
     columnSeries.columns.template.propertyFields.fillOpacity = "fillOpacity";
     columnSeries.columns.template.propertyFields.stroke = "stroke";
     columnSeries.columns.template.propertyFields.strokeWidth = "strokeWidth";
@@ -201,22 +189,22 @@ const Earnings = (props) => {
     lineSeries.dataFields.valueY = "consensus";
     lineSeries.dataFields.categoryX = "name";
 
-    lineSeries.stroke = am4core.color("#FFFFFF");
+    lineSeries.stroke = am4core.color("orange");
     lineSeries.strokeWidth = 3;
     lineSeries.propertyFields.strokeDasharray = "lineDash";
     lineSeries.tooltip.label.textAlign = "middle";
 
     var bullet = lineSeries.bullets.push(new am4charts.Bullet());
-    bullet.fill = am4core.color("#000000"); // tooltips grab fill from parent by default
+    bullet.fill = am4core.color("orange"); // tooltips grab fill from parent by default
     bullet.tooltipText =
-      "[#fff font-size: 15px]Consensus in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]";
+      "[#fff font-size: 15px]Consensus in {categoryX}:\n[/][#fff font-size: 20px]${valueY}[/] [#fff]{additional}[/]";
     var circle = bullet.createChild(am4core.Circle);
     circle.radius = 4;
     circle.fill = am4core.color("#fff");
     circle.strokeWidth = 3;
 
     chart.data = barViewData;
-  }, [barViewData, isLoading]);
+  }, [barViewData, isLoading, textColor]);
 
   if (isLoading) {
     return (
@@ -250,8 +238,8 @@ const Earnings = (props) => {
         }}
       >
         <hr className="card-hr" />
-        <div style={{ height: 456 }}>
-          <div style={{ height: 456 }} id="chartdiv" />
+        <div>
+          <div style={{ height: 456 }} id="earningsdiv" />
           <p className="earnings-overall center">
             Overall: <span className="blue">{overall}</span>
           </p>

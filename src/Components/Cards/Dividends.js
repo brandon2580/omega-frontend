@@ -37,8 +37,8 @@ const Dividends = (props) => {
       let dividendData = dividend_raw.reverse().map((el) => {
         return {
           x: el.recordDate,
-          y: el.amount,
-          color: "#007bff"
+          y: el.amount.toFixed(2),
+          color: "#007bff",
         };
       });
       setDividendRawSeries(dividendData);
@@ -51,8 +51,8 @@ const Dividends = (props) => {
       let dividendData = Object.keys(yields).map((el, i) => {
         return {
           x: el,
-          y: yields[el],
-          color: "#007bff"
+          y: yields[el].toFixed(2),
+          color: "#007bff",
         };
       });
       setOneYearGrowth(dividend_yields["1yr_growth"]);
@@ -78,23 +78,25 @@ const Dividends = (props) => {
 
     // Add data
     chart.data = dividendYieldsSeries;
-    console.log(dividendYieldsSeries)
+    console.log(dividendYieldsSeries);
 
     // Create axes
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 50;
+    dateAxis.renderer.labels.template.fill = textColor;
 
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.renderer.labels.template.fill = textColor;
 
     // Create series
     var series = chart.series.push(new am4charts.LineSeries());
     series.dataFields.valueY = "y";
     series.dataFields.dateX = "x";
     series.strokeWidth = 2;
-    series.propertyFields.stroke = "color"
-    series.propertyFields.fill = "color"
+    series.propertyFields.stroke = "color";
+    series.propertyFields.fill = "color";
     series.minBulletDistance = 10;
-    series.tooltipText = "{valueY}";
+    series.tooltipText = "{valueY}%";
     series.tooltip.pointerOrientation = "vertical";
     series.tooltip.background.cornerRadius = 20;
     series.tooltip.background.fillOpacity = 0.5;
@@ -104,8 +106,7 @@ const Dividends = (props) => {
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = dateAxis;
     chart.cursor.snapToSeries = series;
-  }, [isLoading, dividendYieldsSeries, view]);
-
+  }, [isLoading, dividendYieldsSeries, view, textColor]);
 
   useEffect(() => {
     // Themes begin
@@ -122,18 +123,20 @@ const Dividends = (props) => {
     // Create axes
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 50;
+    dateAxis.renderer.labels.template.fill = textColor;
 
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.renderer.labels.template.fill = textColor;
 
     // Create series
     var series = chart.series.push(new am4charts.LineSeries());
     series.dataFields.valueY = "y";
     series.dataFields.dateX = "x";
     series.strokeWidth = 2;
-    series.propertyFields.stroke = "color"
-    series.propertyFields.fill = "color"
+    series.propertyFields.stroke = "color";
+    series.propertyFields.fill = "color";
     series.minBulletDistance = 10;
-    series.tooltipText = "{valueY}";
+    series.tooltipText = "${valueY}/share";
     series.tooltip.pointerOrientation = "vertical";
     series.tooltip.background.cornerRadius = 20;
     series.tooltip.background.fillOpacity = 0.5;
@@ -143,7 +146,7 @@ const Dividends = (props) => {
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = dateAxis;
     chart.cursor.snapToSeries = series;
-  }, [isLoading, dividendRawSeries, view]);
+  }, [isLoading, dividendRawSeries, view, textColor]);
 
   let yieldHeader = (
     <div>
@@ -202,9 +205,8 @@ const Dividends = (props) => {
           }}
         >
           <hr className="card-hr" />
-          <div style={{ height: 456 }}>
-
-          <div style={{ height: 430 }} id="dividend-yield-div" />
+          <div>
+            <div style={{ height: 424 }} id="dividend-yield-div" />
 
             <p className="dividends-growth-1y center">
               1yr Growth:{" "}
@@ -238,8 +240,8 @@ const Dividends = (props) => {
             }}
           >
             <hr className="card-hr" />
-            <div style={{ height: 456 }}>
-            <div style={{ height: 456 }} id="dividend-raw-div" />
+            <div >
+              <div style={{ height: 424 }} id="dividend-raw-div" />
 
               <p className="dividends-growth-1y center">
                 1yr Growth:{" "}

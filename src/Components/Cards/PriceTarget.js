@@ -9,7 +9,9 @@ import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import moment from "moment";
 const PriceTarget = (props) => {
-  const [series, setSeries] = useState([]);
+  const [chartData, setChartData] = useState([]);
+  const [futureDateOneYear, setFutureDateOneYear] = useState("");
+  const [mostRecentData, setMostRecentData] = useState("");
   const [high, setHigh] = useState();
   const [average, setAverage] = useState();
   const [low, setLow] = useState();
@@ -42,12 +44,18 @@ const PriceTarget = (props) => {
         Object.keys(prices).map(function (key) {
           return {
             date: prices[key].date,
-            observed: prices[key].close,
+            value: prices[key].close,
+            color: "#007bff"
           };
         }),
+        {
+          last_updated: price_target.updatedData,
+          average: price_target.priceTargetAverage,
+          high: price_target.priceTargetHigh,
+          low: price_target.priceTargetLow,
+          numOfAnalysts: price_target.numberOfAnalysts,
+        },
       ];
-
-      let mostRecentData = priceTargetData[0].slice(-1).pop();
 
       function getFormattedDate(date) {
         var d = new Date(date),
@@ -66,75 +74,24 @@ const PriceTarget = (props) => {
       oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
 
       let formatted = getFormattedDate(oneYearFromNow);
+      setFutureDateOneYear(formatted);
 
-      function getDates(startDate, stopDate) {
-        var dateArray = [];
-        var currentDate = moment(startDate);
-        var stopDate = moment(stopDate);
-        while (currentDate <= stopDate) {
-          dateArray.push(moment(currentDate).format("YYYY-MM-DD"));
-          currentDate = moment(currentDate).add(1, "days");
-        }
-        return dateArray;
-      }
+      setMostRecentData(priceTargetData[0].slice(-1).pop());
 
-      let yearsWorthOfDates = getDates(mostRecentData.date, formatted);
-
-      let f = yearsWorthOfDates.map((el, i) => {
-        return {
-          projection: price_target.priceTargetAverage,
-          easing: price_target.priceTargetHigh,
-          stricter: price_target.priceTargetLow,
-          date: el,
-        };
-      });
-
-      f.unshift({
-        projection: mostRecentData.observed,
-        easing: mostRecentData.observed,
-        stricter: mostRecentData.observed,
-        date: "2021-07-23"
-      })
-      function range(size, startAt = 0) {
-        return [...Array(size).keys()].map(i => i + startAt);
-    }
-
-    console.log(range(60))
-
-      let z = f.map((el, i) => {
-        return priceTargetData[0].push(el)
-      })
-      console.log(z);
-
-      console.log(priceTargetData[0])
-
-      let projectionData = {
-        date: mostRecentData.date,
-        observed: mostRecentData.observed,
-      };
-
-      // priceTargetData[0].push({
-      //   last_updated: price_target.updatedData,
-      //   projection: price_target.priceTargetAverage,
-      //   easing: price_target.priceTargetHigh,
-      //   stricter: price_target.priceTargetLow,
-      //   numOfAnalysts: price_target.numberOfAnalysts,
-      // },)
-
-      setSeries(priceTargetData[0]);
-      // setHigh(priceTargetData[1].high);
-      // setAverage(priceTargetData[1].average);
-      // setLow(priceTargetData[1].low);
+      setChartData(priceTargetData[0]);
+       setHigh(priceTargetData[1].high);
+       setAverage(priceTargetData[1].average);
+       setLow(priceTargetData[1].low);
       setIsLoading(false);
     });
   }, [props.activeTicker]);
-  console.log(series);
+
   useEffect(() => {
     if (!isLoading) {
-      let recentPrice = series.slice(-1)[0].value;
+      let recentPrice = chartData.slice(-1)[0].value;
       setCurrentPrice(recentPrice);
     }
-  }, [isLoading, series]);
+  }, [isLoading, chartData]);
 
   useEffect(() => {
     function percentChange(a, b) {
@@ -154,129 +111,80 @@ const PriceTarget = (props) => {
   useEffect(() => {
     // Themes begin
     am4core.useTheme(am4themes_dark);
-    am4core.useTheme(am4themes_animated);
     // Themes end
 
     // Create chart instance
-    var chart = am4core.create("chartdiv", am4charts.XYChart);
+    var chart = am4core.create("pricetargetdiv", am4charts.XYChart);
 
-    chart.dateFormatter.dateFormat = "MMM YYYY";
-    chart.numberFormatter.numberFormat = "#.#a";
-    chart.numberFormatter.bigNumberPrefixes = [
-      { number: 1e3, suffix: "K" },
-      { number: 1e6, suffix: "M" },
-      { number: 1e9, suffix: "B" },
-    ];
+    // Enable chart cursor
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.lineX.disabled = true;
+    chart.cursor.lineY.disabled = true;
 
-    // Chart title
-    var title = chart.titles.create();
+    // Enable scrollbar
+    chart.scrollbarX = new am4core.Scrollbar();
 
     // Add data
-    chart.data = series;
-    //[
-    //   {
-    //     date: new Date(2020, 0, 1),
-    //     observed: 0,
-    //   },
-    //   {
-    //     date: new Date(2020, 1, 1),
-    //     observed: 4000,
-    //   },
-    //   {
-    //     date: new Date(2020, 2, 1),
-    //     observed: 55000,
-    //   },
-    //   {
-    //     date: new Date(2020, 3, 1),
-    //     observed: 220000,
-    //   },
-    //   {
-    //     date: new Date(2020, 4, 1),
-    //     observed: 390000,
-    //   },
-    //   {
-    //     date: new Date(2020, 5, 1),
-    //     observed: 550000,
-    //   },
-    //   {
-    //     date: new Date(2020, 6, 1),
-    //     observed: 720000,
-    //     easing: 720000,
-    //     projection: 720000,
-    //     stricter: 720000,
-    //   },
-    //   {
-    //     date: new Date(2020, 7, 1),
-    //     easing: 900000,
-    //     projection: 900000,
-    //     stricter: 900000,
-    //   },
-    //   {
-    //     date: new Date(2020, 8, 1),
-    //     easing: 1053000,
-    //     projection: 1053000,
-    //     stricter: 1053000,
-    //   },
-    //   {
-    //     date: new Date(2020, 9, 1),
-    //     easing: 1252000,
-    //     projection: 1249000,
-    //     stricter: 1232000,
-    //   },
-    //   {
-    //     date: new Date(2020, 10, 1),
-    //     easing: 1674000,
-    //     projection: 1604000,
-    //     stricter: 1415000,
-    //   },
-    //   {
-    //     date: new Date(2020, 11, 1),
-    //     easing: 3212000,
-    //     projection: 2342000,
-    //     stricter: 1751000,
-    //   },
-    // ];
+    chart.data = chartData;
 
     // Create axes
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.grid.template.location = 0;
-    dateAxis.renderer.minGridDistance = 30;
+    dateAxis.renderer.grid.template.location = 0.5;
+    dateAxis.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+    dateAxis.renderer.minGridDistance = 40;
+    dateAxis.tooltipDateFormat = "MMM dd, yyyy";
+    dateAxis.dateFormats.setKey("day", "dd");
+    dateAxis.renderer.labels.template.fill = textColor;
 
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.renderer.inside = true;
-    valueAxis.renderer.labels.template.verticalCenter = "bottom";
-    valueAxis.renderer.labels.template.dx = -5;
-    valueAxis.renderer.labels.template.dy = 10;
-    valueAxis.renderer.maxLabelPosition = 0.95;
-    valueAxis.title.text = "Number of infections";
-    valueAxis.title.marginRight = 5;
+    valueAxis.renderer.labels.template.fill = textColor;
 
     // Create series
-    function createSeries(field, name, color, dashed) {
-      var series = chart.series.push(new am4charts.LineSeries());
-      series.dataFields.valueY = field;
-      series.dataFields.dateX = "date";
-      series.name = name;
-      series.tooltipText = "[bold]{name}[/]\n{dateX}: [b]{valueY}[/]";
-      series.strokeWidth = 2;
-      series.smoothing = "monotoneX";
-      series.stroke = color;
+    var series = chart.series.push(new am4charts.LineSeries());
+    series.tooltipText = "{date}\n[bold font-size: 17px]${valueY}[/]";
+    series.dataFields.valueY = "value";
+    series.dataFields.dateX = "date";
+    series.propertyFields.stroke = "color"
+    series.propertyFields.fill = "color"
 
-      if (dashed) {
-        series.strokeDasharray = "5 3";
-      }
+    function createTrendLine(data) {
+      var trend = chart.series.push(new am4charts.LineSeries());
+      trend.dataFields.valueY = "value";
+      trend.dataFields.dateX = "date";
+      trend.strokeDasharray = 3;
 
-      return series;
+      trend.strokeWidth = 2;
+      trend.propertyFields.stroke = "color"
+      trend.propertyFields.fill = "color"
+      trend.data = data;
+
+      var bullet = trend.bullets.push(new am4charts.CircleBullet());
+      bullet.tooltipText = "{date}\n[bold font-size: 17px]${valueY}[/]";
+      bullet.strokeWidth = 2;
+      bullet.propertyFields.stroke = "color"
+      bullet.propertyFields.fill = "color"
+
+      var hoverState = bullet.states.create("hover");
+      hoverState.properties.scale = 1.7;
+
+      return trend;
     }
 
-    createSeries("observed", "Observed", am4core.color("#B1B106"));
-    createSeries("easing", "Easing rules", am4core.color("#D68C45"), true);
-    createSeries("stricter", "Stricter rules", am4core.color("#2C6E49"), true);
-    createSeries("projection", "Projection", am4core.color("#B1B106"), true);
+    createTrendLine([
+      { date: mostRecentData.date, value: mostRecentData.value, color: am4core.color("#00FF00") },
+      { date: futureDateOneYear, value: high, color: am4core.color("#00FF00") },
+    ]);
 
-    chart.legend = new am4charts.Legend();
-    chart.cursor = new am4charts.XYCursor();
-  });
+    createTrendLine([
+      { date: mostRecentData.date, value: mostRecentData.value, color: am4core.color("#808080") },
+      { date: futureDateOneYear, value: average, color: am4core.color("#808080") },
+    ]);
+
+    createTrendLine([
+      { date: mostRecentData.date, value: mostRecentData.value, color: am4core.color("#FF0000") },
+      { date: futureDateOneYear, value: low, color: am4core.color("#FF0000") },
+    ]);
+  }, [chartData, isLoading, futureDateOneYear, mostRecentData, high, average, low, textColor]);
 
   if (isLoading) {
     return (
@@ -312,7 +220,7 @@ const PriceTarget = (props) => {
       >
         <hr className="card-hr" />
         <div style={{ height: 456 }}>
-          <div style={{ height: 456 }} id="chartdiv" />
+          <div style={{ height: 456 }} id="pricetargetdiv" />
           <p className="price-target-outlook center">
             Outlook: <span className="blue">{outlook}</span>
           </p>

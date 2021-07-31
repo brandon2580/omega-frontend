@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
 import Loader from "react-loader-spinner";
-import ReactApexChart from "react-apexcharts";
+import * as am4core from "@amcharts/amcharts4/core";
+import * as am4charts from "@amcharts/amcharts4/charts";
+import am4themes_dark from "@amcharts/amcharts4/themes/dark";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import { line } from "d3";
 
 const CompareReturns = (props) => {
-  const [series, setSeries] = useState([]);
+  const [chartSeries, setChartSeries] = useState([]);
   const [performanceStatus, setPerformanceStatus] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [textColor, setTextColor] = useState("");
@@ -45,89 +49,76 @@ const CompareReturns = (props) => {
           });
 
           return {
-            x: name,
-            y: Math.round(returnsMap[i].toFixed(2)) * 100,
-            goals: [
-              {
-                name: "Avg. Competitor Return",
-                value: Math.round(compare_returns.peerAvg.toFixed(2)) * 100,
-                strokeWidth: 5,
-                strokeColor: "#00E396",
-              },
-            ],
+            stock: name,
+            return: Math.round(returnsMap[i].toFixed(2)) * 100,
+            avg_competitor_return:
+              Math.round(compare_returns.peerAvg.toFixed(2)) * 100,
+            color: "#007bff",
           };
         });
 
-        let data = [
-          {
-            name: "Return",
-            data: mappedObjects,
-          },
-        ];
+        let data = mappedObjects;
 
-        setSeries(data);
+        setChartSeries(data);
       });
       setIsLoading(false);
     });
   }, [props.activeTicker]);
 
-  let options = {
-    chart: {
-      height: 350,
-      type: "bar",
-      events: {
-        mounted: function(chartContext, config) {
-          console.log(chartContext)
-        }
-      }
-    },
-    dataLabels: {
-      formatter: function (val, opt) {
-        return val + "%";
-      },
-    },
-    xaxis: {
-      labels: {
-        formatter: function (val, opt) {
-          return val + "%";
-        },
-        style: {
-          colors: [textColor],
-        },
-      },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: [textColor],
-        },
-      },
-    },
-    plotOptions: {
-      bar: {
-        horizontal: true,
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: function (val, opt) {
-          return val + "%";
-        },
-      },
-    },
-    colors: ["#007bff"],
-    legend: {
-      show: true,
-      showForSingleSeries: true,
-      customLegendItems: ["Total Return %", "Average Total Return %"],
-      markers: {
-        fillColors: ["#007bff", "#00E396"],
-      },
-      labels: {
-        colors: [textColor],
-      },
-    },
-  };
+  console.log(chartSeries);
+  useEffect(() => {
+    // Themes begin
+    am4core.useTheme(am4themes_animated);
+    // Themes end
+
+    var chart = am4core.create("comparediv", am4charts.XYChart);
+
+    chart.data = chartSeries;
+
+    //create category axis for years
+    var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "stock";
+    categoryAxis.renderer.inversed = true;
+    categoryAxis.renderer.grid.template.location = 0;
+    categoryAxis.renderer.labels.template.fill = textColor;
+
+    //create value axis for income and expenses
+    var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+    valueAxis.renderer.opposite = true;
+    valueAxis.renderer.labels.template.fill = textColor;
+
+    //create columns
+    var series = chart.series.push(new am4charts.ColumnSeries());
+    series.dataFields.categoryY = "stock";
+    series.dataFields.valueX = "return";
+    series.name = "Return";
+    series.tooltipText = "{categoryY}: {valueX.value}%";
+    series.columns.template.propertyFields.fill = "color";
+
+    //create line
+    var lineSeries = chart.series.push(new am4charts.LineSeries());
+    lineSeries.dataFields.categoryY = "stock";
+    lineSeries.dataFields.valueX = "avg_competitor_return";
+    lineSeries.name = "Average Competitor Return";
+    lineSeries.strokeWidth = 3;
+    lineSeries.tooltipText = "Average Competitor Return: {valueX.value}%";
+    lineSeries.tooltip.fill = am4core.color("orange");
+    lineSeries.stroke = am4core.color("orange");
+    //add bullets
+    var bullet = lineSeries.bullets.push(new am4charts.Bullet());
+    bullet.fill = am4core.color("orange");
+    var circle = bullet.createChild(am4core.Circle);
+    circle.radius = 4;
+    circle.fill = am4core.color("#fff");
+    circle.strokeWidth = 3;
+
+    //add chart cursor
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.behavior = "zoomY";
+
+    chart.legend = new am4charts.Legend();
+    chart.legend.labels.template.fill = textColor
+  }, [chartSeries, isLoading, textColor]);
 
   if (isLoading) {
     return (
@@ -161,13 +152,8 @@ const CompareReturns = (props) => {
         }}
       >
         <hr className="card-hr" />
-        <div style={{ height: 456 }}>
-          <ReactApexChart
-            options={options}
-            series={series}
-            type="bar"
-            height={420}
-          />
+        <div>
+          <div style={{ height: 456 }} id="comparediv" />
           <p className="compare-returns-overall center">
             Overall: <span className="blue">{performanceStatus}</span>
           </p>

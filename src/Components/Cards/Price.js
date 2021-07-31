@@ -15,6 +15,11 @@ const Price = (props) => {
   const [priceFrame, setPriceFrame] = useState("daily");
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState("area");
+  const [textColor, setTextColor] = useState("");
+
+  useEffect(() => {
+    props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
+  }, [props.darkMode]);
 
   useEffect(() => {
     const candlestickPrices = fetch(
@@ -44,7 +49,7 @@ const Price = (props) => {
         return {
           x: price[key].date,
           y: price[key].close,
-          color: "#007bff"
+          color: "#007bff",
         };
       });
       setAreaSeries(areaData);
@@ -84,7 +89,6 @@ const Price = (props) => {
 
   useEffect(() => {
     // Themes begin
-    am4core.useTheme(am4themes_dark);
     am4core.useTheme(am4themes_animated);
     // Themes end
 
@@ -93,20 +97,22 @@ const Price = (props) => {
 
     // Add data
     chart.data = areaSeries;
-
+    chart.numberFormatter.numberFormat = "'$' #";
     // Create axes
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 50;
+    dateAxis.renderer.labels.template.fill = textColor;
 
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.renderer.labels.template.fill = textColor;
 
     // Create series
     var series = chart.series.push(new am4charts.LineSeries());
     series.dataFields.valueY = "y";
     series.dataFields.dateX = "x";
     series.strokeWidth = 2;
-    series.propertyFields.stroke = "color"
-    series.propertyFields.fill = "color"
+    series.propertyFields.stroke = "color";
+    series.propertyFields.fill = "color";
     series.minBulletDistance = 10;
     series.tooltipText = "{valueY}";
     series.tooltip.pointerOrientation = "vertical";
@@ -117,12 +123,21 @@ const Price = (props) => {
     // Add scrollbar
     chart.scrollbarX = new am4charts.XYChartScrollbar();
     chart.scrollbarX.series.push(series);
+    chart.scrollbarX.background.fill = "white"
+    chart.scrollbarX.background.fillOpacity = 0;
 
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = dateAxis;
     chart.cursor.snapToSeries = series;
-  }, [isLoading, areaSeries, view]);
+    series.fillOpacity = 1;
+
+    var fillModifier = new am4core.LinearGradientModifier();
+    fillModifier.opacities = [1, 0];
+    fillModifier.offsets = [0, 1];
+    fillModifier.gradient.rotation = 90;
+    series.segments.template.fillModifier = fillModifier;
+  }, [isLoading, areaSeries, view, textColor]);
 
   // --------------------------------------
 

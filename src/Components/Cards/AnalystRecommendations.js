@@ -15,7 +15,6 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
-const COLORS = ["#41FFC9", "#23807E", "#808080", "#FE3636", "#520000"];
 const AnalystRecommendations = (props) => {
   const [pieData, setPieData] = useState([]);
   const [barSeries, setBarSeries] = useState([]);
@@ -180,7 +179,6 @@ const AnalystRecommendations = (props) => {
   // -------------------
   useEffect(() => {
     // Themes begin
-    am4core.useTheme(am4themes_dark);
     am4core.useTheme(am4themes_animated);
     // Themes end
 
@@ -202,6 +200,7 @@ const AnalystRecommendations = (props) => {
     categoryAxis.renderer.labels.template.dx = -40;
     categoryAxis.renderer.minWidth = 120;
     categoryAxis.renderer.tooltip.dx = -40;
+    categoryAxis.renderer.labels.template.fill = textColor;
 
     var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
     valueAxis.renderer.inside = true;
@@ -211,11 +210,12 @@ const AnalystRecommendations = (props) => {
     valueAxis.cursorTooltipEnabled = false;
     valueAxis.renderer.baseGrid.strokeOpacity = 0;
     valueAxis.renderer.labels.template.dy = 20;
+    valueAxis.renderer.labels.template.fill = textColor;
 
     var series = chart.series.push(new am4charts.ColumnSeries());
     series.dataFields.valueX = "value";
     series.dataFields.categoryY = "rating";
-    series.tooltipText = "{valueX.value}";
+    series.tooltipText = "# of Analysts: {valueX.value}";
     series.tooltip.pointerOrientation = "vertical";
     series.tooltip.dy = -30;
     series.columnsContainer.zIndex = 100;
@@ -234,7 +234,7 @@ const AnalystRecommendations = (props) => {
     cursor.lineX.disabled = true;
     cursor.lineY.disabled = true;
     cursor.behavior = "none";
-  }, [isLoading, barSeries, view]);
+  }, [isLoading, barSeries, view, textColor]);
 
   useEffect(() => {
     am4core.useTheme(am4themes_animated);
