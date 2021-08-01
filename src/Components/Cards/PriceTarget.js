@@ -45,7 +45,7 @@ const PriceTarget = (props) => {
           return {
             date: prices[key].date,
             value: prices[key].close,
-            color: "#007bff"
+            color: "#007bff",
           };
         }),
         {
@@ -79,9 +79,9 @@ const PriceTarget = (props) => {
       setMostRecentData(priceTargetData[0].slice(-1).pop());
 
       setChartData(priceTargetData[0]);
-       setHigh(priceTargetData[1].high);
-       setAverage(priceTargetData[1].average);
-       setLow(priceTargetData[1].low);
+      setHigh(priceTargetData[1].high);
+      setAverage(priceTargetData[1].average);
+      setLow(priceTargetData[1].low);
       setIsLoading(false);
     });
   }, [props.activeTicker]);
@@ -99,12 +99,17 @@ const PriceTarget = (props) => {
     }
 
     let diff = percentChange(currentPrice, average);
+
     if (diff > 8) {
-      setOutlook("Great");
+      setOutlook("Great" + ` (${diff.toFixed(2)}% avg. upside)`);
     } else if (diff <= 8 && diff >= -8) {
-      setOutlook("Neutral");
+      if (diff > 0) {
+        setOutlook("Neutral" + ` (${diff.toFixed(2)}% avg. upside)`);
+      } else if (diff < 0) {
+        setOutlook("Neutral" + ` (${diff.toFixed(2)}% avg. downside)`);
+      }
     } else if (diff < -8) {
-      setOutlook("Poor");
+      setOutlook("Poor" + ` (${diff.toFixed(2)}% avg. downside)`);
     }
   }, [currentPrice, average]);
 
@@ -126,7 +131,7 @@ const PriceTarget = (props) => {
 
     // Add data
     chart.data = chartData;
-    chart.numberFormatter.numberFormat = '$#,###';
+    chart.numberFormatter.numberFormat = "$#,###";
 
     // Create axes
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
@@ -142,11 +147,11 @@ const PriceTarget = (props) => {
 
     // Create series
     var series = chart.series.push(new am4charts.LineSeries());
-    series.tooltipText = "{date}\n[bold font-size: 17px]${valueY}[/]";
+    series.tooltipText = "{date}\n[bold font-size: 17px]{valueY}[/]";
     series.dataFields.valueY = "value";
     series.dataFields.dateX = "date";
-    series.propertyFields.stroke = "color"
-    series.propertyFields.fill = "color"
+    series.propertyFields.stroke = "color";
+    series.propertyFields.fill = "color";
 
     function createTrendLine(data) {
       var trend = chart.series.push(new am4charts.LineSeries());
@@ -155,15 +160,15 @@ const PriceTarget = (props) => {
       trend.strokeDasharray = 3;
 
       trend.strokeWidth = 2;
-      trend.propertyFields.stroke = "color"
-      trend.propertyFields.fill = "color"
+      trend.propertyFields.stroke = "color";
+      trend.propertyFields.fill = "color";
       trend.data = data;
 
       var bullet = trend.bullets.push(new am4charts.CircleBullet());
       bullet.tooltipText = "{date}\n[bold font-size: 17px]{valueY}[/]";
       bullet.strokeWidth = 2;
-      bullet.propertyFields.stroke = "color"
-      bullet.propertyFields.fill = "color"
+      bullet.propertyFields.stroke = "color";
+      bullet.propertyFields.fill = "color";
 
       var hoverState = bullet.states.create("hover");
       hoverState.properties.scale = 1.7;
@@ -172,20 +177,45 @@ const PriceTarget = (props) => {
     }
 
     createTrendLine([
-      { date: mostRecentData.date, value: mostRecentData.value, color: am4core.color("#00FF00") },
+      {
+        date: mostRecentData.date,
+        value: mostRecentData.value,
+        color: am4core.color("#00FF00"),
+      },
       { date: futureDateOneYear, value: high, color: am4core.color("#00FF00") },
     ]);
 
     createTrendLine([
-      { date: mostRecentData.date, value: mostRecentData.value, color: am4core.color("#808080") },
-      { date: futureDateOneYear, value: average, color: am4core.color("#808080") },
+      {
+        date: mostRecentData.date,
+        value: mostRecentData.value,
+        color: am4core.color("#808080"),
+      },
+      {
+        date: futureDateOneYear,
+        value: average,
+        color: am4core.color("#808080"),
+      },
     ]);
 
     createTrendLine([
-      { date: mostRecentData.date, value: mostRecentData.value, color: am4core.color("#FF0000") },
+      {
+        date: mostRecentData.date,
+        value: mostRecentData.value,
+        color: am4core.color("#FF0000"),
+      },
       { date: futureDateOneYear, value: low, color: am4core.color("#FF0000") },
     ]);
-  }, [chartData, isLoading, futureDateOneYear, mostRecentData, high, average, low, textColor]);
+  }, [
+    chartData,
+    isLoading,
+    futureDateOneYear,
+    mostRecentData,
+    high,
+    average,
+    low,
+    textColor,
+  ]);
 
   if (isLoading) {
     return (
