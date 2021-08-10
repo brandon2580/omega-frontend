@@ -19,7 +19,7 @@ const Risk = (props) => {
 
   useEffect(() => {
     const risk = fetch(
-      `https://sigma7-analytics.azure-api.net/sigma7-analytics/sharpe?symbol=${props.activeTicker}`
+      `https://sigma7-api.azure-api.net/sharpe?symbol=${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(risk).then((el) => {

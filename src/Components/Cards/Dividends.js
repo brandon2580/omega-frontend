@@ -26,7 +26,7 @@ const Dividends = (props) => {
 
   useEffect(() => {
     const dividend_yields = fetch(
-      `https://sigma7-analytics.azure-api.net/sigma7-analytics/div_yield?symbol=${props.activeTicker}`
+      `https://sigma7-api.azure-api.net/div_yield?symbol=${props.activeTicker}`
     ).then((res) => res.json());
 
     const dividend_raw = fetch(
@@ -101,6 +101,8 @@ const Dividends = (props) => {
     series.tooltip.background.cornerRadius = 20;
     series.tooltip.background.fillOpacity = 0.5;
     series.tooltip.label.padding(12, 12, 12, 12);
+    series.tooltip.getFillFromObject = false;
+    series.tooltip.getStrokeFromObject = true;
 
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
@@ -142,7 +144,9 @@ const Dividends = (props) => {
     series.tooltip.background.cornerRadius = 20;
     series.tooltip.background.fillOpacity = 0.5;
     series.tooltip.label.padding(12, 12, 12, 12);
-
+    series.tooltip.getFillFromObject = false;
+    series.tooltip.getStrokeFromObject = true;
+    
     // Add cursor
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = dateAxis;

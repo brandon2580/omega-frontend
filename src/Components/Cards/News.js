@@ -16,7 +16,7 @@ const News = (props) => {
 
   useEffect(() => {
     const news = fetch(
-      `https://sigma7-analytics.azure-api.net/sigma7-analytics/sentiment_news?symbol=${props.activeTicker}`
+      `https://sigma7-api.azure-api.net/sentiment_news?symbol=${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(news).then((news) => {

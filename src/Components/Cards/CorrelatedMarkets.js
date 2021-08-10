@@ -18,7 +18,7 @@ const CorrelatedMarkets = (props) => {
 
   useEffect(() => {
     const correlated_markets = fetch(
-      `https://sigma7-analytics.azure-api.net/sigma7-analytics/corr_metrics/?symbol=${props.activeTicker}&frame=1y`
+      `https://sigma7-api.azure-api.net/corr_metrics/?symbol=${props.activeTicker}&frame=1y`
     ).then((res) => res.json());
 
     Promise.resolve(correlated_markets).then((el) => {
@@ -57,7 +57,6 @@ const CorrelatedMarkets = (props) => {
 
     var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
     valueAxis.renderer.labels.template.fill = textColor;
-    valueAxis.min = 0;
 
     var series = chart.series.push(new am4charts.ColumnSeries());
     series.dataFields.categoryY = "sector";

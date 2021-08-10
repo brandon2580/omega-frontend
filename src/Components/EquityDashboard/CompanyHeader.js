@@ -4,17 +4,36 @@ import "../../App.scss";
 import Loader from "react-loader-spinner";
 
 const CompanyHeader = (props) => {
-  const [ticker, setTicker] = useState("");
+  const [companyData, setCompanyData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [website, setWebsite] = useState("");
 
   useEffect(() => {
-    setTicker(props.tickerCard.ticker);
-    if (!/^https?:\/\//i.test(props.tickerCard.website)) {
-      props.tickerCard.website = "http://" + props.tickerCard.website;
+    const company = fetch(
+      `https://sigma7-api.azure-api.net/ticker_card?symbol=${props.activeTicker}`
+    ).then((res) => res.json());
+
+    // We use this function to add necessary commas (when needed) to large numbers such as market cap
+    function numberWithCommas(number) {
+      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
-    setIsLoading(false);
-  }, [props.tickerCard.ticker]);
+
+    Promise.resolve(company).then((company) => {
+      setCompanyData({
+        company_name: company.companyName,
+        ticker: props.activeTicker,
+        description: company.description,
+        industry: company.industry,
+        country: company.country,
+        phone: company.phone,
+        website: company.website,
+        ceo: company.ceo,
+        market_cap: numberWithCommas(company.marketcap),
+        totalReturn: company.maxChangePercent,
+        // price: company[1],
+      });
+      setIsLoading(false);
+    });
+  }, [props.activeTicker]);
 
   if (isLoading) {
     return (
@@ -44,9 +63,7 @@ const CompanyHeader = (props) => {
             <div className="ticker-information">
               <div className="row">
                 <div className="col-lg-3 justify-content">
-                  <h1 className="ticker-title">
-                    {props.tickerCard.company_name}
-                  </h1>
+                  <h1 className="ticker-title">{companyData.company_name}</h1>
                 </div>
               </div>
 
@@ -54,18 +71,18 @@ const CompanyHeader = (props) => {
                 <div className="col-lg-3 justify-content">
                   <img
                     style={{ borderRadius: "1000px" }}
-                    src={`https://storage.googleapis.com/iex/api/logos/${ticker}.png`}
+                    src={`https://storage.googleapis.com/iex/api/logos/${props.activeTicker}.png`}
                   />
                 </div>
                 <div className="col-lg-3 ">
-                  <p>{props.tickerCard.industry}</p>
+                  <p>{companyData.industry}</p>
 
                   <p>
-                    <a target="_blank" href={props.tickerCard.website}>
-                      {props.tickerCard.website}
+                    <a target="_blank" href={"//" + companyData.website}>
+                      {companyData.website}
                     </a>
                     <br />
-                    {props.tickerCard.country}
+                    {companyData.country}
                   </p>
                 </div>
               </div>
@@ -76,7 +93,7 @@ const CompanyHeader = (props) => {
                     Total Value
                     <br /> $
                     <span style={{ color: "#007bff" }}>
-                      {props.tickerCard.market_cap}
+                      {companyData.market_cap}
                     </span>
                   </p>
                 </div>
@@ -85,7 +102,7 @@ const CompanyHeader = (props) => {
                     Total Return
                     <br />{" "}
                     <span style={{ color: "#007bff" }}>
-                      {props.tickerCard.totalReturn}
+                      {companyData.totalReturn}
                     </span>
                     %
                   </p>
@@ -95,12 +112,12 @@ const CompanyHeader = (props) => {
                     Price
                     <br /> $
                     <span style={{ color: "#007bff" }}>
-                      {props.tickerCard.price}
+                      {companyData.price}
                     </span>
                   </p>
                 </div>
                 <div className="col-lg-9 justify-content">
-                  <p>{props.tickerCard.description}</p>
+                  <p>{companyData.description}</p>
                 </div>
               </div>
             </div>
