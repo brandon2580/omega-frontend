@@ -13,7 +13,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { useHistory } from "react-router";
-import { hotjar } from 'react-hotjar';
+import { hotjar } from "react-hotjar";
 import uuid from "react-uuid";
 import {
   ArrowLeftOutlined,
@@ -37,6 +37,11 @@ import News from "../Cards/News";
 import EarningsRatio from "../Cards/EarningsRatio";
 import CorrelatedMarkets from "../Cards/CorrelatedMarkets";
 import Risk from "../Cards/Risk";
+import DebtToAssets from "../Cards/DebtToAssets";
+import RevenueToProfit from "../Cards/RevenueToProfit";
+import ResearchAndDevelopment from "../Cards/ResearchAndDevelopment";
+import InstitutionalOwnership from "../Cards/InstitutionalOwnership";
+
 import { useAuth0 } from "@auth0/auth0-react";
 import db from "../../firebase";
 import firebase from "firebase/app";
@@ -44,7 +49,6 @@ import "firebase/firestore";
 
 // hotjar.initialize(2462125, hjsv);
 const GridLayout = WidthProvider(Responsive);
-
 
 const HomeDashboard = (props) => {
   let { userID, dashboardID, urlTicker } = useParams();
@@ -108,8 +112,8 @@ const HomeDashboard = (props) => {
   }, [isUserNewStatus]);
 
   useEffect(() => {
-    props.setActiveTicker(urlTicker)
-  }, [])
+    props.setActiveTicker(urlTicker);
+  }, []);
 
   // This checks to see if the current user has a user_dashboards collection.
   // If not, create one and set mainLayout as the default
@@ -166,7 +170,6 @@ const HomeDashboard = (props) => {
             keys.forEach((key) => {
               let split = key.split(" ").join("_");
               if (split == dashboardID) {
-
                 // If a layout was selected from the Sidenavbar, turn the item dashboard from firebase into an array,
                 let mappedLayoutIndex = Object.values(values[key]).flatMap(
                   (card) => {
@@ -415,7 +418,11 @@ const HomeDashboard = (props) => {
     EarningsRatio,
     CompareReturns,
     CorrelatedMarkets,
-    Risk
+    Risk,
+    DebtToAssets,
+    RevenueToProfit,
+    ResearchAndDevelopment,
+    InstitutionalOwnership
   };
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
@@ -431,7 +438,8 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".dashboard-navbar",
-      content: "This is the navigation bar where you can search for stocks, add cards, share dashboards, & more!",
+      content:
+        "This is the navigation bar where you can search for stocks, add cards, share dashboards, & more!",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -439,7 +447,8 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".stock-symbol-form",
-      content: "If you want to search up any given stock/company, this is where you would type it. Feel free to type in the whole name of the company or just the stock symbol.",
+      content:
+        "If you want to search up any given stock/company, this is where you would type it. Feel free to type in the whole name of the company or just the stock symbol.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -447,7 +456,8 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".dashboard-nav-buttons",
-      content: "This is where you can add cards to your dashboard, save a new layout, share dashboards, view your profile, and send us feedback!",
+      content:
+        "This is where you can add cards to your dashboard, save a new layout, share dashboards, view your profile, and send us feedback!",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -455,7 +465,8 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".sidenav",
-      content: "This is the side navigation bar. This is where you will find your saved layouts. In the future, you will be able to save other users' dashboards here on top of your own.",
+      content:
+        "This is the side navigation bar. This is where you will find your saved layouts. In the future, you will be able to save other users' dashboards here on top of your own.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -463,7 +474,8 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".ticker-header",
-      content: "This is where you can find general information about the company you're researching.",
+      content:
+        "This is where you can find general information about the company you're researching.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -471,7 +483,8 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".price-card",
-      content: "This card displays the price movements of a given stock.This card's chart format may swap between a candlestick or line format.",
+      content:
+        "This card displays the price movements of a given stock.This card's chart format may swap between a candlestick or line format.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -480,7 +493,8 @@ const HomeDashboard = (props) => {
 
     {
       selector: ".analystrecs-card",
-      content: "This card displays analyst recommendations from Wall Street. These recommendations are derived from extensive research and industry knowledge.",
+      content:
+        "This card displays analyst recommendations from Wall Street. These recommendations are derived from extensive research and industry knowledge.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -488,7 +502,8 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".earningsratio-card",
-      content: "This card displays the rate in which a company meets or misses expectations set by research analysts. Typically, a company will see a significant value/price increase if they exceed or meet the expectations set for them. The inverse is true if companies fail to meet expectations set for them.",
+      content:
+        "This card displays the rate in which a company meets or misses expectations set by research analysts. Typically, a company will see a significant value/price increase if they exceed or meet the expectations set for them. The inverse is true if companies fail to meet expectations set for them.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -505,7 +520,8 @@ const HomeDashboard = (props) => {
     },
     {
       selector: ".news-card",
-      content: "This card displays the most recent news articles for a particular stock, and color codes them according to their sentiment or feelings on the stock.",
+      content:
+        "This card displays the most recent news articles for a particular stock, and color codes them according to their sentiment or feelings on the stock.",
       style: {
         backgroundColor: theme,
         border: `1px solid ${textColor}`,
@@ -556,7 +572,11 @@ const HomeDashboard = (props) => {
           <h1 className="center header">{selectedDashboardName}</h1>
 
           {/* CompanyHeader goes here */}
-          <CompanyHeader tickerCard={props.availableCards[0]} />
+          <CompanyHeader
+            setActiveTicker={props.setActiveTicker}
+            activeTicker={props.activeTicker}
+            tickerCard={props.availableCards[0]}
+          />
 
           {/* Sidenavbar goes here */}
           <Sidenavbar

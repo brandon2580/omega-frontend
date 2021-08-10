@@ -175,6 +175,58 @@ function App() {
       minW: 3,
       maxH: 1,
     },
+    {
+      id: 11,
+      name: "DebtToAssets",
+      title: "Debt and Assets",
+      info: "This card displays the debt and assets of a given company on a stacked line chart. This format should allow one to see whether or not a company has the means/assets to service their debt. Too much debt is often a poor indicator for a company.",
+      infoVisible: false,
+      x: 3,
+      y: 2,
+      w: 3,
+      h: 1,
+      minW: 3,
+      maxH: 1,
+    },
+    {
+      id: 12,
+      name: "RevenueToProfit",
+      title: "Revenue and Profit",
+      info: "This card displays the net income and revenue of a company on a stacked line chart. This format should allow one to see the profit margin towards the top of the area.",
+      infoVisible: false,
+      x: 3,
+      y: 2,
+      w: 3,
+      h: 1,
+      minW: 3,
+      maxH: 1,
+    },
+    {
+      id: 13,
+      name: "ResearchAndDevelopment",
+      title: "Research and Development",
+      info: "This chart visualizes the historical Research and Development of a given company. Depending on the industry, R&D can be an important driver of growth.",
+      infoVisible: false,
+      x: 3,
+      y: 2,
+      w: 3,
+      h: 1,
+      minW: 3,
+      maxH: 1,
+    },
+    {
+      id: 14,
+      name: "InstitutionalOwnership",
+      title: "Institutional Ownership",
+      info: "This card displays the top 10 largest institutional owners. More specifically, large companies, banks, hedgefunds, or other financial groups that own a large portion of a given company.",
+      infoVisible: false,
+      x: 3,
+      y: 2,
+      w: 3,
+      h: 1,
+      minW: 3,
+      maxH: 1,
+    },
   ]);
 
   useEffect(() => {
@@ -187,50 +239,6 @@ function App() {
       });
     }
   }, [isAuthenticated]);
-
-  useEffect(() => {
-    const company = fetch(
-      `https://sigma7-analytics.azure-api.net/sigma7-analytics/ticker_card?symbol=${activeTicker}`
-    ).then((res) => res.json());
-
-    const price = fetch(
-      `https://cloud.iexapis.com/stable/stock/${activeTicker}/price?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
-    ).then((res) => res.json());
-
-    // We use this function to add necessary commas (when needed) to large numbers such as market cap
-    function numberWithCommas(number) {
-      return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-    Promise.all([company, price]).then((values) => {
-      // Function syntax of setState to use the previous value from the state, as recommended by React
-      setAvailableCards((prevCards) => {
-        // For each cards, return a new modified version of that card
-        return prevCards.map((card) => {
-          switch (card.name) {
-            case "TickerHeader":
-              return {
-                ...card,
-                company_name: values[0].companyName,
-                ticker: activeTicker,
-                description: values[0].description,
-                industry: values[0].industry,
-                country: values[0].country,
-                phone: values[0].phone,
-                website: values[0].website,
-                ceo: values[0].ceo,
-                market_cap: numberWithCommas(values[0].marketcap),
-                totalReturn: values[0].maxChangePercent,
-                price: values[1],
-              };
-          }
-
-          // Otherwise return the original card
-          return card;
-        });
-      });
-    });
-  }, [activeTicker]);
 
   return (
     <div className="app">
