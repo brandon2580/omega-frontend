@@ -120,7 +120,9 @@ const Price = (props) => {
     series.tooltip.background.cornerRadius = 20;
     series.tooltip.background.fillOpacity = 0.5;
     series.tooltip.label.padding(12, 12, 12, 12);
-
+    series.tooltip.getFillFromObject = false;
+    series.tooltip.getStrokeFromObject = true;
+    
     // Add scrollbar
     chart.scrollbarX = new am4charts.XYChartScrollbar();
     chart.scrollbarX.series.push(series);
@@ -136,7 +138,7 @@ const Price = (props) => {
     var fillModifier = new am4core.LinearGradientModifier();
     fillModifier.opacities = [1, 0];
     fillModifier.offsets = [0, 1];
-    fillModifier.gradient.rotation = 90;
+    fillModifier.gradient.rotation = 270;
     series.segments.template.fillModifier = fillModifier;
   }, [isLoading, areaSeries, view, textColor]);
 
