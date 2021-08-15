@@ -27,6 +27,7 @@ const PriceTarget = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
+    setIsLoading(true)
     const price_target = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/price-target?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
@@ -114,98 +115,104 @@ const PriceTarget = (props) => {
   }, [currentPrice, average]);
 
   useEffect(() => {
-    // Themes begin
-    am4core.useTheme(am4themes_dark);
-    // Themes end
+    am4core.ready(function () {
+      // Create chart instance
+      var chart = am4core.create("pricetargetdiv", am4charts.XYChart);
 
-    // Create chart instance
-    var chart = am4core.create("pricetargetdiv", am4charts.XYChart);
+      // Enable chart cursor
+      chart.cursor = new am4charts.XYCursor();
+      chart.cursor.lineX.disabled = true;
+      chart.cursor.lineY.disabled = true;
 
-    // Enable chart cursor
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.lineX.disabled = true;
-    chart.cursor.lineY.disabled = true;
+      // Enable scrollbar
+      chart.scrollbarX = new am4core.Scrollbar();
 
-    // Enable scrollbar
-    chart.scrollbarX = new am4core.Scrollbar();
+      // Add data
+      chart.data = chartData;
+      chart.numberFormatter.numberFormat = "$#,###";
 
-    // Add data
-    chart.data = chartData;
-    chart.numberFormatter.numberFormat = "$#,###";
+      // Create axes
+      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      dateAxis.renderer.grid.template.location = 0.5;
+      dateAxis.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+      dateAxis.renderer.minGridDistance = 40;
+      dateAxis.tooltipDateFormat = "MMM dd, yyyy";
+      dateAxis.dateFormats.setKey("day", "dd");
+      dateAxis.renderer.labels.template.fill = textColor;
 
-    // Create axes
-    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.grid.template.location = 0.5;
-    dateAxis.dateFormatter.inputDateFormat = "yyyy-MM-dd";
-    dateAxis.renderer.minGridDistance = 40;
-    dateAxis.tooltipDateFormat = "MMM dd, yyyy";
-    dateAxis.dateFormats.setKey("day", "dd");
-    dateAxis.renderer.labels.template.fill = textColor;
+      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.renderer.labels.template.fill = textColor;
 
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.renderer.labels.template.fill = textColor;
+      // Create series
+      var series = chart.series.push(new am4charts.LineSeries());
+      series.tooltipText = "{date}\n[bold font-size: 17px]{valueY}[/]";
+      series.dataFields.valueY = "value";
+      series.dataFields.dateX = "date";
+      series.propertyFields.stroke = "color";
+      series.propertyFields.fill = "color";
 
-    // Create series
-    var series = chart.series.push(new am4charts.LineSeries());
-    series.tooltipText = "{date}\n[bold font-size: 17px]{valueY}[/]";
-    series.dataFields.valueY = "value";
-    series.dataFields.dateX = "date";
-    series.propertyFields.stroke = "color";
-    series.propertyFields.fill = "color";
+      function createTrendLine(data) {
+        var trend = chart.series.push(new am4charts.LineSeries());
+        trend.dataFields.valueY = "value";
+        trend.dataFields.dateX = "date";
+        trend.strokeDasharray = 3;
 
-    function createTrendLine(data) {
-      var trend = chart.series.push(new am4charts.LineSeries());
-      trend.dataFields.valueY = "value";
-      trend.dataFields.dateX = "date";
-      trend.strokeDasharray = 3;
+        trend.strokeWidth = 2;
+        trend.propertyFields.stroke = "color";
+        trend.propertyFields.fill = "color";
+        trend.data = data;
 
-      trend.strokeWidth = 2;
-      trend.propertyFields.stroke = "color";
-      trend.propertyFields.fill = "color";
-      trend.data = data;
+        var bullet = trend.bullets.push(new am4charts.CircleBullet());
+        bullet.tooltipText = "{date}\n[bold font-size: 17px]{valueY}[/]";
+        bullet.strokeWidth = 2;
+        bullet.propertyFields.stroke = "color";
+        bullet.propertyFields.fill = "color";
 
-      var bullet = trend.bullets.push(new am4charts.CircleBullet());
-      bullet.tooltipText = "{date}\n[bold font-size: 17px]{valueY}[/]";
-      bullet.strokeWidth = 2;
-      bullet.propertyFields.stroke = "color";
-      bullet.propertyFields.fill = "color";
+        var hoverState = bullet.states.create("hover");
+        hoverState.properties.scale = 1.7;
 
-      var hoverState = bullet.states.create("hover");
-      hoverState.properties.scale = 1.7;
+        return trend;
+      }
 
-      return trend;
-    }
+      createTrendLine([
+        {
+          date: mostRecentData.date,
+          value: mostRecentData.value,
+          color: am4core.color("#00FF00"),
+        },
+        {
+          date: futureDateOneYear,
+          value: high,
+          color: am4core.color("#00FF00"),
+        },
+      ]);
 
-    createTrendLine([
-      {
-        date: mostRecentData.date,
-        value: mostRecentData.value,
-        color: am4core.color("#00FF00"),
-      },
-      { date: futureDateOneYear, value: high, color: am4core.color("#00FF00") },
-    ]);
+      createTrendLine([
+        {
+          date: mostRecentData.date,
+          value: mostRecentData.value,
+          color: am4core.color("#808080"),
+        },
+        {
+          date: futureDateOneYear,
+          value: average,
+          color: am4core.color("#808080"),
+        },
+      ]);
 
-    createTrendLine([
-      {
-        date: mostRecentData.date,
-        value: mostRecentData.value,
-        color: am4core.color("#808080"),
-      },
-      {
-        date: futureDateOneYear,
-        value: average,
-        color: am4core.color("#808080"),
-      },
-    ]);
-
-    createTrendLine([
-      {
-        date: mostRecentData.date,
-        value: mostRecentData.value,
-        color: am4core.color("#FF0000"),
-      },
-      { date: futureDateOneYear, value: low, color: am4core.color("#FF0000") },
-    ]);
+      createTrendLine([
+        {
+          date: mostRecentData.date,
+          value: mostRecentData.value,
+          color: am4core.color("#FF0000"),
+        },
+        {
+          date: futureDateOneYear,
+          value: low,
+          color: am4core.color("#FF0000"),
+        },
+      ]);
+    });
   }, [
     chartData,
     isLoading,

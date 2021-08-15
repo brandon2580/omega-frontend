@@ -544,7 +544,7 @@ const HomeDashboard = (props) => {
   } else {
     if (isAuthenticated) {
       return (
-        <div>
+        <React.Fragment>
           <DashboardNavbar
             availableCards={props.availableCards}
             setAvailableCards={props.setAvailableCards}
@@ -632,7 +632,7 @@ const HomeDashboard = (props) => {
               };
 
               const extra = (
-                <div>
+                <React.Fragment>
                   <Popover
                     content={card.info}
                     title={card.title}
@@ -658,7 +658,7 @@ const HomeDashboard = (props) => {
                   <span onClick={() => removeCardFromLayout(card.id)}>
                     <CloseCircleOutlined />
                   </span>
-                </div>
+                </React.Fragment>
               );
 
               if (card.name in availableCardsObject) {
@@ -688,7 +688,7 @@ const HomeDashboard = (props) => {
               removedCardId={removedCard}
             />
           )}
-        </div>
+        </React.Fragment>
       );
     } else {
       loginWithRedirect();

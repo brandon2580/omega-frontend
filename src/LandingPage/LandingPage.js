@@ -43,7 +43,7 @@ const LandingPage = () => {
   }
 
   return (
-    <div>
+    <React.Fragment>
       <header className="header-style5" id="header-section12">
         {/* nav */}
         <div className="landing-navbar">
@@ -504,7 +504,7 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
-    </div>
+    </React.Fragment>
   );
 };
 

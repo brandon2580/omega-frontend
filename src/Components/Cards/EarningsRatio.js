@@ -39,6 +39,7 @@ const EarningsRatio = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true)
     const earnings = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/earnings/4?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
@@ -94,44 +95,46 @@ const EarningsRatio = (props) => {
 
   // Create chart
   useEffect(() => {
-    am4core.useTheme(am4themes_animated);
-    am4core.useTheme(am4themes_dark);
+    am4core.ready(function () {
+      // Create chart instance
+      var chart = am4core.create(
+        "earnings-ratio-chart-div",
+        am4charts.PieChart
+      );
 
-    // Create chart instance
-    var chart = am4core.create("earnings-ratio-chart-div", am4charts.PieChart);
+      // Add and configure Series
+      var pieSeries = chart.series.push(new am4charts.PieSeries());
+      pieSeries.dataFields.value = "value";
+      pieSeries.dataFields.category = "name";
 
-    // Add and configure Series
-    var pieSeries = chart.series.push(new am4charts.PieSeries());
-    pieSeries.dataFields.value = "value";
-    pieSeries.dataFields.category = "name";
+      // Let's cut a hole in our Pie chart the size of 55% the radius
+      chart.innerRadius = am4core.percent(55);
+      pieSeries.slices.template.propertyFields.fill = "color";
 
-    // Let's cut a hole in our Pie chart the size of 55% the radius
-    chart.innerRadius = am4core.percent(55);
-    pieSeries.slices.template.propertyFields.fill = "color";
+      // Remove ugly labels
+      pieSeries.labels.template.disabled = true;
 
-    // Remove ugly labels
-    pieSeries.labels.template.disabled = true;
+      // Create a base filter effect (as if it's not there) for the hover to return to
+      var shadow = pieSeries.slices.template.filters.push(
+        new am4core.DropShadowFilter()
+      );
+      shadow.opacity = 0;
 
-    // Create a base filter effect (as if it's not there) for the hover to return to
-    var shadow = pieSeries.slices.template.filters.push(
-      new am4core.DropShadowFilter()
-    );
-    shadow.opacity = 0;
+      // Create hover state
+      var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
 
-    // Create hover state
-    var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
+      // Slightly shift the shadow and make it more prominent on hover
+      var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter());
+      hoverShadow.opacity = 0.7;
+      hoverShadow.blur = 5;
 
-    // Slightly shift the shadow and make it more prominent on hover
-    var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter());
-    hoverShadow.opacity = 0.7;
-    hoverShadow.blur = 5;
+      // Add a legend
+      ///chart.legend = new am4charts.Legend();
+      chart.svgContainer.measure();
 
-    // Add a legend
-    ///chart.legend = new am4charts.Legend();
-    chart.svgContainer.measure();
-
-    // Get series data and set it
-    chart.data = series;
+      // Get series data and set it
+      chart.data = series;
+    });
   }, [isLoading, series]);
   // End create chart
 

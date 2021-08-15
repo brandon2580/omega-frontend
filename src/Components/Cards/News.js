@@ -15,6 +15,7 @@ const News = (props) => {
   });
 
   useEffect(() => {
+    setIsLoading(true)
     const news = fetch(
       `https://sigma7-api.azure-api.net/sentiment_news?symbol=${props.activeTicker}`
     ).then((res) => res.json());
@@ -71,7 +72,7 @@ const News = (props) => {
         <div className="news-card-body" style={{ height: 456 }}>
           {news.map((news) => {
             return (
-              <div>
+              <React.Fragment>
                 <h4
                   className="news-header"
                   style={{ color: titleColor[news.sentiment] }}
@@ -84,7 +85,7 @@ const News = (props) => {
                 </a>{" "}
                 | {news.source}
                 <hr className="news-hr" />
-              </div>
+              </React.Fragment>
             );
           })}
         </div>

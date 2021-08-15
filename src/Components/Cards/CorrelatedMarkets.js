@@ -17,6 +17,7 @@ const CorrelatedMarkets = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
+    setIsLoading(true)
     const correlated_markets = fetch(
       `https://sigma7-api.azure-api.net/corr_metrics/?symbol=${props.activeTicker}&frame=1y`
     ).then((res) => res.json());
@@ -41,43 +42,41 @@ const CorrelatedMarkets = (props) => {
   }, [props.activeTicker]);
 
   useEffect(() => {
-    // Themes begin
-    am4core.useTheme(am4themes_animated);
-    // Themes end
+    am4core.ready(function () {
+      var chart = am4core.create("correlatedmarketsdiv", am4charts.XYChart);
 
-    var chart = am4core.create("correlatedmarketsdiv", am4charts.XYChart);
+      var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+      categoryAxis.renderer.grid.template.location = 0;
+      categoryAxis.dataFields.category = "sector";
+      categoryAxis.renderer.minGridDistance = 1;
+      categoryAxis.renderer.inversed = true;
+      categoryAxis.renderer.grid.template.disabled = true;
+      categoryAxis.renderer.labels.template.fill = textColor;
 
-    var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.renderer.grid.template.location = 0;
-    categoryAxis.dataFields.category = "sector";
-    categoryAxis.renderer.minGridDistance = 1;
-    categoryAxis.renderer.inversed = true;
-    categoryAxis.renderer.grid.template.disabled = true;
-    categoryAxis.renderer.labels.template.fill = textColor;
+      var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+      valueAxis.renderer.labels.template.fill = textColor;
 
-    var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
-    valueAxis.renderer.labels.template.fill = textColor;
+      var series = chart.series.push(new am4charts.ColumnSeries());
+      series.dataFields.categoryY = "sector";
+      series.dataFields.valueX = "value";
+      series.tooltipText = "{valueX.value}";
+      series.columns.template.strokeOpacity = 0;
+      series.columns.template.column.cornerRadiusBottomRight = 5;
+      series.columns.template.column.cornerRadiusTopRight = 5;
 
-    var series = chart.series.push(new am4charts.ColumnSeries());
-    series.dataFields.categoryY = "sector";
-    series.dataFields.valueX = "value";
-    series.tooltipText = "{valueX.value}";
-    series.columns.template.strokeOpacity = 0;
-    series.columns.template.column.cornerRadiusBottomRight = 5;
-    series.columns.template.column.cornerRadiusTopRight = 5;
+      var labelBullet = series.bullets.push(new am4charts.LabelBullet());
+      labelBullet.label.horizontalCenter = "left";
+      labelBullet.label.dx = 10;
+      labelBullet.locationX = 1;
 
-    var labelBullet = series.bullets.push(new am4charts.LabelBullet());
-    labelBullet.label.horizontalCenter = "left";
-    labelBullet.label.dx = 10;
-    labelBullet.locationX = 1;
+      // as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+      series.columns.template.adapter.add("fill", function (fill, target) {
+        return chart.colors.getIndex(target.dataItem.index);
+      });
 
-    // as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
-    series.columns.template.adapter.add("fill", function (fill, target) {
-      return chart.colors.getIndex(target.dataItem.index);
+      categoryAxis.sortBySeries = series;
+      chart.data = chartData;
     });
-
-    categoryAxis.sortBySeries = series;
-    chart.data = chartData;
   }, [chartData, isLoading, textColor]);
 
   if (isLoading) {
@@ -112,9 +111,9 @@ const CorrelatedMarkets = (props) => {
         }}
       >
         <hr className="card-hr" />
-        <div>
+        <React.Fragment>
           <div style={{ height: 456 }} id="correlatedmarketsdiv" />
-        </div>
+        </React.Fragment>
       </Card>
     );
   }

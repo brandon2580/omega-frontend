@@ -43,7 +43,7 @@ const AddCardModal = (props) => {
   // Shows modal
   const showModal = () => {
     setModalVisible(true);
-    setIsLoading(true)
+    setIsLoading(true);
   };
 
   // Handles exit of modal
@@ -65,11 +65,11 @@ const AddCardModal = (props) => {
     DebtToAssets,
     RevenueToProfit,
     ResearchAndDevelopment,
-    InstitutionalOwnership
+    InstitutionalOwnership,
   };
 
   return (
-    <div>
+    <React.Fragment>
       <i
         style={{ cursor: "pointer" }}
         onClick={showModal}
@@ -88,6 +88,10 @@ const AddCardModal = (props) => {
         >
           <AutoSuggest
             suggestions={suggestions}
+            getSuggestionValue={(suggestion) => suggestion.value}
+            renderSuggestion={(suggestion) => {
+              <React.Fragment>{suggestion.value}</React.Fragment>;
+            }}
             onSuggestionsClearRequested={() => setSuggestions([])}
             onSuggestionsFetchRequested={({ value }) => {
               setValue(value);
@@ -112,7 +116,7 @@ const AddCardModal = (props) => {
                 card.title.toLowerCase().includes(value.toLowerCase());
 
               const extra = (
-                <div>
+                <React.Fragment>
                   <Popover
                     content={card.info}
                     title={card.title}
@@ -134,7 +138,7 @@ const AddCardModal = (props) => {
                       />
                     </span>{" "}
                   </Popover>
-                </div>
+                </React.Fragment>
               );
 
               if (card.name in availableCardsObject && defaultConditionals) {
@@ -158,7 +162,7 @@ const AddCardModal = (props) => {
           </div>
         </div>
       </Modal>
-    </div>
+    </React.Fragment>
   );
 };
 

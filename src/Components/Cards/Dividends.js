@@ -25,6 +25,7 @@ const Dividends = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
+    setIsLoading(true)
     const dividend_yields = fetch(
       `https://sigma7-api.azure-api.net/div_yield?symbol=${props.activeTicker}`
     ).then((res) => res.json());
@@ -68,93 +69,87 @@ const Dividends = (props) => {
   };
 
   useEffect(() => {
-    // Themes begin
-    am4core.useTheme(am4themes_dark);
-    am4core.useTheme(am4themes_animated);
-    // Themes end
+    am4core.ready(function () {
+      // Create chart instance
+      var chart = am4core.create("dividend-yield-div", am4charts.XYChart);
 
-    // Create chart instance
-    var chart = am4core.create("dividend-yield-div", am4charts.XYChart);
+      // Add data
+      chart.data = dividendYieldsSeries;
+      chart.numberFormatter.numberFormat = "#'%";
 
-    // Add data
-    chart.data = dividendYieldsSeries;
-    chart.numberFormatter.numberFormat = "#'%";
+      // Create axes
+      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      dateAxis.renderer.minGridDistance = 50;
+      dateAxis.renderer.labels.template.fill = textColor;
 
-    // Create axes
-    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.minGridDistance = 50;
-    dateAxis.renderer.labels.template.fill = textColor;
+      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.renderer.labels.template.fill = textColor;
 
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.renderer.labels.template.fill = textColor;
+      // Create series
+      var series = chart.series.push(new am4charts.LineSeries());
+      series.dataFields.valueY = "y";
+      series.dataFields.dateX = "x";
+      series.strokeWidth = 2;
+      series.propertyFields.stroke = "color";
+      series.propertyFields.fill = "color";
+      series.minBulletDistance = 10;
+      series.tooltipText = "{valueY}";
+      series.tooltip.pointerOrientation = "vertical";
+      series.tooltip.background.cornerRadius = 20;
+      series.tooltip.background.fillOpacity = 0.5;
+      series.tooltip.label.padding(12, 12, 12, 12);
+      series.tooltip.getFillFromObject = false;
+      series.tooltip.getStrokeFromObject = true;
 
-    // Create series
-    var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.valueY = "y";
-    series.dataFields.dateX = "x";
-    series.strokeWidth = 2;
-    series.propertyFields.stroke = "color";
-    series.propertyFields.fill = "color";
-    series.minBulletDistance = 10;
-    series.tooltipText = "{valueY}";
-    series.tooltip.pointerOrientation = "vertical";
-    series.tooltip.background.cornerRadius = 20;
-    series.tooltip.background.fillOpacity = 0.5;
-    series.tooltip.label.padding(12, 12, 12, 12);
-    series.tooltip.getFillFromObject = false;
-    series.tooltip.getStrokeFromObject = true;
-
-    // Add cursor
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.xAxis = dateAxis;
-    chart.cursor.snapToSeries = series;
+      // Add cursor
+      chart.cursor = new am4charts.XYCursor();
+      chart.cursor.xAxis = dateAxis;
+      chart.cursor.snapToSeries = series;
+    });
   }, [isLoading, dividendYieldsSeries, view, textColor]);
 
   useEffect(() => {
-    // Themes begin
-    am4core.useTheme(am4themes_dark);
-    am4core.useTheme(am4themes_animated);
-    // Themes end
+    am4core.ready(function () {
+      // Create chart instance
+      var chart = am4core.create("dividend-raw-div", am4charts.XYChart);
 
-    // Create chart instance
-    var chart = am4core.create("dividend-raw-div", am4charts.XYChart);
+      // Add data
+      chart.data = dividendRawSeries;
+      chart.numberFormatter.numberFormat = "$#,###";
 
-    // Add data
-    chart.data = dividendRawSeries;
-    chart.numberFormatter.numberFormat = '$#,###';
+      // Create axes
+      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      dateAxis.renderer.minGridDistance = 50;
+      dateAxis.renderer.labels.template.fill = textColor;
 
-    // Create axes
-    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.minGridDistance = 50;
-    dateAxis.renderer.labels.template.fill = textColor;
+      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.renderer.labels.template.fill = textColor;
 
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.renderer.labels.template.fill = textColor;
+      // Create series
+      var series = chart.series.push(new am4charts.LineSeries());
+      series.dataFields.valueY = "y";
+      series.dataFields.dateX = "x";
+      series.strokeWidth = 2;
+      series.propertyFields.stroke = "color";
+      series.propertyFields.fill = "color";
+      series.minBulletDistance = 10;
+      series.tooltipText = "{valueY}/share";
+      series.tooltip.pointerOrientation = "vertical";
+      series.tooltip.background.cornerRadius = 20;
+      series.tooltip.background.fillOpacity = 0.5;
+      series.tooltip.label.padding(12, 12, 12, 12);
+      series.tooltip.getFillFromObject = false;
+      series.tooltip.getStrokeFromObject = true;
 
-    // Create series
-    var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.valueY = "y";
-    series.dataFields.dateX = "x";
-    series.strokeWidth = 2;
-    series.propertyFields.stroke = "color";
-    series.propertyFields.fill = "color";
-    series.minBulletDistance = 10;
-    series.tooltipText = "{valueY}/share";
-    series.tooltip.pointerOrientation = "vertical";
-    series.tooltip.background.cornerRadius = 20;
-    series.tooltip.background.fillOpacity = 0.5;
-    series.tooltip.label.padding(12, 12, 12, 12);
-    series.tooltip.getFillFromObject = false;
-    series.tooltip.getStrokeFromObject = true;
-    
-    // Add cursor
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.xAxis = dateAxis;
-    chart.cursor.snapToSeries = series;
+      // Add cursor
+      chart.cursor = new am4charts.XYCursor();
+      chart.cursor.xAxis = dateAxis;
+      chart.cursor.snapToSeries = series;
+    });
   }, [isLoading, dividendRawSeries, view, textColor]);
 
   let yieldHeader = (
-    <div>
+    <React.Fragment>
       Dividend Yield
       <button
         className="btn btn-primary change-view-button"
@@ -162,11 +157,11 @@ const Dividends = (props) => {
       >
         Change View
       </button>
-    </div>
+    </React.Fragment>
   );
 
   let rawHeader = (
-    <div>
+    <React.Fragment>
       Dividend Per Share
       <button
         className="btn btn-primary change-view-button"
@@ -174,7 +169,7 @@ const Dividends = (props) => {
       >
         Change View
       </button>
-    </div>
+    </React.Fragment>
   );
 
   if (isLoading) {
@@ -210,7 +205,7 @@ const Dividends = (props) => {
           }}
         >
           <hr className="card-hr" />
-          <div>
+          <React.Fragment>
             <div style={{ height: 424 }} id="dividend-yield-div" />
 
             <p className="dividends-growth-1y center">
@@ -230,7 +225,7 @@ const Dividends = (props) => {
                 </Dropdown>
               </div>
             </div> */}
-          </div>
+          </React.Fragment>
         </Card>
       );
     } else {
@@ -245,7 +240,7 @@ const Dividends = (props) => {
             }}
           >
             <hr className="card-hr" />
-            <div >
+            <div>
               <div style={{ height: 424 }} id="dividend-raw-div" />
 
               <p className="dividends-growth-1y center">

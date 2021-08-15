@@ -79,7 +79,7 @@ const Explore = (props) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <BasicNavbar />
       <h1 className="center header explore-header">Explore Page</h1>
       <div className="center explore-dashboards-section container-fluid">
@@ -112,7 +112,7 @@ const Explore = (props) => {
           <img className="test-image" src={image} />
         </div> */}
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

@@ -16,7 +16,7 @@ const WarningModal = (props) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <button
         className="btn btn-danger"
         type="button"
@@ -62,7 +62,7 @@ const WarningModal = (props) => {
           </button>
         </div>
       </Modal>
-    </div>
+    </React.Fragment>
   );
 };
 

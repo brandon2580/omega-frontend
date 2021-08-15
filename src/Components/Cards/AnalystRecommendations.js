@@ -29,6 +29,7 @@ const AnalystRecommendations = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
+    setIsLoading(true)
     const analyst_recs = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/recommendation-trends?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
@@ -153,7 +154,7 @@ const AnalystRecommendations = (props) => {
   }, [props.activeTicker]);
 
   let pieHeader = (
-    <div>
+    <React.Fragment>
       {props.title}
       <button
         className="btn btn-primary change-view-button"
@@ -161,11 +162,11 @@ const AnalystRecommendations = (props) => {
       >
         Change View
       </button>
-    </div>
+    </React.Fragment>
   );
 
   let barHeader = (
-    <div>
+    <React.Fragment>
       {props.title}
       <button
         className="btn btn-primary change-view-button"
@@ -173,108 +174,104 @@ const AnalystRecommendations = (props) => {
       >
         Change View
       </button>
-    </div>
+    </React.Fragment>
   );
 
   // -------------------
   useEffect(() => {
-    // Themes begin
-    am4core.useTheme(am4themes_animated);
-    // Themes end
+    am4core.ready(function () {
+      var chart = am4core.create("bar-div", am4charts.XYChart);
+      chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
-    /**
-     * Chart design taken from Samsung health app
-     */
+      chart.paddingRight = 40;
 
-    var chart = am4core.create("bar-div", am4charts.XYChart);
-    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+      chart.data = barSeries;
 
-    chart.paddingRight = 40;
+      var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+      categoryAxis.dataFields.category = "rating";
+      categoryAxis.renderer.grid.template.strokeOpacity = 0;
+      categoryAxis.renderer.minGridDistance = 10;
+      categoryAxis.renderer.labels.template.dx = -40;
+      categoryAxis.renderer.minWidth = 120;
+      categoryAxis.renderer.tooltip.dx = -40;
+      categoryAxis.renderer.labels.template.fill = textColor;
 
-    chart.data = barSeries;
+      var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+      valueAxis.renderer.inside = true;
+      valueAxis.renderer.labels.template.fillOpacity = 0.3;
+      valueAxis.renderer.grid.template.strokeOpacity = 0;
+      valueAxis.min = 0;
+      valueAxis.cursorTooltipEnabled = false;
+      valueAxis.renderer.baseGrid.strokeOpacity = 0;
+      valueAxis.renderer.labels.template.dy = 20;
+      valueAxis.renderer.labels.template.fill = textColor;
 
-    var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "rating";
-    categoryAxis.renderer.grid.template.strokeOpacity = 0;
-    categoryAxis.renderer.minGridDistance = 10;
-    categoryAxis.renderer.labels.template.dx = -40;
-    categoryAxis.renderer.minWidth = 120;
-    categoryAxis.renderer.tooltip.dx = -40;
-    categoryAxis.renderer.labels.template.fill = textColor;
+      var series = chart.series.push(new am4charts.ColumnSeries());
+      series.dataFields.valueX = "value";
+      series.dataFields.categoryY = "rating";
+      series.tooltipText = "# of Analysts: {valueX.value}";
+      series.tooltip.pointerOrientation = "vertical";
+      series.tooltip.dy = -30;
+      series.columnsContainer.zIndex = 100;
 
-    var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
-    valueAxis.renderer.inside = true;
-    valueAxis.renderer.labels.template.fillOpacity = 0.3;
-    valueAxis.renderer.grid.template.strokeOpacity = 0;
-    valueAxis.min = 0;
-    valueAxis.cursorTooltipEnabled = false;
-    valueAxis.renderer.baseGrid.strokeOpacity = 0;
-    valueAxis.renderer.labels.template.dy = 20;
-    valueAxis.renderer.labels.template.fill = textColor;
+      var columnTemplate = series.columns.template;
+      columnTemplate.height = am4core.percent(75);
+      columnTemplate.maxHeight = 75;
+      columnTemplate.column.cornerRadius(0, 50, 0, 50);
+      columnTemplate.strokeOpacity = 0;
+      series.mainContainer.mask = undefined;
+      // Set the colors
+      series.columns.template.propertyFields.fill = "color";
 
-    var series = chart.series.push(new am4charts.ColumnSeries());
-    series.dataFields.valueX = "value";
-    series.dataFields.categoryY = "rating";
-    series.tooltipText = "# of Analysts: {valueX.value}";
-    series.tooltip.pointerOrientation = "vertical";
-    series.tooltip.dy = -30;
-    series.columnsContainer.zIndex = 100;
-
-    var columnTemplate = series.columns.template;
-    columnTemplate.height = am4core.percent(75);
-    columnTemplate.maxHeight = 75;
-    columnTemplate.column.cornerRadius(0, 50, 0, 50);
-    columnTemplate.strokeOpacity = 0;
-    series.mainContainer.mask = undefined;
-    // Set the colors
-    series.columns.template.propertyFields.fill = "color";
-
-    var cursor = new am4charts.XYCursor();
-    chart.cursor = cursor;
-    cursor.lineX.disabled = true;
-    cursor.lineY.disabled = true;
-    cursor.behavior = "none";
+      var cursor = new am4charts.XYCursor();
+      chart.cursor = cursor;
+      cursor.lineX.disabled = true;
+      cursor.lineY.disabled = true;
+      cursor.behavior = "none";
+    });
   }, [isLoading, barSeries, view, textColor]);
 
   useEffect(() => {
-    am4core.useTheme(am4themes_animated);
-    am4core.useTheme(am4themes_dark);
+    am4core.ready(function () {
+      am4core.useTheme(am4themes_animated);
+      am4core.useTheme(am4themes_dark);
 
-    // Create chart instance
-    var chart = am4core.create("pie-div", am4charts.PieChart);
+      // Create chart instance
+      var chart = am4core.create("pie-div", am4charts.PieChart);
 
-    // Add and configure Series
-    var pieSeries = chart.series.push(new am4charts.PieSeries());
-    pieSeries.dataFields.value = "value";
-    pieSeries.dataFields.category = "rating";
+      // Add and configure Series
+      var pieSeries = chart.series.push(new am4charts.PieSeries());
+      pieSeries.dataFields.value = "value";
+      pieSeries.dataFields.category = "rating";
 
-    // Let's cut a hole in our Pie chart the size of 55% the radius
-    chart.innerRadius = am4core.percent(55);
-    pieSeries.slices.template.propertyFields.fill = "color";
+      // Let's cut a hole in our Pie chart the size of 55% the radius
+      chart.innerRadius = am4core.percent(55);
+      pieSeries.slices.template.propertyFields.fill = "color";
 
-    // Remove ugly labels
-    pieSeries.labels.template.disabled = true;
+      // Remove ugly labels
+      pieSeries.labels.template.disabled = true;
 
-    // Create a base filter effect (as if it's not there) for the hover to return to
-    var shadow = pieSeries.slices.template.filters.push(
-      new am4core.DropShadowFilter()
-    );
-    shadow.opacity = 0;
+      // Create a base filter effect (as if it's not there) for the hover to return to
+      var shadow = pieSeries.slices.template.filters.push(
+        new am4core.DropShadowFilter()
+      );
+      shadow.opacity = 0;
 
-    // Create hover state
-    var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
+      // Create hover state
+      var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
 
-    // Slightly shift the shadow and make it more prominent on hover
-    var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter());
-    hoverShadow.opacity = 0.7;
-    hoverShadow.blur = 5;
+      // Slightly shift the shadow and make it more prominent on hover
+      var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter());
+      hoverShadow.opacity = 0.7;
+      hoverShadow.blur = 5;
 
-    // Add a legend
-    ///chart.legend = new am4charts.Legend();
-    chart.svgContainer.measure();
+      // Add a legend
+      ///chart.legend = new am4charts.Legend();
+      chart.svgContainer.measure();
 
-    // Get series data and set it
-    chart.data = pieData;
+      // Get series data and set it
+      chart.data = pieData;
+    });
   }, [isLoading, pieData, view]);
 
   if (isLoading) {

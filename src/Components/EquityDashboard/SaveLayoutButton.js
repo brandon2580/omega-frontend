@@ -65,11 +65,11 @@ const SaveLayoutButton = (props) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <i
         style={{ cursor: "pointer" }}
         onClick={showModal}
-        class="fi-rr-disk top-nav-icon"
+        className="fi-rr-disk top-nav-icon"
       ></i>
       <Modal
         title="Save Layout"
@@ -93,7 +93,7 @@ const SaveLayoutButton = (props) => {
           </h5>
         )}
       </Modal>
-    </div>
+    </React.Fragment>
   );
 };
 

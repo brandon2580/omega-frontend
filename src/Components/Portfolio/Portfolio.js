@@ -4,10 +4,10 @@ import Sidenavbar from "../Navbars/Sidenavbar";
 
 const Portfolio = () => {
   return (
-    <div>
+    <React.Fragment>
       <h1 className="center header">Portfolio Page</h1>
       <Sidenavbar />
-    </div>
+    </React.Fragment>
   );
 };
 

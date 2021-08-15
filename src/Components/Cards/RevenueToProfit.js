@@ -19,6 +19,7 @@ const RevenueToProfit = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
+    setIsLoading(true)
     const income_statement = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/income/20?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
@@ -31,78 +32,74 @@ const RevenueToProfit = (props) => {
           profit: el.netIncome,
         };
       });
-      dataArray.reverse()
+      dataArray.reverse();
       setChartData(dataArray);
       setIsLoading(false);
     });
   }, [props.activeTicker]);
 
   useEffect(() => {
-    // Themes begin
-    am4core.useTheme(am4themes_dataviz);
-    am4core.useTheme(am4themes_animated);
-    // Themes end
+    am4core.ready(function () {
+      var chart = am4core.create("revenuetoprofitdiv", am4charts.XYChart);
 
-    var chart = am4core.create("revenuetoprofitdiv", am4charts.XYChart);
+      chart.data = chartData;
 
-    chart.data = chartData;
+      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      dateAxis.renderer.minGridDistance = 60;
+      dateAxis.startLocation = 0.5;
+      dateAxis.endLocation = 0.5;
 
-    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.minGridDistance = 60;
-    dateAxis.startLocation = 0.5;
-    dateAxis.endLocation = 0.5;
+      chart.numberFormatter.numberFormat = "$#a";
+      chart.numberFormatter.bigNumberPrefixes = [
+        { number: 1e3, suffix: "K" },
+        { number: 1e6, suffix: "M" },
+        { number: 1e9, suffix: "B" },
+      ];
 
-    chart.numberFormatter.numberFormat = "$#a";
-    chart.numberFormatter.bigNumberPrefixes = [
-      { number: 1e3, suffix: "K" },
-      { number: 1e6, suffix: "M" },
-      { number: 1e9, suffix: "B" },
-    ];
+      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.tooltip.disabled = true;
+      valueAxis.renderer.labels.template.fill = textColor;
+      dateAxis.renderer.labels.template.fill = textColor;
 
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.tooltip.disabled = true;
-    valueAxis.renderer.labels.template.fill = textColor;
-    dateAxis.renderer.labels.template.fill = textColor;
+      var series1 = chart.series.push(new am4charts.LineSeries());
+      series1.name = "Revenue";
+      series1.dataFields.dateX = "date";
+      series1.dataFields.valueY = "revenue";
+      series1.tooltipText = "[#000]{valueY.value}[/]";
+      series1.tooltip.background.fill = am4core.color("#FFF");
+      series1.stroke = am4core.color("#007bff");
+      series1.fill = am4core.color("#007bff");
+      series1.tooltip.getFillFromObject = false;
+      series1.tooltip.getStrokeFromObject = true;
+      series1.tooltip.background.strokeWidth = 2;
+      series1.sequencedInterpolation = true;
+      series1.fillOpacity = 0.6;
+      series1.strokeWidth = 2;
 
-    var series1 = chart.series.push(new am4charts.LineSeries());
-    series1.name = "Revenue";
-    series1.dataFields.dateX = "date";
-    series1.dataFields.valueY = "revenue";
-    series1.tooltipText = "[#000]{valueY.value}[/]";
-    series1.tooltip.background.fill = am4core.color("#FFF");
-    series1.stroke = am4core.color("#007bff");
-    series1.fill = am4core.color("#007bff");
-    series1.tooltip.getFillFromObject = false;
-    series1.tooltip.getStrokeFromObject = true;
-    series1.tooltip.background.strokeWidth = 2;
-    series1.sequencedInterpolation = true;
-    series1.fillOpacity = 0.6;
-    series1.strokeWidth = 2;
+      var series2 = chart.series.push(new am4charts.LineSeries());
+      series2.name = "Profit";
+      series2.dataFields.dateX = "date";
+      series2.dataFields.valueY = "profit";
+      series2.tooltipText = "[#000]{valueY.value}[/]";
+      series2.tooltip.background.fill = am4core.color("#FFF");
+      series2.stroke = am4core.color("#00008b");
+      series2.fill = am4core.color("#00008b");
+      series2.tooltip.getFillFromObject = false;
+      series2.tooltip.getStrokeFromObject = true;
+      series2.tooltip.background.strokeWidth = 2;
+      series2.sequencedInterpolation = true;
+      series2.fillOpacity = 0.6;
+      series2.defaultState.transitionDuration = 1000;
+      series2.strokeWidth = 2;
 
-    var series2 = chart.series.push(new am4charts.LineSeries());
-    series2.name = "Profit";
-    series2.dataFields.dateX = "date";
-    series2.dataFields.valueY = "profit";
-    series2.tooltipText = "[#000]{valueY.value}[/]";
-    series2.tooltip.background.fill = am4core.color("#FFF");
-    series2.stroke = am4core.color("#00008b");
-    series2.fill = am4core.color("#00008b");
-    series2.tooltip.getFillFromObject = false;
-    series2.tooltip.getStrokeFromObject = true;
-    series2.tooltip.background.strokeWidth = 2;
-    series2.sequencedInterpolation = true;
-    series2.fillOpacity = 0.6;
-    series2.defaultState.transitionDuration = 1000;
-    series2.strokeWidth = 2;
+      chart.cursor = new am4charts.XYCursor();
+      chart.cursor.xAxis = dateAxis;
 
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.xAxis = dateAxis;
-
-    // Add a legend
-    chart.legend = new am4charts.Legend();
-    chart.legend.position = "top";
-    chart.legend.labels.template.fill = textColor;
-
+      // Add a legend
+      chart.legend = new am4charts.Legend();
+      chart.legend.position = "top";
+      chart.legend.labels.template.fill = textColor;
+    });
   }, [isLoading, textColor, chartData]);
 
   if (isLoading) {
@@ -137,9 +134,9 @@ const RevenueToProfit = (props) => {
         }}
       >
         <hr className="card-hr" />
-        <div>
+        <React.Fragment>
           <div style={{ height: 456 }} id="revenuetoprofitdiv" />
-        </div>
+        </React.Fragment>
       </Card>
     );
   }

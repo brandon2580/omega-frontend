@@ -20,6 +20,7 @@ const ResearchAndDevelopment = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
+    setIsLoading(true)
     const balance_sheet = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/income/20?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
@@ -31,55 +32,55 @@ const ResearchAndDevelopment = (props) => {
           y: el.researchAndDevelopment,
         };
       });
-      dataArray.reverse()
+      dataArray.reverse();
       setChartData(dataArray);
       setIsLoading(false);
     });
   }, [props.activeTicker]);
 
   useEffect(() => {
-    // Themes begin
-    am4core.useTheme(am4themes_dark);
-    am4core.useTheme(am4themes_animated);
-    // Themes end
+    am4core.ready(function () {
+      // Create chart instance
+      var chart = am4core.create(
+        "researchanddevelopmentdiv",
+        am4charts.XYChart
+      );
 
-    // Create chart instance
-    var chart = am4core.create("researchanddevelopmentdiv", am4charts.XYChart);
+      // Add data
+      chart.data = chartData;
+      chart.numberFormatter.numberFormat = "$#a";
+      chart.numberFormatter.bigNumberPrefixes = [
+        { number: 1e3, suffix: "K" },
+        { number: 1e6, suffix: "M" },
+        { number: 1e9, suffix: "B" },
+      ];
+      // Create axes
+      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      dateAxis.renderer.minGridDistance = 50;
+      dateAxis.renderer.labels.template.fill = textColor;
 
-    // Add data
-    chart.data = chartData;
-    chart.numberFormatter.numberFormat = "$#a";
-    chart.numberFormatter.bigNumberPrefixes = [
-      { number: 1e3, suffix: "K" },
-      { number: 1e6, suffix: "M" },
-      { number: 1e9, suffix: "B" },
-    ];
-    // Create axes
-    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.minGridDistance = 50;
-    dateAxis.renderer.labels.template.fill = textColor;
+      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.renderer.labels.template.fill = textColor;
 
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.renderer.labels.template.fill = textColor;
-
-    // Create series
-    var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.valueY = "y";
-    series.dataFields.dateX = "x";
-    series.strokeWidth = 2;
-    series.stroke = am4core.color("#007bff");
-    series.minBulletDistance = 10;
-    series.tooltipText = "{valueY}";
-    series.tooltip.pointerOrientation = "vertical";
-    series.tooltip.background.cornerRadius = 20;
-    series.tooltip.background.fillOpacity = 0.5;
-    series.tooltip.label.padding(12, 12, 12, 12);
-    series.tooltip.getFillFromObject = false;
-    series.tooltip.getStrokeFromObject = true;
-    // Add cursor
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.xAxis = dateAxis;
-    chart.cursor.snapToSeries = series;
+      // Create series
+      var series = chart.series.push(new am4charts.LineSeries());
+      series.dataFields.valueY = "y";
+      series.dataFields.dateX = "x";
+      series.strokeWidth = 2;
+      series.stroke = am4core.color("#007bff");
+      series.minBulletDistance = 10;
+      series.tooltipText = "{valueY}";
+      series.tooltip.pointerOrientation = "vertical";
+      series.tooltip.background.cornerRadius = 20;
+      series.tooltip.background.fillOpacity = 0.5;
+      series.tooltip.label.padding(12, 12, 12, 12);
+      series.tooltip.getFillFromObject = false;
+      series.tooltip.getStrokeFromObject = true;
+      // Add cursor
+      chart.cursor = new am4charts.XYCursor();
+      chart.cursor.xAxis = dateAxis;
+      chart.cursor.snapToSeries = series;
+    });
   }, [isLoading, chartData, textColor]);
 
   if (isLoading) {
@@ -114,9 +115,9 @@ const ResearchAndDevelopment = (props) => {
         }}
       >
         <hr className="card-hr" />
-        <div>
+        <React.Fragment>
           <div style={{ height: 456 }} id="researchanddevelopmentdiv" />
-        </div>
+        </React.Fragment>
       </Card>
     );
   }

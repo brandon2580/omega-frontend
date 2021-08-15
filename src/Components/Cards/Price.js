@@ -22,6 +22,7 @@ const Price = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
+    setIsLoading(true)
     const candlestickPrices = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/chart/${priceRange}?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
@@ -62,7 +63,7 @@ const Price = (props) => {
   };
 
   let candlestickHeader = (
-    <div>
+    <React.Fragment>
       {props.title}
       <button
         className="btn btn-primary change-view-button"
@@ -70,11 +71,11 @@ const Price = (props) => {
       >
         Change View
       </button>
-    </div>
+    </React.Fragment>
   );
 
   let areaHeader = (
-    <div>
+    <React.Fragment>
       {props.title}
       <button
         className="btn btn-primary change-view-button"
@@ -82,123 +83,106 @@ const Price = (props) => {
       >
         Change View
       </button>
-    </div>
+    </React.Fragment>
   );
 
   // ---------------------------------------------------------
 
   useEffect(() => {
-    // Themes begin
-    am4core.useTheme(am4themes_animated);
-    // Themes end
+    am4core.ready(function () {
+      // Create chart instance
+      var chart = am4core.create("line-div", am4charts.XYChart);
 
-    // Create chart instance
-    var chart = am4core.create("line-div", am4charts.XYChart);
+      // Add data
+      chart.data = areaSeries;
+      chart.numberFormatter.numberFormat = "$#,###";
+      // Create axes
+      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      dateAxis.renderer.minGridDistance = 50;
+      dateAxis.renderer.labels.template.fill = textColor;
 
-    // Add data
-    chart.data = areaSeries;
-    chart.numberFormatter.numberFormat = '$#,###';
-    
-    // Create axes
-    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.minGridDistance = 50;
-    dateAxis.renderer.labels.template.fill = textColor;
+      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.renderer.labels.template.fill = textColor;
 
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.renderer.labels.template.fill = textColor;
+      // Create series
+      var series = chart.series.push(new am4charts.LineSeries());
+      series.dataFields.valueY = "y";
+      series.dataFields.dateX = "x";
+      series.strokeWidth = 2;
+      series.propertyFields.stroke = "color";
+      series.propertyFields.fill = "color";
+      series.minBulletDistance = 10;
+      series.tooltipText = "{valueY}";
+      series.tooltip.pointerOrientation = "vertical";
+      series.tooltip.background.cornerRadius = 20;
+      series.tooltip.background.fillOpacity = 0.5;
+      series.tooltip.label.padding(12, 12, 12, 12);
+      series.tooltip.getFillFromObject = false;
+      series.tooltip.getStrokeFromObject = true;
 
-    // Create series
-    var series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.valueY = "y";
-    series.dataFields.dateX = "x";
-    series.strokeWidth = 2;
-    series.propertyFields.stroke = "color";
-    series.propertyFields.fill = "color";
-    series.minBulletDistance = 10;
-    series.tooltipText = "{valueY}";
-    series.tooltip.pointerOrientation = "vertical";
-    series.tooltip.background.cornerRadius = 20;
-    series.tooltip.background.fillOpacity = 0.5;
-    series.tooltip.label.padding(12, 12, 12, 12);
-    series.tooltip.getFillFromObject = false;
-    series.tooltip.getStrokeFromObject = true;
-    
-    // Add scrollbar
-    chart.scrollbarX = new am4charts.XYChartScrollbar();
-    chart.scrollbarX.series.push(series);
-    chart.scrollbarX.background.fill = "white"
-    chart.scrollbarX.background.fillOpacity = 0;
+      // Add cursor
+      chart.cursor = new am4charts.XYCursor();
+      chart.cursor.xAxis = dateAxis;
+      chart.cursor.snapToSeries = series;
+      series.fillOpacity = 1;
 
-    // Add cursor
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.xAxis = dateAxis;
-    chart.cursor.snapToSeries = series;
-    series.fillOpacity = 1;
-
-    var fillModifier = new am4core.LinearGradientModifier();
-    fillModifier.opacities = [1, 0];
-    fillModifier.offsets = [0, 1];
-    fillModifier.gradient.rotation = 270;
-    series.segments.template.fillModifier = fillModifier;
+      var fillModifier = new am4core.LinearGradientModifier();
+      fillModifier.opacities = [1, 0];
+      fillModifier.offsets = [0, 1];
+      fillModifier.gradient.rotation = 270;
+      series.segments.template.fillModifier = fillModifier;
+    });
   }, [isLoading, areaSeries, view, textColor]);
 
   // --------------------------------------
 
   useEffect(() => {
-    // Themes begin
-    am4core.useTheme(am4themes_dark);
-    am4core.useTheme(am4themes_animated);
-    // Themes end
+    am4core.ready(function () {
+      var chart = am4core.create("candlestick-div", am4charts.XYChart);
+      chart.paddingRight = 20;
+      chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
 
-    var chart = am4core.create("candlestick-div", am4charts.XYChart);
-    chart.paddingRight = 20;
+      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      dateAxis.renderer.grid.template.location = 0;
 
-    chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
+      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.tooltip.disabled = true;
 
-    var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.grid.template.location = 0;
+      var series = chart.series.push(new am4charts.CandlestickSeries());
+      series.dataFields.dateX = "date";
+      series.dataFields.valueY = "close";
+      series.dataFields.openValueY = "open";
+      series.dataFields.lowValueY = "low";
+      series.dataFields.highValueY = "high";
+      series.tooltipText =
+        "Open:${openValueY.value}\nLow:${lowValueY.value}\nHigh:${highValueY.value}\nClose:${valueY.value}";
 
-    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.tooltip.disabled = true;
+      // important!
+      // candlestick series colors are set in states.
+      series.riseFromOpenState.properties.fill = am4core.color("#00ff00");
+      series.dropFromOpenState.properties.fill = am4core.color("#FF0000");
+      series.riseFromOpenState.properties.stroke = am4core.color("#00ff00");
+      series.dropFromOpenState.properties.stroke = am4core.color("#FF0000");
 
-    var series = chart.series.push(new am4charts.CandlestickSeries());
-    series.dataFields.dateX = "date";
-    series.dataFields.valueY = "close";
-    series.dataFields.openValueY = "open";
-    series.dataFields.lowValueY = "low";
-    series.dataFields.highValueY = "high";
-    series.tooltipText =
-      "Open:${openValueY.value}\nLow:${lowValueY.value}\nHigh:${highValueY.value}\nClose:${valueY.value}";
+      series.riseFromPreviousState.properties.fillOpacity = 1;
+      series.dropFromPreviousState.properties.fillOpacity = 0;
 
-    // important!
-    // candlestick series colors are set in states.
-    // series.riseFromOpenState.properties.fill = am4core.color("#00ff00");
-    // series.dropFromOpenState.properties.fill = am4core.color("#FF0000");
-    // series.riseFromOpenState.properties.stroke = am4core.color("#00ff00");
-    // series.dropFromOpenState.properties.stroke = am4core.color("#FF0000");
+      chart.cursor = new am4charts.XYCursor();
 
-    series.riseFromPreviousState.properties.fillOpacity = 1;
-    series.dropFromPreviousState.properties.fillOpacity = 0;
+      // a separate series for scrollbar
+      var lineSeries = chart.series.push(new am4charts.LineSeries());
+      lineSeries.dataFields.dateX = "date";
+      lineSeries.dataFields.valueY = "close";
+      // need to set on default state, as initially series is "show"
+      lineSeries.defaultState.properties.visible = false;
 
-    chart.cursor = new am4charts.XYCursor();
+      // hide from legend too (in case there is one)
+      lineSeries.hiddenInLegend = true;
+      lineSeries.fillOpacity = 0.5;
+      lineSeries.strokeOpacity = 0.5;
 
-    // a separate series for scrollbar
-    var lineSeries = chart.series.push(new am4charts.LineSeries());
-    lineSeries.dataFields.dateX = "date";
-    lineSeries.dataFields.valueY = "close";
-    // need to set on default state, as initially series is "show"
-    lineSeries.defaultState.properties.visible = false;
-
-    // hide from legend too (in case there is one)
-    lineSeries.hiddenInLegend = true;
-    lineSeries.fillOpacity = 0.5;
-    lineSeries.strokeOpacity = 0.5;
-
-    var scrollbarX = new am4charts.XYChartScrollbar();
-    scrollbarX.series.push(lineSeries);
-    chart.scrollbarX = scrollbarX;
-
-    chart.data = candlestickSeries;
+      chart.data = candlestickSeries;
+    });
   }, [isLoading, candlestickSeries, view]);
 
   // --------------------------------------

@@ -2,7 +2,7 @@ import React from "react";
 
 const ErrorNotFound = () => {
   return (
-    <div>
+    <React.Fragment>
       <div class="moon"></div>
       <div class="moon__crater moon__crater1"></div>
       <div class="moon__crater moon__crater2"></div>
@@ -52,7 +52,7 @@ const ErrorNotFound = () => {
           <div class="astronaut__head-visor-flare2"></div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 

@@ -253,7 +253,6 @@ function App() {
 
             <Route
               path={`/dashboard/:userID/:dashboardID/:urlTicker`}
-              component={EquityDashboard}
             >
               <div className="dashboard">
                 <EquityDashboard

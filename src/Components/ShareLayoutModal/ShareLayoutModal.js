@@ -52,7 +52,7 @@ const ShareLayoutModal = (props) => {
   const url = window.location.href;
 
   return (
-    <div>
+    <React.Fragment>
       <i
         style={{ cursor: "pointer" }}
         onClick={showModal}
@@ -107,7 +107,7 @@ const ShareLayoutModal = (props) => {
           </div>
         </div>
       </Modal>
-    </div>
+    </React.Fragment>
   );
 };
 
