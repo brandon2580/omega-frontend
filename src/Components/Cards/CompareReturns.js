@@ -69,6 +69,7 @@ const CompareReturns = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
+
       var chart = am4core.create("comparediv", am4charts.XYChart);
 
       chart.data = chartSeries;

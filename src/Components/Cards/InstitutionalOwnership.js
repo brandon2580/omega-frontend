@@ -17,7 +17,7 @@ const InstitutionalOwnership = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     const institutional_ownership = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/institutional-ownership?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
@@ -36,6 +36,8 @@ const InstitutionalOwnership = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
+
+
       var chart = am4core.create(
         "institutionalownershipdiv",
         am4charts.XYChart

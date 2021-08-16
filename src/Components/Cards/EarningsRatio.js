@@ -39,7 +39,7 @@ const EarningsRatio = (props) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     const earnings = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/earnings/4?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
@@ -96,6 +96,8 @@ const EarningsRatio = (props) => {
   // Create chart
   useEffect(() => {
     am4core.ready(function () {
+
+
       // Create chart instance
       var chart = am4core.create(
         "earnings-ratio-chart-div",

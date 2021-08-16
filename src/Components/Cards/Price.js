@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
 import "../../App.scss";
 import _ from "lodash";
 import { Card } from "antd";
 import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_dark from "@amcharts/amcharts4/themes/dark";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 const Price = (props) => {
   const [candlestickSeries, setCandlestickSeries] = useState([{}]);
@@ -21,8 +19,8 @@ const Price = (props) => {
     props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
   }, [props.darkMode]);
 
-  useEffect(() => {
-    setIsLoading(true)
+  useLayoutEffect(() => {
+    setIsLoading(true);
     const candlestickPrices = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/chart/${priceRange}?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
@@ -90,7 +88,7 @@ const Price = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
-      // Create chart instance
+
       var chart = am4core.create("line-div", am4charts.XYChart);
 
       // Add data

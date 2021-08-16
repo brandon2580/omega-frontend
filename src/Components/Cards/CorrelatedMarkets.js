@@ -17,7 +17,7 @@ const CorrelatedMarkets = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     const correlated_markets = fetch(
       `https://sigma7-api.azure-api.net/corr_metrics/?symbol=${props.activeTicker}&frame=1y`
     ).then((res) => res.json());
@@ -43,6 +43,7 @@ const CorrelatedMarkets = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
+
       var chart = am4core.create("correlatedmarketsdiv", am4charts.XYChart);
 
       var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());

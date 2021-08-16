@@ -29,7 +29,7 @@ const AnalystRecommendations = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     const analyst_recs = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/recommendation-trends?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
@@ -180,6 +180,7 @@ const AnalystRecommendations = (props) => {
   // -------------------
   useEffect(() => {
     am4core.ready(function () {
+
       var chart = am4core.create("bar-div", am4charts.XYChart);
       chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
@@ -233,8 +234,7 @@ const AnalystRecommendations = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
-      am4core.useTheme(am4themes_animated);
-      am4core.useTheme(am4themes_dark);
+
 
       // Create chart instance
       var chart = am4core.create("pie-div", am4charts.PieChart);

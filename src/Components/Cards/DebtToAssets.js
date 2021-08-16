@@ -19,7 +19,7 @@ const DebtToAssets = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     const balance_sheet = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/balance-sheet/20?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
@@ -40,6 +40,7 @@ const DebtToAssets = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
+
       var chart = am4core.create("debttoassetsdiv", am4charts.XYChart);
 
       chart.data = chartData;

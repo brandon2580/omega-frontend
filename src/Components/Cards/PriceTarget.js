@@ -27,7 +27,7 @@ const PriceTarget = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     const price_target = fetch(
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/price-target?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
@@ -116,6 +116,7 @@ const PriceTarget = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
+
       // Create chart instance
       var chart = am4core.create("pricetargetdiv", am4charts.XYChart);
 
@@ -123,9 +124,6 @@ const PriceTarget = (props) => {
       chart.cursor = new am4charts.XYCursor();
       chart.cursor.lineX.disabled = true;
       chart.cursor.lineY.disabled = true;
-
-      // Enable scrollbar
-      chart.scrollbarX = new am4core.Scrollbar();
 
       // Add data
       chart.data = chartData;

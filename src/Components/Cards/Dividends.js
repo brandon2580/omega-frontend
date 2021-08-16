@@ -25,7 +25,7 @@ const Dividends = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     const dividend_yields = fetch(
       `https://sigma7-api.azure-api.net/div_yield?symbol=${props.activeTicker}`
     ).then((res) => res.json());
@@ -70,6 +70,7 @@ const Dividends = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
+
       // Create chart instance
       var chart = am4core.create("dividend-yield-div", am4charts.XYChart);
 
@@ -110,6 +111,7 @@ const Dividends = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
+
       // Create chart instance
       var chart = am4core.create("dividend-raw-div", am4charts.XYChart);
 

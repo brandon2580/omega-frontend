@@ -16,6 +16,7 @@ const Sidenavbar = (props) => {
   const [savedDashboardNames, setSavedDashboardNames] = useState([]);
 
   const handleYourDashboardsClick = (e) => {
+    props.setIsNewLayoutLoading(true)
     props.setSelectedLayoutIndex(e.target.getAttribute("data-index"));
     props.setWasYourDashboardSelected(true);
   };

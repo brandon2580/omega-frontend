@@ -41,10 +41,12 @@ import DebtToAssets from "../Cards/DebtToAssets";
 import RevenueToProfit from "../Cards/RevenueToProfit";
 import ResearchAndDevelopment from "../Cards/ResearchAndDevelopment";
 import InstitutionalOwnership from "../Cards/InstitutionalOwnership";
-
+import * as am4core from "@amcharts/amcharts4/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import db from "../../firebase";
 import firebase from "firebase/app";
+import am4themes_dark from "@amcharts/amcharts4/themes/dark";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import "firebase/firestore";
 
 // hotjar.initialize(2462125, hjsv);
@@ -81,6 +83,7 @@ const HomeDashboard = (props) => {
   const [textColor, setTextColor] = useState("");
   const [isTourOpen, setIsTourOpen] = useState(true);
   const [dashboardNames, setDashboardNames] = useState([]);
+  const [isNewLayoutLoading, setIsNewLayoutLoading] = useState(false);
   const [selectedDashboardName, setSelectedDashboardName] = useState("");
   const [selectedLayoutName, setSelectedLayoutName] =
     useState("Default_Layout");
@@ -98,6 +101,11 @@ const HomeDashboard = (props) => {
   if (localStorage.getItem("isUserNew") == null) {
     localStorage.setItem("isUserNew", true);
   }
+
+  useEffect(() => {
+    am4core.useTheme(am4themes_dark);
+    am4core.useTheme(am4themes_animated);
+  }, []);
 
   // If the tour gets closed, the user is obviously no longer "new".
   // We set their "new" status to false.
@@ -314,7 +322,8 @@ const HomeDashboard = (props) => {
             setTimeout(() => {
               setMainLayout(
                 Object.values(currentLayout).flat(),
-                props.setSelectedCardsIndex(mappedLayoutIndex)
+                props.setSelectedCardsIndex(mappedLayoutIndex),
+                setIsNewLayoutLoading(false)
               );
             });
           }
@@ -422,7 +431,7 @@ const HomeDashboard = (props) => {
     DebtToAssets,
     RevenueToProfit,
     ResearchAndDevelopment,
-    InstitutionalOwnership
+    InstitutionalOwnership,
   };
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
@@ -541,158 +550,210 @@ const HomeDashboard = (props) => {
         width={100}
       />
     );
-  } else {
-    if (isAuthenticated) {
-      return (
-        <React.Fragment>
-          <DashboardNavbar
-            availableCards={props.availableCards}
-            setAvailableCards={props.setAvailableCards}
-            selectedCardsIndex={props.selectedCardsIndex}
-            setSelectedCardsIndex={props.setSelectedCardsIndex}
-            setActiveTicker={props.setActiveTicker}
-            activeTicker={props.activeTicker}
-            urlTicker={urlTicker}
-            userID={userID}
-            selectedLayoutName={selectedLayoutName}
-            isAuthenticated={isAuthenticated}
-            wasTaken={wasTaken}
-            setDarkMode={setDarkMode}
-            darkMode={darkMode}
-            setIsTourOpen={setIsTourOpen}
-            setNewLayoutName={setNewLayoutName}
-            dashboardNames={dashboardNames}
-            setDashboardNames={setDashboardNames}
-            setSelectedLayoutIndex={setSelectedLayoutIndex}
-            setWasYourDashboardSelected={setWasYourDashboardSelected}
-            mainLayout={mainLayout}
-            selectedDashboardName={selectedDashboardName}
-          />
+  } else if (isNewLayoutLoading) {
+    return (
+      <React.Fragment>
+        <DashboardNavbar
+          availableCards={props.availableCards}
+          setAvailableCards={props.setAvailableCards}
+          selectedCardsIndex={props.selectedCardsIndex}
+          setSelectedCardsIndex={props.setSelectedCardsIndex}
+          setActiveTicker={props.setActiveTicker}
+          activeTicker={props.activeTicker}
+          urlTicker={urlTicker}
+          userID={userID}
+          selectedLayoutName={selectedLayoutName}
+          isAuthenticated={isAuthenticated}
+          wasTaken={wasTaken}
+          setDarkMode={setDarkMode}
+          darkMode={darkMode}
+          setIsTourOpen={setIsTourOpen}
+          setNewLayoutName={setNewLayoutName}
+          dashboardNames={dashboardNames}
+          setDashboardNames={setDashboardNames}
+          setSelectedLayoutIndex={setSelectedLayoutIndex}
+          setWasYourDashboardSelected={setWasYourDashboardSelected}
+          mainLayout={mainLayout}
+          selectedDashboardName={selectedDashboardName}
+        />
 
-          <h1 className="center header">{selectedDashboardName}</h1>
+        <h1 className="center header">{selectedDashboardName}</h1>
 
-          {/* CompanyHeader goes here */}
-          <CompanyHeader
-            setActiveTicker={props.setActiveTicker}
-            activeTicker={props.activeTicker}
-            tickerCard={props.availableCards[0]}
-          />
+        {/* Sidenavbar goes here */}
+        <Sidenavbar
+          setSelectedLayoutIndex={setSelectedLayoutIndex}
+          setWasYourDashboardSelected={setWasYourDashboardSelected}
+          wasYourDashboardSelected={wasYourDashboardSelected}
+          setWasSavedDashboardSelected={setWasSavedDashboardSelected}
+          wasSavedDashboardSelected={wasSavedDashboardSelected}
+          selectedCardsIndex={props.selectedCardsIndex}
+          setSelectedCardsIndex={props.setSelectedCardsIndex}
+          userID={userID}
+          dashboardNames={dashboardNames}
+          setDashboardNames={setDashboardNames}
+          setIsNewLayoutLoading={setIsNewLayoutLoading}
+        />
 
-          {/* Sidenavbar goes here */}
-          <Sidenavbar
-            setSelectedLayoutIndex={setSelectedLayoutIndex}
-            setWasYourDashboardSelected={setWasYourDashboardSelected}
-            wasYourDashboardSelected={wasYourDashboardSelected}
-            setWasSavedDashboardSelected={setWasSavedDashboardSelected}
-            wasSavedDashboardSelected={wasSavedDashboardSelected}
-            selectedCardsIndex={props.selectedCardsIndex}
-            setSelectedCardsIndex={props.setSelectedCardsIndex}
-            userID={userID}
-            dashboardNames={dashboardNames}
-            setDashboardNames={setDashboardNames}
-          />
+        <Loader
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
+        />
+      </React.Fragment>
+    );
+  } else if (isAuthenticated) {
+    return (
+      <React.Fragment>
+        <DashboardNavbar
+          availableCards={props.availableCards}
+          setAvailableCards={props.setAvailableCards}
+          selectedCardsIndex={props.selectedCardsIndex}
+          setSelectedCardsIndex={props.setSelectedCardsIndex}
+          setActiveTicker={props.setActiveTicker}
+          activeTicker={props.activeTicker}
+          urlTicker={urlTicker}
+          userID={userID}
+          selectedLayoutName={selectedLayoutName}
+          isAuthenticated={isAuthenticated}
+          wasTaken={wasTaken}
+          setDarkMode={setDarkMode}
+          darkMode={darkMode}
+          setIsTourOpen={setIsTourOpen}
+          setNewLayoutName={setNewLayoutName}
+          dashboardNames={dashboardNames}
+          setDashboardNames={setDashboardNames}
+          setSelectedLayoutIndex={setSelectedLayoutIndex}
+          setWasYourDashboardSelected={setWasYourDashboardSelected}
+          mainLayout={mainLayout}
+          selectedDashboardName={selectedDashboardName}
+        />
 
-          <Tour
-            steps={steps}
-            isOpen={isTourOpen}
-            onRequestClose={() => setIsTourOpen(false)}
-            lastStepNextButton={<a className="lets-begin-link">Lets begin!</a>}
-            accentColor={"#007bff"}
-            nextButton={<ArrowRightOutlined />}
-            prevButton={<ArrowLeftOutlined />}
-            rounded={10}
-          />
+        <h1 className="center header">{selectedDashboardName}</h1>
 
-          {/* Grid layout begins here */}
-          <GridLayout
-            className="layout"
-            layouts={layout}
-            breakpoints={{ lg: 1200, s: 300 }}
-            onLayoutChange={handleLayoutChange}
-            draggableHandle={".ant-card-head"}
-            cols={{ lg: 12, s: 1 }}
-            rowHeight={575}
-            width={1200}
-          >
-            {/*
+        {/* CompanyHeader goes here */}
+        <CompanyHeader
+          setActiveTicker={props.setActiveTicker}
+          activeTicker={props.activeTicker}
+          tickerCard={props.availableCards[0]}
+        />
+
+        {/* Sidenavbar goes here */}
+        <Sidenavbar
+          setSelectedLayoutIndex={setSelectedLayoutIndex}
+          setWasYourDashboardSelected={setWasYourDashboardSelected}
+          wasYourDashboardSelected={wasYourDashboardSelected}
+          setWasSavedDashboardSelected={setWasSavedDashboardSelected}
+          wasSavedDashboardSelected={wasSavedDashboardSelected}
+          selectedCardsIndex={props.selectedCardsIndex}
+          setSelectedCardsIndex={props.setSelectedCardsIndex}
+          userID={userID}
+          dashboardNames={dashboardNames}
+          setDashboardNames={setDashboardNames}
+          setIsNewLayoutLoading={setIsNewLayoutLoading}
+        />
+
+        <Tour
+          steps={steps}
+          isOpen={isTourOpen}
+          onRequestClose={() => setIsTourOpen(false)}
+          lastStepNextButton={<a className="lets-begin-link">Lets begin!</a>}
+          accentColor={"#007bff"}
+          nextButton={<ArrowRightOutlined />}
+          prevButton={<ArrowLeftOutlined />}
+          rounded={10}
+        />
+
+        {/* Grid layout begins here */}
+        <GridLayout
+          className="layout"
+          layouts={layout}
+          breakpoints={{ lg: 1200, s: 300 }}
+          onLayoutChange={handleLayoutChange}
+          draggableHandle={".ant-card-head"}
+          cols={{ lg: 12, s: 1 }}
+          rowHeight={575}
+          width={1200}
+        >
+          {/*
               For reference, if we console.log(props.selectedCardsIndex), at first an empty array is returned. However if we 
               were to select a card that has an id value of 9 {id: 9}, then Array [9] would be logged. If we were to then 
               select a card with an id of 10 {id: 10}, it would return Array [9, 10]. 
             */}
-            {props.selectedCardsIndex.map((cardId, index) => {
-              const card = props.availableCards.find((c) => c.id === cardId);
+          {props.selectedCardsIndex.map((cardId, index) => {
+            const card = props.availableCards.find((c) => c.id === cardId);
 
-              const defaultDataGrid = {
-                x: card.x,
-                y: card.y,
-                w: card.w,
-                h: card.h,
-                minW: card.minW,
-                isResizable: card.isResizable,
-              };
+            const defaultDataGrid = {
+              x: card.x,
+              y: card.y,
+              w: card.w,
+              h: card.h,
+              minW: card.minW,
+              isResizable: card.isResizable,
+            };
 
-              const extra = (
-                <React.Fragment>
-                  <Popover
-                    content={card.info}
-                    title={card.title}
-                    trigger="click"
-                    visible={card.infoVisible}
-                  >
-                    <span className="span-margin">
-                      <InfoCircleOutlined
-                        className="blue-button"
-                        onClick={() =>
-                          props.setAvailableCards((arr) =>
-                            arr.map((item) =>
-                              item.id == card.id
-                                ? { ...item, infoVisible: !item.infoVisible }
-                                : item
-                            )
+            const extra = (
+              <React.Fragment>
+                <Popover
+                  content={card.info}
+                  title={card.title}
+                  trigger="click"
+                  visible={card.infoVisible}
+                >
+                  <span className="span-margin">
+                    <InfoCircleOutlined
+                      className="blue-button"
+                      onClick={() =>
+                        props.setAvailableCards((arr) =>
+                          arr.map((item) =>
+                            item.id == card.id
+                              ? { ...item, infoVisible: !item.infoVisible }
+                              : item
                           )
-                        }
-                      />
-                    </span>{" "}
-                  </Popover>
-
-                  <span onClick={() => removeCardFromLayout(card.id)}>
-                    <CloseCircleOutlined />
-                  </span>
-                </React.Fragment>
-              );
-
-              if (card.name in availableCardsObject) {
-                const CustomTag = availableCardsObject[card.name];
-                return (
-                  <div key={card.id} data-grid={defaultDataGrid}>
-                    <CustomTag
-                      {...card}
-                      extra={extra}
-                      darkMode={darkMode}
-                      activeTicker={urlTicker}
+                        )
+                      }
                     />
-                  </div>
-                );
-              }
-            })}
-          </GridLayout>
+                  </span>{" "}
+                </Popover>
 
-          {/* Only renders when the user deletes a card from the page (for 5 seconds) */}
-          {wasRemoved && (
-            <UndoPrompt
-              selectedCardsIndex={props.selectedCardsIndex}
-              setSelectedCardsIndex={props.setSelectedCardsIndex}
-              availableCards={props.availableCards}
-              setWasRemoved={setWasRemoved}
-              setUndoClicked={setUndoClicked}
-              removedCardId={removedCard}
-            />
-          )}
-        </React.Fragment>
-      );
-    } else {
-      loginWithRedirect();
-    }
+                <span onClick={() => removeCardFromLayout(card.id)}>
+                  <CloseCircleOutlined />
+                </span>
+              </React.Fragment>
+            );
+
+            if (card.name in availableCardsObject) {
+              const CustomTag = availableCardsObject[card.name];
+              return (
+                <div key={card.id} data-grid={defaultDataGrid}>
+                  <CustomTag
+                    {...card}
+                    extra={extra}
+                    darkMode={darkMode}
+                    activeTicker={urlTicker}
+                  />
+                </div>
+              );
+            }
+          })}
+        </GridLayout>
+
+        {/* Only renders when the user deletes a card from the page (for 5 seconds) */}
+        {wasRemoved && (
+          <UndoPrompt
+            selectedCardsIndex={props.selectedCardsIndex}
+            setSelectedCardsIndex={props.setSelectedCardsIndex}
+            availableCards={props.availableCards}
+            setWasRemoved={setWasRemoved}
+            setUndoClicked={setUndoClicked}
+            removedCardId={removedCard}
+          />
+        )}
+      </React.Fragment>
+    );
+  } else {
+    loginWithRedirect();
   }
 };
 
