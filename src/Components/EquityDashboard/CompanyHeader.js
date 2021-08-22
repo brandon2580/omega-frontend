@@ -13,24 +13,28 @@ const CompanyHeader = (props) => {
       `https://sigma7-api.azure-api.net/ticker_card?symbol=${props.activeTicker}`
     ).then((res) => res.json());
 
+    const price = fetch(
+      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/price?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+    ).then((res) => res.json());
+
     // We use this function to add necessary commas (when needed) to large numbers such as market cap
     function numberWithCommas(number) {
       return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
-    Promise.resolve(company).then((company) => {
+    Promise.all([company, price]).then((company) => {
       setCompanyData({
-        company_name: company.companyName,
+        company_name: company[0].companyName,
         ticker: props.activeTicker,
-        description: company.description,
-        industry: company.industry,
-        country: company.country,
-        phone: company.phone,
-        website: company.website,
+        description: company[0].description,
+        industry: company[0].industry,
+        country: company[0].country,
+        phone: company[0].phone,
+        website: company[0].website,
         ceo: company.ceo,
-        market_cap: numberWithCommas(company.marketcap),
-        totalReturn: company.maxChangePercent,
-        // price: company[1],
+        market_cap: numberWithCommas(company[0].marketcap),
+        totalReturn: company[0].maxChangePercent,
+        price: company[1],
       });
       setIsLoading(false);
     });

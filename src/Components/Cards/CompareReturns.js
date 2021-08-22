@@ -63,13 +63,13 @@ const CompareReturns = (props) => {
       let data = mappedObjects;
 
       setChartSeries(data);
+
       setIsLoading(false);
     });
   }, [props.activeTicker, timeFrame]);
 
   useEffect(() => {
     am4core.ready(function () {
-
       var chart = am4core.create("comparediv", am4charts.XYChart);
 
       chart.data = chartSeries;
@@ -108,6 +108,7 @@ const CompareReturns = (props) => {
       lineSeries.tooltip.fill = am4core.color("orange");
       lineSeries.stroke = am4core.color("orange");
       lineSeries.fill = am4core.color("orange");
+      
       //add bullets
       var bullet = lineSeries.bullets.push(new am4charts.Bullet());
       bullet.fill = am4core.color("orange");

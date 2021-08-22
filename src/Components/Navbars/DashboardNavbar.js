@@ -13,7 +13,7 @@ import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "../AddCardModal/AddCardModal";
 import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
 import ShareLayoutModal from "../ShareLayoutModal/ShareLayoutModal";
-import logo from "./logo.png";
+import logo from "./images/logo.png";
 import TextField from "@material-ui/core/TextField";
 import { Autocomplete, createFilterOptions } from "@material-ui/lab";
 
@@ -122,7 +122,14 @@ const DashboardNavbar = (props) => {
         <ul className="navbar-nav">
           <li className="nav-item active">
             {isAuthenticated ? (
-              <a className="nav-link">Dashboard</a>
+              <a className="nav-link">Stocks</a>
+            ) : (
+              <h1>loading</h1>
+            )}
+          </li>
+          <li className="nav-item active">
+            {isAuthenticated ? (
+              <a className="nav-link">Crypto</a>
             ) : (
               <h1>loading</h1>
             )}

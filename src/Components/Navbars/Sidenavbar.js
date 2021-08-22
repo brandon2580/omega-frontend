@@ -163,7 +163,15 @@ const Sidenavbar = (props) => {
             <HomeOutlined />
           </NavIcon>
           <NavText>
-            <a className="nav-link">Dashboard</a>
+            <a className="nav-link">Stocks</a>
+          </NavText>
+        </NavItem>
+        <NavItem eventKey="home">
+          <NavIcon>
+            <HomeOutlined />
+          </NavIcon>
+          <NavText>
+            <a className="nav-link">Crypto</a>
           </NavText>
         </NavItem>
         <NavItem eventKey="home">

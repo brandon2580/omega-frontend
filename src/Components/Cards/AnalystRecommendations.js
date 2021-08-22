@@ -1,19 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
-import {
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend,
-} from "recharts";
 import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_dark from "@amcharts/amcharts4/themes/dark";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 const AnalystRecommendations = (props) => {
   const [pieData, setPieData] = useState([]);

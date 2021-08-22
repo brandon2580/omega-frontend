@@ -40,8 +40,6 @@ const RevenueToProfit = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
-
-
       var chart = am4core.create("revenuetoprofitdiv", am4charts.XYChart);
 
       chart.data = chartData;

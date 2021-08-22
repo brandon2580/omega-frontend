@@ -1,6 +1,6 @@
 import React from "react";
 import "../../App.scss";
-import logo from "./logo.png";
+import logo from "./images/logo.png";
 import { useHistory } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
