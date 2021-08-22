@@ -41,6 +41,10 @@ import DebtToAssets from "../Cards/DebtToAssets";
 import RevenueToProfit from "../Cards/RevenueToProfit";
 import ResearchAndDevelopment from "../Cards/ResearchAndDevelopment";
 import InstitutionalOwnership from "../Cards/InstitutionalOwnership";
+import CustomFundamentals from "../Cards/CustomFundamentals";
+import InsiderTrading from "../Cards/InsiderTrading";
+import ComparingCEOPay from "../Cards/ComparingCEOPay";
+import CEOPayBreakdown from "../Cards/CEOPayBreakdown";
 import * as am4core from "@amcharts/amcharts4/core";
 import { useAuth0 } from "@auth0/auth0-react";
 import db from "../../firebase";
@@ -48,6 +52,7 @@ import firebase from "firebase/app";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import "firebase/firestore";
+import EquityDashboardTour from "./EquityDashboardTour";
 
 // hotjar.initialize(2462125, hjsv);
 const GridLayout = WidthProvider(Responsive);
@@ -432,111 +437,13 @@ const HomeDashboard = (props) => {
     RevenueToProfit,
     ResearchAndDevelopment,
     InstitutionalOwnership,
+    CustomFundamentals,
+    InsiderTrading,
+    CEOPayBreakdown,
+    ComparingCEOPay
   };
 
   var layout = { lg: value === true ? mainLayout : mainLayout };
-
-  const steps = [
-    {
-      selector: "body",
-      content: "Welcome to sigma7! We are going to go through a short tour.",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".dashboard-navbar",
-      content:
-        "This is the navigation bar where you can search for stocks, add cards, share dashboards, & more!",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".stock-symbol-form",
-      content:
-        "If you want to search up any given stock/company, this is where you would type it. Feel free to type in the whole name of the company or just the stock symbol.",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".dashboard-nav-buttons",
-      content:
-        "This is where you can add cards to your dashboard, save a new layout, share dashboards, view your profile, and send us feedback!",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".sidenav",
-      content:
-        "This is the side navigation bar. This is where you will find your saved layouts. In the future, you will be able to save other users' dashboards here on top of your own.",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".ticker-header",
-      content:
-        "This is where you can find general information about the company you're researching.",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".price-card",
-      content:
-        "This card displays the price movements of a given stock.This card's chart format may swap between a candlestick or line format.",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-
-    {
-      selector: ".analystrecs-card",
-      content:
-        "This card displays analyst recommendations from Wall Street. These recommendations are derived from extensive research and industry knowledge.",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".earningsratio-card",
-      content:
-        "This card displays the rate in which a company meets or misses expectations set by research analysts. Typically, a company will see a significant value/price increase if they exceed or meet the expectations set for them. The inverse is true if companies fail to meet expectations set for them.",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".pricetarget-card",
-      content:
-        "Much like Analyst Recommendations, Analysts from Wall Street set price targets for given stocks. These targets are essentially predictions set by experienced industry professionals within Wall Street. These targets can often dictate the price expectations of other investors.",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-    {
-      selector: ".news-card",
-      content:
-        "This card displays the most recent news articles for a particular stock, and color codes them according to their sentiment or feelings on the stock.",
-      style: {
-        backgroundColor: theme,
-        border: `1px solid ${textColor}`,
-      },
-    },
-  ];
 
   // Display a loading icon while the page is loading. Check if the user
   // is authenticated. If true, load the page. Otherwise, prompt them to login.
@@ -654,15 +561,11 @@ const HomeDashboard = (props) => {
           setIsNewLayoutLoading={setIsNewLayoutLoading}
         />
 
-        <Tour
-          steps={steps}
-          isOpen={isTourOpen}
-          onRequestClose={() => setIsTourOpen(false)}
-          lastStepNextButton={<a className="lets-begin-link">Lets begin!</a>}
-          accentColor={"#007bff"}
-          nextButton={<ArrowRightOutlined />}
-          prevButton={<ArrowLeftOutlined />}
-          rounded={10}
+        {/* Tour goes here*/}
+        <EquityDashboardTour
+          isTourOpen={isTourOpen}
+          setIsTourOpen={setIsTourOpen}
+          darkMode={darkMode}
         />
 
         {/* Grid layout begins here */}

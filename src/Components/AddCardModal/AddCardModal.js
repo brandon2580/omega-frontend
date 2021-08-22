@@ -17,6 +17,10 @@ import DebtToAssets from "../Cards/DebtToAssets";
 import RevenueToProfit from "../Cards/RevenueToProfit";
 import ResearchAndDevelopment from "../Cards/ResearchAndDevelopment";
 import InstitutionalOwnership from "../Cards/InstitutionalOwnership";
+import CustomFundamentals from "../Cards/CustomFundamentals";
+import InsiderTrading from "../Cards/InsiderTrading";
+import ComparingCEOPay from "../Cards/ComparingCEOPay";
+import CEOPayBreakdown from "../Cards/CEOPayBreakdown";
 
 import { InfoCircleOutlined } from "@ant-design/icons";
 
@@ -66,6 +70,10 @@ const AddCardModal = (props) => {
     RevenueToProfit,
     ResearchAndDevelopment,
     InstitutionalOwnership,
+    CustomFundamentals,
+    InsiderTrading,
+    CEOPayBreakdown,
+    ComparingCEOPay
   };
 
   return (
