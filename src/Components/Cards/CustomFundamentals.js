@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
-import { Card, Menu, Dropdown } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import {Card} from "antd";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_dark from "@amcharts/amcharts4/themes/dark";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import Loader from "react-loader-spinner";
 
 const CustomFundamentals = (props) => {
@@ -52,10 +49,10 @@ const CustomFundamentals = (props) => {
   useEffect(() => {
     am4core.ready(function () {
       // Create chart instance
-      var chart = am4core.create("customfundamentalsdiv", am4charts.XYChart);
-      var seriesId = chart.series.length + 1;
+        const chart = am4core.create("customfundamentalsdiv", am4charts.XYChart);
+        const seriesId = chart.series.length + 1;
 
-      let data = availableData.map((el, i) => {
+        let data = availableData.map((el, i) => {
         return {
           x: el.fiscalDate,
           y1: el["accountsPayable"],
@@ -67,15 +64,15 @@ const CustomFundamentals = (props) => {
       chart.data = data;
 
       /* Create axes */
-      var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-      categoryAxis.dataFields.category = "x";
+        const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+        categoryAxis.dataFields.category = "x";
 
       /* Create value axis */
-      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-      // Create series
-      var series = new am4charts.LineSeries();
-      series.data = data;
+        // Create series
+        let series = new am4charts.LineSeries();
+        series.data = data;
       series.dataFields.valueY = "y" + seriesId;
       series.dataFields.categoryX = "x";
       series.name = "Series #" + seriesId;

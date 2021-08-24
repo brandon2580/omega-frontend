@@ -1,24 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
-import { useHistory } from "react-router";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-} from "react-router-dom";
-import { Popover } from "antd";
+import {useHistory} from "react-router";
+import {Popover} from "antd";
 import DarkModeToggle from "../DarkModeToggle";
 import AddCardModal from "../AddCardModal/AddCardModal";
 import SaveLayoutButton from "../EquityDashboard/SaveLayoutButton";
 import ShareLayoutModal from "../ShareLayoutModal/ShareLayoutModal";
 import logo from "./images/logo.png";
 import TextField from "@material-ui/core/TextField";
-import { Autocomplete, createFilterOptions } from "@material-ui/lab";
+import {Autocomplete, createFilterOptions} from "@material-ui/lab";
 
-import { useAuth0 } from "@auth0/auth0-react";
-import Feedback from "../Feedback/Feedback";
+import {useAuth0} from "@auth0/auth0-react";
 
 const DashboardNavbar = (props) => {
   const { isAuthenticated, user } = useAuth0();
@@ -115,7 +107,7 @@ const DashboardNavbar = (props) => {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span className="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"/>
       </button>
 
       <div className="collapse navbar-collapse" id="navbarNav">
@@ -242,9 +234,9 @@ const DashboardNavbar = (props) => {
                   placement="bottom"
                 >
                   <i
-                    style={{ cursor: "pointer" }}
-                    className="fi-rr-user top-nav-icon"
-                  ></i>
+    style={{cursor: "pointer"}}
+    className="fi-rr-user top-nav-icon"
+    />
                 </Popover>
               </a>
             ) : null}
@@ -269,9 +261,9 @@ const DashboardNavbar = (props) => {
                 placement="bottomLeft"
               >
                 <i
-                  style={{ cursor: "pointer" }}
-                  className="fi-rr-edit top-nav-icon"
-                ></i>
+    style={{cursor: "pointer"}}
+    className="fi-rr-edit top-nav-icon"
+    />
               </Popover>
             </a>
           </div>{" "}

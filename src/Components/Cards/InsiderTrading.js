@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
-import { Card } from "antd";
+import {Card} from "antd";
 import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -42,24 +42,24 @@ const InsiderTrading = (props) => {
   useEffect(() => {
     am4core.ready(function () {
       // Create chart instance
-      var chart = am4core.create("insidertradingdiv", am4charts.XYChart);
+      const chart = am4core.create("insidertradingdiv", am4charts.XYChart);
 
       // Add data
       chart.data = chartSeries;
 
       // Create axes
-      var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+      const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       categoryAxis.dataFields.category = "date";
       categoryAxis.renderer.grid.template.location = 0;
       categoryAxis.renderer.minGridDistance = 50;
       categoryAxis.startLocation = 0.5;
       categoryAxis.endLocation = 0.5;
 
-      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
       // Create series
       function createSeries(field, name) {
-        var series = chart.series.push(new am4charts.LineSeries());
+        const series = chart.series.push(new am4charts.LineSeries());
         series.dummyData = {
           field: field,
         };
@@ -75,7 +75,7 @@ const InsiderTrading = (props) => {
         return series;
       }
 
-      for (var i = 0; i < insiders.length; i++) {
+      for (let i = 0; i < insiders.length; i++) {
         createSeries(JSON.stringify(insiders[i]), JSON.stringify(insiders[i]));
       }
 
@@ -98,7 +98,7 @@ const InsiderTrading = (props) => {
         relevant: am4core.ResponsiveBreakpoints.widthL,
         state: function (target, stateId) {
           if (target instanceof am4charts.Legend) {
-            var state = target.states.create(stateId);
+            const state = target.states.create(stateId);
             state.properties.position = "bottom";
             return state;
           }
@@ -109,28 +109,28 @@ const InsiderTrading = (props) => {
       // Prepare data for the river-stacked series
       chart.events.on("beforedatavalidated", updateData);
       function updateData() {
-        var data = chart.data;
-        if (data.length == 0) {
+        const data = chart.data;
+        if (data.length === 0) {
           return;
         }
 
-        for (var i = 0; i < data.length; i++) {
-          var row = data[i];
-          var sum = 0;
+        for (let i = 0; i < data.length; i++) {
+          const row = data[i];
+          let sum = 0;
 
           // Calculate open and close values
           chart.series.each(function (series) {
-            var field = series.dummyData.field;
-            var val = Number(row[field]);
+            const field = series.dummyData.field;
+            const val = Number(row[field]);
             row[field + "_low"] = sum;
             row[field + "_hi"] = sum + val;
             sum += val;
           });
 
           // Adjust values so they are centered
-          var offset = sum / 2;
+          const offset = sum / 2;
           chart.series.each(function (series) {
-            var field = series.dummyData.field;
+            const field = series.dummyData.field;
             row[field + "_low"] -= offset;
             row[field + "_hi"] -= offset;
           });

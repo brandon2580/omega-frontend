@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import "../../App.scss";
-import { Modal, Popover } from "antd";
+import {Modal, Popover} from "antd";
 import AutoSuggest from "react-autosuggest";
 import AddToLayoutButton from "./AddToLayoutButton";
 import Earnings from "../Cards/Earnings";
@@ -22,7 +22,7 @@ import InsiderTrading from "../Cards/InsiderTrading";
 import ComparingCEOPay from "../Cards/ComparingCEOPay";
 import CEOPayBreakdown from "../Cards/CEOPayBreakdown";
 
-import { InfoCircleOutlined } from "@ant-design/icons";
+import {InfoCircleOutlined} from "@ant-design/icons";
 
 const AddCardModal = (props) => {
   const [value, setValue] = useState("");
@@ -79,10 +79,10 @@ const AddCardModal = (props) => {
   return (
     <React.Fragment>
       <i
-        style={{ cursor: "pointer" }}
-        onClick={showModal}
-        className="fi-rr-apps-add top-nav-icon"
-      ></i>
+    style={{cursor: "pointer"}}
+    onClick={showModal}
+    className="fi-rr-apps-add top-nav-icon"
+    />
       <Modal
         title="Add Card"
         className="add-card-modal"
@@ -137,7 +137,7 @@ const AddCardModal = (props) => {
                         onClick={() =>
                           props.setAvailableCards((arr) =>
                             arr.map((item) =>
-                              item.id == card.id
+                              item.id === card.id
                                 ? { ...item, infoVisible: !item.infoVisible }
                                 : item
                             )

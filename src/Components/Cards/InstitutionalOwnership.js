@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
-import { Card } from "antd";
+import {Card} from "antd";
 import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_dark from "@amcharts/amcharts4/themes/dark";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 const InstitutionalOwnership = (props) => {
   const [chartData, setChartData] = useState([]);
@@ -38,9 +36,9 @@ const InstitutionalOwnership = (props) => {
     am4core.ready(function () {
 
 
-      var chart = am4core.create(
-        "institutionalownershipdiv",
-        am4charts.XYChart
+      const chart = am4core.create(
+          "institutionalownershipdiv",
+          am4charts.XYChart
       );
       chart.numberFormatter.numberFormat = "#a";
       chart.numberFormatter.bigNumberPrefixes = [
@@ -50,14 +48,14 @@ const InstitutionalOwnership = (props) => {
       ];
 
       // Create axes
-      var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+      const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       categoryAxis.dataFields.category = "entity";
       categoryAxis.visible = false;
 
-      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
       // Create series
-      var series1 = chart.series.push(new am4charts.ColumnSeries());
+      const series1 = chart.series.push(new am4charts.ColumnSeries());
       series1.dataFields.valueY = "shares_held";
       series1.dataFields.categoryX = "entity";
       series1.name = "Shares Held";
@@ -66,7 +64,7 @@ const InstitutionalOwnership = (props) => {
       series1.columns.template.fillOpacity = 0.8;
       series1.fill = am4core.color("#007bff");
 
-      var columnTemplate1 = series1.columns.template;
+      const columnTemplate1 = series1.columns.template;
       columnTemplate1.strokeWidth = 0;
 
       // Add a legend

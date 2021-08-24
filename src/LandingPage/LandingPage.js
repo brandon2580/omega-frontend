@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import uuid from "react-uuid";
+import React, {useState} from "react";
 import emailjs from "emailjs-com";
 import logo from "./images/logo.png";
 import fullLogo from "./images/fullLogo.png";
@@ -16,7 +15,7 @@ import "./css/themify-icons.css";
 import LoginButton from "../Auth/Buttons/LoginButton";
 import LogoutButton from "../Auth/Buttons/LogoutButton";
 
-import { useAuth0 } from "@auth0/auth0-react";
+import {useAuth0} from "@auth0/auth0-react";
 
 const LandingPage = () => {
   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
@@ -66,7 +65,7 @@ const LandingPage = () => {
                 aria-expanded="false"
                 aria-label="Toggle navigation"
               >
-                <span className="navbar-toggler-icon"></span>
+                <span className="navbar-toggler-icon"/>
               </button>
               <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">

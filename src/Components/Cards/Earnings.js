@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
-import { Card } from "antd";
+import {Card} from "antd";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_dark from "@amcharts/amcharts4/themes/dark";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import Loader from "react-loader-spinner";
 
 const Earnings = (props) => {
@@ -25,7 +23,7 @@ const Earnings = (props) => {
   }, [props.darkMode]);
 
   function getOccurrence(array, value) {
-    var count = 0;
+    let count = 0;
     array.forEach((v) => v === value && count++);
     return count;
   }
@@ -53,7 +51,7 @@ const Earnings = (props) => {
     ).then((res) => res.json());
 
     Promise.resolve(earnings).then((earnings) => {
-      if (earnings.earnings == undefined) {
+      if (earnings.earnings === undefined) {
         setIsLoading(false);
         return null;
       } else {
@@ -119,7 +117,7 @@ const Earnings = (props) => {
           setOverall("Underperforming");
         } else if (percentTimesBeat > 50) {
           setOverall("Outperforming");
-        } else if (percentTimesBeat == 50) {
+        } else if (percentTimesBeat === 50) {
           setOverall("Mixed");
         }
 
@@ -153,23 +151,23 @@ const Earnings = (props) => {
 
 
       // Create chart instance
-      var chart = am4core.create("earningsdiv", am4charts.XYChart);
+      const chart = am4core.create("earningsdiv", am4charts.XYChart);
       chart.numberFormatter.numberFormat = "$#,###";
 
       // Export
       chart.exporting.menu = new am4core.ExportMenu();
 
       /* Create axes */
-      var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+      const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
       categoryAxis.dataFields.category = "name";
       categoryAxis.renderer.minGridDistance = 30;
       categoryAxis.renderer.labels.template.fill = textColor;
       /* Create value axis */
-      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.renderer.labels.template.fill = textColor;
 
       /* Create series */
-      var columnSeries = chart.series.push(new am4charts.ColumnSeries());
+      const columnSeries = chart.series.push(new am4charts.ColumnSeries());
       columnSeries.name = "Actual";
       columnSeries.dataFields.valueY = "actual";
       columnSeries.dataFields.categoryX = "name";
@@ -184,7 +182,7 @@ const Earnings = (props) => {
       columnSeries.columns.template.propertyFields.fill = "color";
       columnSeries.tooltip.label.textAlign = "middle";
 
-      var lineSeries = chart.series.push(new am4charts.LineSeries());
+      const lineSeries = chart.series.push(new am4charts.LineSeries());
       lineSeries.name = "Expectation";
       lineSeries.dataFields.valueY = "consensus";
       lineSeries.dataFields.categoryX = "name";
@@ -194,11 +192,11 @@ const Earnings = (props) => {
       lineSeries.propertyFields.strokeDasharray = "lineDash";
       lineSeries.tooltip.label.textAlign = "middle";
 
-      var bullet = lineSeries.bullets.push(new am4charts.Bullet());
+      const bullet = lineSeries.bullets.push(new am4charts.Bullet());
       bullet.fill = am4core.color("orange"); // tooltips grab fill from parent by default
       bullet.tooltipText =
         "[#fff font-size: 15px]Expectation in {categoryX}:\n[/][#fff font-size: 20px]{valueY}/share[/] [#fff]{additional}[/]";
-      var circle = bullet.createChild(am4core.Circle);
+      const circle = bullet.createChild(am4core.Circle);
       circle.radius = 4;
       circle.fill = am4core.color("#fff");
       circle.strokeWidth = 3;

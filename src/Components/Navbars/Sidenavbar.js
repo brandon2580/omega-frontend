@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
-import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
-import {
-  HomeOutlined,
-  LineChartOutlined,
-  LayoutOutlined,
-} from "@ant-design/icons";
+import SideNav, {NavIcon, NavItem, NavText} from "@trendmicro/react-sidenav";
+import {HomeOutlined, LayoutOutlined,} from "@ant-design/icons";
 import db from "../../firebase";
-import firebase from "firebase/app";
 import "firebase/firestore";
 
 const Sidenavbar = (props) => {
@@ -48,8 +43,8 @@ const Sidenavbar = (props) => {
 
   useEffect(() => {
     setTimeout(() => {
-      var docRef = db.collection("user_dashboards").doc(props.userID);
-      docRef
+        const docRef = db.collection("user_dashboards").doc(props.userID);
+        docRef
         .get()
         .then((doc) => {
           if (doc.exists) {

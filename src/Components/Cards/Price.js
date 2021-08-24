@@ -1,7 +1,6 @@
-import React, { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import React, {useEffect, useLayoutEffect, useState} from "react";
 import "../../App.scss";
-import _ from "lodash";
-import { Card } from "antd";
+import {Card} from "antd";
 import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -89,21 +88,21 @@ const Price = (props) => {
   useEffect(() => {
     am4core.ready(function () {
 
-      var chart = am4core.create("line-div", am4charts.XYChart);
+      const chart = am4core.create("line-div", am4charts.XYChart);
 
       // Add data
       chart.data = areaSeries;
       chart.numberFormatter.numberFormat = "$#,###";
       // Create axes
-      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
       dateAxis.renderer.minGridDistance = 50;
       dateAxis.renderer.labels.template.fill = textColor;
 
-      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.renderer.labels.template.fill = textColor;
 
       // Create series
-      var series = chart.series.push(new am4charts.LineSeries());
+      const series = chart.series.push(new am4charts.LineSeries());
       series.dataFields.valueY = "y";
       series.dataFields.dateX = "x";
       series.strokeWidth = 2;
@@ -124,7 +123,7 @@ const Price = (props) => {
       chart.cursor.snapToSeries = series;
       series.fillOpacity = 1;
 
-      var fillModifier = new am4core.LinearGradientModifier();
+      const fillModifier = new am4core.LinearGradientModifier();
       fillModifier.opacities = [1, 0];
       fillModifier.offsets = [0, 1];
       fillModifier.gradient.rotation = 270;
@@ -136,17 +135,17 @@ const Price = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
-      var chart = am4core.create("candlestick-div", am4charts.XYChart);
+      const chart = am4core.create("candlestick-div", am4charts.XYChart);
       chart.paddingRight = 20;
       chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
 
-      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
       dateAxis.renderer.grid.template.location = 0;
 
-      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.tooltip.disabled = true;
 
-      var series = chart.series.push(new am4charts.CandlestickSeries());
+      const series = chart.series.push(new am4charts.CandlestickSeries());
       series.dataFields.dateX = "date";
       series.dataFields.valueY = "close";
       series.dataFields.openValueY = "open";
@@ -168,7 +167,7 @@ const Price = (props) => {
       chart.cursor = new am4charts.XYCursor();
 
       // a separate series for scrollbar
-      var lineSeries = chart.series.push(new am4charts.LineSeries());
+      const lineSeries = chart.series.push(new am4charts.LineSeries());
       lineSeries.dataFields.dateX = "date";
       lineSeries.dataFields.valueY = "close";
       // need to set on default state, as initially series is "show"
@@ -206,7 +205,7 @@ const Price = (props) => {
         />
       </Card>
     );
-  } else if (view == "area") {
+  } else if (view === "area") {
     return (
       <Card
         className="hide-overflow price-card"
@@ -284,7 +283,7 @@ const Price = (props) => {
         </div>
       </Card>
     );
-  } else if (view == "candlestick") {
+  } else if (view === "candlestick") {
     return (
       <Card
         className="hide-overflow price-card"

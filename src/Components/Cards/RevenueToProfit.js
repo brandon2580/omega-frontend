@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
-import { Card } from "antd";
+import {Card} from "antd";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_dataviz from "@amcharts/amcharts4/themes/dataviz";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import Loader from "react-loader-spinner";
 
 const RevenueToProfit = (props) => {
@@ -40,12 +38,12 @@ const RevenueToProfit = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
-      var chart = am4core.create("revenuetoprofitdiv", am4charts.XYChart);
+        const chart = am4core.create("revenuetoprofitdiv", am4charts.XYChart);
 
-      chart.data = chartData;
+        chart.data = chartData;
 
-      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-      dateAxis.renderer.minGridDistance = 60;
+        const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+        dateAxis.renderer.minGridDistance = 60;
       dateAxis.startLocation = 0.5;
       dateAxis.endLocation = 0.5;
 
@@ -56,13 +54,13 @@ const RevenueToProfit = (props) => {
         { number: 1e9, suffix: "B" },
       ];
 
-      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-      valueAxis.tooltip.disabled = true;
+        const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+        valueAxis.tooltip.disabled = true;
       valueAxis.renderer.labels.template.fill = textColor;
       dateAxis.renderer.labels.template.fill = textColor;
 
-      var series1 = chart.series.push(new am4charts.LineSeries());
-      series1.name = "Revenue";
+        const series1 = chart.series.push(new am4charts.LineSeries());
+        series1.name = "Revenue";
       series1.dataFields.dateX = "date";
       series1.dataFields.valueY = "revenue";
       series1.tooltipText = "[#000]{valueY.value}[/]";
@@ -76,8 +74,8 @@ const RevenueToProfit = (props) => {
       series1.fillOpacity = 0.6;
       series1.strokeWidth = 2;
 
-      var series2 = chart.series.push(new am4charts.LineSeries());
-      series2.name = "Profit";
+        const series2 = chart.series.push(new am4charts.LineSeries());
+        series2.name = "Profit";
       series2.dataFields.dateX = "date";
       series2.dataFields.valueY = "profit";
       series2.tooltipText = "[#000]{valueY.value}[/]";

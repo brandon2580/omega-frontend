@@ -235,7 +235,7 @@ header .row { align-items: center; display: flex; height: auto;}
 .hero-bottom-img img { border: 30px solid #0b0b0c; border-radius: 20px; max-width: 90%; margin: 0 5% -100px;}
 
 /* hero style 27 */
-.logo-area {width: 100%; opacity: 1; bottom: 0px;}
+.logo-area {width: 100%; opacity: 1; bottom: 0;}
 
 /* ===================================
     Slider
@@ -534,14 +534,14 @@ header .row { align-items: center; display: flex; height: auto;}
     Subscribe
 ====================================== */
 
-.subscribe-style1 input { margin: 0 0 0 0px; padding: 8px 45px 9px 20px !important; width: 430px; border-color: #fff;}
+.subscribe-style1 input { margin: 0 0 0 0; padding: 8px 45px 9px 20px !important; width: 430px; border-color: #fff;}
 .subscribe-style1 input:focus, .subscribe-style1 select:focus { border-color: #fff;}
 .subscribe-style1 a { height: auto; line-height: normal !important; position: absolute; right: 15px; top: 5px; vertical-align: top;}
 .subscribe-style1 a .fa { line-height: normal !important; }
 .subscribe-style1 a:hover { opacity: 0.8;}
 
 /* subscribe-style4 */
-.subscribe-style4 input { margin: 0 0 0 0px; padding:8px 40px 9px 20px !important; border-radius: 4px; font-size:13px !important}
+.subscribe-style4 input { margin: 0 0 0 0; padding:8px 40px 9px 20px !important; border-radius: 4px; font-size:13px !important}
 .subscribe-style4 input:focus, .subscribe-style1 select:focus { border: 1px solid rgba(0, 0, 0, 0.5) !important;}
 .subscribe-style4 a { height: auto; line-height: normal !important; position: absolute; right: 15px; top: 10px;}
 .subscribe-style4 a .fa { vertical-align: top; line-height: normal !important; }
@@ -599,7 +599,7 @@ footer .social-icon a:last-child{ margin-right:0;}
 
 /* testimonial style 5 */
 .testimonial-style5 .testimonial  {padding-left:15px; }
-.testimonial-style5 .testimonial:before { content:"\f10d"; font-family:'FontAwesome'; line-height: 44px;  position: absolute; left: 0px; font-size: 14px; top: -7px; color: #282828 }
+.testimonial-style5 .testimonial:before { content:"\f10d"; font-family:'FontAwesome'; line-height: 44px;  position: absolute; left: 0; font-size: 14px; top: -7px; color: #282828 }
 
 /* testimonial style 7 */
 .testimonial-style7 i { margin:0 2px}

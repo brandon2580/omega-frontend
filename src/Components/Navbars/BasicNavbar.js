@@ -1,8 +1,8 @@
 import React from "react";
 import "../../App.scss";
 import logo from "./images/logo.png";
-import { useHistory } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import {useHistory} from "react-router-dom";
+import {useAuth0} from "@auth0/auth0-react";
 
 const BasicNavbar = () => {
   const { isAuthenticated, user } = useAuth0();
@@ -27,7 +27,7 @@ const BasicNavbar = () => {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span className="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"/>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarNav">

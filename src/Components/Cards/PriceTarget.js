@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
-import _ from "lodash";
-import { Card } from "antd";
+import {Card} from "antd";
 import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_dark from "@amcharts/amcharts4/themes/dark";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import moment from "moment";
+
 const PriceTarget = (props) => {
   const [chartData, setChartData] = useState([]);
   const [futureDateOneYear, setFutureDateOneYear] = useState("");
@@ -59,10 +56,10 @@ const PriceTarget = (props) => {
       ];
 
       function getFormattedDate(date) {
-        var d = new Date(date),
-          month = "" + (d.getMonth() + 1),
-          day = "" + d.getDate(),
-          year = d.getFullYear();
+        const d = new Date(date);
+        let month = "" + (d.getMonth() + 1),
+            day = "" + d.getDate();
+        const year = d.getFullYear();
 
         if (month.length < 2) month = "0" + month;
         if (day.length < 2) day = "0" + day;
@@ -118,7 +115,7 @@ const PriceTarget = (props) => {
     am4core.ready(function () {
 
       // Create chart instance
-      var chart = am4core.create("pricetargetdiv", am4charts.XYChart);
+      const chart = am4core.create("pricetargetdiv", am4charts.XYChart);
 
       // Enable chart cursor
       chart.cursor = new am4charts.XYCursor();
@@ -130,7 +127,7 @@ const PriceTarget = (props) => {
       chart.numberFormatter.numberFormat = "$#,###";
 
       // Create axes
-      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
       dateAxis.renderer.grid.template.location = 0.5;
       dateAxis.dateFormatter.inputDateFormat = "yyyy-MM-dd";
       dateAxis.renderer.minGridDistance = 40;
@@ -138,11 +135,11 @@ const PriceTarget = (props) => {
       dateAxis.dateFormats.setKey("day", "dd");
       dateAxis.renderer.labels.template.fill = textColor;
 
-      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.renderer.labels.template.fill = textColor;
 
       // Create series
-      var series = chart.series.push(new am4charts.LineSeries());
+      const series = chart.series.push(new am4charts.LineSeries());
       series.tooltipText = "{date}\n[bold font-size: 17px]{valueY}[/]";
       series.dataFields.valueY = "value";
       series.dataFields.dateX = "date";
@@ -150,7 +147,7 @@ const PriceTarget = (props) => {
       series.propertyFields.fill = "color";
 
       function createTrendLine(data) {
-        var trend = chart.series.push(new am4charts.LineSeries());
+        const trend = chart.series.push(new am4charts.LineSeries());
         trend.dataFields.valueY = "value";
         trend.dataFields.dateX = "date";
         trend.strokeDasharray = 3;
@@ -160,13 +157,13 @@ const PriceTarget = (props) => {
         trend.propertyFields.fill = "color";
         trend.data = data;
 
-        var bullet = trend.bullets.push(new am4charts.CircleBullet());
+        const bullet = trend.bullets.push(new am4charts.CircleBullet());
         bullet.tooltipText = "{date}\n[bold font-size: 17px]{valueY}[/]";
         bullet.strokeWidth = 2;
         bullet.propertyFields.stroke = "color";
         bullet.propertyFields.fill = "color";
 
-        var hoverState = bullet.states.create("hover");
+        const hoverState = bullet.states.create("hover");
         hoverState.properties.scale = 1.7;
 
         return trend;

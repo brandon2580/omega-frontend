@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import "../../App.scss";
-import { Modal, Alert, Popover } from "antd";
+import {Alert, Modal} from "antd";
 import CopyToClipboard from "react-copy-to-clipboard";
 import db from "../../firebase";
-import firebase from "firebase/app";
 import "firebase/firestore";
 
 const ShareLayoutModal = (props) => {
@@ -54,10 +53,10 @@ const ShareLayoutModal = (props) => {
   return (
     <React.Fragment>
       <i
-        style={{ cursor: "pointer" }}
-        onClick={showModal}
-        className="fi-rr-share top-nav-icon"
-      ></i>
+    style={{cursor: "pointer"}}
+    onClick={showModal}
+    className="fi-rr-share top-nav-icon"
+    />
       <Modal
         title="Share"
         className="share-layout-modal"

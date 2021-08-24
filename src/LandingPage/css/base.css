@@ -81,7 +81,7 @@ video {
 }
 ul,
 ol {
-  margin: 0px;
+  margin: 0;
 }
 /* input, button, button:focus {outline: 0;}
 input, textarea, select{ border: 1px solid #dfdfdf; font-size: 11px;  padding: 8px 15px; width: 100%; margin: 0 0 20px 0; max-width: 100%; resize: none;}
@@ -101,7 +101,7 @@ object {
   max-width: 100%;
 }
 iframe {
-  border-width: 0px;
+  border-width: 0;
 }
 ul.circle {
   list-style-type: circle;
@@ -345,7 +345,7 @@ dl {
   letter-spacing: -6px !important;
 }
 .no-letter-spacing {
-  letter-spacing: 0px;
+  letter-spacing: 0;
 }
 
 /* font weight */
@@ -448,7 +448,7 @@ dl {
   line-height: inherit !important;
 }
 .line-height-0 {
-  line-height: 0px !important;
+  line-height: 0 !important;
 }
 
 /* text property */
@@ -1324,7 +1324,7 @@ dl {
   border-right: 0 !important;
 }
 .border-radius-0 {
-  border-radius: 0px !important;
+  border-radius: 0 !important;
 }
 .border-radius-2 {
   border-radius: 2px !important;

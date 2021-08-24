@@ -44,7 +44,7 @@ a:focus {outline: none; }
 img { max-width:100%; height:auto; -webkit-backface-visibility: hidden; }
 p {margin:0 0 22px 0}
 video { background-size: cover; display: table-cell; vertical-align: middle; width: 100%; }
-ul, ol{ margin: 0px; }
+ul, ol{ margin: 0; }
 input, button, button:focus {outline: 0;}
 input, textarea, select{ border: 1px solid #dfdfdf; font-size: 11px;  padding: 8px 15px; width: 100%; margin: 0 0 20px 0; max-width: 100%; resize: none;}
 input[type="submit"] { width: auto}
@@ -54,7 +54,7 @@ input[type="submit"]:focus { border:none !important}
 select::-ms-expand{ display:none;}
 iframe { border: 0;}
 iframe, embed, object { max-width: 100%; }
-iframe{ border-width: 0px; }
+iframe{ border-width: 0; }
 ul.circle {list-style-type: circle;}
 ul.square {list-style-type: square;}
 ol.upper-roman {list-style-type: upper-roman;}
@@ -139,7 +139,8 @@ h6 { font-size:18px; line-height:23px}
 .letter-spacing-minus-4{ letter-spacing: -4px !important;}
 .letter-spacing-minus-5{ letter-spacing: -5px !important;}
 .letter-spacing-minus-6{ letter-spacing: -6px !important;}
-.no-letter-spacing { letter-spacing: 0px}
+.no-letter-spacing { letter-spacing: 0
+}
 
 /* font weight */
 .font-weight-100 { font-weight:100 !important;}
@@ -176,7 +177,7 @@ h6 { font-size:18px; line-height:23px}
 .line-height-90{ line-height: 90px !important;}
 .line-height-normal {line-height: normal !important}
 .line-height-inherit {line-height: inherit !important}
-.line-height-0{ line-height: 0px !important;}
+.line-height-0{ line-height: 0 !important;}
 
 /* text property */
 .text-transform { text-transform:uppercase}
@@ -451,7 +452,7 @@ h6 { font-size:18px; line-height:23px}
 .border-bottom-none {border-bottom:0 !important}
 .border-left-none {border-left:0 !important}
 .border-right-none {border-right:0 !important}
-.border-radius-0 {border-radius: 0px !important;}
+.border-radius-0 {border-radius: 0 !important;}
 .border-radius-2 {border-radius: 2px !important;}
 .border-radius-3 {border-radius: 3px !important;}
 .border-radius-4 {border-radius: 4px !important;}

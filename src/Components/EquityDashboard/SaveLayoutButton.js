@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Modal, Popover } from "antd";
-import { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
-import { LayoutOutlined } from "@ant-design/icons";
+import React, {useState} from "react";
+import {Modal} from "antd";
+import {NavIcon, NavItem, NavText} from "@trendmicro/react-sidenav";
+import {LayoutOutlined} from "@ant-design/icons";
 import db from "../../firebase";
 import "firebase/firestore";
 
@@ -29,9 +29,9 @@ const SaveLayoutButton = (props) => {
     props.setNewLayoutName(layoutName);
 
     setTimeout(() => {
-      var docRef = db.collection("user_dashboards").doc(props.userID);
+        const docRef = db.collection("user_dashboards").doc(props.userID);
 
-      docRef
+        docRef
         .get()
         .then((doc) => {
           if (doc.exists) {
@@ -67,10 +67,10 @@ const SaveLayoutButton = (props) => {
   return (
     <React.Fragment>
       <i
-        style={{ cursor: "pointer" }}
-        onClick={showModal}
-        className="fi-rr-disk top-nav-icon"
-      ></i>
+    style={{cursor: "pointer"}}
+    onClick={showModal}
+    className="fi-rr-disk top-nav-icon"
+    />
       <Modal
         title="Save Layout"
         className="save-layout-modal"

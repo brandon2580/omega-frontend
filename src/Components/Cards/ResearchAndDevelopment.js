@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
-import { Card, Menu, Dropdown } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import {Card} from "antd";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_dark from "@amcharts/amcharts4/themes/dark";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import Loader from "react-loader-spinner";
 
 const ResearchAndDevelopment = (props) => {
@@ -43,9 +40,9 @@ const ResearchAndDevelopment = (props) => {
 
 
       // Create chart instance
-      var chart = am4core.create(
-        "researchanddevelopmentdiv",
-        am4charts.XYChart
+      const chart = am4core.create(
+          "researchanddevelopmentdiv",
+          am4charts.XYChart
       );
 
       // Add data
@@ -57,15 +54,15 @@ const ResearchAndDevelopment = (props) => {
         { number: 1e9, suffix: "B" },
       ];
       // Create axes
-      var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
       dateAxis.renderer.minGridDistance = 50;
       dateAxis.renderer.labels.template.fill = textColor;
 
-      var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
       valueAxis.renderer.labels.template.fill = textColor;
 
       // Create series
-      var series = chart.series.push(new am4charts.LineSeries());
+      const series = chart.series.push(new am4charts.LineSeries());
       series.dataFields.valueY = "y";
       series.dataFields.dateX = "x";
       series.strokeWidth = 2;

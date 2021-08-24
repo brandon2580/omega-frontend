@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
-import { Card } from "antd";
+import {Card} from "antd";
 import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
-import am4themes_dark from "@amcharts/amcharts4/themes/dark";
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 
 const CorrelatedMarkets = (props) => {
   const [chartData, setChartData] = useState();
@@ -44,9 +42,9 @@ const CorrelatedMarkets = (props) => {
   useEffect(() => {
     am4core.ready(function () {
 
-      var chart = am4core.create("correlatedmarketsdiv", am4charts.XYChart);
+      const chart = am4core.create("correlatedmarketsdiv", am4charts.XYChart);
 
-      var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+      const categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
       categoryAxis.renderer.grid.template.location = 0;
       categoryAxis.dataFields.category = "sector";
       categoryAxis.renderer.minGridDistance = 1;
@@ -54,10 +52,10 @@ const CorrelatedMarkets = (props) => {
       categoryAxis.renderer.grid.template.disabled = true;
       categoryAxis.renderer.labels.template.fill = textColor;
 
-      var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+      const valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
       valueAxis.renderer.labels.template.fill = textColor;
 
-      var series = chart.series.push(new am4charts.ColumnSeries());
+      const series = chart.series.push(new am4charts.ColumnSeries());
       series.dataFields.categoryY = "sector";
       series.dataFields.valueX = "value";
       series.tooltipText = "{valueX.value}";
@@ -65,7 +63,7 @@ const CorrelatedMarkets = (props) => {
       series.columns.template.column.cornerRadiusBottomRight = 5;
       series.columns.template.column.cornerRadiusTopRight = 5;
 
-      var labelBullet = series.bullets.push(new am4charts.LabelBullet());
+      const labelBullet = series.bullets.push(new am4charts.LabelBullet());
       labelBullet.label.horizontalCenter = "left";
       labelBullet.label.dx = 10;
       labelBullet.locationX = 1;

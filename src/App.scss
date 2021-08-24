@@ -35,7 +35,7 @@ body.dark-mode {
 }
 
 .ant-card-bordered {
-  border: 0px !important;
+  border: 0 !important;
 }
 
 .ant-card-header {
@@ -419,7 +419,7 @@ body.dark-mode .error-message {
 
 .explore-header,
 .feedback-header {
-  margin-bottom: 0px !important;
+  margin-bottom: 0 !important;
 }
 
 body.dark-mode .feedback-subheader {
@@ -486,7 +486,7 @@ body.light-mode .feedback-subheader {
 }
 
 .ant-modal-header {
-  border-radius: 0px !important;
+  border-radius: 0 !important;
 }
 
 .ant-popover {
@@ -498,7 +498,7 @@ body.dark-mode .ant-popover-inner-content {
 }
 
 .ant-modal-footer {
-  border-radius: 0px !important;
+  border-radius: 0 !important;
 }
 
 .add-card-container {
@@ -658,7 +658,7 @@ body.light-mode .ticker-dropdown-item {
 }
 
 .ant-card-head {
-  border-bottom: 0px !important;
+  border-bottom: 0 !important;
   margin-bottom: -20px !important;
 }
 
@@ -763,6 +763,10 @@ body.dark-mode .navbar-popover-text {
 }
 
 .compare-returns-overall {
+  font-size: large;
+}
+
+.compare-ceo-pay{
   font-size: large;
 }
 
@@ -943,7 +947,7 @@ body.light-mode .dashboard-nav-button {
   height: 900px;
   content: "";
   border-radius: 100%;
-  box-shadow: 0px 0px 30px -4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 30px -4px rgba(0, 0, 0, 0.5);
 }
 
 .moon__crater {
@@ -1082,7 +1086,7 @@ body.light-mode .dashboard-nav-button {
 }
 
 .error__button--active:hover {
-  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
   color: white;
 }
 

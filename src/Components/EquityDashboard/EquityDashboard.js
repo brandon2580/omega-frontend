@@ -1,27 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useStorageState } from "../../hooks/useStorageState";
+import React, {useEffect, useRef, useState} from "react";
+import {useStorageState} from "../../hooks/useStorageState";
 import _ from "lodash";
 import "../../App.scss";
 import "@trendmicro/react-sidenav/dist/react-sidenav.css";
-import Tour from "reactour";
-import { Responsive, WidthProvider } from "react-grid-layout";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-} from "react-router-dom";
-import { useHistory } from "react-router";
-import { hotjar } from "react-hotjar";
+import {Responsive, WidthProvider} from "react-grid-layout";
+import {useParams,} from "react-router-dom";
+import {useHistory} from "react-router";
 import uuid from "react-uuid";
-import {
-  ArrowLeftOutlined,
-  ArrowRightOutlined,
-  CloseCircleOutlined,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
-import { Popover } from "antd";
+import {CloseCircleOutlined, InfoCircleOutlined,} from "@ant-design/icons";
+import {Popover} from "antd";
 import Loader from "react-loader-spinner";
 import Earnings from "../Cards/Earnings";
 import AnalystRecommendations from "../Cards/AnalystRecommendations";
@@ -46,7 +33,7 @@ import InsiderTrading from "../Cards/InsiderTrading";
 import ComparingCEOPay from "../Cards/ComparingCEOPay";
 import CEOPayBreakdown from "../Cards/CEOPayBreakdown";
 import * as am4core from "@amcharts/amcharts4/core";
-import { useAuth0 } from "@auth0/auth0-react";
+import {useAuth0} from "@auth0/auth0-react";
 import db from "../../firebase";
 import firebase from "firebase/app";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
@@ -147,7 +134,7 @@ const HomeDashboard = (props) => {
 
             keys.forEach((key) => {
               let split = key.split(" ").join("_");
-              if (split == dashboardID) {
+              if (split === dashboardID) {
                 // If a layout was selected from the Sidenavbar, turn the item dashboard from firebase into an array,
                 let mappedLayoutIndex = Object.values(values[key]).flatMap(
                   (card) => {
@@ -182,7 +169,7 @@ const HomeDashboard = (props) => {
 
             keys.forEach((key) => {
               let split = key.split(" ").join("_");
-              if (split == dashboardID) {
+              if (split === dashboardID) {
                 // If a layout was selected from the Sidenavbar, turn the item dashboard from firebase into an array,
                 let mappedLayoutIndex = Object.values(values[key]).flatMap(
                   (card) => {
@@ -214,7 +201,7 @@ const HomeDashboard = (props) => {
   // Gets the name of the currently selected layout. We use this info for when the user wants
   // to share a layout to the Explore page. This way, each layout is labeled.
   useEffect(() => {
-    var docRef = db.collection("user_dashboards").doc(userID);
+    const docRef = db.collection("user_dashboards").doc(userID);
     docRef.get().then((doc) => {
       if (doc.exists) {
         let mapped = Object.values(doc.data().dashboards).flatMap((el, i) => {
@@ -236,7 +223,7 @@ const HomeDashboard = (props) => {
       initialRender.current = false;
     } else {
       if (isAuthenticated) {
-        var docRef = db.collection("user_dashboards").doc(userID);
+        const docRef = db.collection("user_dashboards").doc(userID);
         docRef
           .get()
           .then((doc) => {
@@ -280,7 +267,7 @@ const HomeDashboard = (props) => {
                 setWasTaken(false);
               } else {
                 setWasTaken(true);
-                return;
+
               }
             } else {
               console.log("No such document!");
@@ -443,7 +430,7 @@ const HomeDashboard = (props) => {
     ComparingCEOPay
   };
 
-  var layout = { lg: value === true ? mainLayout : mainLayout };
+  const layout = { lg: value === true ? mainLayout : mainLayout };
 
   // Display a loading icon while the page is loading. Check if the user
   // is authenticated. If true, load the page. Otherwise, prompt them to login.
@@ -610,7 +597,7 @@ const HomeDashboard = (props) => {
                       onClick={() =>
                         props.setAvailableCards((arr) =>
                           arr.map((item) =>
-                            item.id == card.id
+                            item.id === card.id
                               ? { ...item, infoVisible: !item.infoVisible }
                               : item
                           )
