@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
-import { Card } from "antd";
+import {Card} from "antd";
 import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -28,9 +28,13 @@ const CEOPayBreakdown = (props) => {
       });
 
       let values = Object.values(ceo_pay.comp).map((el, i) => {
+        function capitalizeFirstLetter(string) {
+          return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
         return {
           value: el,
-          name: Object.values(properties)[i],
+          name: capitalizeFirstLetter(Object.values(properties)[i].replace(/([A-Z])/g, ' $1').trim()),
         };
       });
 
@@ -43,7 +47,7 @@ const CEOPayBreakdown = (props) => {
   useEffect(() => {
     am4core.ready(function () {
       // Create chart instance
-      var chart = am4core.create("ceo-pay-breakdown-div", am4charts.PieChart);
+      const chart = am4core.create("ceo-pay-breakdown-div", am4charts.PieChart);
 
       chart.numberFormatter.numberFormat = "$#a";
       chart.numberFormatter.bigNumberPrefixes = [
@@ -53,7 +57,7 @@ const CEOPayBreakdown = (props) => {
       ];
 
       // Add and configure Series
-      var pieSeries = chart.series.push(new am4charts.PieSeries());
+      const pieSeries = chart.series.push(new am4charts.PieSeries());
       pieSeries.dataFields.value = "value";
       pieSeries.dataFields.category = "name";
 
@@ -65,22 +69,22 @@ const CEOPayBreakdown = (props) => {
       pieSeries.labels.template.disabled = true;
 
       // Create a base filter effect (as if it's not there) for the hover to return to
-      var shadow = pieSeries.slices.template.filters.push(
-        new am4core.DropShadowFilter()
+      const shadow = pieSeries.slices.template.filters.push(
+          new am4core.DropShadowFilter()
       );
       shadow.opacity = 0;
 
       // Create hover state
-      var hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
+      const hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
 
       // Slightly shift the shadow and make it more prominent on hover
-      var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter());
+      const hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter());
       hoverShadow.opacity = 0.7;
       hoverShadow.blur = 5;
 
-      // Add a legend
-      chart.legend = new am4charts.Legend();
-      chart.svgContainer.measure();
+      // // Add a legend
+      // chart.legend = new am4charts.Legend();
+      // chart.svgContainer.measure();
 
       // Get series data and set it
       chart.data = chartSeries;
