@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
-import { Card } from "antd";
+import {Card} from "antd";
 import Loader from "react-loader-spinner";
 import ReactApexChart from "react-apexcharts";
 
@@ -85,6 +85,9 @@ const Risk = (props) => {
   let options = {
     chart: {
       type: "bubble",
+      animations: {
+        enabled: false
+      },
       height: 350,
       toolbar: {
         show: false,

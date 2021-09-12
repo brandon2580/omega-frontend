@@ -23,16 +23,21 @@ const RevenueToProfit = (props) => {
     ).then((res) => res.json());
 
     Promise.resolve(income_statement).then((data) => {
-      let dataArray = data.income.map((el, i) => {
-        return {
-          date: el.fiscalDate,
-          revenue: el.totalRevenue,
-          profit: el.netIncome,
-        };
-      });
-      dataArray.reverse();
-      setChartData(dataArray);
-      setIsLoading(false);
+      if (data[0] == undefined) {
+        return null
+      } else {
+        let dataArray = data.income.map((el, i) => {
+          return {
+            date: el.fiscalDate,
+            revenue: el.totalRevenue,
+            profit: el.netIncome,
+          };
+        });
+        dataArray.reverse();
+        setChartData(dataArray);
+        setIsLoading(false);
+      }
+
     });
   }, [props.activeTicker]);
 

@@ -21,8 +21,6 @@ const CEOPayBreakdown = (props) => {
     ).then((res) => res.json());
 
     Promise.resolve(ceo_pay).then((ceo_pay) => {
-      console.log(ceo_pay);
-
       let properties = Object.keys(ceo_pay.comp).map((el) => {
         return el;
       });
@@ -39,7 +37,6 @@ const CEOPayBreakdown = (props) => {
       });
 
       setChartSeries(values);
-      console.log(values);
       setIsLoading(false);
     });
   }, [props.activeTicker]);
@@ -65,8 +62,7 @@ const CEOPayBreakdown = (props) => {
       chart.innerRadius = am4core.percent(55);
       pieSeries.slices.template.propertyFields.fill = "color";
 
-      // Remove ugly labels
-      pieSeries.labels.template.disabled = true;
+      pieSeries.labels.template.disabled = false;
 
       // Create a base filter effect (as if it's not there) for the hover to return to
       const shadow = pieSeries.slices.template.filters.push(
@@ -82,12 +78,13 @@ const CEOPayBreakdown = (props) => {
       hoverShadow.opacity = 0.7;
       hoverShadow.blur = 5;
 
-      // // Add a legend
-      // chart.legend = new am4charts.Legend();
-      // chart.svgContainer.measure();
-
       // Get series data and set it
       chart.data = chartSeries;
+      pieSeries.labels.template.fontSize = 14;
+      pieSeries.labels.template.maxWidth = 90;
+      pieSeries.labels.template.wrap = true;
+      pieSeries.alignLabels = false;
+      pieSeries.labels.template.text = "{category}";
     });
   }, [chartSeries, isLoading, textColor]);
 
@@ -125,12 +122,6 @@ const CEOPayBreakdown = (props) => {
         <hr className="card-hr" />
         <React.Fragment>
           <div style={{ height: 440 }} id="ceo-pay-breakdown-div" />
-
-          {/* <div className="row">
-            <p className="compare-returns-overall center">
-              Overall: <span className="blue"></span>
-            </p>
-          </div> */}
         </React.Fragment>
       </Card>
     );

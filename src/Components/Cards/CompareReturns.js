@@ -33,13 +33,9 @@ const CompareReturns = (props) => {
                 if (peer_name !== "peerAvg") return peer_name;
             });
 
-            if (
-                compare_returns.returns[props.activeTicker] > compare_returns.peerAvg
-            ) {
+            if (compare_returns.returns[props.activeTicker] > compare_returns.peerAvg) {
                 setPerformanceStatus("Outperforming");
-            } else if (
-                compare_returns.returns[props.activeTicker] < compare_returns.peerAvg
-            ) {
+            } else if (compare_returns.returns[props.activeTicker] < compare_returns.peerAvg) {
                 setPerformanceStatus("Underperforming");
             } else {
                 setPerformanceStatus("Equal");
@@ -50,12 +46,16 @@ const CompareReturns = (props) => {
                     return el;
                 });
 
-                return {
-                    stock: name,
-                    return: returnsMap[i].toFixed(2),
-                    avg_competitor_return: compare_returns.peerAvg.toFixed(2),
-                    color: "#007bff",
-                };
+                if (returnsMap === "No peers to compare") {
+                    return null
+                } else {
+                    return {
+                        stock: name,
+                        return: returnsMap[i].toFixed(2),
+                        avg_competitor_return: compare_returns.peerAvg.toFixed(2),
+                        color: "#007bff",
+                    };
+                }
             });
 
             setChartSeries(data);
@@ -175,24 +175,10 @@ const CompareReturns = (props) => {
                         <div className="col-lg-4">
                             <button
                                 className="range-button btn btn-link btn-sm shadow-none"
-                                value="5y"
+                                value="ytd"
                                 onClick={changeTimeFrame}
                             >
-                                5y
-                            </button>
-                            <button
-                                className="range-button btn btn-link btn-sm shadow-none"
-                                value="2y"
-                                onClick={changeTimeFrame}
-                            >
-                                2y
-                            </button>
-                            <button
-                                className="range-button btn btn-link btn-sm shadow-none"
-                                value="1y"
-                                onClick={changeTimeFrame}
-                            >
-                                1y
+                                ytd
                             </button>
                             <button
                                 className="range-button btn btn-link btn-sm shadow-none"
@@ -203,11 +189,26 @@ const CompareReturns = (props) => {
                             </button>
                             <button
                                 className="range-button btn btn-link btn-sm shadow-none"
-                                value="ytd"
+                                value="1y"
                                 onClick={changeTimeFrame}
                             >
-                                ytd
+                                1y
                             </button>
+                            <button
+                                className="range-button btn btn-link btn-sm shadow-none"
+                                value="2y"
+                                onClick={changeTimeFrame}
+                            >
+                                2y
+                            </button>
+                            <button
+                                className="range-button btn btn-link btn-sm shadow-none"
+                                value="5y"
+                                onClick={changeTimeFrame}
+                            >
+                                5y
+                            </button>
+
                         </div>
 
                         <p className="compare-returns-overall center">

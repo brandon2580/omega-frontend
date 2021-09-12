@@ -26,19 +26,23 @@ const CustomFundamentals = (props) => {
     ).then((res) => res.json());
 
     Promise.resolve(balance_sheet).then((data) => {
-      let dataArray = data.balancesheet.map((el, i) => {
-        return el;
-      });
-      dataArray.reverse();
+      if (data[0] == undefined) {
+        return null
+      } else {
+        let dataArray = data.balancesheet.map((el, i) => {
+          return el;
+        });
+        dataArray.reverse();
 
-      let listArray = data.balancesheet.map((el, i) => {
-        return Object.keys(el);
-      });
-      listArray.reverse();
+        let listArray = data.balancesheet.map((el, i) => {
+          return Object.keys(el);
+        });
+        listArray.reverse();
 
-      setAvailableData(dataArray);
-      setList(listArray);
-      setIsLoading(false);
+        setAvailableData(dataArray);
+        setList(listArray);
+        setIsLoading(false);
+      }
     });
   }, [props.activeTicker]);
 
@@ -125,7 +129,7 @@ const CustomFundamentals = (props) => {
         <React.Fragment>
           <div style={{ height: 456 }} id="customfundamentalsdiv" />
           <p>
-            List:{" "}
+            List:
             {list.map((el, i) => {
               return (
                 <button

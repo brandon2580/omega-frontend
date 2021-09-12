@@ -37,7 +37,6 @@ const ComparingCEOPay = (props) => {
             });
 
             setChartSeries(values);
-            console.log(ceo_pay)
 
             if (ceo_pay.peers[props.activeTicker] > ceo_pay.peerAvg) {
                 setOverall("Above Average");
@@ -54,7 +53,6 @@ const ComparingCEOPay = (props) => {
     useEffect(() => {
         am4core.ready(function () {
             const chart = am4core.create("compare-ceo-div", am4charts.XYChart);
-
 
             chart.data = chartSeries;
             chart.numberFormatter.numberFormat = "$#a";
@@ -122,6 +120,8 @@ const ComparingCEOPay = (props) => {
             chart.legend = new am4charts.Legend();
             chart.legend.labels.template.fill = textColor;
             chart.legend.useDefaultMarker = true;
+            lineSeries.legendSettings.labelText = "Average CEO Pay"
+            columnSeries.legendSettings.labelText = "CEO Pay"
         });
     }, [chartSeries, isLoading, textColor]);
 

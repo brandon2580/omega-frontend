@@ -13,9 +13,7 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-  <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/stocktools/gui.css">
-  <link rel="stylesheet" type="text/css" href="https://code.highcharts.com/css/annotations/popup.css">
-  
+
   <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -26,9 +24,6 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <script src="//www.amcharts.com/lib/4/themes/animated.js"></script>
-
-  <!-- Plotly import -->
-  <script crossorigin src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
   <!-- Ubuntu font -->
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet" />
@@ -61,21 +56,22 @@
 
       function setClassOnDocumentBody(darkMode) {
         document.body.classList.add(
-          darkMode ? classNameDark : classNameLight
+                darkMode ? classNameDark : classNameLight
         );
         document.body.classList.remove(
-          darkMode ? classNameLight : classNameDark
+                darkMode ? classNameLight : classNameDark
         );
       }
 
-      var preferDarkQuery = "(prefers-color-scheme: dark)";
-      var mql = window.matchMedia(preferDarkQuery);
-      var supportsColorSchemeQuery = mql.media === preferDarkQuery;
-      var localStorageTheme = null;
+      const preferDarkQuery = "(prefers-color-scheme: dark)";
+      const mql = window.matchMedia(preferDarkQuery);
+      const supportsColorSchemeQuery = mql.media === preferDarkQuery;
+      let localStorageTheme = null;
       try {
         localStorageTheme = localStorage.getItem("darkMode");
-      } catch (err) { }
-      var localStorageExists = localStorageTheme !== null;
+      } catch (err) {
+      }
+      const localStorageExists = localStorageTheme !== null;
       if (localStorageExists) {
         localStorageTheme = JSON.parse(localStorageTheme);
       }
@@ -90,7 +86,7 @@
         localStorage.setItem("darkMode", mql.matches);
       } else {
         // source of truth from document.body
-        var isDarkMode = document.body.classList.contains(classNameDark);
+        const isDarkMode = document.body.classList.contains(classNameDark);
         localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
       }
     })();
