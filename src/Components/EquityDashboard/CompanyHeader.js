@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Card, Popover } from "antd";
+import React, {useEffect, useState} from "react";
+import {Card} from "antd";
 import "../../App.scss";
 import Loader from "react-loader-spinner";
 
@@ -75,9 +75,9 @@ const CompanyHeader = (props) => {
               <div className="row">
                 <div className="col-lg-3 justify-content">
                   <img
-                    style={{ borderRadius: "1000px" }}
-                    src={`https://storage.googleapis.com/iex/api/logos/${props.activeTicker}.png`}
-                  />
+                      style={{borderRadius: "1000px"}}
+                      src={`https://storage.googleapis.com/iex/api/logos/${props.activeTicker}.png`}
+                      alt="Logo"/>
                 </div>
                 <div className="col-lg-3 ">
                   <p>{companyData.industry}</p>
@@ -105,8 +105,8 @@ const CompanyHeader = (props) => {
                 <div className="col-lg-1 justify-content">
                   <p className="center">
                     Total Return
-                    <br />{" "}
-                    <span style={{ color: "#007bff" }}>
+                    <br/>
+                    <span style={{color: "#007bff"}}>
                       {companyData.totalReturn}
                     </span>
                     %

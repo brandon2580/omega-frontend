@@ -95,12 +95,8 @@ const EarningsRatio = (props) => {
   useEffect(() => {
     am4core.ready(function () {
 
-
       // Create chart instance
-      const chart = am4core.create(
-          "earnings-ratio-chart-div",
-          am4charts.PieChart
-      );
+      const chart = am4core.create("earnings-ratio-chart-div", am4charts.PieChart);
 
       // Add and configure Series
       const pieSeries = chart.series.push(new am4charts.PieSeries());

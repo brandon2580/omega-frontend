@@ -149,7 +149,6 @@ const Earnings = (props) => {
   useEffect(() => {
     am4core.ready(function () {
 
-
       // Create chart instance
       const chart = am4core.create("earningsdiv", am4charts.XYChart);
       chart.numberFormatter.numberFormat = "$#,###";

@@ -34,12 +34,8 @@ const InstitutionalOwnership = (props) => {
 
   useEffect(() => {
     am4core.ready(function () {
+      const chart = am4core.create("institutionalownershipdiv", am4charts.XYChart);
 
-
-      const chart = am4core.create(
-          "institutionalownershipdiv",
-          am4charts.XYChart
-      );
       chart.numberFormatter.numberFormat = "#a";
       chart.numberFormatter.bigNumberPrefixes = [
         { number: 1e3, suffix: "K" },

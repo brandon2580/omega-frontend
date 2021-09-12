@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import "./App.scss";
 import "jquery";
 import "bootstrap/dist/js/bootstrap";
@@ -15,16 +15,16 @@ import ErrorNotFound from "./Components/ErrorNotFound";
 import LandingPage from "./LandingPage/LandingPage";
 import Profile from "./Auth/Profile/Profile";
 import Loader from "react-loader-spinner";
-import { useAuth0 } from "@auth0/auth0-react";
+import {useAuth0} from "@auth0/auth0-react";
 import db from "./firebase";
+
 // import Explore from "./Components/Explore/Explore";
-import Feedback from "./Components/Feedback/Feedback";
 
 function App() {
-  const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
+  const {isLoading, isAuthenticated, loginWithRedirect, user} = useAuth0();
   const [activeTicker, setActiveTicker] = useState("");
-  // The 7 values in the state array are the id's of the cards that render on the dashboard by default.
-  // These are the initial "selected" cards that render by default
+  // The values in the state array represent the id's of the cards that render on the dashboard by default.
+  // These are the initial "selected" cards that render by default.
   const [selectedCardsIndex, setSelectedCardsIndex] = useState([4, 2, 7, 5, 6]);
 
   // These are every single available card throughout the platform, each identified by an id
@@ -281,6 +281,7 @@ function App() {
     },
   ]);
 
+  // If the user is authenticated, create a doc for them in the database
   useEffect(() => {
     if (isAuthenticated) {
       db.collection("users").doc(user.sub).set({

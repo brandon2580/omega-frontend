@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import "../../App.scss";
 import {Card} from "antd";
 import Loader from "react-loader-spinner";
@@ -7,12 +7,13 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 
 const AnalystRecommendations = (props) => {
     const [pieData, setPieData] = useState([]);
-    const [barSeries, setBarSeries] = useState([]);
+    const [barData, setBarData] = useState([]);
     const [totalRecs, setTotalRecs] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [overall, setOverall] = useState("");
-    const [view, setView] = useState("bar");
+    const [view, setView] = useState("");
     const [textColor, setTextColor] = useState("");
+    const [noData, setNoData] = useState(false);
 
     useEffect(() => {
         props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
@@ -25,11 +26,11 @@ const AnalystRecommendations = (props) => {
         ).then((res) => res.json());
 
         Promise.resolve(analyst_recs).then((analyst_recs) => {
-            if (analyst_recs[0] === undefined) {
+            if (analyst_recs[0] == undefined) {
+                console.log("No data: " + analyst_recs)
+                setNoData(true);
                 setIsLoading(false);
-                return null;
             } else {
-
                 let seriesData = [
                     {
                         "Strong Buy": analyst_recs[0].ratingOverweight,
@@ -71,64 +72,86 @@ const AnalystRecommendations = (props) => {
                 });
 
                 setPieData(mappedSeriesData[0]);
-                setBarSeries(mappedSeriesData[0]);
+                setBarData(mappedSeriesData[0]);
 
-                let totalRecsArr = pieData.map((el) => {
-                    return el.value;
-                });
-
-                let buyRecs = totalRecsArr[0] + totalRecsArr[1];
-                let holdRecs = totalRecsArr[2];
-                let sellRecs = totalRecsArr[3] + totalRecsArr[4];
-
-                let simplifiedArr = [buyRecs, holdRecs, sellRecs];
-
-                const max = simplifiedArr.reduce((m, n) => Math.max(m, n));
-                let overallIndex = [...simplifiedArr.keys()].filter(
-                    (i) => simplifiedArr[i] === max
-                );
-
-                if (overallIndex === 0) {
-                    setOverall("Buy");
-                } else if (overallIndex === 1) {
-                    setOverall("Hold");
-                } else if (overallIndex === 2) {
-                    setOverall("Sell");
-                } else {
-                    setOverall("Mixed");
-                }
-
-                setTotalRecs(totalRecsArr.reduce((a, b) => a + b, 0));
-                setIsLoading(false);
             }
         });
     }, [props.activeTicker]);
 
+    // Don't execute this useEffect hook on the first render. Only when the value of
+    // pieData or barData is changed.
+    const initialRender = useRef(true);
+    useEffect(() => {
+        if (initialRender.current) {
+            initialRender.current = false;
+        } else {
+            let totalRecsArr = pieData.map((el) => {
+                return el.value;
+            });
+
+            let buyRecs = totalRecsArr[0] + totalRecsArr[1];
+            let holdRecs = totalRecsArr[2];
+            let sellRecs = totalRecsArr[3] + totalRecsArr[4];
+
+            let simplifiedArr = [buyRecs, holdRecs, sellRecs];
+
+            const max = simplifiedArr.reduce((m, n) => Math.max(m, n));
+            let overallIndex = [...simplifiedArr.keys()].filter(
+                (i) => simplifiedArr[i] === max
+            );
+
+            if (overallIndex == 0) {
+                setOverall("Buy");
+            } else if (overallIndex == 1) {
+                setOverall("Hold");
+            } else if (overallIndex == 2) {
+                setOverall("Sell");
+            } else {
+                setOverall("Mixed");
+            }
+
+            setTotalRecs(totalRecsArr.reduce((a, b) => a + b, 0));
+            setView("bar")
+            setIsLoading(false);
+        }
+    }, [pieData, barData])
+
+    // Header that is present when the pie view is selected
     let pieHeader = (
         <React.Fragment>
             {props.title}
             <button
                 className="btn btn-primary change-view-button"
-                onClick={() => setView("bar")}
+                onClick={() => {
+                    // If data is present, change view
+                    if (!noData) {
+                        setView("bar")
+                    }
+                }}
             >
                 Change View
             </button>
         </React.Fragment>
     );
 
+    // Header that is present when the bar view is selected
     let barHeader = (
         <React.Fragment>
             {props.title}
             <button
                 className="btn btn-primary change-view-button"
-                onClick={() => setView("pie")}
+                onClick={() => {
+                    // If data is present, change view
+                    if (!noData) {
+                        setView("pie")
+                    }
+                }}
             >
                 Change View
             </button>
         </React.Fragment>
     );
 
-    // -------------------
     useEffect(() => {
         am4core.ready(function () {
 
@@ -137,7 +160,7 @@ const AnalystRecommendations = (props) => {
 
             chart.paddingRight = 40;
 
-            chart.data = barSeries;
+            chart.data = barData;
 
             const categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
             categoryAxis.dataFields.category = "rating";
@@ -181,11 +204,10 @@ const AnalystRecommendations = (props) => {
             cursor.lineY.disabled = true;
             cursor.behavior = "none";
         });
-    }, [isLoading, barSeries, view, textColor]);
+    }, [isLoading, barData, view, textColor]);
 
     useEffect(() => {
         am4core.ready(function () {
-
 
             // Create chart instance
             const chart = am4core.create("pie-div", am4charts.PieChart);
@@ -269,7 +291,7 @@ const AnalystRecommendations = (props) => {
                     </div>
                 </Card>
             );
-        } else {
+        } else if (view === "bar") {
             return (
                 <Card
                     className="analystrecs-card"
@@ -287,6 +309,24 @@ const AnalystRecommendations = (props) => {
                         <p className="analyst-recs-overall-bar center">
                             Overall: <span className="blue">{overall}</span>
                         </p>
+                    </div>
+                </Card>
+            );
+        } else if (noData) {
+            return (
+                <Card
+                    className="analystrecs-card"
+                    title={barHeader}
+                    extra={props.extra}
+                    style={{
+                        height: "100%",
+                        overflow: "auto",
+                    }}
+                >
+                    <hr className="card-hr"/>
+
+                    <div style={{height: 456}}>
+                        <h1 style={{color: textColor}}>No analyst recs data</h1>
                     </div>
                 </Card>
             );
