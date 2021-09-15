@@ -15,6 +15,7 @@ const Earnings = (props) => {
   const [dates, setDates] = useState([]);
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
+  const [noData, setNoData] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -51,9 +52,11 @@ const Earnings = (props) => {
     ).then((res) => res.json());
 
     Promise.resolve(earnings).then((earnings) => {
-      if (earnings.earnings === undefined) {
+      // First, check to see if the object has 0 keys,
+      // (meaning no data was returned)
+      if (Object.keys(earnings).length === 0) {
+        setNoData(true);
         setIsLoading(false);
-        return null;
       } else {
         let earningsArray = earnings.earnings;
 
@@ -137,12 +140,16 @@ const Earnings = (props) => {
           };
         });
 
+        setNoData(false);
         setConsensus(consensusEPS);
         setActual(actualEPS);
         setDates(formattedDates);
         setBarViewData(barViewDataMap);
         setIsLoading(false);
       }
+    }).catch((err) => {
+      setNoData(true);
+      setIsLoading(false);
     });
   }, [earningsPeriod, props.activeTicker]);
 
@@ -214,35 +221,51 @@ const Earnings = (props) => {
           overflow: "auto",
         }}
       >
-        <hr className="card-hr" />
+        <hr className="card-hr"/>
 
         <Loader
-          className="fullyCentered"
-          type="Puff"
-          color="#007bff"
-          height={100}
-          width={100}
+            className="fullyCentered"
+            type="Puff"
+            color="#007bff"
+            height={100}
+            width={100}
         />
       </Card>
     );
+  } else if (noData) {
+    return (
+        <Card
+            title={props.title}
+            extra={props.extra}
+            style={{
+              height: "100%",
+              overflow: "auto",
+            }}
+        >
+          <hr className="card-hr"/>
+          <React.Fragment>
+            <h1 style={{color: textColor}}>No earnings data</h1>
+          </React.Fragment>
+        </Card>
+    );
   } else {
     return (
-      <Card
-        title={props.title}
-        extra={props.extra}
-        style={{
-          height: "100%",
-          overflow: "auto",
-        }}
-      >
-        <hr className="card-hr" />
-        <React.Fragment>
-          <div style={{ height: 456 }} id="earningsdiv" />
-          <p className="earnings-overall center">
-            Overall: <span className="blue">{overall}</span>
-          </p>
-        </React.Fragment>
-      </Card>
+        <Card
+            title={props.title}
+            extra={props.extra}
+            style={{
+              height: "100%",
+              overflow: "auto",
+            }}
+        >
+          <hr className="card-hr" />
+          <React.Fragment>
+            <div style={{ height: 456 }} id="earningsdiv" />
+            <p className="earnings-overall center">
+              Overall: <span className="blue">{overall}</span>
+            </p>
+          </React.Fragment>
+        </Card>
     );
   }
 };

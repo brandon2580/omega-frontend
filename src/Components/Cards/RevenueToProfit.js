@@ -9,6 +9,7 @@ const RevenueToProfit = (props) => {
   const [chartData, setChartData] = useState([]);
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
+  const [noData, setNoData] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -19,25 +20,32 @@ const RevenueToProfit = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const income_statement = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/income/20?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+        `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/income/20?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
-    Promise.resolve(income_statement).then((data) => {
-      if (data[0] == undefined) {
-        return null
+    Promise.resolve(income_statement).then((income_statement) => {
+      // First, check to see if the object has 0 keys,
+      // (meaning no data was returned)
+      if (Object.keys(income_statement).length === 0) {
+        setNoData(true);
+        setIsLoading(false);
       } else {
-        let dataArray = data.income.map((el, i) => {
+        let dataArray = income_statement.income.map((el, i) => {
           return {
             date: el.fiscalDate,
             revenue: el.totalRevenue,
             profit: el.netIncome,
           };
         });
+        setNoData(false);
         dataArray.reverse();
         setChartData(dataArray);
         setIsLoading(false);
       }
 
+    }).catch((err) => {
+      setNoData(true);
+      setIsLoading(false);
     });
   }, [props.activeTicker]);
 
@@ -115,34 +123,49 @@ const RevenueToProfit = (props) => {
           overflow: "auto",
         }}
       >
-        <hr className="card-hr" />
+        <hr className="card-hr"/>
 
         <Loader
-          className="fullyCentered"
-          type="Puff"
-          color="#007bff"
-          height={100}
-          width={100}
+            className="fullyCentered"
+            type="Puff"
+            color="#007bff"
+            height={100}
+            width={100}
         />
       </Card>
     );
+  } else if (noData) {
+    return (
+        <Card
+            title={props.title}
+            extra={props.extra}
+            style={{
+              height: "100%",
+              overflow: "auto",
+            }}
+        >
+          <hr className="card-hr"/>
+          <h1 style={{color: textColor}}>No revenue to profit data</h1>
+        </Card>
+    );
   } else {
     return (
-      <Card
-        title={props.title}
-        extra={props.extra}
-        style={{
-          height: "100%",
-          overflow: "auto",
-        }}
-      >
-        <hr className="card-hr" />
-        <React.Fragment>
-          <div style={{ height: 456 }} id="revenuetoprofitdiv" />
-        </React.Fragment>
-      </Card>
+        <Card
+            title={props.title}
+            extra={props.extra}
+            style={{
+              height: "100%",
+              overflow: "auto",
+            }}
+        >
+          <hr className="card-hr" />
+          <React.Fragment>
+            <div style={{ height: 456 }} id="revenuetoprofitdiv" />
+          </React.Fragment>
+        </Card>
     );
   }
+
 };
 
 export default RevenueToProfit;

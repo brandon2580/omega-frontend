@@ -23,24 +23,29 @@ const DebtToAssets = (props) => {
             `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/balance-sheet/20?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
         ).then((res) => res.json());
 
-        Promise.resolve(balance_sheet).then((data) => {
-            if (data[0] == undefined) {
+        Promise.resolve(balance_sheet).then((balance_sheet) => {
+            // First, check to see if the object has 0 keys,
+            // (meaning no data was returned)
+            if (Object.keys(balance_sheet).length === 0) {
                 setNoData(true);
                 setIsLoading(false);
-                return null
             } else {
-                let dataArray = data.balancesheet.map((el, i) => {
+                let dataArray = balance_sheet.balancesheet.map((el, i) => {
                     return {
                         date: el.fiscalDate,
                         assets: el.totalAssets,
                         debt: el.longTermDebt,
                     };
                 });
+                setNoData(false);
                 dataArray.reverse();
                 setChartData(dataArray);
                 setIsLoading(false);
             }
 
+        }).catch((err) => {
+            setNoData(true);
+            setIsLoading(false);
         });
     }, [props.activeTicker]);
 

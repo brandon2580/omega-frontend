@@ -26,8 +26,10 @@ const AnalystRecommendations = (props) => {
         ).then((res) => res.json());
 
         Promise.resolve(analyst_recs).then((analyst_recs) => {
-            if (analyst_recs[0] == undefined) {
-                console.log("No data: " + analyst_recs)
+            // First, check to see if the length of the array is 0
+            // (meaning no data was returned)
+            if (analyst_recs.length === 0) {
+                setView("")
                 setNoData(true);
                 setIsLoading(false);
             } else {
@@ -71,10 +73,13 @@ const AnalystRecommendations = (props) => {
                     ];
                 });
 
+                setNoData(false);
                 setPieData(mappedSeriesData[0]);
                 setBarData(mappedSeriesData[0]);
-
             }
+        }).catch((err) => {
+            setNoData(true);
+            setIsLoading(false);
         });
     }, [props.activeTicker]);
 
@@ -268,69 +273,67 @@ const AnalystRecommendations = (props) => {
                 />
             </Card>
         );
-    } else {
-        if (view === "pie") {
-            return (
-                <Card
-                    className="analystrecs-card"
-                    title={pieHeader}
-                    extra={props.extra}
-                    style={{
-                        height: "100%",
-                        overflow: "auto",
-                    }}
-                >
-                    <hr className="card-hr"/>
+    } else if (view === "pie") {
+        return (
+            <Card
+                className="analystrecs-card"
+                title={pieHeader}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
 
-                    <div style={{height: 456}}>
-                        <div style={{height: 456}} id="pie-div"/>
+                <div style={{height: 456}}>
+                    <div style={{height: 456}} id="pie-div"/>
 
-                        <p className="analyst-recs-overall-pie center">
-                            Overall: <span className="blue">{overall}</span>
-                        </p>
-                    </div>
-                </Card>
-            );
-        } else if (view === "bar") {
-            return (
-                <Card
-                    className="analystrecs-card"
-                    title={barHeader}
-                    extra={props.extra}
-                    style={{
-                        height: "100%",
-                        overflow: "auto",
-                    }}
-                >
-                    <hr className="card-hr"/>
+                    <p className="analyst-recs-overall-pie center">
+                        Overall: <span className="blue">{overall}</span>
+                    </p>
+                </div>
+            </Card>
+        );
+    } else if (view === "bar") {
+        return (
+            <Card
+                className="analystrecs-card"
+                title={barHeader}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
 
-                    <div style={{height: 456}}>
-                        <div style={{height: 456}} id="bar-div"/>
-                        <p className="analyst-recs-overall-bar center">
-                            Overall: <span className="blue">{overall}</span>
-                        </p>
-                    </div>
-                </Card>
-            );
-        } else if (noData) {
-            return (
-                <Card
-                    className="analystrecs-card"
-                    title={barHeader}
-                    extra={props.extra}
-                    style={{
-                        height: "100%",
-                        overflow: "auto",
-                    }}
-                >
-                    <hr className="card-hr"/>
+                <div style={{height: 456}}>
+                    <div style={{height: 456}} id="bar-div"/>
+                    <p className="analyst-recs-overall-bar center">
+                        Overall: <span className="blue">{overall}</span>
+                    </p>
+                </div>
+            </Card>
+        );
+    } else if (noData) {
+        return (
+            <Card
+                className="analystrecs-card"
+                title={barHeader}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
 
-                    <div style={{height: 456}}>
-                        <h1 style={{color: textColor}}>No analyst recs data</h1>
-                    </div>
-                </Card>
-            );
-        }
+                <div style={{height: 456}}>
+                    <h1 style={{color: textColor}}>No analyst recs data</h1>
+                </div>
+            </Card>
+        );
     }
 };
 

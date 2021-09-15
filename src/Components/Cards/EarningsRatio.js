@@ -31,21 +31,29 @@ const EarningsRatio = (props) => {
   const [earningsPeriod, setEarningsPeriod] = useState("Q");
   const [overall, setOverall] = useState("");
   const [series, setSeries] = useState([
-    { name: "% Beat", value: 0, color: am4core.color("#00FF00") },
-    { name: "% Missed", value: 0, color: am4core.color("#FF0000") },
+    {name: "% Beat", value: 0, color: am4core.color("#00FF00")},
+    {name: "% Missed", value: 0, color: am4core.color("#FF0000")},
   ]);
+  const [textColor, setTextColor] = useState("")
+  const [noData, setNoData] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
+  }, [props.darkMode]);
 
   useEffect(() => {
     setIsLoading(true);
     const earnings = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/earnings/4?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+        `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/earnings/4?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
     Promise.resolve(earnings).then((earnings) => {
-      if (earnings.earnings === undefined) {
+      // First, check to see if the object has 0 keys,
+      // (meaning no data was returned)
+      if (Object.keys(earnings).length === 0) {
+        setNoData(true);
         setIsLoading(false);
-        return null;
       } else {
         let earningsRatioData = earnings.earnings.map((el, i) => {
           return {
@@ -86,8 +94,12 @@ const EarningsRatio = (props) => {
             color: am4core.color("#FF0000"),
           },
         ]);
+        setNoData(false);
         setIsLoading(false);
       }
+    }).catch((err) => {
+      setNoData(true);
+      setIsLoading(false);
     });
   }, [earningsPeriod, props.activeTicker]);
 
@@ -144,37 +156,55 @@ const EarningsRatio = (props) => {
           overflow: "auto",
         }}
       >
-        <hr className="card-hr" />
+        <hr className="card-hr"/>
 
         <Loader
-          className="fullyCentered"
-          type="Puff"
-          color="#007bff"
-          height={100}
-          width={100}
+            className="fullyCentered"
+            type="Puff"
+            color="#007bff"
+            height={100}
+            width={100}
         />
       </Card>
     );
+  } else if (noData) {
+    return (
+        <Card
+            className="earningsratio-card"
+            title={props.title}
+            extra={props.extra}
+            style={{
+              height: "100%",
+              overflow: "auto",
+            }}
+        >
+          <hr className="card-hr"/>
+
+          <div style={{height: 456}}>
+            <h1 style={{color: textColor}}>No Earnings Ratio Data Available</h1>
+          </div>
+        </Card>
+    );
   } else {
     return (
-      <Card
-        className="earningsratio-card"
-        title={props.title}
-        extra={props.extra}
-        style={{
-          height: "100%",
-          overflow: "auto",
-        }}
-      >
-        <hr className="card-hr" />
+        <Card
+            className="earningsratio-card"
+            title={props.title}
+            extra={props.extra}
+            style={{
+              height: "100%",
+              overflow: "auto",
+            }}
+        >
+          <hr className="card-hr" />
 
-        <div style={{ height: 456 }}>
-          <div style={{ height: 456 }} id="earnings-ratio-chart-div" />
-          <p className="earnings-ratio-overall center">
-            Overall: <span className="blue">{overall}</span>
-          </p>
-        </div>
-      </Card>
+          <div style={{ height: 456 }}>
+            <div style={{ height: 456 }} id="earnings-ratio-chart-div" />
+            <p className="earnings-ratio-overall center">
+              Overall: <span className="blue">{overall}</span>
+            </p>
+          </div>
+        </Card>
     );
   }
 };

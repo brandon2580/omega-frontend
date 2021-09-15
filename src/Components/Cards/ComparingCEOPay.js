@@ -8,6 +8,7 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 const ComparingCEOPay = (props) => {
     const [chartSeries, setChartSeries] = useState([]);
     const [overall, setOverall] = useState("");
+    const [noData, setNoData] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [textColor, setTextColor] = useState("");
 
@@ -36,6 +37,7 @@ const ComparingCEOPay = (props) => {
                 };
             });
 
+            setNoData(false);
             setChartSeries(values);
 
             if (ceo_pay.peers[props.activeTicker] > ceo_pay.peerAvg) {
@@ -46,6 +48,9 @@ const ComparingCEOPay = (props) => {
                 setOverall("Equal To Competitors");
             }
 
+            setIsLoading(false);
+        }).catch((err) => {
+            setNoData(true);
             setIsLoading(false);
         });
     }, [props.activeTicker]);
@@ -144,6 +149,20 @@ const ComparingCEOPay = (props) => {
                     height={100}
                     width={100}
                 />
+            </Card>
+        );
+    } else if (noData) {
+        return (
+            <Card
+                title={props.title}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
+                <h1 style={{color: textColor}}>No Ceo Pay Data</h1>
             </Card>
         );
     } else {

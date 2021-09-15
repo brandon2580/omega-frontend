@@ -32,7 +32,6 @@ const Sidenavbar = (props) => {
     //   });
     // };
 
-    console.log(savedDashboards)
     useEffect(() => {
         db.collection("saved_dashboards")
             .get()

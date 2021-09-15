@@ -77,7 +77,7 @@ const CompanyHeader = (props) => {
                   <img
                       style={{borderRadius: "1000px"}}
                       src={`https://storage.googleapis.com/iex/api/logos/${props.activeTicker}.png`}
-                      alt="Logo"/>
+                      alt="No Logo Found"/>
                 </div>
                 <div className="col-lg-3 ">
                   <p>{companyData.industry}</p>

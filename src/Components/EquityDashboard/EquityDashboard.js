@@ -369,7 +369,6 @@ const HomeDashboard = (props) => {
                 console.log("Error getting document:", error);
             });
     }
-    console.log(55, dashboardNames)
 
     // Deletes card from current layout
     const removeCardFromLayout = (id) => {

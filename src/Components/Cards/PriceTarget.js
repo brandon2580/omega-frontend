@@ -16,6 +16,7 @@ const PriceTarget = (props) => {
     const [outlook, setOutlook] = useState("");
     const [theme, setTheme] = useState("");
     const [textColor, setTextColor] = useState("");
+    const [noData, setNoData] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -72,20 +73,24 @@ const PriceTarget = (props) => {
             oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
 
             let formatted = getFormattedDate(oneYearFromNow);
+
+            setNoData(false);
             setFutureDateOneYear(formatted);
-
             setMostRecentData(priceTargetData[0].slice(-1).pop());
-
             setChartData(priceTargetData[0]);
             setHigh(priceTargetData[1].high);
             setAverage(priceTargetData[1].average);
             setLow(priceTargetData[1].low);
             setIsLoading(false);
+        }).catch((err) => {
+            setNoData(true);
+            setIsLoading(false);
         });
     }, [props.activeTicker]);
 
     useEffect(() => {
-        if (!isLoading) {
+        // Make sure that the card isn't loading AND there is data to work with
+        if (!isLoading && !noData) {
             let recentPrice = chartData.slice(-1)[0].value;
             setCurrentPrice(recentPrice);
         }
@@ -232,6 +237,21 @@ const PriceTarget = (props) => {
                     height={100}
                     width={100}
                 />
+            </Card>
+        );
+    } else if (noData) {
+        return (
+            <Card
+                className="pricetarget-card"
+                title={props.title}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
+                <h1 style={{color: textColor}}>No data</h1>
             </Card>
         );
     } else {

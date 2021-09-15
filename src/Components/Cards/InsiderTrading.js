@@ -8,6 +8,7 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 const InsiderTrading = (props) => {
     const [chartSeries, setChartSeries] = useState([]);
     const [insiders, setInsiders] = useState([]);
+    const [noData, setNoData] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [textColor, setTextColor] = useState("");
 
@@ -22,23 +23,35 @@ const InsiderTrading = (props) => {
         ).then((res) => res.json());
 
         Promise.resolve(insider_trading).then((insider_trading) => {
+            // First, check to see if the length of the array is 0
+            // (meaning no data was returned)
+            if (insider_trading.transactions.length === 0) {
+                setNoData(true);
+                setIsLoading(false);
+            } else {
+                function omit(key, obj) {
+                    const {[key]: omitted, ...rest} = obj;
+                    return rest;
+                }
 
-            function omit(key, obj) {
-                const {[key]: omitted, ...rest} = obj;
-                return rest;
+                let mapped = insider_trading.transactions.flatMap((el, i) => {
+                    let z = omit("date", el)
+                    return Object.keys(z)
+                })
+
+                let uniq = arr => [...new Set(arr)];
+
+                let formatted = uniq(mapped)
+
+                setNoData(false);
+                setInsiders(formatted)
+
+                setChartSeries(insider_trading.transactions)
+                setIsLoading(false);
             }
 
-            let f = insider_trading.transactions.flatMap((el, i) => {
-                let z = omit("date", el)
-                return Object.keys(z)
-            })
-
-            let uniq = arr => [...new Set(arr)];
-
-            let formatted = uniq(f)
-            setInsiders(formatted)
-
-            setChartSeries(insider_trading.transactions)
+        }).catch((err) => {
+            setNoData(true);
             setIsLoading(false);
         });
     }, [props.activeTicker]);
@@ -171,6 +184,22 @@ const InsiderTrading = (props) => {
                     height={100}
                     width={100}
                 />
+            </Card>
+        );
+    } else if (noData) {
+        return (
+            <Card
+                title={props.title}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
+                <React.Fragment>
+                    <h1 style={{color: textColor}}>No insider data</h1>
+                </React.Fragment>
             </Card>
         );
     } else {

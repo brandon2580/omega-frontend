@@ -15,7 +15,7 @@ const Dividends = (props) => {
     const [theme, setTheme] = useState("");
     const [textColor, setTextColor] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-    const [noData, setNoData] = useState(false);
+    const [noData, setNoData] = useState(true);
 
     useEffect(() => {
         props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -33,36 +33,53 @@ const Dividends = (props) => {
         ).then((res) => res.json())
 
         Promise.resolve(dividend_yields).then((dividend_yields) => {
-            let yields = dividend_yields.chart.yield;
+            // First, check to see if the length of the array is 0
+            // (meaning no data was returned)
+            if (dividend_yields.chart == "No dividends available.") {
+                setView("")
+                setNoData(true);
+                setIsLoading(false);
+            } else {
+                let yields = dividend_yields.chart.yield;
 
-            let dividendData = Object.keys(yields).map((el, i) => {
-                return {
-                    x: el,
-                    y: yields[el].toFixed(2),
-                    color: "#007bff",
-                };
-            });
-            setOneYearGrowth(dividend_yields["1yr_growth"]);
-            setThreeYearGrowth(dividend_yields["3yr_growth"]);
-
-            setDividendYieldsSeries(dividendData);
-            setNoData(false);
-            setIsLoading(false);
-
-        });
+                let dividendData = Object.keys(yields).map((el, i) => {
+                    return {
+                        x: el,
+                        y: yields[el].toFixed(2),
+                        color: "#007bff",
+                    };
+                });
+                setNoData(false);
+                setOneYearGrowth(dividend_yields["1yr_growth"]);
+                setThreeYearGrowth(dividend_yields["3yr_growth"]);
+                setDividendYieldsSeries(dividendData);
+                setIsLoading(false);
+            }
+        })
 
         Promise.resolve(dividend_raw).then((dividend_raw) => {
-            let dividendData = dividend_raw.reverse().map((el) => {
-                return {
-                    x: el.recordDate,
-                    y: el.amount.toFixed(2),
-                    color: "#007bff",
-                };
-            });
-            setDividendRawSeries(dividendData);
-            setNoData(false);
+            // First, check to see if the length of the array is 0
+            // (meaning no data was returned)
+            if (dividend_raw.length === 0) {
+                setView("")
+                setNoData(true);
+                setIsLoading(false);
+            } else {
+                let dividendData = dividend_raw.reverse().map((el) => {
+                    return {
+                        x: el.recordDate,
+                        y: el.amount.toFixed(2),
+                        color: "#007bff",
+                    };
+                });
+                setNoData(false);
+                setDividendRawSeries(dividendData);
+                setIsLoading(false);
+            }
+        }).catch((err) => {
+            setNoData(true);
             setIsLoading(false);
-        })
+        });
     }, [dividendRange, props.activeTicker]);
 
     // If there IS dividend data, set the view to "yield" as default
@@ -211,30 +228,29 @@ const Dividends = (props) => {
                 />
             </Card>
         );
-    } else {
-        if (view === "yield") {
-            return (
-                <Card
-                    title={yieldHeader}
-                    extra={props.extra}
-                    style={{
-                        height: "100%",
-                        overflow: "auto",
-                    }}
-                >
-                    <hr className="card-hr"/>
-                    <React.Fragment>
-                        <div style={{height: 424}} id="dividend-yield-div"/>
+    } else if (view === "yield") {
+        return (
+            <Card
+                title={yieldHeader}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
+                <React.Fragment>
+                    <div style={{height: 424}} id="dividend-yield-div"/>
 
-                        <p className="dividends-growth-1y center">
-                            1yr Growth:{" "}
-                            <span className="blue">{oneYearGrowth.toFixed(2)}%</span>
-                        </p>
-                        <p className="dividends-growth-3y center">
-                            3yr Growth:{" "}
-                            <span className="blue">{threeYearGrowth.toFixed(2)}%</span>
-                        </p>
-                        {/* <div className="row">
+                    <p className="dividends-growth-1y center">
+                        1yr Growth:{" "}
+                        <span className="blue">{oneYearGrowth.toFixed(2)}%</span>
+                    </p>
+                    <p className="dividends-growth-3y center">
+                        3yr Growth:{" "}
+                        <span className="blue">{threeYearGrowth.toFixed(2)}%</span>
+                    </p>
+                    {/* <div className="row">
               <div className="col-sm-12">
                 <Dropdown overlay={menu}>
                   <btn className="ant-dropdown-link">
@@ -243,33 +259,32 @@ const Dividends = (props) => {
                 </Dropdown>
               </div>
             </div> */}
-                    </React.Fragment>
-                </Card>
-            );
-        } else {
-            if (view === "raw") {
-                return (
-                    <Card
-                        title={rawHeader}
-                        extra={props.extra}
-                        style={{
-                            height: "100%",
-                            overflow: "auto",
-                        }}
-                    >
-                        <hr className="card-hr"/>
-                        <div>
-                            <div style={{height: 424}} id="dividend-raw-div"/>
+                </React.Fragment>
+            </Card>
+        );
+    } else if (view === "raw") {
+        return (
+            <Card
+                title={rawHeader}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
+                <div>
+                    <div style={{height: 424}} id="dividend-raw-div"/>
 
-                            <p className="dividends-growth-1y center">
-                                1yr Growth:{" "}
-                                <span className="blue">{oneYearGrowth.toFixed(2)}%</span>
-                            </p>
-                            <p className="dividends-growth-3y center">
-                                3yr Growth:{" "}
-                                <span className="blue">{threeYearGrowth.toFixed(2)}%</span>
-                            </p>
-                            {/* <div className="row">
+                    <p className="dividends-growth-1y center">
+                        1yr Growth:{" "}
+                        <span className="blue">{oneYearGrowth.toFixed(2)}%</span>
+                    </p>
+                    <p className="dividends-growth-3y center">
+                        3yr Growth:{" "}
+                        <span className="blue">{threeYearGrowth.toFixed(2)}%</span>
+                    </p>
+                    {/* <div className="row">
                 <div className="col-sm-12">
                   <Dropdown overlay={menu}>
                     <btn className="ant-dropdown-link">
@@ -278,29 +293,25 @@ const Dividends = (props) => {
                   </Dropdown>
                 </div>
               </div> */}
-                        </div>
-                    </Card>
-                );
-            } else {
-                if (noData) {
-                    return (
-                        <Card
-                            title={rawHeader}
-                            extra={props.extra}
-                            style={{
-                                height: "100%",
-                                overflow: "auto",
-                            }}
-                        >
-                            <hr className="card-hr"/>
-                            <div>
-                                <h1>{props.title} data not found </h1>
-                            </div>
-                        </Card>
-                    );
-                }
-            }
-        }
+                </div>
+            </Card>
+        );
+    } else if (noData) {
+        return (
+            <Card
+                title={rawHeader}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
+                <div>
+                    <h1 style={{color: textColor}}>div data not found </h1>
+                </div>
+            </Card>
+        );
     }
 };
 

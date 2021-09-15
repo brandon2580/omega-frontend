@@ -7,6 +7,7 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 
 const CEOPayBreakdown = (props) => {
   const [chartSeries, setChartSeries] = useState([]);
+  const [noData, setNoData] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [textColor, setTextColor] = useState("");
 
@@ -36,7 +37,11 @@ const CEOPayBreakdown = (props) => {
         };
       });
 
+      setNoData(false);
       setChartSeries(values);
+      setIsLoading(false);
+    }).catch((err) => {
+      setNoData(true);
       setIsLoading(false);
     });
   }, [props.activeTicker]);
@@ -98,32 +103,46 @@ const CEOPayBreakdown = (props) => {
           overflow: "auto",
         }}
       >
-        <hr className="card-hr" />
+        <hr className="card-hr"/>
 
         <Loader
-          className="fullyCentered"
-          type="Puff"
-          color="#007bff"
-          height={100}
-          width={100}
+            className="fullyCentered"
+            type="Puff"
+            color="#007bff"
+            height={100}
+            width={100}
         />
       </Card>
     );
+  } else if (noData) {
+    return (
+        <Card
+            title={props.title}
+            extra={props.extra}
+            style={{
+              height: "100%",
+              overflow: "auto",
+            }}
+        >
+          <hr className="card-hr"/>
+          <h1 style={{color: textColor}}>No CEO data</h1>
+        </Card>
+    );
   } else {
     return (
-      <Card
-        title={props.title}
-        extra={props.extra}
-        style={{
-          height: "100%",
-          overflow: "auto",
-        }}
-      >
-        <hr className="card-hr" />
-        <React.Fragment>
-          <div style={{ height: 440 }} id="ceo-pay-breakdown-div" />
-        </React.Fragment>
-      </Card>
+        <Card
+            title={props.title}
+            extra={props.extra}
+            style={{
+              height: "100%",
+              overflow: "auto",
+            }}
+        >
+          <hr className="card-hr" />
+          <React.Fragment>
+            <div style={{ height: 440 }} id="ceo-pay-breakdown-div" />
+          </React.Fragment>
+        </Card>
     );
   }
 };

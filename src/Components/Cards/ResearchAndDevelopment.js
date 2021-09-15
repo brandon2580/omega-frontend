@@ -10,6 +10,7 @@ const ResearchAndDevelopment = (props) => {
     const [theme, setTheme] = useState("");
     const [textColor, setTextColor] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const [noData, setNoData] = useState(false);
 
     useEffect(() => {
         props.darkMode ? setTheme("#000000") : setTheme("#FFFFFF");
@@ -22,20 +23,27 @@ const ResearchAndDevelopment = (props) => {
             `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/income/20?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
         ).then((res) => res.json());
 
-        Promise.resolve(balance_sheet).then((data) => {
-            if (data[0] == undefined) {
-                return null
+        Promise.resolve(balance_sheet).then((balance_sheet) => {
+            // First, check to see if the object has 0 keys,
+            // (meaning no data was returned)
+            if (Object.keys(balance_sheet).length === 0) {
+                setNoData(true);
+                setIsLoading(false);
             } else {
-                let dataArray = data.income.map((el, i) => {
+                let dataArray = balance_sheet.income.map((el, i) => {
                     return {
                         x: el.fiscalDate,
                         y: el.researchAndDevelopment,
                     };
                 });
+                setNoData(false);
                 dataArray.reverse();
                 setChartData(dataArray);
                 setIsLoading(false);
             }
+        }).catch((err) => {
+            setNoData(true);
+            setIsLoading(false);
         });
     }, [props.activeTicker]);
 
@@ -101,6 +109,20 @@ const ResearchAndDevelopment = (props) => {
                     height={100}
                     width={100}
                 />
+            </Card>
+        );
+    } else if (noData) {
+        return (
+            <Card
+                title={props.title}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
+                <h1 style={{color: textColor}}>No r&d data</h1>
             </Card>
         );
     } else {

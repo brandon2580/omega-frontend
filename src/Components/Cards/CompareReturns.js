@@ -11,6 +11,7 @@ const CompareReturns = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [textColor, setTextColor] = useState("");
     const [timeFrame, setTimeFrame] = useState("1y");
+    const [noData, setNoData] = useState(false);
 
     useEffect(() => {
         props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
@@ -23,43 +24,51 @@ const CompareReturns = (props) => {
         ).then((res) => res.json());
 
         Promise.resolve(compare_returns).then((compare_returns) => {
-            let returns = Object.values(compare_returns.returns).map(
-                (peer_return) => {
-                    return peer_return;
-                }
-            );
-
-            let names = Object.keys(compare_returns.returns).map((peer_name) => {
-                if (peer_name !== "peerAvg") return peer_name;
-            });
-
-            if (compare_returns.returns[props.activeTicker] > compare_returns.peerAvg) {
-                setPerformanceStatus("Outperforming");
-            } else if (compare_returns.returns[props.activeTicker] < compare_returns.peerAvg) {
-                setPerformanceStatus("Underperforming");
+            // First, check to see if data exists
+            if (compare_returns.returns == "No peers to compare") {
+                setNoData(true);
+                setIsLoading(false);
             } else {
-                setPerformanceStatus("Equal");
-            }
+                let returns = Object.values(compare_returns.returns).map(
+                    (peer_return) => {
+                        return peer_return;
+                    }
+                );
 
-            let data = names.map((name, i) => {
-                let returnsMap = returns.map((el, i) => {
-                    return el;
+                let names = Object.keys(compare_returns.returns).map((peer_name) => {
+                    if (peer_name !== "peerAvg") return peer_name;
                 });
 
-                if (returnsMap === "No peers to compare") {
-                    return null
+                if (compare_returns.returns[props.activeTicker] > compare_returns.peerAvg) {
+                    setPerformanceStatus("Outperforming");
+                } else if (compare_returns.returns[props.activeTicker] < compare_returns.peerAvg) {
+                    setPerformanceStatus("Underperforming");
                 } else {
-                    return {
-                        stock: name,
-                        return: returnsMap[i].toFixed(2),
-                        avg_competitor_return: compare_returns.peerAvg.toFixed(2),
-                        color: "#007bff",
-                    };
+                    setPerformanceStatus("Equal");
                 }
-            });
 
-            setChartSeries(data);
+                let data = names.map((name, i) => {
+                    let returnsMap = returns.map((el, i) => {
+                        return el;
+                    });
 
+                    if (returnsMap === "No peers to compare") {
+                        return null
+                    } else {
+                        return {
+                            stock: name,
+                            return: returnsMap[i].toFixed(2),
+                            avg_competitor_return: compare_returns.peerAvg.toFixed(2),
+                            color: "#007bff",
+                        };
+                    }
+                });
+                setNoData(false);
+                setChartSeries(data);
+                setIsLoading(false);
+            }
+        }).catch((err) => {
+            setNoData(true);
             setIsLoading(false);
         });
     }, [props.activeTicker, timeFrame]);
@@ -155,6 +164,22 @@ const CompareReturns = (props) => {
                     height={100}
                     width={100}
                 />
+            </Card>
+        );
+    } else if (noData) {
+        return (
+            <Card
+                title={props.title}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
+                <React.Fragment>
+                    <h1 style={{color: textColor}}>No Data</h1>
+                </React.Fragment>
             </Card>
         );
     } else {
