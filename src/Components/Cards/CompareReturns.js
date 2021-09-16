@@ -51,17 +51,13 @@ const CompareReturns = (props) => {
                     let returnsMap = returns.map((el, i) => {
                         return el;
                     });
+                    return {
+                        stock: name,
+                        return: returnsMap[i].toFixed(2),
+                        avg_competitor_return: compare_returns.peerAvg.toFixed(2),
+                        color: "#007bff",
+                    };
 
-                    if (returnsMap === "No peers to compare") {
-                        return null
-                    } else {
-                        return {
-                            stock: name,
-                            return: returnsMap[i].toFixed(2),
-                            avg_competitor_return: compare_returns.peerAvg.toFixed(2),
-                            color: "#007bff",
-                        };
-                    }
                 });
                 setNoData(false);
                 setChartSeries(data);
@@ -178,7 +174,7 @@ const CompareReturns = (props) => {
             >
                 <hr className="card-hr"/>
                 <React.Fragment>
-                    <h1 style={{color: textColor}}>No Data</h1>
+                    <h1 style={{color: textColor}}>No Compare Returns Data :(</h1>
                 </React.Fragment>
             </Card>
         );

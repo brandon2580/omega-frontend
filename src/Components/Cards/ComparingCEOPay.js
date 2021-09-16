@@ -162,7 +162,7 @@ const ComparingCEOPay = (props) => {
                 }}
             >
                 <hr className="card-hr"/>
-                <h1 style={{color: textColor}}>No Ceo Pay Data</h1>
+                <h1 style={{color: textColor}}>No Comparing Ceo Pay Data :(</h1>
             </Card>
         );
     } else {

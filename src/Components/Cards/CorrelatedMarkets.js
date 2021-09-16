@@ -123,7 +123,7 @@ const CorrelatedMarkets = (props) => {
             >
                 <hr className="card-hr"/>
                 <React.Fragment>
-                    <h1 style={{color: textColor}}>No corr data</h1>
+                    <h1 style={{color: textColor}}>No Correlated Markets Data :(</h1>
                 </React.Fragment>
             </Card>
         );

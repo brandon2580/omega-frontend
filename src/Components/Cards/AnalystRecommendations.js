@@ -330,7 +330,7 @@ const AnalystRecommendations = (props) => {
                 <hr className="card-hr"/>
 
                 <div style={{height: 456}}>
-                    <h1 style={{color: textColor}}>No analyst recs data</h1>
+                    <h1 style={{color: textColor}}>No Wall St. Recommendations Data :(</h1>
                 </div>
             </Card>
         );

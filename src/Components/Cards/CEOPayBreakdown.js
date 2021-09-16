@@ -125,7 +125,7 @@ const CEOPayBreakdown = (props) => {
             }}
         >
           <hr className="card-hr"/>
-          <h1 style={{color: textColor}}>No CEO data</h1>
+          <h1 style={{color: textColor}}>No CEO Pay Breakdown Data :(</h1>
         </Card>
     );
   } else {

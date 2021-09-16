@@ -10,6 +10,7 @@ const Risk = (props) => {
   const [overallRisk, setOverallRisk] = useState("");
   const [overallReturn, setOverallReturn] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [noData, setNoData] = useState(false);
   const [textColor, setTextColor] = useState("");
 
   useEffect(() => {
@@ -19,7 +20,7 @@ const Risk = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const risk = fetch(
-      `https://sigma7-api.azure-api.net/sharpe?symbol=${props.activeTicker}`
+        `https://sigma7-api.azure-api.net/sharpe?symbol=${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(risk).then((el) => {
@@ -68,18 +69,23 @@ const Risk = (props) => {
         });
       });
 
+      setNoData(false);
       setSeries(mappedSeries);
-
+      setIsLoading(false);
+    }).catch((err) => {
+      setNoData(true);
       setIsLoading(false);
     });
   }, [props.activeTicker]);
 
   useEffect(() => {
-    let updated = series.map((el) => {
-      return el.name;
-    });
-
-    setAllTickers(updated);
+    // Make sure the data exists first
+    if (!noData) {
+      let updated = series.map((el) => {
+        return el.name;
+      });
+      setAllTickers(updated);
+    }
   }, [series]);
 
   let options = {
@@ -94,13 +100,13 @@ const Risk = (props) => {
       },
     },
     tooltip: {
-      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+      custom: function ({series, seriesIndex, dataPointIndex, w}) {
         return (
-          '<div class="risk-tooltip-content">' +
-          "<span>" +
-          allTickers[seriesIndex] +
-          "</span>" +
-          "</div>"
+            '<div class="risk-tooltip-content">' +
+            "<span>" +
+            allTickers[seriesIndex] +
+            "</span>" +
+            "</div>"
         );
       },
     },
@@ -145,52 +151,66 @@ const Risk = (props) => {
 
   if (isLoading) {
     return (
-      <Card
-        title={props.title}
-        extra={props.extra}
-        style={{
-          height: "100%",
-          overflow: "auto",
-        }}
-      >
-        <hr className="card-hr" />
+        <Card
+            title={props.title}
+            extra={props.extra}
+            style={{
+              height: "100%",
+              overflow: "auto",
+            }}
+        >
+          <hr className="card-hr"/>
 
-        <Loader
-          className="fullyCentered"
-          type="Puff"
-          color="#007bff"
-          height={100}
-          width={100}
-        />
-      </Card>
+          <Loader
+              className="fullyCentered"
+              type="Puff"
+              color="#007bff"
+              height={100}
+              width={100}
+          />
+        </Card>
+    );
+  } else if (noData) {
+    return (
+        <Card
+            title={props.title}
+            extra={props.extra}
+            style={{
+              height: "100%",
+              overflow: "auto",
+            }}
+        >
+          <hr className="card-hr"/>
+          <h1 style={{color: textColor}}>No Risk Data :(</h1>
+        </Card>
     );
   } else {
     return (
-      <Card
-        title={props.title}
-        extra={props.extra}
-        style={{
-          height: "100%",
-          overflow: "auto",
-        }}
-      >
-        <hr className="card-hr" />
-        <div style={{ height: 456 }}>
-          <ReactApexChart
-            className="risk-chart"
-            options={options}
-            series={series}
-            type="bubble"
-            height={400}
-          />
-          <p className="risk-potential-risk center">
-            Potential Risk: <span className="blue">{overallRisk}</span>
-          </p>
-          <p className="risk-potential-return center">
-            Potential Return: <span className="blue">{overallReturn}</span>
-          </p>
-        </div>
-      </Card>
+        <Card
+            title={props.title}
+            extra={props.extra}
+            style={{
+              height: "100%",
+              overflow: "auto",
+            }}
+        >
+          <hr className="card-hr"/>
+          <div style={{height: 456}}>
+            <ReactApexChart
+                className="risk-chart"
+                options={options}
+                series={series}
+                type="bubble"
+                height={400}
+            />
+            <p className="risk-potential-risk center">
+              Potential Risk: <span className="blue">{overallRisk}</span>
+            </p>
+            <p className="risk-potential-return center">
+              Potential Return: <span className="blue">{overallReturn}</span>
+            </p>
+          </div>
+        </Card>
     );
   }
 };

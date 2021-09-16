@@ -244,7 +244,7 @@ const Earnings = (props) => {
         >
           <hr className="card-hr"/>
           <React.Fragment>
-            <h1 style={{color: textColor}}>No earnings data</h1>
+            <h1 style={{color: textColor}}>No Earnings Data :(</h1>
           </React.Fragment>
         </Card>
     );

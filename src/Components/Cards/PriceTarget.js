@@ -251,7 +251,7 @@ const PriceTarget = (props) => {
                 }}
             >
                 <hr className="card-hr"/>
-                <h1 style={{color: textColor}}>No data</h1>
+                <h1 style={{color: textColor}}>No Price Prediction Data :(</h1>
             </Card>
         );
     } else {

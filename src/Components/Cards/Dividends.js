@@ -55,7 +55,11 @@ const Dividends = (props) => {
                 setDividendYieldsSeries(dividendData);
                 setIsLoading(false);
             }
-        })
+        }).catch((err) => {
+            setView("")
+            setNoData(true);
+            setIsLoading(false);
+        });
 
         Promise.resolve(dividend_raw).then((dividend_raw) => {
             // First, check to see if the length of the array is 0
@@ -77,6 +81,7 @@ const Dividends = (props) => {
                 setIsLoading(false);
             }
         }).catch((err) => {
+            setView("")
             setNoData(true);
             setIsLoading(false);
         });
@@ -308,7 +313,7 @@ const Dividends = (props) => {
             >
                 <hr className="card-hr"/>
                 <div>
-                    <h1 style={{color: textColor}}>div data not found </h1>
+                    <h1 style={{color: textColor}}>No Dividend Data :(</h1>
                 </div>
             </Card>
         );

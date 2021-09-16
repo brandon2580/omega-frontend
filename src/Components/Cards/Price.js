@@ -12,6 +12,7 @@ const Price = (props) => {
     const [priceFrame, setPriceFrame] = useState("daily");
     const [isLoading, setIsLoading] = useState(true);
     const [view, setView] = useState("area");
+    const [noData, setNoData] = useState(false);
     const [textColor, setTextColor] = useState("");
 
     useEffect(() => {
@@ -34,7 +35,12 @@ const Price = (props) => {
                     close: price[key].close,
                 };
             });
+            setNoData(false);
             setCandlestickSeries(candlestickData, 2);
+            setIsLoading(false);
+        }).catch((err) => {
+            setView("")
+            setNoData(true);
             setIsLoading(false);
         });
 
@@ -50,7 +56,12 @@ const Price = (props) => {
                     color: "#007bff",
                 };
             });
+            setNoData(false);
             setAreaSeries(areaData);
+            setIsLoading(false);
+        }).catch((err) => {
+            setView("")
+            setNoData(true);
             setIsLoading(false);
         });
     }, [priceRange, priceFrame, props.activeTicker]);
@@ -263,6 +274,21 @@ const Price = (props) => {
                     height={100}
                     width={100}
                 />
+            </Card>
+        );
+    } else if (noData) {
+        return (
+            <Card
+                className="hide-overflow price-card"
+                title={areaHeader}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
+                <h1 style={{color: textColor}}>No Price Data :(</h1>
             </Card>
         );
     } else if (view === "area") {

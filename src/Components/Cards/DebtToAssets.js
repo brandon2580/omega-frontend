@@ -148,7 +148,7 @@ const DebtToAssets = (props) => {
                 }}
             >
                 <hr className="card-hr"/>
-                <h1 style={{color: textColor}}>{props.title} data not found</h1>
+                <h1 style={{color: textColor}}>No Debt and Assets Data :(</h1>
             </Card>
         );
     } else {

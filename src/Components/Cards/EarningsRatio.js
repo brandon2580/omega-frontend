@@ -181,7 +181,7 @@ const EarningsRatio = (props) => {
           <hr className="card-hr"/>
 
           <div style={{height: 456}}>
-            <h1 style={{color: textColor}}>No Earnings Ratio Data Available</h1>
+            <h1 style={{color: textColor}}>No Earnings Ratio Data :(</h1>
           </div>
         </Card>
     );

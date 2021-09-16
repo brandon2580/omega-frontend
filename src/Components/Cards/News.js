@@ -6,12 +6,18 @@ import Loader from "react-loader-spinner";
 const News = (props) => {
     const [news, setNews] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [textColor, setTextColor] = useState("");
+    const [noData, setNoData] = useState(false);
     const [titleColor, setTitleColor] = useState({
         positive: "lime",
         neutral: "grey",
         mixed: "yellow",
         negative: "red",
     });
+
+    useEffect(() => {
+        props.darkMode ? setTextColor("#FFFFFF") : setTextColor("#000000");
+    }, [props.darkMode]);
 
     useEffect(() => {
         setIsLoading(true)
@@ -29,7 +35,11 @@ const News = (props) => {
                     sentiment: news[key].sentiment,
                 };
             });
+            setNoData(false);
             setNews(newsData);
+            setIsLoading(false);
+        }).catch((err) => {
+            setNoData(true);
             setIsLoading(false);
         });
     }, [props.activeTicker]);
@@ -53,6 +63,21 @@ const News = (props) => {
                     height={100}
                     width={100}
                 />
+            </Card>
+        );
+    } else if (noData) {
+        return (
+            <Card
+                className="news-card"
+                title={props.title}
+                extra={props.extra}
+                style={{
+                    height: "100%",
+                    overflow: "auto",
+                }}
+            >
+                <hr className="card-hr"/>
+                <h1 style={{color: textColor}}>No News Data :(</h1>
             </Card>
         );
     } else {

@@ -134,7 +134,7 @@ const CustomFundamentals = (props) => {
                 }}
             >
                 <hr className="card-hr"/>
-                <h1 style={{color: textColor}}>No Data</h1>
+                <h1 style={{color: textColor}}>No Data :(</h1>
             </Card>
         );
     } else {
