@@ -26,9 +26,7 @@ const News = (props) => {
         ).then((res) => res.json());
 
         Promise.resolve(news).then((news) => {
-            console.log(news.news)
             let newsData = news.news.map(function (el, key) {
-
                 return el
             });
             setNoData(false);
@@ -39,7 +37,6 @@ const News = (props) => {
             setIsLoading(false);
         });
     }, [props.activeTicker]);
-    console.log(news)
 
     if (isLoading) {
         return (
