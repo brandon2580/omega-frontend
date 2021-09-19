@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import "../../App.scss";
 import {Modal, Popover} from "antd";
 import AutoSuggest from "react-autosuggest";
+import {InfoCircleOutlined} from "@ant-design/icons";
 import AddToLayoutButton from "./AddToLayoutButton";
 import Earnings from "../Cards/Earnings";
 import AnalystRecommendations from "../Cards/AnalystRecommendations";
@@ -17,12 +18,12 @@ import DebtToAssets from "../Cards/DebtToAssets";
 import RevenueToProfit from "../Cards/RevenueToProfit";
 import ResearchAndDevelopment from "../Cards/ResearchAndDevelopment";
 import InstitutionalOwnership from "../Cards/InstitutionalOwnership";
-import CustomFundamentals from "../Cards/CustomFundamentals";
 import InsiderTrading from "../Cards/InsiderTrading";
 import ComparingCEOPay from "../Cards/ComparingCEOPay";
 import CEOPayBreakdown from "../Cards/CEOPayBreakdown";
-
-import {InfoCircleOutlined} from "@ant-design/icons";
+import InsidersPie from "../Cards/InsidersPie";
+import TopInsiders from "../Cards/TopInsiders";
+import PoliticalInsiders from "../Cards/PoliticalInsiders";
 
 const AddCardModal = (props) => {
     const [value, setValue] = useState("");
@@ -71,10 +72,13 @@ const AddCardModal = (props) => {
         RevenueToProfit,
         ResearchAndDevelopment,
         InstitutionalOwnership,
-        CustomFundamentals,
+        // CustomFundamentals,
         InsiderTrading,
         CEOPayBreakdown,
-        ComparingCEOPay
+        ComparingCEOPay,
+        InsidersPie,
+        TopInsiders,
+        PoliticalInsiders
     };
 
     return (

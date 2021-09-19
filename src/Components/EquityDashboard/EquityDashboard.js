@@ -20,6 +20,7 @@ import Sidenavbar from "../Navbars/Sidenavbar";
 import UndoPrompt from "./UndoPrompt";
 import CompanyHeader from "./CompanyHeader";
 import DashboardNavbar from "../Navbars/DashboardNavbar";
+import EquityDashboardTour from "./EquityDashboardTour";
 import News from "../Cards/News";
 import EarningsRatio from "../Cards/EarningsRatio";
 import CorrelatedMarkets from "../Cards/CorrelatedMarkets";
@@ -28,10 +29,12 @@ import DebtToAssets from "../Cards/DebtToAssets";
 import RevenueToProfit from "../Cards/RevenueToProfit";
 import ResearchAndDevelopment from "../Cards/ResearchAndDevelopment";
 import InstitutionalOwnership from "../Cards/InstitutionalOwnership";
-import CustomFundamentals from "../Cards/CustomFundamentals";
 import InsiderTrading from "../Cards/InsiderTrading";
 import ComparingCEOPay from "../Cards/ComparingCEOPay";
 import CEOPayBreakdown from "../Cards/CEOPayBreakdown";
+import InsidersPie from "../Cards/InsidersPie";
+import TopInsiders from "../Cards/TopInsiders";
+import PoliticalInsiders from "../Cards/PoliticalInsiders";
 import * as am4core from "@amcharts/amcharts4/core";
 import {useAuth0} from "@auth0/auth0-react";
 import db from "../../firebase";
@@ -39,7 +42,6 @@ import firebase from "firebase/app";
 import am4themes_dark from "@amcharts/amcharts4/themes/dark";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import "firebase/firestore";
-import EquityDashboardTour from "./EquityDashboardTour";
 
 const GridLayout = WidthProvider(Responsive);
 
@@ -424,10 +426,13 @@ const HomeDashboard = (props) => {
         RevenueToProfit,
         ResearchAndDevelopment,
         InstitutionalOwnership,
-        CustomFundamentals,
+        // CustomFundamentals,
         InsiderTrading,
         CEOPayBreakdown,
-        ComparingCEOPay
+        ComparingCEOPay,
+        InsidersPie,
+        TopInsiders,
+        PoliticalInsiders
     };
 
     const layout = {lg: value === true ? mainLayout : mainLayout};
