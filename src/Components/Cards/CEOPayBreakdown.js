@@ -85,6 +85,7 @@ const CEOPayBreakdown = (props) => {
 
       // Get series data and set it
       chart.data = chartSeries;
+      pieSeries.labels.template.fill = textColor;
       pieSeries.labels.template.fontSize = 14;
       pieSeries.labels.template.maxWidth = 90;
       pieSeries.labels.template.wrap = true;
