@@ -26,14 +26,10 @@ const News = (props) => {
         ).then((res) => res.json());
 
         Promise.resolve(news).then((news) => {
-            let newsData = Object.keys(news).map(function (key) {
-                return {
-                    title: news[key].headline,
-                    source: news[key].source,
-                    summary: news[key].summary,
-                    url: news[key].url,
-                    sentiment: news[key].sentiment,
-                };
+            console.log(news.news)
+            let newsData = news.news.map(function (el, key) {
+
+                return el
             });
             setNoData(false);
             setNews(newsData);
@@ -43,6 +39,7 @@ const News = (props) => {
             setIsLoading(false);
         });
     }, [props.activeTicker]);
+    console.log(news)
 
     if (isLoading) {
         return (
@@ -102,7 +99,7 @@ const News = (props) => {
                                         className="news-header"
                                         style={{color: titleColor[news.sentiment]}}
                                     >
-                                        {news.title}
+                                        {news.headline}
                                     </h4></a>
                                 <p>{news.summary}</p>
                                 <a target="_blank" href={news.url}>
