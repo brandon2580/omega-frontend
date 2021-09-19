@@ -539,6 +539,34 @@ body.light-mode .change-view-button {
   height: 35px;
 }
 
+body.dark-mode .ant-table {
+  background-color: black !important;
+  color: white !important;
+}
+
+body.dark-mode thead[class*="ant-table-thead"] th {
+  background-color: white !important;
+  color: black !important
+}
+
+body.light-mode thead[class*="ant-table-thead"] th {
+  background-color: black !important;
+  color: white !important
+}
+
+.ant-table-tbody > tr.ant-table-row:hover > td {
+  background: unset !important;
+}
+
+body.dark-mode .ant-pagination-item-link {
+  background: black !important;
+}
+
+body.dark-mode .ant-pagination-item {
+  background: black !important;
+  color: white !important;
+}
+
 .justify-content {
   display: flex;
   align-items: center;

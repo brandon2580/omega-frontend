@@ -29,22 +29,7 @@ const InsiderTrading = (props) => {
                 setNoData(true);
                 setIsLoading(false);
             } else {
-                function omit(key, obj) {
-                    const {[key]: omitted, ...rest} = obj;
-                    return rest;
-                }
-
-                let mapped = insider_trading.transactions.flatMap((el, i) => {
-                    let z = omit("date", el)
-                    return Object.keys(z)
-                })
-
-                let uniq = arr => [...new Set(arr)];
-
-                let formatted = uniq(mapped)
-
                 setNoData(false);
-                setInsiders(formatted)
 
                 setChartSeries(insider_trading.transactions)
                 setIsLoading(false);
@@ -56,111 +41,61 @@ const InsiderTrading = (props) => {
         });
     }, [props.activeTicker]);
 
-
     useEffect(() => {
         am4core.ready(function () {
-
-            // Create chart instance
             var chart = am4core.create("insidertradingdiv", am4charts.XYChart);
 
-            // Add data
-            chart.data = chartSeries
+            chart.data = chartSeries;
+            chart.numberFormatter.numberFormat = "#a";
+            chart.numberFormatter.bigNumberPrefixes = [
+                {number: 1e3, suffix: "K"},
+                {number: 1e6, suffix: "M"},
+                {number: 1e9, suffix: "B"},
+            ];
 
-            // Create axes
-            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-            categoryAxis.dataFields.category = "date";
-            categoryAxis.renderer.grid.template.location = 0;
-            categoryAxis.renderer.minGridDistance = 50;
-            categoryAxis.startLocation = 0.5;
-            categoryAxis.endLocation = 0.5;
-
+            var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+            dateAxis.renderer.labels.template.fill = textColor;
             var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            valueAxis.renderer.labels.template.fill = textColor;
 
+            var series = chart.series.push(new am4charts.LineSeries());
+            series.dataFields.dateX = "date";
+            series.name = "Purchase";
+            series.dataFields.valueY = "purchase";
+            series.tooltipText = "[#000]{valueY.value}[/]";
+            series.tooltip.background.stroke = am4core.color("lime");
+            series.tooltip.background.fill = am4core.color("white");
+            series.stroke = am4core.color("lime");
+            series.fill = am4core.color("lime");
+            series.tooltip.getStrokeFromObject = false;
+            series.tooltip.background.strokeWidth = 3;
+            series.tooltip.getFillFromObject = false;
 
-            // Create series
-            function createSeries(field, name) {
-                var series = chart.series.push(new am4charts.LineSeries());
-                series.dummyData = {
-                    field: field
-                }
-                series.dataFields.valueY = field + "_hi";
-                series.dataFields.openValueY = field + "_low";
-                series.dataFields.categoryX = "date";
-                series.name = name;
-                series.tooltipText = "{name}: {" + field + "}";
+            series.fillOpacity = 0.6;
+            series.strokeWidth = 2;
 
-                series.strokeWidth = 1;
-                series.fillOpacity = 1;
-                series.tensionX = 0.8;
+            var series2 = chart.series.push(new am4charts.LineSeries());
+            series2.name = "Sale";
+            series2.dataFields.dateX = "date";
+            series2.dataFields.valueY = "sale";
+            series2.tooltipText = "[#000]{valueY.value}[/]";
+            series2.tooltip.background.stroke = am4core.color("red");
+            series2.stroke = am4core.color("red");
+            series2.fill = am4core.color("red");
+            series2.tooltip.background.fill = am4core.color("white");
+            series2.tooltip.getFillFromObject = false;
+            series2.tooltip.getStrokeFromObject = false;
+            series2.tooltip.background.strokeWidth = 3;
+            series2.fillOpacity = 0.6;
+            series2.strokeWidth = 2;
 
-                return series;
-            }
-
-            let arr = ["uk", "ussr", "russia", "usa", "china"]
-            for (let i = 0; i < insiders.length; i++) {
-                createSeries(insiders[i], insiders[i])
-            }
-
-            // Legend
-//             chart.legend = new am4charts.Legend();
-//             chart.legend.itemContainers.template.togglable = false;
-//             chart.legend.itemContainers.template.cursorOverStyle = am4core.MouseCursorStyle.default;
-//             chart.legend.position = "right"
-//             chart.legend.reverseOrder = true;
-
-            // Cursor
             chart.cursor = new am4charts.XYCursor();
-            chart.cursor.maxTooltipDistance = 0;
+            chart.cursor.xAxis = dateAxis;
 
-            // Responsive
-            chart.responsive.enabled = true;
-            chart.responsive.useDefault = false;
-            chart.responsive.rules.push({
-                relevant: am4core.ResponsiveBreakpoints.widthL,
-                state: function (target, stateId) {
-                    if (target instanceof am4charts.Legend) {
-                        var state = target.states.create(stateId);
-                        state.properties.position = "bottom";
-                        return state;
-                    }
-                    return null;
-                }
-            });
-
-            // Prepare data for the river-stacked series
-            chart.events.on("beforedatavalidated", updateData);
-
-            function updateData() {
-
-                var data = chart.data;
-                if (data.length == 0) {
-                    return;
-                }
-
-                for (var i = 0; i < data.length; i++) {
-                    var row = data[i];
-                    var sum = 0;
-
-                    // Calculate open and close values
-                    chart.series.each(function (series) {
-                        var field = series.dummyData.field;
-                        var val = Number(row[field]);
-                        row[field + "_low"] = sum;
-                        row[field + "_hi"] = sum + val;
-                        sum += val;
-                    });
-
-                    // Adjust values so they are centered
-                    var offset = sum / 2;
-                    chart.series.each(function (series) {
-                        var field = series.dummyData.field;
-                        row[field + "_low"] -= offset;
-                        row[field + "_hi"] -= offset;
-                    });
-
-                }
-
-            }
+// Add a legend
+            chart.legend = new am4charts.Legend();
+            chart.legend.position = "top";
+            chart.legend.labels.template.fill = textColor;
 
         }); // end am4core.ready()
     }, [chartSeries, isLoading, textColor]);
