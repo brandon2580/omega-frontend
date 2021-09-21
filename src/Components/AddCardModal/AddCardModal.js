@@ -23,7 +23,8 @@ import ComparingCEOPay from "../Cards/ComparingCEOPay";
 import CEOPayBreakdown from "../Cards/CEOPayBreakdown";
 import InsidersPie from "../Cards/InsidersPie";
 import TopInsiders from "../Cards/TopInsiders";
-import PoliticalInsiders from "../Cards/PoliticalInsiders";
+import PoliticalSalesVsPurchases from "../Cards/PoliticalSalesVsPurchases";
+import TopPoliticalInsiders from "../Cards/TopPoliticalInsiders";
 
 const AddCardModal = (props) => {
     const [value, setValue] = useState("");
@@ -78,7 +79,8 @@ const AddCardModal = (props) => {
         ComparingCEOPay,
         InsidersPie,
         TopInsiders,
-        PoliticalInsiders
+        PoliticalSalesVsPurchases,
+        TopPoliticalInsiders
     };
 
     return (

@@ -5,7 +5,7 @@ import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 
-const PoliticalInsiders = (props) => {
+const PoliticalSalesVsPurchases = (props) => {
     const [chartSeries, setChartSeries] = useState([]);
     const [range, setRange] = useState(12);
     const [noData, setNoData] = useState(false);
@@ -193,4 +193,4 @@ const PoliticalInsiders = (props) => {
     }
 };
 
-export default PoliticalInsiders;
+export default PoliticalSalesVsPurchases;
