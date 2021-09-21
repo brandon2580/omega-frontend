@@ -4,12 +4,14 @@ import SideNav, {NavIcon, NavItem, NavText} from "@trendmicro/react-sidenav";
 import {HomeOutlined, LayoutOutlined,} from "@ant-design/icons";
 import db from "../../firebase";
 import "firebase/firestore";
+import firebase from "firebase/app";
 
 const Sidenavbar = (props) => {
     const [sidenavHeaderStyle, setSidenavHeaderStyle] = useState("hidden");
     const [savedDashboards, setSavedDashboards] = useState([]);
     const [savedDashboardNames, setSavedDashboardNames] = useState([]);
     const [yourDashboards, setYourDashboards] = useState([]);
+    const [wasDeleted, setWasDeleted] = useState(false);
 
     const handleYourDashboardsClick = (e) => {
         props.setIsNewLayoutLoading(true)
@@ -22,15 +24,21 @@ const Sidenavbar = (props) => {
         props.setWasSavedDashboardSelected(true);
     };
 
-    // const handleDelete = (e) => {
-    //   let index = e.target.getAttribute("data-index");
+    const handleDelete = (e) => {
+        let index = e.target.getAttribute("data-index");
 
-    //   var ref = db.collection('user_dashboards').doc(props.userID);
-
-    //   ref.update({
-    //       dashboards: firebase.firestore.FieldValue.delete()
-    //   });
-    // };
+        var ref = db.collection('user_dashboards').doc(props.userID);
+        ref.get().then((doc) => {
+            if (doc.exists) {
+                // This gets the layout which exists in the firebase array and deletes it
+                let layout = doc.data().dashboards[index];
+                ref.update({
+                    "dashboards": firebase.firestore.FieldValue.arrayRemove(layout)
+                });
+                setWasDeleted(true);
+            }
+        })
+    };
 
     useEffect(() => {
         db.collection("saved_dashboards")
@@ -65,14 +73,14 @@ const Sidenavbar = (props) => {
                                         >
                                             {names}
                                         </a>
-                                        {/* <button
-                                        value={names}
-                                        data-index={i}
-                                        onClick={handleDelete}
-                                        className="btn btn-danger"
-                                      >
-                                        delete
-                                      </button> */}
+                                        <button
+                                            value={names}
+                                            data-index={i}
+                                            onClick={handleDelete}
+                                            className="btn btn-danger"
+                                        >
+                                            delete
+                                        </button>
                                     </NavText>
                                     <NavIcon>
                                         <LayoutOutlined/>
@@ -82,7 +90,7 @@ const Sidenavbar = (props) => {
                         });
 
                         setYourDashboards(mapped);
-
+                        setWasDeleted(false);
 
                     } else {
                         // doc.data() will be undefined in this case
@@ -95,7 +103,7 @@ const Sidenavbar = (props) => {
                 });
         })
 
-    }, [props.dashboardNames]);
+    }, [props.dashboardNames, wasDeleted]);
 
     useEffect(() => {
         // We have a decent amount of nesting to do here (as seen with the 3 maps)
@@ -128,7 +136,8 @@ const Sidenavbar = (props) => {
         });
 
         setSavedDashboardNames(dashboardNames);
-    }, [savedDashboards]);
+        setWasDeleted(false);
+    }, [savedDashboards, wasDeleted]);
 
     return (
         <SideNav
