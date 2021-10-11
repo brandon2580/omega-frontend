@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "../../App.scss";
 import {Alert, Modal} from "antd";
 import CopyToClipboard from "react-copy-to-clipboard";
@@ -48,6 +48,12 @@ const ShareLayoutModal = (props) => {
       });
   };
 
+  const handleCopyLink = () => {
+    setCopySuccess(true);
+    setTimeout(() => setCopySuccess(false), 5000);
+    navigator.clipboard.writeText(url + "?share=true")
+  }
+
   const url = window.location.href;
 
   return (
@@ -66,17 +72,12 @@ const ShareLayoutModal = (props) => {
       >
         <div className="row center">
           <div className="col-lg-6">
-            <CopyToClipboard text={url}>
               <button
-                onClick={() => {
-                  setCopySuccess(true);
-                  setTimeout(() => setCopySuccess(false), 5000);
-                }}
+                onClick={handleCopyLink}
                 className="btn btn-primary"
               >
                 Copy Link
               </button>
-            </CopyToClipboard>
           </div>{" "}
           <div className="col-lg-6">
             <button className="btn btn-primary" disabled>
