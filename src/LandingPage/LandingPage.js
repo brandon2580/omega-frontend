@@ -1,8 +1,8 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import emailjs from "emailjs-com";
 import logo from "./images/logo.png";
 import fullLogo from "./images/fullLogo.png";
-import dashboard from "./images/dashboard.png";
+import dashboard from "./images/BigDashboard.png";
 import sigma7_1 from "./images/sigma7_1.png";
 import "./css/base.css";
 import "./css/elements.css";
@@ -15,7 +15,7 @@ import "./css/themify-icons.css";
 import LoginButton from "../Auth/Buttons/LoginButton";
 import LogoutButton from "../Auth/Buttons/LogoutButton";
 
-import {useAuth0} from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const LandingPage = () => {
   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
@@ -46,7 +46,7 @@ const LandingPage = () => {
       <header className="header-style5" id="header-section12">
         {/* nav */}
         <div className="landing-navbar">
-          <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+          <nav style={{marginLeft: "0"}} className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
             <div className="container-fluid">
               <a className="navbar-brand" href="/">
                 <img
@@ -65,7 +65,7 @@ const LandingPage = () => {
                 aria-expanded="false"
                 aria-label="Toggle navigation"
               >
-                <span className="navbar-toggler-icon"/>
+                <span className="navbar-toggler-icon" />
               </button>
               <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
@@ -138,7 +138,10 @@ const LandingPage = () => {
                           <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
                         </a>
                       ) : (
-                        <a onClick={loginWithRedirect} className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100">
+                        <a
+                          onClick={loginWithRedirect}
+                          className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
+                        >
                           <span className="tz-text">Please Login</span>
 
                           <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
@@ -160,91 +163,6 @@ const LandingPage = () => {
         </div>
       </section>
       <section
-        className="padding-60px-tb main-dark-blue builder-bg"
-        id="callto-action2"
-      >
-        <div className="container">
-          <div className="row equalize">
-            <div className="col-md-12 col-sm-12 col-xs-12 text-center">
-              <div className="display-inline-block sm-display-block vertical-align-middle margin-five-right sm-no-margin-right sm-margin-ten-bottom tz-text alt-font text-extra-large sm-text-extra-large">
-                Interested in a demo? Contact us
-              </div>
-              <a
-                className="btn-medium text-fast-blue2 border-2-fast-blue2 btn-circle"
-                href="#subscribe-section6"
-              >
-                <span className="tz-text">CONTACT</span>
-                <i className="fa fa-long-arrow-right text-extra-medium tz-icon-color" />
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section
-        className="builder-bg padding-110px-tb xs-padding-60px-tb main-light-blue"
-        id="feature-section27"
-      >
-        <div className="container">
-          <div className="row four-column">
-            {/* feature box */}
-            <div className="col-md-4 col-sm-6 col-xs-12 sm-margin-nine-bottom xs-margin-fifteen-bottom text-center">
-              <div className="feature-box">
-                <div className="margin-fifteen-bottom xs-margin-five-bottom">
-                  <i className="fa ti-thumb-up text-fast-blue2 icon-large tz-icon-color" />
-                </div>
-                <h3 className="feature-title text-white text-medium alt-font display-block margin-three-bottom xs-margin-five-bottom tz-text">
-                  Straightforward
-                </h3>
-                <div className="feature-text text-medium center-col tz-text">
-                  <p className="no-margin-bottom">
-                    Analytics and visuals from sigma7 are meant to be easily
-                    understood. sigma7 will help you understand and walk through
-                    any of our analytics.
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* end feature box */}
-            {/* feature box */}
-            <div className="col-md-4 col-sm-6 col-xs-12 text-center xs-margin-fifteen-bottom">
-              <div className="feature-box">
-                <div className="margin-fifteen-bottom xs-margin-five-bottom">
-                  <i className="fa ti-panel text-fast-blue2 icon-large tz-icon-color" />
-                </div>
-                <h3 className="feature-title text-white text-medium alt-font display-block margin-three-bottom xs-margin-five-bottom tz-text">
-                  Simple
-                </h3>
-                <div className="feature-text text-medium center-col tz-text">
-                  <p className="no-margin-bottom">
-                    sigma7 develops tools that are easy to use, interactive, and
-                    intuitive for users of all experience levels.
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* end feature box */}
-            {/* feature box */}
-            <div className="col-md-4 col-sm-6 col-xs-12 text-center">
-              <div className="feature-box">
-                <div className="margin-eleven-bottom xs-margin-five-bottom">
-                  <i className="fa ti-layout text-fast-blue2 icon-large tz-icon-color" />
-                </div>
-                <h3 className="feature-title text-white text-medium alt-font display-block margin-three-bottom xs-margin-five-bottom tz-text">
-                  Free
-                </h3>
-                <div className="feature-text text-medium center-col tz-text">
-                  <p className="no-margin-bottom">
-                    sigma7 is free to use. Don’t worry about paying for any
-                    costly tools, sigma7 is meant for everybody.
-                  </p>
-                </div>
-              </div>
-            </div>
-            {/* end feature box */}
-          </div>
-        </div>
-      </section>
-      <section
         className="padding-110px-tb feature-style29 main-dark-blue builder-bg xs-padding-60px-tb"
         id="content-section44"
       >
@@ -252,12 +170,7 @@ const LandingPage = () => {
           <div className="row equalize xs-equalize-auto equalize-display-inherit">
             <div className="col-md-6 display-table col-sm-12 col-xs-12 xs-margin-nineteen-bottom sm-height-auto">
               <div className="display-table-cell-vertical-middle">
-                <img
-                  className="img-responsive sm-width-60 xs-width-100 margin-lr-auto sm-margin-twenty-bottom"
-                  src={sigma7_1}
-                  data-img-size="(W)984px X (H)1376px"
-                  alt
-                />
+                <img src={sigma7_1} alt />
               </div>
             </div>
             <div className="col-md-6 col-sm-12 col-xs-12 display-table sm-height-auto">
@@ -339,9 +252,8 @@ const LandingPage = () => {
                       <div className="text-medium tz-text">
                         <p>
                           All of sigma7’s data is accurate, robust, and
-                          comprehensive. With sigma7, users will find data on
-                          cryptocurrencies, stocks, alternative data, etfs,
-                          mutual funds, and econometrics.
+                          comprehensive. With sigma7, users will find data on a
+                          plethora of stocks.
                         </p>
                       </div>
                     </div>
@@ -374,13 +286,25 @@ const LandingPage = () => {
                   all-in-one platform for research, trading, and tracking.
                 </p>
               </div>
-              <a
-                href="#subscribe-section6"
-                className="btn-medium btn-circle border-2-fast-blue2 btn-border text-fast-blue2"
-              >
-                <span className="tz-text">Sign Up</span>
-                <i className="fa fa-long-arrow-right text-extra-medium tz-icon-color" />
-              </a>
+              {isAuthenticated ? (
+                <a
+                  className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
+                  href={`dashboard/${user.sub}/Default_Layout/AAPL`}
+                >
+                  <span className="tz-text">Demo</span>
+
+                  <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
+                </a>
+              ) : (
+                <a
+                  onClick={loginWithRedirect}
+                  className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
+                >
+                  <span className="tz-text">Please Login</span>
+
+                  <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
+                </a>
+              )}
             </div>
           </div>
           {/* end section title */}
@@ -420,13 +344,25 @@ const LandingPage = () => {
                     the way!
                   </p>
                 </div>
-                <a
-                  className="btn btn-medium propClone btn-circle bg-fast-blue2 text-white"
-                  href="#subscribe-section6"
-                >
-                  <span className="tz-text">Request a Demo</span>
-                  <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
-                </a>
+                {isAuthenticated ? (
+                  <a
+                    className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
+                    href={`dashboard/${user.sub}/Default_Layout/AAPL`}
+                  >
+                    <span className="tz-text">Demo</span>
+
+                    <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
+                  </a>
+                ) : (
+                  <a
+                    onClick={loginWithRedirect}
+                    className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
+                  >
+                    <span className="tz-text">Please Login</span>
+
+                    <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
+                  </a>
+                )}
               </div>
             </div>
             <div className="col-lg-7 col-md-6 col-sm-6 xs-12 xs-text-center display-table">
