@@ -6,7 +6,6 @@ import "bootstrap/dist/js/bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/js/src/collapse.js";
 import "antd/dist/antd.css";
-import "./icons/uicons-regular-rounded/css/uicons-regular-rounded.css";
 import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
 import EquityDashboard from "./Components/EquityDashboard/EquityDashboard";
@@ -18,7 +17,7 @@ import Loader from "react-loader-spinner";
 import {useAuth0} from "@auth0/auth0-react";
 import db from "./firebase";
 
-// import Explore from "./Components/Explore/Explore";
+ import Explore from "./Components/Explore/Explore";
 
 function App() {
   const {isLoading, isAuthenticated, loginWithRedirect, user} = useAuth0();
@@ -373,9 +372,9 @@ function App() {
             <Route path="/portfolio">
               <Portfolio />
             </Route>
-            {/* <Route component={Explore} path={`/explore/:userID`}>
+             <Route component={Explore} path={`/explore/:userID`}>
               <Explore />
-            </Route> */}
+            </Route> 
             <Route path="/profile">
               {/* 
                 Is the page loading? Show loading icon. Then make sure

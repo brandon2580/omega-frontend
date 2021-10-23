@@ -1,13 +1,31 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
 import SideNav, { NavIcon, NavItem, NavText } from "@trendmicro/react-sidenav";
-import { DeleteTwoTone, HomeOutlined, LayoutOutlined } from "@ant-design/icons";
+import DarkModeToggle from "../DarkModeToggle";
+
+import {
+  CloudOutlined,
+  DeleteTwoTone,
+  DollarOutlined,
+  GlobalOutlined,
+  HomeOutlined,
+  LayoutOutlined,
+  LogoutOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { useAuth0 } from "@auth0/auth0-react";
+import logo from "./images/logo.png";
 import db from "../../firebase";
 import "firebase/firestore";
 import firebase from "firebase/app";
 
 const Sidenavbar = (props) => {
-  const [sidenavHeaderStyle, setSidenavHeaderStyle] = useState("hidden");
+  const { logout } = useAuth0();
+
+  const [sidenavTextStyle, setSidenavTextStyle] = useState("hidden");
+  const [logoStyle, setLogoStyle] = useState("");
+  const [miscIconStyle, setMiscIconStyle] = useState("18px");
+  const [sidenavToggleStyle, setSidenavToggleStyle] = useState("");
   const [savedDashboards, setSavedDashboards] = useState([]);
   const [savedDashboardNames, setSavedDashboardNames] = useState([]);
   const [yourDashboards, setYourDashboards] = useState([]);
@@ -141,6 +159,7 @@ const Sidenavbar = (props) => {
                       onClick={handleSavedDashboardsClick}
                     >
                       {names}
+                      <span className="blue">*</span>
                     </a>
                     <button
                       value={names}
@@ -171,74 +190,129 @@ const Sidenavbar = (props) => {
     <SideNav
       onToggle={(isExpanded) => {
         isExpanded
-          ? setSidenavHeaderStyle("visible")
-          : setSidenavHeaderStyle("hidden");
+          ? setSidenavTextStyle("visible")
+          : setSidenavTextStyle("hidden");
+        isExpanded ? setLogoStyle("-70px") : setLogoStyle("");
+        isExpanded ? setSidenavToggleStyle("80px") : setSidenavToggleStyle("");
+        isExpanded ? setMiscIconStyle("10px") : setMiscIconStyle("18px");
       }}
       className="sidenav"
       style={{
-        backgroundImage: "linear-gradient(315deg, #121516 0%, #000000 74%)",
+        backgroundColor: "black",
         position: "fixed",
       }}
     >
-      <SideNav.Toggle />
+      <a href="/">
+        <img
+          src={logo}
+          width="80"
+          className="d-inline-block align-top"
+          alt="sigma7"
+          style={{ marginLeft: logoStyle }}
+        />
+      </a>
+      <SideNav.Toggle
+        id="sidenav-toggle"
+        style={{ marginTop: sidenavToggleStyle }}
+      />
+
       <SideNav.Nav defaultSelected="home">
         <NavItem eventKey="home">
+          {/* <NavIcon>
+            <DollarOutlined />
+          </NavIcon> */}
           <NavText>
             <div className="col-lg-12">
               <p
-                style={{ visibility: sidenavHeaderStyle }}
+                style={{ visibility: sidenavTextStyle }}
                 className="dashboards-text"
               >
-                Pages
-              </p>
-            </div>
-            <hr className="dashboards-hr" />
-          </NavText>
-        </NavItem>
-        <NavItem eventKey="home">
-          <NavIcon>
-            <HomeOutlined />
-          </NavIcon>
-          <NavText>
-            <a className="nav-link">Stocks</a>
-          </NavText>
-        </NavItem>
-        <NavItem eventKey="home">
-          <NavIcon>
-            <HomeOutlined />
-          </NavIcon>
-          <NavText>
-            <a className="nav-link">Crypto</a>
-          </NavText>
-        </NavItem>
-        <NavItem eventKey="home">
-          <NavText>
-            <div className="col-lg-12">
-              <p
-                style={{ visibility: sidenavHeaderStyle }}
-                className="dashboards-text"
-              >
-                Your Dashboards
+                Stocks Dashboard
               </p>
             </div>
             <hr className="dashboards-hr" />
           </NavText>
         </NavItem>
         {yourDashboards}
+        {savedDashboardNames}
         <NavItem eventKey="home">
+          {/* <NavIcon>
+            <DollarOutlined />
+          </NavIcon> */}
           <NavText>
             <div className="col-lg-12">
               <p
-                style={{ visibility: sidenavHeaderStyle }}
+                style={{ visibility: sidenavTextStyle }}
                 className="dashboards-text"
               >
-                Saved Dashboards
+                Crypto Dashboards
               </p>
             </div>
             <hr className="dashboards-hr" />
           </NavText>
         </NavItem>
-        {savedDashboardNames}
+        <span className="bottom-sidenav">
+          <hr className="sidenav-misc-hr" />
+          <span className="justify-content-left sidenav-misc-button">
+            <CloudOutlined
+              style={{ marginLeft: miscIconStyle }}
+              className="color-scheme-icon"
+            />
+            <h4
+              style={{ visibility: sidenavTextStyle }}
+              className="sidenav-misc-text"
+            >
+              Theme
+            </h4>
+            <DarkModeToggle setDarkMode={props.setDarkMode} />
+          </span>
+          <hr className="sidenav-misc-hr" />
+          <a href={`/explore/${props.userID}`}>
+            <span className="justify-content-left sidenav-misc-button">
+              <GlobalOutlined
+                style={{ marginLeft: miscIconStyle }}
+                className="explore-icon"
+              />{" "}
+              <h4
+                style={{ visibility: sidenavTextStyle }}
+                className="sidenav-misc-text"
+              >
+                Explore
+              </h4>
+            </span>
+          </a>
+          <hr className="sidenav-misc-hr" />
+          <a href="/profile">
+            <span className="justify-content-left sidenav-misc-button">
+              <UserOutlined
+                style={{ marginLeft: miscIconStyle }}
+                className="profile-icon"
+              />{" "}
+              <h4
+                style={{ visibility: sidenavTextStyle }}
+                className="sidenav-misc-text"
+              >
+                My Profile
+              </h4>
+            </span>
+          </a>
+          <hr className="sidenav-misc-hr" />
+          <span
+            onClick={() => logout({ returnTo: window.location.origin })}
+            className="justify-content-left sidenav-misc-button"
+          >
+            <LogoutOutlined
+              style={{ marginLeft: miscIconStyle }}
+              className="logout-icon"
+            />{" "}
+            <h4
+              style={{ visibility: sidenavTextStyle }}
+              className="sidenav-misc-text"
+            >
+              Log Out
+            </h4>
+          </span>
+        </span>
       </SideNav.Nav>
     </SideNav>
   );

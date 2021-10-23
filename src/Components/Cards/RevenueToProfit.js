@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
-import {Card} from "antd";
+import { Card } from "antd";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import Loader from "react-loader-spinner";
@@ -20,43 +20,44 @@ const RevenueToProfit = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const income_statement = fetch(
-        `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/income/20?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/income/20?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
-    Promise.resolve(income_statement).then((income_statement) => {
-      // First, check to see if the object has 0 keys,
-      // (meaning no data was returned)
-      if (Object.keys(income_statement).length === 0) {
+    Promise.resolve(income_statement)
+      .then((income_statement) => {
+        // First, check to see if the object has 0 keys,
+        // (meaning no data was returned)
+        if (Object.keys(income_statement).length === 0) {
+          setNoData(true);
+          setIsLoading(false);
+        } else {
+          let dataArray = income_statement.income.map((el, i) => {
+            return {
+              date: el.fiscalDate,
+              revenue: el.totalRevenue,
+              profit: el.netIncome,
+            };
+          });
+          setNoData(false);
+          dataArray.reverse();
+          setChartData(dataArray);
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
         setNoData(true);
         setIsLoading(false);
-      } else {
-        let dataArray = income_statement.income.map((el, i) => {
-          return {
-            date: el.fiscalDate,
-            revenue: el.totalRevenue,
-            profit: el.netIncome,
-          };
-        });
-        setNoData(false);
-        dataArray.reverse();
-        setChartData(dataArray);
-        setIsLoading(false);
-      }
-
-    }).catch((err) => {
-      setNoData(true);
-      setIsLoading(false);
-    });
+      });
   }, [props.activeTicker]);
 
   useEffect(() => {
     am4core.ready(function () {
-        const chart = am4core.create("revenuetoprofitdiv", am4charts.XYChart);
+      const chart = am4core.create("revenuetoprofitdiv", am4charts.XYChart);
 
-        chart.data = chartData;
+      chart.data = chartData;
 
-        const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-        dateAxis.renderer.minGridDistance = 60;
+      const dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+      dateAxis.renderer.minGridDistance = 60;
       dateAxis.startLocation = 0.5;
       dateAxis.endLocation = 0.5;
 
@@ -67,13 +68,13 @@ const RevenueToProfit = (props) => {
         { number: 1e9, suffix: "B" },
       ];
 
-        const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-        valueAxis.tooltip.disabled = true;
+      const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+      valueAxis.tooltip.disabled = true;
       valueAxis.renderer.labels.template.fill = textColor;
       dateAxis.renderer.labels.template.fill = textColor;
 
-        const series1 = chart.series.push(new am4charts.LineSeries());
-        series1.name = "Revenue";
+      const series1 = chart.series.push(new am4charts.LineSeries());
+      series1.name = "Revenue";
       series1.dataFields.dateX = "date";
       series1.dataFields.valueY = "revenue";
       series1.tooltipText = "[#000]{valueY.value}[/]";
@@ -87,8 +88,8 @@ const RevenueToProfit = (props) => {
       series1.fillOpacity = 0.6;
       series1.strokeWidth = 2;
 
-        const series2 = chart.series.push(new am4charts.LineSeries());
-        series2.name = "Profit";
+      const series2 = chart.series.push(new am4charts.LineSeries());
+      series2.name = "Profit";
       series2.dataFields.dateX = "date";
       series2.dataFields.valueY = "profit";
       series2.tooltipText = "[#000]{valueY.value}[/]";
@@ -116,56 +117,55 @@ const RevenueToProfit = (props) => {
   if (isLoading) {
     return (
       <Card
-        title={props.title}
+        title={props.header}
         extra={props.extra}
         style={{
           height: "100%",
           overflow: "auto",
         }}
       >
-        <hr className="card-hr"/>
+        <hr className="card-hr" />
 
         <Loader
-            className="fullyCentered"
-            type="Puff"
-            color="#007bff"
-            height={100}
-            width={100}
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
         />
       </Card>
     );
   } else if (noData) {
     return (
-        <Card
-            title={props.title}
-            extra={props.extra}
-            style={{
-              height: "100%",
-              overflow: "auto",
-            }}
-        >
-          <hr className="card-hr"/>
-          <h1 style={{color: textColor}}>No revenue to profit data</h1>
-        </Card>
+      <Card
+        title={props.header}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <h1 style={{ color: textColor }}>No revenue to profit data</h1>
+      </Card>
     );
   } else {
     return (
-        <Card
-            title={props.title}
-            extra={props.extra}
-            style={{
-              height: "100%",
-              overflow: "auto",
-            }}
-        >
-          <hr className="card-hr" />
-          <React.Fragment>
-            <div style={{ height: 456 }} id="revenuetoprofitdiv" />
-          </React.Fragment>
-        </Card>
+      <Card
+        title={props.header}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <React.Fragment>
+          <div style={{ height: 456 }} id="revenuetoprofitdiv" />
+        </React.Fragment>
+      </Card>
     );
   }
-
 };
 
 export default RevenueToProfit;

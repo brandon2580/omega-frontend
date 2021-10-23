@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {Card} from "antd";
+import React, { useEffect, useState } from "react";
+import { Card } from "antd";
 import "../../App.scss";
 import Loader from "react-loader-spinner";
 
@@ -40,11 +40,42 @@ const CompanyHeader = (props) => {
     });
   }, [props.activeTicker]);
 
+  let titleContent = (
+    <span className="justify-content-left">
+      <img
+        style={{ borderRadius: "1000px", width: "50px", marginRight: "11px" }}
+        src={`https://storage.googleapis.com/iex/api/logos/${props.activeTicker}.png`}
+        alt="No Logo Found"
+      />
+      <span style={{ fontSize: "33px" }}>{companyData.company_name}</span>
+      <span className="justify-content company-directional-status">
+        BULLISH
+      </span>
+    </span>
+  );
+
+  let extraContent = (
+    <span>
+      <div className="row">
+        <span className="white">{companyData.country}</span>
+      </div>
+      <div className="row">
+        <a target="_blank" href={"//" + companyData.website}>
+          {companyData.website}
+        </a>
+      </div>
+    </span>
+  );
+
   if (isLoading) {
     return (
       <div className="row">
         <div className="col-lg-12">
-          <Card title="Company" className="ticker-header">
+          <Card
+            title={titleContent}
+            extra={extraContent}
+            className="ticker-header"
+          >
             <hr className="card-hr" />
 
             <Loader
@@ -60,75 +91,64 @@ const CompanyHeader = (props) => {
     );
   } else {
     return (
-      <div className="row">
-        <div className="col-lg-12">
-          <Card title="Company" className="ticker-header">
-            <hr className="card-hr" />
+      <React.Fragment>
+        <div className="row">
+          <div className="col-lg-12">
+            <Card
+              title={titleContent}
+              extra={extraContent}
+              className="ticker-header"
+            >
+              <hr className="card-hr" />
 
-            <div className="ticker-information">
-              <div className="row">
-                <div className="col-lg-3 justify-content">
-                  <h1 className="ticker-title">{companyData.company_name}</h1>
+              <div className="ticker-information">
+                <div className="row">
+                  <div className="col-lg-6 company-header-description">{companyData.description}</div>
+                  <div className="col-lg-6">
+                    <div className="row">
+                      <div
+                        className="center col-lg-6 price-section "
+                        style={{ verticalAlign: "middle" }}
+                      >
+                        <span style={{ fontSize: "41px" }}>
+                          ${companyData.price}
+                        </span>
+                        <br />
+                        PRICE
+                      </div>
+                      <div
+                        className="center col-lg-6 total-return-section"
+                        style={{ verticalAlign: "middle" }}
+                      >
+                        <span style={{ fontSize: "41px" }}>
+                          {companyData.totalReturn}%
+                        </span>
+                        <br />
+                        TOTAL RETURN
+                      </div>
+                    </div>
+                    <div
+                      className="total-value-section row"
+                      style={{ display: "table-cell", verticalAlign: "middle" }}
+                    >
+                      <div
+                        className="center col-lg-12"
+                        style={{ verticalAlign: "middle" }}
+                      >
+                        <span style={{ fontSize: "41px" }}>
+                          ${companyData.market_cap}
+                        </span>
+                        <br />
+                        TOTAL VALUE
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              <div className="row">
-                <div className="col-lg-3 justify-content">
-                  <img
-                      style={{borderRadius: "1000px"}}
-                      src={`https://storage.googleapis.com/iex/api/logos/${props.activeTicker}.png`}
-                      alt="No Logo Found"/>
-                </div>
-                <div className="col-lg-3 ">
-                  <p>{companyData.industry}</p>
-
-                  <p>
-                    <a target="_blank" href={"//" + companyData.website}>
-                      {companyData.website}
-                    </a>
-                    <br />
-                    {companyData.country}
-                  </p>
-                </div>
-              </div>
-
-              <div className="row">
-                <div className="col-lg-1 justify-content">
-                  <p className="center">
-                    Total Value
-                    <br /> $
-                    <span style={{ color: "#007bff" }}>
-                      {companyData.market_cap}
-                    </span>
-                  </p>
-                </div>
-                <div className="col-lg-1 justify-content">
-                  <p className="center">
-                    Total Return
-                    <br/>
-                    <span style={{color: "#007bff"}}>
-                      {companyData.totalReturn}
-                    </span>
-                    %
-                  </p>
-                </div>
-                <div className="col-lg-1 justify-content">
-                  <p className="center">
-                    Price
-                    <br /> $
-                    <span style={{ color: "#007bff" }}>
-                      {companyData.price}
-                    </span>
-                  </p>
-                </div>
-                <div className="col-lg-9 justify-content">
-                  <p>{companyData.description}</p>
-                </div>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 };

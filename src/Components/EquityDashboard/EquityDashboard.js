@@ -10,6 +10,8 @@ import uuid from "react-uuid";
 import {
   CloseCircleOutlined,
   ConsoleSqlOutlined,
+  DeleteOutlined,
+  EditOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
 import { Popover } from "antd";
@@ -77,7 +79,7 @@ const HomeDashboard = (props) => {
   const [removedCard, setRemovedCard] = useState();
   const [preRemovedLayout, setPreRemovedLayout] = useState([]);
   const [undoClicked, setUndoClicked] = useState(false);
-  const [darkMode, setDarkMode] = useState();
+  const [darkMode, setDarkMode] = useState(true);
   const [theme, setTheme] = useState("");
   const [textColor, setTextColor] = useState("");
   const [isLinkShared, setIsLinkShared] = useState(false);
@@ -592,6 +594,7 @@ const HomeDashboard = (props) => {
           wasSavedDashboardSelected={wasSavedDashboardSelected}
           selectedCardsIndex={props.selectedCardsIndex}
           setSelectedCardsIndex={props.setSelectedCardsIndex}
+          setDarkMode={setDarkMode}
           userID={userID}
           dashboardNames={dashboardNames}
           setDashboardNames={setDashboardNames}
@@ -634,7 +637,12 @@ const HomeDashboard = (props) => {
           selectedDashboardName={selectedDashboardName}
         />
 
-        <h1 className="center header">{selectedDashboardName}</h1>
+        <div
+          className="row header justify-content-left"
+          style={{ marginLeft: "5px" }}
+        >
+          <h1 className="equity-header">{selectedDashboardName}</h1>
+        </div>
 
         {/* CompanyHeader goes here */}
         <CompanyHeader
@@ -652,6 +660,7 @@ const HomeDashboard = (props) => {
           wasSavedDashboardSelected={wasSavedDashboardSelected}
           selectedCardsIndex={props.selectedCardsIndex}
           setSelectedCardsIndex={props.setSelectedCardsIndex}
+          setDarkMode={setDarkMode}
           userID={userID}
           dashboardNames={dashboardNames}
           setDashboardNames={setDashboardNames}
@@ -692,7 +701,45 @@ const HomeDashboard = (props) => {
             // This "extra" stuff is what shows up on the top part of every card. It includes
             // the "info" button and the "x" button to delete the card.
             const extra = (
-              <React.Fragment>
+              <span onClick={() => removeCardFromLayout(card.id)}>
+                <CloseCircleOutlined />
+              </span>
+            );
+
+            let infoButton = (
+              <Popover
+                content={card.info}
+                title={card.title}
+                trigger="click"
+                visible={card.infoVisible}
+              >
+                <span className="span-margin">
+                  <InfoCircleOutlined
+                    style={{ paddingLeft: "10px" }}
+                    className="blue-button"
+                    onClick={() =>
+                      props.setAvailableCards((arr) =>
+                        arr.map((item) =>
+                          item.id === card.id
+                            ? { ...item, infoVisible: !item.infoVisible }
+                            : item
+                        )
+                      )
+                    }
+                  />
+                </span>
+              </Popover>
+            );
+
+            let deleteButton = (
+              <span onClick={() => removeCardFromLayout(card.id)}>
+                <CloseCircleOutlined />
+              </span>
+            );
+
+            let header = (
+              <span className="justify-content-left">
+                {card.title}
                 <Popover
                   content={card.info}
                   title={card.title}
@@ -701,6 +748,7 @@ const HomeDashboard = (props) => {
                 >
                   <span className="span-margin">
                     <InfoCircleOutlined
+                      style={{ paddingLeft: "10px" }}
                       className="blue-button"
                       onClick={() =>
                         props.setAvailableCards((arr) =>
@@ -714,11 +762,7 @@ const HomeDashboard = (props) => {
                     />
                   </span>
                 </Popover>
-
-                <span onClick={() => removeCardFromLayout(card.id)}>
-                  <CloseCircleOutlined />
-                </span>
-              </React.Fragment>
+              </span>
             );
 
             if (card.name in availableCardsObject) {
@@ -728,6 +772,9 @@ const HomeDashboard = (props) => {
                   <CustomTag
                     {...card}
                     extra={extra}
+                    header={header}
+                    infoButton={infoButton}
+                    deleteButton={deleteButton}
                     darkMode={darkMode}
                     activeTicker={urlTicker}
                   />

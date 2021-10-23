@@ -1,7 +1,7 @@
 html body {
-  background-color: #1a1a1f;
+  background-color: #232425;
   color: white;
-  font-family: "Open Sans", sans-serif !important;
+  font-family: "Fira Sans", sans-serif !important;
 }
 
 body.light-mode {
@@ -24,9 +24,21 @@ body.light-mode {
 }
 
 body.dark-mode {
-  background-color: #1a1a1f;
+  background-color: #232425;
   color: white;
   .dark-mode-toggle > button {
+    margin-left: 15px;
+    color: #999;
+    &:last-child {
+      color: lightblue;
+    }
+  }
+}
+
+body.light-mode {
+  color: white;
+  .dark-mode-toggle > button {
+    margin-left: 15px;
     color: #999;
     &:last-child {
       color: lightblue;
@@ -42,9 +54,29 @@ body.dark-mode {
   border: 10px !important;
 }
 
+#sidenav-toggle span {
+  background: rgba(0, 188, 221, 1) !important;
+}
+
+.bottom-sidenav {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-bottom: 15px;
+  background-color: black;
+}
+
+.sidenav-misc-button {
+  padding-right: 14px;
+  cursor: pointer;
+}
+
 body.dark-mode .navbar {
-  background-image: linear-gradient(315deg, black 0%, black 74%);
+  background-color: #232425 !important;
   height: 60px;
+  margin-left: 64px;
+  border-bottom: 1px solid #0e0e0f !important;
+  z-index: 1;
 }
 
 body.light-mode .navbar {
@@ -106,6 +138,16 @@ body.dark-mode .header {
   color: white;
 }
 
+body.dark-mode .equity-header {
+  color: white;
+  margin-bottom: 0px;
+}
+
+body.light-mode .equity-header {
+  color: black;
+  margin-bottom: 0px;
+}
+
 body.dark-mode .ticker-title {
   color: white;
   text-align: center;
@@ -116,14 +158,15 @@ body.light-mode .main-svg {
 }
 
 .sidenav {
-  margin-top: 70px;
+  position: relative;
   width: 1px;
   overflow-y: scroll;
   scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
   overflow-x: hidden;
 }
-.sidenav::-webkit-scrollbar { /* WebKit */
+.sidenav::-webkit-scrollbar {
+  /* WebKit */
   width: 0;
   height: 0;
 }
@@ -151,11 +194,55 @@ body.light-mode
 }
 
 body.dark-mode .ant-card {
-  background-color: black;
+  background-color: #0e0e0f;
+  border-radius: 10px;
+}
+
+#PlusCircleOutlined svg {
+  fill: rgba(0, 188, 221, 1) !important;
+}
+
+#SaveOutlined svg {
+  fill: rgba(0, 188, 221, 1) !important;
+}
+
+.logout-icon svg {
+  fill: rgba(0, 188, 221, 1) !important;
+  font-size: 24px;
+}
+
+.profile-icon svg {
+  fill: rgba(0, 188, 221, 1) !important;
+  font-size: 24px;
+}
+
+.explore-icon svg {
+  fill: rgba(0, 188, 221, 1) !important;
+  font-size: 24px;
+}
+
+.color-scheme-icon svg {
+  fill: rgba(0, 188, 221, 1) !important;
+  font-size: 24px;
+}
+
+body.dark-mode .sidenav-misc-text {
+  color: white;
+  font-size: 15px;
+  margin-left: 10px;
+  padding-top: 5px;
+}
+
+body.light-mode .sidenav-misc-text {
+  color: black;
+  font-size: 15px;
+  margin-left: 10px;
+  padding-top: 5px;
 }
 
 body.light-mode .ant-card {
   background-color: white;
+  border-radius: 10px;
 }
 
 body.dark-mode .ant-card-head-title {
@@ -189,6 +276,7 @@ body.light-mode .ant-card-body {
 body.dark-mode .ant-modal-body {
   background-color: #1a1a1f;
 }
+
 .recharts-cartesian-axis-tick-value {
   font-size: 12px;
   font-family: Helvetica, Arial, sans-serif;
@@ -234,7 +322,7 @@ body.dark-mode .undo-button-container {
 
 body.dark-mode .undo-button {
   background-color: white !important;
-  color: #007bff !important;
+  color: rgba(0, 188, 221, 1) !important;
   font-size: 20px !important;
   border-color: white !important;
   text-align: center;
@@ -273,7 +361,7 @@ body.light-mode .undo-button-container {
 
 body.light-mode .undo-button {
   background-color: black !important;
-  color: #007bff !important;
+  color: rgba(0, 188, 221, 1) !important;
   font-size: 20px !important;
   border-color: black !important;
   text-align: center;
@@ -319,7 +407,7 @@ body.dark-mode .recharts-tooltip-item-separator {
 }
 
 body.dark-mode .recharts-tooltip-item-value {
-  color: #007bff;
+  color: rgba(0, 188, 221, 1);
 }
 
 body.light-mode .recharts-default-tooltip {
@@ -336,7 +424,7 @@ body.light-mode .recharts-tooltip-item-separator {
 }
 
 body.light-mode .recharts-tooltip-item-value {
-  color: #007bff;
+  color: rgba(0, 188, 221, 1);
 }
 
 body.light-mode .range-button {
@@ -346,7 +434,13 @@ body.light-mode .range-button {
 
 body.dark-mode .range-button {
   color: white;
-  background-color: black;
+  background-color: rgba(0, 188, 221, 1);
+  border-radius: 10px;
+  width: 60px;
+}
+
+.price-button-hr{
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 body.dark-mode .ant-dropdown-menu-item:hover {
@@ -478,11 +572,11 @@ body.light-mode .feedback-subheader {
 }
 
 .blue-button svg {
-  fill: #007bff !important;
+  fill: rgba(0, 188, 221, 1) !important;
 }
 
 .blue {
-  color: #007bff;
+  color: rgba(0, 188, 221, 1);
 }
 
 .ant-modal-header {
@@ -512,14 +606,21 @@ body.dark-mode .ant-popover-inner-content {
 body.dark-mode .change-view-button {
   font-size: 15px !important;
   margin-left: 15px !important;
-  background-color: black !important;
+  background-color: transparent !important;
+  color: #00BCDD !important;
+  border: 1px solid #00BCDD;
+  border-radius: 20px;
+  margin-right: 20px;
 }
 
 body.light-mode .change-view-button {
   font-size: 15px !important;
   margin-left: 15px !important;
-  background-color: white !important;
-  color: black !important;
+  background-color: transparent !important;
+  color: #00BCDD !important;
+  border: 1px solid #00BCDD;  
+  border-radius: 20px;
+
 }
 
 .custom-tooltip {
@@ -534,9 +635,10 @@ body.light-mode .change-view-button {
 }
 
 .stock-symbol-form {
-  background-color: white;
-  width: 300px;
-  height: 35px;
+  background: rgba(238, 238, 238, 0.2);
+  width: 500px;
+  left: 108px;
+  border-radius: 7px;
 }
 
 body.dark-mode .ant-table {
@@ -546,12 +648,12 @@ body.dark-mode .ant-table {
 
 body.dark-mode thead[class*="ant-table-thead"] th {
   background-color: white !important;
-  color: black !important
+  color: black !important;
 }
 
 body.light-mode thead[class*="ant-table-thead"] th {
   background-color: black !important;
-  color: white !important
+  color: white !important;
 }
 
 .ant-table-tbody > tr.ant-table-row:hover > td {
@@ -571,7 +673,12 @@ body.dark-mode .ant-pagination-item {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+}
+
+.justify-content-left {
+  display: flex;
+  align-items: center;
+  justify-content: left;
 }
 
 .ticker-information {
@@ -650,8 +757,46 @@ body.dark-mode .news-header {
 }
 
 .card-hr {
-  border-color: grey;
+  border-color: rgba(0, 0, 0, 1);
   margin-top: -5px;
+}
+
+.total-value-section {
+  position: absolute;
+  width: 100%;
+  height: 125px;
+  top: 150px;
+  background: rgba(238, 238, 238, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
+  border-radius: 7px;
+}
+
+.total-return-section {
+  position: absolute;
+  height: 125px;
+  background: rgba(238, 238, 238, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
+  border-radius: 7px;
+}
+
+.price-section {
+  position: absolute;
+  height: 125px;
+  background: rgba(238, 238, 238, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
+  border-radius: 7px;
+}
+
+.company-directional-status {
+  height: 18px;
+  background: rgba(150, 222, 149, 0.8);
+  padding: 7px;
+  margin-left: 15px;
+  border-radius: 3px;
+  color: black;
 }
 
 .dashboards-text {
@@ -683,6 +828,10 @@ body.light-mode .ticker-dropdown-item {
   margin-top: -18px;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.sidenav-misc-hr {
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .ant-card-head {
@@ -752,7 +901,7 @@ body.light-mode .recharts-text {
 }
 
 .lets-begin-link {
-  color: #007bff;
+  color: rgba(0, 188, 221, 1);
 }
 
 .navbar-popover {
@@ -760,7 +909,7 @@ body.light-mode .recharts-text {
 }
 
 .react-grid-placeholder {
-  background-color: #007bff !important;
+  background-color: rgba(0, 188, 221, 1) !important;
 }
 
 body.dark-mode .navbar-popover-text {
@@ -774,7 +923,7 @@ body.dark-mode .navbar-popover-text {
 }
 
 .login-link {
-  color: #007bff;
+  color: rgba(0, 188, 221, 1);
 }
 
 .price-target-outlook {
@@ -794,7 +943,7 @@ body.dark-mode .navbar-popover-text {
   font-size: large;
 }
 
-.compare-ceo-pay{
+.compare-ceo-pay {
   font-size: large;
 }
 
@@ -806,13 +955,13 @@ body.dark-mode .navbar-popover-text {
   font-size: large;
 }
 
-.dividends-growth-1y{
+.dividends-growth-1y {
   font-size: large;
   margin-bottom: -3px !important;
   margin-top: -4px !important;
 }
 
-.dividends-growth-3y{
+.dividends-growth-3y {
   font-size: large;
 }
 
@@ -841,13 +990,11 @@ body.dark-mode .navbar-popover-text {
 
 body.dark-mode .dashboard-nav-button {
   margin: 7px;
-  border-right: thin solid white;
   padding-right: 14px;
 }
 
 body.light-mode .dashboard-nav-button {
   margin: 7px;
-  border-right: thin solid black;
   padding-right: 14px;
 }
 

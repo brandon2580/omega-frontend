@@ -180,9 +180,8 @@ const Dividends = (props) => {
         });
     }, [isLoading, dividendRawSeries, view, textColor]);
 
-    let yieldHeader = (
+    let yieldExtra = (
         <React.Fragment>
-            Dividend Yield
             <button
                 className="btn btn-primary change-view-button"
                 onClick={() => {
@@ -193,12 +192,12 @@ const Dividends = (props) => {
             >
                 Change View
             </button>
+            {props.extra}
         </React.Fragment>
     );
 
-    let rawHeader = (
+    let rawExtra = (
         <React.Fragment>
-            Dividend Per Share
             <button
                 className="btn btn-primary change-view-button"
                 onClick={() => {
@@ -209,13 +208,14 @@ const Dividends = (props) => {
             >
                 Change View
             </button>
+            {props.extra}
         </React.Fragment>
     );
 
     if (isLoading) {
         return (
             <Card
-                title={props.title}
+                title={props.header}
                 extra={props.extra}
                 style={{
                     height: "100%",
@@ -236,8 +236,8 @@ const Dividends = (props) => {
     } else if (view === "yield") {
         return (
             <Card
-                title={yieldHeader}
-                extra={props.extra}
+                title={props.header}
+                extra={yieldExtra}
                 style={{
                     height: "100%",
                     overflow: "auto",
@@ -270,8 +270,8 @@ const Dividends = (props) => {
     } else if (view === "raw") {
         return (
             <Card
-                title={rawHeader}
-                extra={props.extra}
+                title={props.header}
+                extra={rawExtra}
                 style={{
                     height: "100%",
                     overflow: "auto",
@@ -304,7 +304,7 @@ const Dividends = (props) => {
     } else if (noData) {
         return (
             <Card
-                title={rawHeader}
+                title={props.header}
                 extra={props.extra}
                 style={{
                     height: "100%",

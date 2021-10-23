@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
-import {Card} from "antd";
+import { Card } from "antd";
 import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -18,36 +18,40 @@ const InstitutionalOwnership = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const institutional_ownership = fetch(
-        `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/institutional-ownership?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/institutional-ownership?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
-    Promise.resolve(institutional_ownership).then((institutional_ownership) => {
-      // First, check to see if the length of the array is 0
-      // (meaning no data was returned)
-      if (institutional_ownership.length === 0) {
+    Promise.resolve(institutional_ownership)
+      .then((institutional_ownership) => {
+        // First, check to see if the length of the array is 0
+        // (meaning no data was returned)
+        if (institutional_ownership.length === 0) {
+          setNoData(true);
+          setIsLoading(false);
+        } else {
+          let dataArray = institutional_ownership.map((el, i) => {
+            return {
+              entity: el.entityProperName,
+              shares_held: el.reportedHolding,
+            };
+          });
+          setNoData(false);
+          setChartData(dataArray);
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
         setNoData(true);
         setIsLoading(false);
-      } else {
-        let dataArray = institutional_ownership.map((el, i) => {
-          return {
-            entity: el.entityProperName,
-            shares_held: el.reportedHolding,
-          };
-        });
-        setNoData(false);
-        setChartData(dataArray);
-        setIsLoading(false);
-      }
-
-    }).catch((err) => {
-      setNoData(true);
-      setIsLoading(false);
-    });
+      });
   }, [props.activeTicker]);
 
   useEffect(() => {
     am4core.ready(function () {
-      const chart = am4core.create("institutionalownershipdiv", am4charts.XYChart);
+      const chart = am4core.create(
+        "institutionalownershipdiv",
+        am4charts.XYChart
+      );
 
       chart.numberFormatter.numberFormat = "#a";
       chart.numberFormatter.bigNumberPrefixes = [
@@ -69,7 +73,7 @@ const InstitutionalOwnership = (props) => {
       series1.dataFields.categoryX = "entity";
       series1.name = "Reported Shares Held";
       series1.columns.template.tooltipText =
-          "{categoryX}: [bold]{valueY}[/] shares";
+        "{categoryX}: [bold]{valueY}[/] shares";
       series1.columns.template.fillOpacity = 0.8;
       series1.fill = am4core.color("#007bff");
 
@@ -88,53 +92,53 @@ const InstitutionalOwnership = (props) => {
   if (isLoading) {
     return (
       <Card
-        title={props.title}
+        title={props.header}
         extra={props.extra}
         style={{
           height: "100%",
           overflow: "auto",
         }}
       >
-        <hr className="card-hr"/>
+        <hr className="card-hr" />
 
         <Loader
-            className="fullyCentered"
-            type="Puff"
-            color="#007bff"
-            height={100}
-            width={100}
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
         />
       </Card>
     );
   } else if (noData) {
     return (
-        <Card
-            title={props.title}
-            extra={props.extra}
-            style={{
-              height: "100%",
-              overflow: "auto",
-            }}
-        >
-          <hr className="card-hr"/>
-          <h1 style={{color: textColor}}>No inst data</h1>
-        </Card>
+      <Card
+        title={props.header}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <h1 style={{ color: textColor }}>No inst data</h1>
+      </Card>
     );
   } else {
     return (
-        <Card
-            title={props.title}
-            extra={props.extra}
-            style={{
-              height: "100%",
-              overflow: "auto",
-            }}
-        >
-          <hr className="card-hr" />
-          <React.Fragment>
-            <div style={{ height: 456 }} id="institutionalownershipdiv" />
-          </React.Fragment>
-        </Card>
+      <Card
+        title={props.header}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <React.Fragment>
+          <div style={{ height: 456 }} id="institutionalownershipdiv" />
+        </React.Fragment>
+      </Card>
     );
   }
 };

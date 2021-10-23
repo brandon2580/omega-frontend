@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
-import {Card} from "antd";
+import { Card } from "antd";
 import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -21,29 +21,35 @@ const CEOPayBreakdown = (props) => {
       `https://sigma7-api.azure-api.net/ceo_pay?symbol=${props.activeTicker}`
     ).then((res) => res.json());
 
-    Promise.resolve(ceo_pay).then((ceo_pay) => {
-      let properties = Object.keys(ceo_pay.comp).map((el) => {
-        return el;
+    Promise.resolve(ceo_pay)
+      .then((ceo_pay) => {
+        let properties = Object.keys(ceo_pay.comp).map((el) => {
+          return el;
+        });
+
+        let values = Object.values(ceo_pay.comp).map((el, i) => {
+          function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+          }
+
+          return {
+            value: el,
+            name: capitalizeFirstLetter(
+              Object.values(properties)
+                [i].replace(/([A-Z])/g, " $1")
+                .trim()
+            ),
+          };
+        });
+
+        setNoData(false);
+        setChartSeries(values);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setNoData(true);
+        setIsLoading(false);
       });
-
-      let values = Object.values(ceo_pay.comp).map((el, i) => {
-        function capitalizeFirstLetter(string) {
-          return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-
-        return {
-          value: el,
-          name: capitalizeFirstLetter(Object.values(properties)[i].replace(/([A-Z])/g, ' $1').trim()),
-        };
-      });
-
-      setNoData(false);
-      setChartSeries(values);
-      setIsLoading(false);
-    }).catch((err) => {
-      setNoData(true);
-      setIsLoading(false);
-    });
   }, [props.activeTicker]);
 
   useEffect(() => {
@@ -71,7 +77,7 @@ const CEOPayBreakdown = (props) => {
 
       // Create a base filter effect (as if it's not there) for the hover to return to
       const shadow = pieSeries.slices.template.filters.push(
-          new am4core.DropShadowFilter()
+        new am4core.DropShadowFilter()
       );
       shadow.opacity = 0;
 
@@ -79,7 +85,9 @@ const CEOPayBreakdown = (props) => {
       const hoverState = pieSeries.slices.template.states.getKey("hover"); // normally we have to create the hover state, in this case it already exists
 
       // Slightly shift the shadow and make it more prominent on hover
-      const hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter());
+      const hoverShadow = hoverState.filters.push(
+        new am4core.DropShadowFilter()
+      );
       hoverShadow.opacity = 0.7;
       hoverShadow.blur = 5;
 
@@ -97,53 +105,53 @@ const CEOPayBreakdown = (props) => {
   if (isLoading) {
     return (
       <Card
-        title={props.title}
+        title={props.header}
         extra={props.extra}
         style={{
           height: "100%",
           overflow: "auto",
         }}
       >
-        <hr className="card-hr"/>
+        <hr className="card-hr" />
 
         <Loader
-            className="fullyCentered"
-            type="Puff"
-            color="#007bff"
-            height={100}
-            width={100}
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
         />
       </Card>
     );
   } else if (noData) {
     return (
-        <Card
-            title={props.title}
-            extra={props.extra}
-            style={{
-              height: "100%",
-              overflow: "auto",
-            }}
-        >
-          <hr className="card-hr"/>
-          <h1 style={{color: textColor}}>No CEO Pay Breakdown Data :(</h1>
-        </Card>
+      <Card
+        title={props.header}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <h1 style={{ color: textColor }}>No CEO Pay Breakdown Data :(</h1>
+      </Card>
     );
   } else {
     return (
-        <Card
-            title={props.title}
-            extra={props.extra}
-            style={{
-              height: "100%",
-              overflow: "auto",
-            }}
-        >
-          <hr className="card-hr" />
-          <React.Fragment>
-            <div style={{ height: 440 }} id="ceo-pay-breakdown-div" />
-          </React.Fragment>
-        </Card>
+      <Card
+        title={props.header}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <React.Fragment>
+          <div style={{ height: 440 }} id="ceo-pay-breakdown-div" />
+        </React.Fragment>
+      </Card>
     );
   }
 };

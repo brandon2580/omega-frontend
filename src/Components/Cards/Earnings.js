@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
-import {Card} from "antd";
+import { Card } from "antd";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import Loader from "react-loader-spinner";
@@ -51,111 +51,112 @@ const Earnings = (props) => {
       `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/earnings/4?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
     ).then((res) => res.json());
 
-    Promise.resolve(earnings).then((earnings) => {
-      // First, check to see if the object has 0 keys,
-      // (meaning no data was returned)
-      if (Object.keys(earnings).length === 0) {
+    Promise.resolve(earnings)
+      .then((earnings) => {
+        // First, check to see if the object has 0 keys,
+        // (meaning no data was returned)
+        if (Object.keys(earnings).length === 0) {
+          setNoData(true);
+          setIsLoading(false);
+        } else {
+          let earningsArray = earnings.earnings;
+
+          let dates = earningsArray.reverse().map((el, i) => {
+            return el.fiscalPeriod;
+          });
+
+          let consensusMap = earningsArray.map((el, i) => {
+            return {
+              x: dates[i],
+              y: el.consensusEPS,
+            };
+          });
+
+          let actualMap = earningsArray.map((el, i) => {
+            return {
+              x: dates[i],
+              y: el.actualEPS,
+            };
+          });
+
+          let earningsObject = {
+            actual: {
+              name: "Actual",
+              eps: actualMap,
+            },
+
+            consensus: {
+              name: "Consensus",
+              eps: consensusMap,
+            },
+          };
+
+          let consensusEPS = earningsObject.consensus.eps.map((el, i) => {
+            return {
+              x: i + 1,
+              y: el.y,
+            };
+          });
+
+          let actualEPS = earningsObject.actual.eps.map((el, i) => {
+            return {
+              x: i + 1,
+              y: el.y,
+            };
+          });
+
+          let plainConsensusArr = consensusEPS.map((el) => {
+            return el.y;
+          });
+
+          let plainActualArr = actualEPS.map((el) => {
+            return el.y;
+          });
+
+          let timesMissed = compare(plainConsensusArr, plainActualArr);
+          let percentTimesMissed = (timesMissed / 4) * 100;
+          let percentTimesBeat = 100 - percentTimesMissed;
+
+          if (percentTimesBeat < 50) {
+            setOverall("Underperforming");
+          } else if (percentTimesBeat > 50) {
+            setOverall("Outperforming");
+          } else if (percentTimesBeat === 50) {
+            setOverall("Mixed");
+          }
+
+          let formattedDates = dates.map((el, i) => {
+            return {
+              x: i + 1,
+              label: el,
+            };
+          });
+
+          let barViewDataMap = consensusEPS.map((el, i) => {
+            return {
+              name: formattedDates[i].label,
+              consensus: el.y.toFixed(2),
+              actual: actualEPS[i].y.toFixed(2),
+              color: "#007bff",
+            };
+          });
+
+          setNoData(false);
+          setConsensus(consensusEPS);
+          setActual(actualEPS);
+          setDates(formattedDates);
+          setBarViewData(barViewDataMap);
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
         setNoData(true);
         setIsLoading(false);
-      } else {
-        let earningsArray = earnings.earnings;
-
-        let dates = earningsArray.reverse().map((el, i) => {
-          return el.fiscalPeriod;
-        });
-
-        let consensusMap = earningsArray.map((el, i) => {
-          return {
-            x: dates[i],
-            y: el.consensusEPS,
-          };
-        });
-
-        let actualMap = earningsArray.map((el, i) => {
-          return {
-            x: dates[i],
-            y: el.actualEPS,
-          };
-        });
-
-        let earningsObject = {
-          actual: {
-            name: "Actual",
-            eps: actualMap,
-          },
-
-          consensus: {
-            name: "Consensus",
-            eps: consensusMap,
-          },
-        };
-
-        let consensusEPS = earningsObject.consensus.eps.map((el, i) => {
-          return {
-            x: i + 1,
-            y: el.y,
-          };
-        });
-
-        let actualEPS = earningsObject.actual.eps.map((el, i) => {
-          return {
-            x: i + 1,
-            y: el.y,
-          };
-        });
-
-        let plainConsensusArr = consensusEPS.map((el) => {
-          return el.y;
-        });
-
-        let plainActualArr = actualEPS.map((el) => {
-          return el.y;
-        });
-
-        let timesMissed = compare(plainConsensusArr, plainActualArr);
-        let percentTimesMissed = (timesMissed / 4) * 100;
-        let percentTimesBeat = 100 - percentTimesMissed;
-
-        if (percentTimesBeat < 50) {
-          setOverall("Underperforming");
-        } else if (percentTimesBeat > 50) {
-          setOverall("Outperforming");
-        } else if (percentTimesBeat === 50) {
-          setOverall("Mixed");
-        }
-
-        let formattedDates = dates.map((el, i) => {
-          return {
-            x: i + 1,
-            label: el,
-          };
-        });
-
-        let barViewDataMap = consensusEPS.map((el, i) => {
-          return {
-            name: formattedDates[i].label,
-            consensus: el.y.toFixed(2),
-            actual: actualEPS[i].y.toFixed(2),
-            color: "#007bff",
-          };
-        });
-
-        setNoData(false);
-        setConsensus(consensusEPS);
-        setActual(actualEPS);
-        setDates(formattedDates);
-        setBarViewData(barViewDataMap);
-        setIsLoading(false);
-      }
-    }).catch((err) => {
-      setNoData(true);
-      setIsLoading(false);
-    });
+      });
   }, [earningsPeriod, props.activeTicker]);
 
   useEffect(() => {
     am4core.ready(function () {
-
       // Create chart instance
       const chart = am4core.create("earningsdiv", am4charts.XYChart);
       chart.numberFormatter.numberFormat = "$#,###";
@@ -214,58 +215,58 @@ const Earnings = (props) => {
   if (isLoading) {
     return (
       <Card
-        title={props.title}
+        title={props.header}
         extra={props.extra}
         style={{
           height: "100%",
           overflow: "auto",
         }}
       >
-        <hr className="card-hr"/>
+        <hr className="card-hr" />
 
         <Loader
-            className="fullyCentered"
-            type="Puff"
-            color="#007bff"
-            height={100}
-            width={100}
+          className="fullyCentered"
+          type="Puff"
+          color="#007bff"
+          height={100}
+          width={100}
         />
       </Card>
     );
   } else if (noData) {
     return (
-        <Card
-            title={props.title}
-            extra={props.extra}
-            style={{
-              height: "100%",
-              overflow: "auto",
-            }}
-        >
-          <hr className="card-hr"/>
-          <React.Fragment>
-            <h1 style={{color: textColor}}>No Earnings Data :(</h1>
-          </React.Fragment>
-        </Card>
+      <Card
+        title={props.header}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <React.Fragment>
+          <h1 style={{ color: textColor }}>No Earnings Data :(</h1>
+        </React.Fragment>
+      </Card>
     );
   } else {
     return (
-        <Card
-            title={props.title}
-            extra={props.extra}
-            style={{
-              height: "100%",
-              overflow: "auto",
-            }}
-        >
-          <hr className="card-hr" />
-          <React.Fragment>
-            <div style={{ height: 456 }} id="earningsdiv" />
-            <p className="earnings-overall center">
-              Overall: <span className="blue">{overall}</span>
-            </p>
-          </React.Fragment>
-        </Card>
+      <Card
+        title={props.header}
+        extra={props.extra}
+        style={{
+          height: "100%",
+          overflow: "auto",
+        }}
+      >
+        <hr className="card-hr" />
+        <React.Fragment>
+          <div style={{ height: 456 }} id="earningsdiv" />
+          <p className="earnings-overall center">
+            Overall: <span className="blue">{overall}</span>
+          </p>
+        </React.Fragment>
+      </Card>
     );
   }
 };

@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "../../App.scss";
-import {Alert, Modal} from "antd";
+import { Alert, Modal } from "antd";
 import CopyToClipboard from "react-copy-to-clipboard";
 import db from "../../firebase";
 import "firebase/firestore";
+import { ShareAltOutlined } from "@ant-design/icons";
 
 const ShareLayoutModal = (props) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,18 +52,23 @@ const ShareLayoutModal = (props) => {
   const handleCopyLink = () => {
     setCopySuccess(true);
     setTimeout(() => setCopySuccess(false), 5000);
-    navigator.clipboard.writeText(url + "?share=true")
-  }
+    navigator.clipboard.writeText(url + "?share=true");
+  };
 
   const url = window.location.href;
 
   return (
     <React.Fragment>
-      <i
-    style={{cursor: "pointer"}}
-    onClick={showModal}
-    className="fi-rr-share top-nav-icon"
-    />
+      <span
+        style={{ cursor: "pointer" }}
+        onClick={showModal}
+        className="justify-content"
+      >
+        <ShareAltOutlined id="SaveOutlined" />
+        <span style={{ color: "rgba(0, 188, 221, 1)", marginLeft: "5px" }}>
+          SHARE
+        </span>
+      </span>
       <Modal
         title="Share"
         className="share-layout-modal"
@@ -72,16 +78,13 @@ const ShareLayoutModal = (props) => {
       >
         <div className="row center">
           <div className="col-lg-6">
-              <button
-                onClick={handleCopyLink}
-                className="btn btn-primary"
-              >
-                Copy Link
-              </button>
+            <button onClick={handleCopyLink} className="btn btn-primary">
+              Copy Link
+            </button>
           </div>{" "}
           <div className="col-lg-6">
-            <button className="btn btn-primary" disabled>
-              Share to Explore Page (Coming Soon)
+            <button className="btn btn-primary" onClick={shareDashboard}>
+              Share to Explore Page
             </button>
           </div>
         </div>

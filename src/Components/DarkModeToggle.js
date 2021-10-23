@@ -14,9 +14,9 @@ const DarkModeToggler = (props) => {
     <div className="dark-mode-toggle">
       <DarkModeToggle
         onChange={darkMode.toggle}
-        speed={2}
+        speed={1}
         checked={darkMode.value}
-        size={80}
+        size={70}
       />
     </div>
   );
