@@ -47,10 +47,11 @@ const CompanyHeader = (props) => {
         src={`https://storage.googleapis.com/iex/api/logos/${props.activeTicker}.png`}
         alt="No Logo Found"
       />
-      <span style={{ fontSize: "33px" }}>{companyData.company_name}</span>
-      <span className="justify-content company-directional-status">
+      <span style={{ fontSize: "33px" }}>{companyData.company_name}&nbsp;</span>
+      <span className="blue" style={{ fontSize: "25px", marginTop: "5px" }}> ${companyData.price}</span>
+      {/* <span className="justify-content company-directional-status">
         BULLISH
-      </span>
+      </span> */}
     </span>
   );
 
@@ -103,46 +104,8 @@ const CompanyHeader = (props) => {
 
               <div className="ticker-information">
                 <div className="row">
-                  <div className="col-lg-6 company-header-description">{companyData.description}</div>
-                  <div className="col-lg-6">
-                    <div className="row">
-                      <div
-                        className="center col-lg-6 price-section "
-                        style={{ verticalAlign: "middle" }}
-                      >
-                        <span style={{ fontSize: "41px" }}>
-                          ${companyData.price}
-                        </span>
-                        <br />
-                        PRICE
-                      </div>
-                      <div
-                        className="center col-lg-6 total-return-section"
-                        style={{ verticalAlign: "middle" }}
-                      >
-                        <span style={{ fontSize: "41px" }}>
-                          {companyData.totalReturn}%
-                        </span>
-                        <br />
-                        TOTAL RETURN
-                      </div>
-                    </div>
-                    <div
-                      className="total-value-section row"
-                      style={{ display: "table-cell", verticalAlign: "middle" }}
-                    >
-                      <div
-                        className="center col-lg-12"
-                        style={{ verticalAlign: "middle" }}
-                      >
-                        <span style={{ fontSize: "41px" }}>
-                          ${companyData.market_cap}
-                        </span>
-                        <br />
-                        TOTAL VALUE
-                      </div>
-                    </div>
-                  </div>
+                  <div className="col-lg-12 company-header-description">{companyData.description}</div>
+ 
                 </div>
               </div>
             </Card>
