@@ -18,6 +18,7 @@ import {useAuth0} from "@auth0/auth0-react";
 import db from "./firebase";
 
  import Explore from "./Components/Explore/Explore";
+import FinancialDisclaimer from "./Components/Disclaimers/FinancialDisclaimer";
 
 function App() {
   const {isLoading, isAuthenticated, loginWithRedirect, user} = useAuth0();
@@ -353,6 +354,10 @@ function App() {
           <Switch>
             <Route exact path="/">
               <LandingPage />
+            </Route>
+
+            <Route path="/disclaimer">
+              <FinancialDisclaimer />
             </Route>
 
             <Route

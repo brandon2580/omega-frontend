@@ -641,7 +641,8 @@ const HomeDashboard = (props) => {
           className="row header justify-content-left"
           style={{ marginLeft: "5px" }}
         >
-          <h1 className="equity-header">{selectedDashboardName}</h1>
+          <h1 className="equity-header col-lg-4">{selectedDashboardName}</h1>
+          <a href="/disclaimer" className="col-lg-8" style={{textAlign: "right"}}>Disclaimer</a>
         </div>
 
         {/* CompanyHeader goes here */}

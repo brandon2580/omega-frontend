@@ -432,7 +432,7 @@ const LandingPage = () => {
                 <a href="#home" className="inner-link">
                   <img src={logo} alt width="75" />
                 </a>
-                © 2021 sigma7.
+                © 2021 sigma7. <a href="/disclaimer">Disclaimer</a>
               </div>
             </div>
             {/* end logo */}
