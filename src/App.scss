@@ -105,7 +105,28 @@ body.light-mode .navbar {
   margin-left: 64px;
   color: black !important;
   z-index: 1;
+}
 
+.login-button {
+  font-size: 15px !important;
+  background-color: transparent !important;
+  color: #00BCDD !important;
+  border: 1px solid #00BCDD;
+  border-radius: 20px;
+  height: 40%;
+  margin-top: 13px !important;
+}
+
+
+.collapse-icon-antd svg{
+  margin-top: 9px;
+  width: 50px;
+  height: 20px;
+}
+
+
+.ant-menu-submenu li span a{
+  margin-bottom: 100px;
 }
 
 body.light-mode .nav-link {

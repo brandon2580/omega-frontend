@@ -13,7 +13,6 @@ const Price = (props) => {
   const [priceRange, setPriceRange] = useState("1y");
   const [priceFrame, setPriceFrame] = useState("daily");
   const [buttonBackground, setButtonBackground] = useState("#0e0e0f");
-  const [f, setF] = useState("red");
   const [isLoading, setIsLoading] = useState(true);
   const [view, setView] = useState("area");
   const [noData, setNoData] = useState(false);

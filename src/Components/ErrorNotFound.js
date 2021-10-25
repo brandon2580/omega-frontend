@@ -20,7 +20,7 @@ const ErrorNotFound = () => {
         <div class="error__description">
           It looks like one of the developers fell asleep
         </div>
-        <a href="/dashboard">
+        <a href="/">
           <button class="error__button">Return</button>
         </a>
       </div>

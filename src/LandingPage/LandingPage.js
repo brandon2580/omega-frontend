@@ -17,6 +17,7 @@ import LogoutButton from "../Auth/Buttons/LogoutButton";
 import { Menu } from "antd";
 
 import { useAuth0 } from "@auth0/auth0-react";
+import { MenuOutlined } from "@ant-design/icons";
 
 const LandingPage = () => {
   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
@@ -50,8 +51,8 @@ const LandingPage = () => {
       <header className="header-style5" id="header-section12">
         {/* nav */}
         <div className="landing-navbar">
-          <Menu mode="horizontal">
-            <Menu.Item style={{marginTop: "7px"}}>
+          <Menu overflowedIndicator={<MenuOutlined className="collapse-icon-antd" />} mode="horizontal">
+            <Menu.Item style={{ marginTop: "7px" }}>
               <img
                 src={logo}
                 width="45"
@@ -59,38 +60,15 @@ const LandingPage = () => {
                 alt="sigma7"
               />
             </Menu.Item>
-            {isAuthenticated ? (
-              <Menu.Item>
-                <a
-                  className="nav-link tz-text nav-text"
-                  aria-current="page"
-                  href={`dashboard/${user.sub}/Default_Layout/AAPL`}
-                  
-                >
-                  Launch
-                </a>
-              </Menu.Item>
-            ) : (
-              <a
-                className="nav-link tz-text nav-text"
-                aria-current="page"
-                onClick={loginWithRedirect}
-              >
-                Please Login
-              </a>
-            )}
             <Menu.Item>
               <a className="nav-link nav-text" href="#content-section44">
                 About
               </a>
             </Menu.Item>
-            <Menu.Item >
+            <Menu.Item>
               <a className="nav-link nav-text" href="#subscribe-section6">
                 Contact
               </a>
-            </Menu.Item>
-            <Menu.Item style={{ marginLeft: 'auto', marginTop: "5px" }} >
-                {isAuthenticated ? <LogoutButton /> : <LoginButton />}
             </Menu.Item>
           </Menu>
         </div>
@@ -113,7 +91,7 @@ const LandingPage = () => {
                 <div className="slider-text-middle text-center xs-padding-fifteen xs-no-padding-lr">
                   <div className="col-md-9 col-sm-12 col-xs-12 center-col ">
                     {/* title */}
-                    <img className="full-logo" src={fullLogo} width="50%" />
+                    <img className="full-logo" src={fullLogo} style={{marginTop: "50px"}} width="50%" />
                     {/* end title */}
                     <div className="btn-dual">
                       {isAuthenticated ? (
@@ -130,7 +108,7 @@ const LandingPage = () => {
                           onClick={loginWithRedirect}
                           className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
                         >
-                          <span className="tz-text">Please Login</span>
+                          <span className="tz-text">Login</span>
 
                           <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
                         </a>
@@ -295,7 +273,7 @@ const LandingPage = () => {
                   onClick={loginWithRedirect}
                   className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
                 >
-                  <span className="tz-text">Please Login</span>
+                  <span className="tz-text">Launch</span>
 
                   <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
                 </a>
@@ -353,7 +331,7 @@ const LandingPage = () => {
                     onClick={loginWithRedirect}
                     className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
                   >
-                    <span className="tz-text">Please Login</span>
+                    <span className="tz-text">Launch</span>
 
                     <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
                   </a>
