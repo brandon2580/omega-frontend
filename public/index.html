@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" href="%PUBLIC_URL%/favicon.ico?v=2" />
-  <meta name="theme-color" content="#000000" />
-  <meta name="description" content="Web site created using create-react-app" />
-  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-  <!--
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico?v=2" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-  <!--
+    <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -25,79 +27,108 @@
     -->
     <script src="//www.amcharts.com/lib/4/themes/animated.js"></script>
 
-  <!-- Ubuntu font -->
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet" />
-  <script src="https://d3js.org/d3.v4.js"></script>
+    <!-- Ubuntu font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://d3js.org/d3.v4.js"></script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap" rel="stylesheet"> 
-  
-  <!-- Hotjar Tracking Code for www.sigma7.io -->
-  <script>
-    (function (h, o, t, j, a, r) {
-      h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
-      h._hjSettings = { hjid: 2462125, hjsv: 6 };
-      a = o.getElementsByTagName('head')[0];
-      r = o.createElement('script'); r.async = 1;
-      r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-      a.appendChild(r);
-    })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
-  </script>
-  <title>sigma7</title>
-</head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@500&display=swap"
+      rel="stylesheet"
+    />
 
-<body>
-  <div id="root"></div>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <script>
-    // Insert this script as-is in your index.html right after the <body> tag.
-    // This will help to prevent a flash if dark mode is the default.
+    <!-- Hotjar Tracking Code for www.sigma7.io -->
+    <script>
+      (function (h, o, t, j, a, r) {
+        h.hj =
+          h.hj ||
+          function () {
+            (h.hj.q = h.hj.q || []).push(arguments);
+          };
+        h._hjSettings = { hjid: 2462125, hjsv: 6 };
+        a = o.getElementsByTagName("head")[0];
+        r = o.createElement("script");
+        r.async = 1;
+        r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+        a.appendChild(r);
+      })(window, document, "https://static.hotjar.com/c/hotjar-", ".js?sv=");
+    </script>
 
-    (function () {
-      var classNameDark = "dark-mode";
-      var classNameLight = "light-mode";
-
-      function setClassOnDocumentBody(darkMode) {
-        document.body.classList.add(
-                darkMode ? classNameDark : classNameLight
-        );
-        document.body.classList.remove(
-                darkMode ? classNameLight : classNameDark
-        );
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-197683310-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
       }
+      gtag("js", new Date());
 
-      const preferDarkQuery = "(prefers-color-scheme: dark)";
-      const mql = window.matchMedia(preferDarkQuery);
-      const supportsColorSchemeQuery = mql.media === preferDarkQuery;
-      let localStorageTheme = null;
-      try {
-        localStorageTheme = localStorage.getItem("darkMode");
-      } catch (err) {
-      }
-      const localStorageExists = localStorageTheme !== null;
-      if (localStorageExists) {
-        localStorageTheme = JSON.parse(localStorageTheme);
-      }
+      gtag("config", "UA-197683310-1");
+    </script>
+    <title>sigma7</title>
+  </head>
 
-      // Determine the source of truth
-      if (localStorageExists) {
-        // source of truth from localStorage
-        setClassOnDocumentBody(localStorageTheme);
-      } else if (supportsColorSchemeQuery) {
-        // source of truth from system
-        setClassOnDocumentBody(mql.matches);
-        localStorage.setItem("darkMode", mql.matches);
-      } else {
-        // source of truth from document.body
-        const isDarkMode = document.body.classList.contains(classNameDark);
-        localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
-      }
-    })();
-  </script>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <body>
+    <div id="root"></div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // Insert this script as-is in your index.html right after the <body> tag.
+      // This will help to prevent a flash if dark mode is the default.
 
-  <!--
+      (function () {
+        var classNameDark = "dark-mode";
+        var classNameLight = "light-mode";
+
+        function setClassOnDocumentBody(darkMode) {
+          document.body.classList.add(
+            darkMode ? classNameDark : classNameLight
+          );
+          document.body.classList.remove(
+            darkMode ? classNameLight : classNameDark
+          );
+        }
+
+        const preferDarkQuery = "(prefers-color-scheme: dark)";
+        const mql = window.matchMedia(preferDarkQuery);
+        const supportsColorSchemeQuery = mql.media === preferDarkQuery;
+        let localStorageTheme = null;
+        try {
+          localStorageTheme = localStorage.getItem("darkMode");
+        } catch (err) {}
+        const localStorageExists = localStorageTheme !== null;
+        if (localStorageExists) {
+          localStorageTheme = JSON.parse(localStorageTheme);
+        }
+
+        // Determine the source of truth
+        if (localStorageExists) {
+          // source of truth from localStorage
+          setClassOnDocumentBody(localStorageTheme);
+        } else if (supportsColorSchemeQuery) {
+          // source of truth from system
+          setClassOnDocumentBody(mql.matches);
+          localStorage.setItem("darkMode", mql.matches);
+        } else {
+          // source of truth from document.body
+          const isDarkMode = document.body.classList.contains(classNameDark);
+          localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
+        }
+      })();
+    </script>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -107,6 +138,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-</body>
-
+  </body>
 </html>
