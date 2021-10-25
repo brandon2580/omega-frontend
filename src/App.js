@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import $ from 'jquery';
+import Popper from 'popper.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import "./App.scss";
-import "jquery";
-import "bootstrap/dist/js/bootstrap";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/js/src/collapse.js";
 import "antd/dist/antd.css";
 import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
