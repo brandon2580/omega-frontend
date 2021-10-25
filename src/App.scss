@@ -14,6 +14,17 @@ body.light-mode {
   background: white;
 }
 
+.landing-navbar{
+  position: fixed;
+  width: 100%;
+  z-index: 500;
+}
+
+.ant-menu{
+  background-color: #232425 !important;
+  border-color: #232425 !important;
+}
+
 .rmd-list-item {
   display: grid;
   grid-template-columns: 0 1fr;
@@ -58,12 +69,21 @@ body.light-mode {
   background: rgba(0, 188, 221, 1) !important;
 }
 
-.bottom-sidenav {
+body.dark-mode .bottom-sidenav {
   position: absolute;
   bottom: 0;
   width: 100%;
   margin-bottom: 15px;
   background-color: black;
+}
+
+body.light-mode .bottom-sidenav {
+  color: black;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin-bottom: 15px;
+  background-color: white;
 }
 
 .sidenav-misc-button {
@@ -82,16 +102,15 @@ body.dark-mode .navbar {
 body.light-mode .navbar {
   background-image: linear-gradient(315deg, white 0%, white 74%);
   height: 60px;
+  margin-left: 64px;
   color: black !important;
+  z-index: 1;
+
 }
 
 body.light-mode .nav-link {
   color: white !important;
-}
-
-body.light-mode .nav-link {
-  color: #777777 !important;
-}
+} 
 
 body.light-mode .active > .nav-link {
   color: black !important;
@@ -1477,7 +1496,9 @@ body.light-mode .dashboard-nav-button {
   border-top-right-radius: 8em;
   border-bottom: 4px solid #e67e22;
 }
-
+.navbar-collapse.in {
+  display: block !important;
+}
 .astronaut__foot-right {
   background-color: white;
   position: absolute;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import emailjs from "emailjs-com";
 import logo from "./images/logo.png";
 import fullLogo from "./images/fullLogo.png";
@@ -14,6 +14,7 @@ import "./css/responsive.css";
 import "./css/themify-icons.css";
 import LoginButton from "../Auth/Buttons/LoginButton";
 import LogoutButton from "../Auth/Buttons/LogoutButton";
+import { Menu } from "antd";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -21,6 +22,9 @@ const LandingPage = () => {
   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
   const [wasEmailSent, setWasEmailSent] = useState(false);
   const [wasEmailFailed, setWasEmailFailed] = useState(false);
+  const ref = useRef(null);
+
+  const scroll = () => ref.current.scrollIntoView();
 
   function sendEmail(e) {
     e.preventDefault();
@@ -46,65 +50,49 @@ const LandingPage = () => {
       <header className="header-style5" id="header-section12">
         {/* nav */}
         <div className="landing-navbar">
-          <nav style={{marginLeft: "0"}} className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-            <div className="container-fluid">
-              <a className="navbar-brand" href="/">
-                <img
-                  src={logo}
-                  width="45"
-                  className="d-inline-block align-top"
-                  alt="sigma7"
-                />
-              </a>
-              <button
-                className="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNav"
-                aria-controls="navbarNav"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
+          <Menu mode="horizontal">
+            <Menu.Item style={{marginTop: "7px"}}>
+              <img
+                src={logo}
+                width="45"
+                className="d-inline-block align-top"
+                alt="sigma7"
+              />
+            </Menu.Item>
+            {isAuthenticated ? (
+              <Menu.Item>
+                <a
+                  className="nav-link tz-text nav-text"
+                  aria-current="page"
+                  href={`dashboard/${user.sub}/Default_Layout/AAPL`}
+                  
+                >
+                  Launch
+                </a>
+              </Menu.Item>
+            ) : (
+              <a
+                className="nav-link tz-text nav-text"
+                aria-current="page"
+                onClick={loginWithRedirect}
               >
-                <span className="navbar-toggler-icon" />
-              </button>
-              <div className="collapse navbar-collapse" id="navbarNav">
-                <ul className="navbar-nav">
-                  <li className="nav-item">
-                    {isAuthenticated ? (
-                      <a
-                        className="nav-link tz-text nav-text"
-                        aria-current="page"
-                        href={`dashboard/${user.sub}/Default_Layout/AAPL`}
-                      >
-                        Demo
-                      </a>
-                    ) : (
-                      <a
-                        className="nav-link tz-text nav-text"
-                        aria-current="page"
-                        onClick={loginWithRedirect}
-                      >
-                        Please Login
-                      </a>
-                    )}
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link nav-text" href="#content-section44">
-                      About
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link nav-text" href="#subscribe-section6">
-                      Contact
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div className="ml-auto row">
+                Please Login
+              </a>
+            )}
+            <Menu.Item>
+              <a className="nav-link nav-text" href="#content-section44">
+                About
+              </a>
+            </Menu.Item>
+            <Menu.Item >
+              <a className="nav-link nav-text" href="#subscribe-section6">
+                Contact
+              </a>
+            </Menu.Item>
+            <Menu.Item style={{ marginLeft: 'auto', marginTop: "5px" }} >
                 {isAuthenticated ? <LogoutButton /> : <LoginButton />}
-              </div>
-            </div>
-          </nav>
+            </Menu.Item>
+          </Menu>
         </div>
 
         {/* end nav */}
@@ -133,7 +121,7 @@ const LandingPage = () => {
                           className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
                           href={`dashboard/${user.sub}/Default_Layout/AAPL`}
                         >
-                          <span className="tz-text">Demo</span>
+                          <span className="tz-text">Launch</span>
 
                           <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
                         </a>
@@ -149,7 +137,7 @@ const LandingPage = () => {
                       )}
                       <a
                         className="btn btn-large propClone main-light-blue  btn-circle xs-margin-ten-bottom xs-width-100"
-                        href="#callto-action2"
+                        onClick={scroll}
                       >
                         <span className="tz-text text-white">Read More</span>
                         <i className="fa fa-angle-right text-extra-medium tz-icon-color text-white" />
@@ -165,9 +153,13 @@ const LandingPage = () => {
       <section
         className="padding-110px-tb feature-style29 main-dark-blue builder-bg xs-padding-60px-tb"
         id="content-section44"
+        ref={ref}
       >
         <div className="container">
-          <div className="row equalize xs-equalize-auto equalize-display-inherit">
+          <div
+            id="actionable-insights"
+            className="row equalize xs-equalize-auto equalize-display-inherit"
+          >
             <div className="col-md-6 display-table col-sm-12 col-xs-12 xs-margin-nineteen-bottom sm-height-auto">
               <div className="display-table-cell-vertical-middle">
                 <img src={sigma7_1} alt />
@@ -177,7 +169,10 @@ const LandingPage = () => {
               <div className="display-table-cell-vertical-middle">
                 {/* section title */}
                 <div className="col-md-12 col-sm-12 col-xs-12">
-                  <h2 className="title-extra-large text-white alt-font sm-section-title-small letter-spacing-minus-1 xs-section-title-large  margin-four-bottom xs-text-center tz-text">
+                  <h2
+                    id="actionable-insights"
+                    className="title-extra-large text-white alt-font sm-section-title-small letter-spacing-minus-1 xs-section-title-large  margin-four-bottom xs-text-center tz-text"
+                  >
                     Actionable Insights
                   </h2>
                   <p className="text-extra-large font-weight-300 margin-fifteen-bottom xs-margin-nineteen-bottom xs-text-center tz-text">
@@ -291,7 +286,7 @@ const LandingPage = () => {
                   className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
                   href={`dashboard/${user.sub}/Default_Layout/AAPL`}
                 >
-                  <span className="tz-text">Demo</span>
+                  <span className="tz-text">Launch</span>
 
                   <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
                 </a>
