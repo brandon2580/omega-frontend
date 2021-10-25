@@ -235,22 +235,7 @@ const Sidenavbar = (props) => {
         </NavItem>
         {yourDashboards}
         {savedDashboardNames}
-        <NavItem eventKey="home">
-          {/* <NavIcon>
-            <DollarOutlined />
-          </NavIcon> */}
-          <NavText>
-            <div className="col-lg-12">
-              <p
-                style={{ visibility: sidenavTextStyle }}
-                className="dashboards-text"
-              >
-                Crypto Dashboards
-              </p>
-            </div>
-            <hr className="dashboards-hr" />
-          </NavText>
-        </NavItem>
+
         <span className="bottom-sidenav">
           <hr className="sidenav-misc-hr" />
           <span className="justify-content-left sidenav-misc-button">
