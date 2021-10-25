@@ -273,7 +273,7 @@ const LandingPage = () => {
                   onClick={loginWithRedirect}
                   className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
                 >
-                  <span className="tz-text">Launch</span>
+                  <span className="tz-text">Login</span>
 
                   <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
                 </a>
@@ -322,7 +322,7 @@ const LandingPage = () => {
                     className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
                     href={`dashboard/${user.sub}/Default_Layout/AAPL`}
                   >
-                    <span className="tz-text">Demo</span>
+                    <span className="tz-text">Launch</span>
 
                     <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
                   </a>
@@ -331,7 +331,7 @@ const LandingPage = () => {
                     onClick={loginWithRedirect}
                     className="btn btn-large propClone bg-golden-yellow  btn-circle xs-margin-ten-bottom xs-width-100"
                   >
-                    <span className="tz-text">Launch</span>
+                    <span className="tz-text">Login</span>
 
                     <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
                   </a>
