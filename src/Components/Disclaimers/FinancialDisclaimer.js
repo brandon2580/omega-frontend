@@ -10,8 +10,8 @@ const FinancialDisclaimer = () => {
         sigma7, Inc. and its team members are not registered as financial
         advisors and hold no formal qualifications to provide financial advice.
         Everything that is provided on this server, on the sigma7.io website, or
-        by sigma7 and its team members is purely for educational purposes only.
-        sigma7 and its team members are not accountable or liable for any losses
+        by sigma7, Inc. and its team members is purely for educational purposes only.
+        sigma7, Inc. and its team members are not accountable or liable for any losses
         or damages. You are responsible for all the risks you take. Any content
         provided here should not be construed as financial advice.
         <br />
