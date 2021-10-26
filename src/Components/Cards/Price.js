@@ -279,7 +279,6 @@ const Price = (props) => {
     </React.Fragment>
   );
 
-
   let areaExtraHeader = (
     <React.Fragment>
       <button
@@ -295,6 +294,7 @@ const Price = (props) => {
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.title}
         extra={props.extra}
         style={{
@@ -316,7 +316,7 @@ const Price = (props) => {
   } else if (noData) {
     return (
       <Card
-        className="hide-overflow price-card"
+        className="hide-overflow price-card card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -331,7 +331,7 @@ const Price = (props) => {
   } else if (view === "area") {
     return (
       <Card
-        className="hide-overflow price-card"
+        className="hide-overflow price-card card"
         title={props.header}
         extra={areaExtraHeader}
         style={{
@@ -350,7 +350,7 @@ const Price = (props) => {
   } else if (view === "candlestick") {
     return (
       <Card
-        className="hide-overflow price-card"
+        className="hide-overflow price-card card"
         title={props.header}
         extra={candlestickExtraHeader}
         style={{

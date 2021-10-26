@@ -97,6 +97,7 @@ const ResearchAndDevelopment = (props) => {
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -118,6 +119,7 @@ const ResearchAndDevelopment = (props) => {
   } else if (noData) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -132,6 +134,7 @@ const ResearchAndDevelopment = (props) => {
   } else {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{

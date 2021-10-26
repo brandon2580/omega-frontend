@@ -103,6 +103,7 @@ const InsiderTrading = (props) => {
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -124,6 +125,7 @@ const InsiderTrading = (props) => {
   } else if (noData) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -140,6 +142,7 @@ const InsiderTrading = (props) => {
   } else {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{

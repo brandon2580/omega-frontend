@@ -74,6 +74,7 @@ const TopInsiders = (props) => {
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.title}
         extra={props.extra}
         style={{
@@ -95,6 +96,7 @@ const TopInsiders = (props) => {
   } else if (noData) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -111,6 +113,7 @@ const TopInsiders = (props) => {
   } else {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -120,7 +123,7 @@ const TopInsiders = (props) => {
       >
         <hr className="card-hr" />
         <React.Fragment>
-          <div style={{ height: 440, overflow: "scroll", overflowX: "hidden" }}>
+          <div style={{ height: 456, overflow: "scroll", overflowX: "hidden" }}>
             <Table dataSource={dataSource} columns={columns} />
           </div>
         </React.Fragment>

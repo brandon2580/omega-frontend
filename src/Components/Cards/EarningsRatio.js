@@ -155,6 +155,7 @@ const EarningsRatio = (props) => {
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -176,7 +177,7 @@ const EarningsRatio = (props) => {
   } else if (noData) {
     return (
       <Card
-        className="earningsratio-card"
+        className="earningsratio-card card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -194,7 +195,7 @@ const EarningsRatio = (props) => {
   } else {
     return (
       <Card
-        className="earningsratio-card"
+        className="earningsratio-card card"
         title={props.header}
         extra={props.extra}
         style={{

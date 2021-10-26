@@ -135,6 +135,7 @@ const ComparingCEOPay = (props) => {
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -156,6 +157,7 @@ const ComparingCEOPay = (props) => {
   } else if (noData) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -170,6 +172,7 @@ const ComparingCEOPay = (props) => {
   } else {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{

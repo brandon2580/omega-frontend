@@ -231,6 +231,7 @@ const PriceTarget = (props) => {
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -252,7 +253,7 @@ const PriceTarget = (props) => {
   } else if (noData) {
     return (
       <Card
-        className="pricetarget-card"
+        className="pricetarget-card card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -267,7 +268,7 @@ const PriceTarget = (props) => {
   } else {
     return (
       <Card
-        className="pricetarget-card"
+        className="pricetarget-card card"
         title={props.header}
         extra={props.extra}
         style={{

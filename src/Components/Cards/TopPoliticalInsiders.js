@@ -75,6 +75,7 @@ const TopPoliticalInsiders = (props) => {
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -96,6 +97,7 @@ const TopPoliticalInsiders = (props) => {
   } else if (noData) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -114,6 +116,7 @@ const TopPoliticalInsiders = (props) => {
   } else {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{

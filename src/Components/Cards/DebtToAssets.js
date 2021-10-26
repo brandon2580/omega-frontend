@@ -119,6 +119,7 @@ const DebtToAssets = (props) => {
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.title}
         extra={props.extra}
         style={{
@@ -140,6 +141,7 @@ const DebtToAssets = (props) => {
   } else if (noData) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -154,6 +156,7 @@ const DebtToAssets = (props) => {
   } else {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{

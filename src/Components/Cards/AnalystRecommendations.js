@@ -251,10 +251,11 @@ const AnalystRecommendations = (props) => {
       {props.extra}
     </React.Fragment>
   );
-  
+
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.title}
         extra={props.extra}
         style={{
@@ -276,7 +277,7 @@ const AnalystRecommendations = (props) => {
   } else if (view === "pie") {
     return (
       <Card
-        className="analystrecs-card"
+        className="analystrecs-card card"
         title={props.header}
         extra={pieExtraHeader}
         style={{
@@ -298,7 +299,7 @@ const AnalystRecommendations = (props) => {
   } else if (view === "bar") {
     return (
       <Card
-        className="analystrecs-card"
+        className="analystrecs-card card"
         title={props.header}
         extra={barExtraHeader}
         style={{
@@ -319,7 +320,7 @@ const AnalystRecommendations = (props) => {
   } else if (noData) {
     return (
       <Card
-        className="analystrecs-card"
+        className="analystrecs-card card"
         title={props.header}
         extra={props.extra}
         style={{

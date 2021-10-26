@@ -307,6 +307,10 @@ body.light-mode .ant-card {
   overflow-y: hidden !important;
 }
 
+.card{
+  height: 575px !important;
+}
+
 body.light-mode .ant-card-body {
   color: black;
   overflow-x: hidden;
@@ -469,7 +473,7 @@ body.light-mode .recharts-tooltip-item-value {
 
 body.light-mode .range-button {
   color: black;
-  background-color: white;
+  background-color: white !important;
 }
 
 body.dark-mode .range-button {
@@ -613,6 +617,7 @@ body.light-mode .feedback-subheader {
 
 .blue-button svg {
   fill: rgba(0, 188, 221, 1) !important;
+  margin-bottom: 4px;
 }
 
 .blue {
@@ -660,7 +665,7 @@ body.light-mode .change-view-button {
   color: #00BCDD !important;
   border: 1px solid #00BCDD;  
   border-radius: 20px;
-
+  margin-right: 20px;
 }
 
 .custom-tooltip {
@@ -869,8 +874,12 @@ body.light-mode .ticker-dropdown-item {
   margin-right: 10px;
 }
 
-.sidenav-misc-hr {
+body.dark-mode .sidenav-misc-hr {
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.light-mode .sidenav-misc-hr {
+  border: 1px solid rgb(195, 195, 195);
 }
 
 .ant-card-head {
@@ -1002,6 +1011,11 @@ body.dark-mode .navbar-popover-text {
 
 .dividends-growth-3y {
   font-size: large;
+}
+
+.dropdown-frame-icon svg{
+  height: 25px;
+  width: 25px;
 }
 
 .risk-tooltip-content {

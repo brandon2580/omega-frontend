@@ -94,6 +94,7 @@ const CorrelatedMarkets = (props) => {
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -115,6 +116,7 @@ const CorrelatedMarkets = (props) => {
   } else if (noData) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -131,6 +133,7 @@ const CorrelatedMarkets = (props) => {
   } else {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{

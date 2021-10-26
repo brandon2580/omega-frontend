@@ -43,6 +43,7 @@ const News = (props) => {
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.title}
         extra={props.extra}
         style={{
@@ -64,7 +65,7 @@ const News = (props) => {
   } else if (noData) {
     return (
       <Card
-        className="news-card"
+        className="news-card card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -79,7 +80,7 @@ const News = (props) => {
   } else {
     return (
       <Card
-        className="news-card"
+        className="news-card card"
         title={props.header}
         extra={props.extra}
         style={{

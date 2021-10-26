@@ -83,8 +83,8 @@ const ShareLayoutModal = (props) => {
             </button>
           </div>{" "}
           <div className="col-lg-6">
-            <button className="btn btn-primary" onClick={shareDashboard}>
-              Share to Explore Page
+            <button disabled className="btn btn-primary" onClick={shareDashboard}>
+              Share to Explore Page <br /> (Coming Soon)
             </button>
           </div>
         </div>

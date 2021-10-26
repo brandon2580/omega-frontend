@@ -105,6 +105,7 @@ const CEOPayBreakdown = (props) => {
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -126,6 +127,7 @@ const CEOPayBreakdown = (props) => {
   } else if (noData) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -140,6 +142,7 @@ const CEOPayBreakdown = (props) => {
   } else {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{

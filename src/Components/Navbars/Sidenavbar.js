@@ -251,7 +251,7 @@ const Sidenavbar = (props) => {
             </h4>
             <DarkModeToggle setDarkMode={props.setDarkMode} />
           </span>
-          <hr className="sidenav-misc-hr" />
+          {/* <hr className="sidenav-misc-hr" />
           <a href={`/explore/${props.userID}`}>
             <span className="justify-content-left sidenav-misc-button">
               <GlobalOutlined
@@ -265,7 +265,7 @@ const Sidenavbar = (props) => {
                 Explore
               </h4>
             </span>
-          </a>
+          </a> */}
           <hr className="sidenav-misc-hr" />
           <a href="/profile">
             <span className="justify-content-left sidenav-misc-button">
