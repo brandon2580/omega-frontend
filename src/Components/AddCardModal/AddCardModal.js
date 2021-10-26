@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../App.scss";
 import { Modal, Popover } from "antd";
 import AutoSuggest from "react-autosuggest";
 import { InfoCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import * as am4core from "@amcharts/amcharts4/core";
+
 import AddToLayoutButton from "./AddToLayoutButton";
 import Earnings from "../Cards/Earnings";
 import AnalystRecommendations from "../Cards/AnalystRecommendations";
@@ -56,6 +58,11 @@ const AddCardModal = (props) => {
   const handleExit = () => {
     setModalVisible(false);
   };
+
+  useEffect(() => {
+    am4core.addLicense("ch-custom-attribution");
+
+  }, [])
 
   // This is an object containing every available card that users have access to
   const availableCardsObject = {

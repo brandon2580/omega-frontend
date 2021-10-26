@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
-import { Card } from "antd";
+import { Card, Dropdown, Menu } from "antd";
+import { UnorderedListOutlined } from "@ant-design/icons";
 import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -113,37 +114,42 @@ const PoliticalSalesVsPurchases = (props) => {
     setRange(e.target.value);
   };
 
-  let timeFrameButtons = (
-    <div className="row">
-      <div className="col-lg-12">
+  const menu = (
+    <Menu>
+      <Menu.Item>
         <button
           className="range-button btn btn-link btn-sm shadow-none"
           value={3}
           onClick={changeTimeFrame}
         >
-          3 months
+          3mo
         </button>
+      </Menu.Item>
+      <Menu.Item>
         <button
           className="range-button btn btn-link btn-sm shadow-none"
           value={6}
           onClick={changeTimeFrame}
         >
-          6 months
+          6mo
         </button>
+      </Menu.Item>
+      <Menu.Item>
         <button
           className="range-button btn btn-link btn-sm shadow-none"
           value={12}
           onClick={changeTimeFrame}
         >
-          12 months
+          12mo
         </button>
-      </div>
-    </div>
+      </Menu.Item>
+    </Menu>
   );
 
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -165,6 +171,7 @@ const PoliticalSalesVsPurchases = (props) => {
   } else if (noData) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -181,6 +188,7 @@ const PoliticalSalesVsPurchases = (props) => {
   } else {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -190,8 +198,19 @@ const PoliticalSalesVsPurchases = (props) => {
       >
         <hr className="card-hr" />
         <React.Fragment>
-          <div style={{ height: 440 }} id="politicalinsidersdiv" />
-          {timeFrameButtons}
+          <div style={{ height: 456 }} id="politicalinsidersdiv" />
+          <div className="row">
+            <div className="col-lg-2">
+              <Dropdown overlay={menu}>
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <UnorderedListOutlined className="dropdown-frame-icon" />
+                </a>
+              </Dropdown>
+            </div>
+          </div>
         </React.Fragment>
       </Card>
     );

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../../App.scss";
-import { Card } from "antd";
+import { Card, Dropdown, Menu } from "antd";
+import { UnorderedListOutlined } from "@ant-design/icons";
 import Loader from "react-loader-spinner";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -148,9 +149,60 @@ const CompareReturns = (props) => {
     setTimeFrame(e.target.value);
   };
 
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <button
+          className="range-button btn btn-link btn-sm shadow-none"
+          value="ytd"
+          onClick={changeTimeFrame}
+        >
+          ytd
+        </button>
+      </Menu.Item>
+      <Menu.Item>
+        <button
+          className="range-button btn btn-link btn-sm shadow-none"
+          value="6m"
+          onClick={changeTimeFrame}
+        >
+          6m
+        </button>
+      </Menu.Item>
+      <Menu.Item>
+        <button
+          className="range-button btn btn-link btn-sm shadow-none"
+          value="1y"
+          onClick={changeTimeFrame}
+        >
+          1y
+        </button>
+      </Menu.Item>
+      <Menu.Item>
+        <button
+          className="range-button btn btn-link btn-sm shadow-none"
+          value="2y"
+          onClick={changeTimeFrame}
+        >
+          2y
+        </button>
+      </Menu.Item>
+      <Menu.Item>
+        <button
+          className="range-button btn btn-link btn-sm shadow-none"
+          value="5y"
+          onClick={changeTimeFrame}
+        >
+          5y
+        </button>
+      </Menu.Item>
+    </Menu>
+  );
+
   if (isLoading) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -172,6 +224,7 @@ const CompareReturns = (props) => {
   } else if (noData) {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -188,6 +241,7 @@ const CompareReturns = (props) => {
   } else {
     return (
       <Card
+        className="card"
         title={props.header}
         extra={props.extra}
         style={{
@@ -197,50 +251,23 @@ const CompareReturns = (props) => {
       >
         <hr className="card-hr" />
         <React.Fragment>
-          <div style={{ height: 440 }} id="comparediv" />
-
+          <div style={{ height: 456 }} id="comparediv" />
           <div className="row">
-            <div className="col-lg-4">
-              <button
-                className="range-button btn btn-link btn-sm shadow-none"
-                value="ytd"
-                onClick={changeTimeFrame}
-              >
-                ytd
-              </button>
-              <button
-                className="range-button btn btn-link btn-sm shadow-none"
-                value="6m"
-                onClick={changeTimeFrame}
-              >
-                6m
-              </button>
-              <button
-                className="range-button btn btn-link btn-sm shadow-none"
-                value="1y"
-                onClick={changeTimeFrame}
-              >
-                1y
-              </button>
-              <button
-                className="range-button btn btn-link btn-sm shadow-none"
-                value="2y"
-                onClick={changeTimeFrame}
-              >
-                2y
-              </button>
-              <button
-                className="range-button btn btn-link btn-sm shadow-none"
-                value="5y"
-                onClick={changeTimeFrame}
-              >
-                5y
-              </button>
+            <div className="col-lg-2">
+              <Dropdown overlay={menu}>
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <UnorderedListOutlined className="dropdown-frame-icon" />
+                </a>
+              </Dropdown>
             </div>
-
-            <p className="compare-returns-overall center">
-              Overall: <span className="blue">{performanceStatus}</span>
-            </p>
+            <div className="col-lg-8">
+              <p className="compare-returns-overall center">
+                Overall: <span className="blue">{performanceStatus}</span>
+              </p>
+            </div>
           </div>
         </React.Fragment>
       </Card>

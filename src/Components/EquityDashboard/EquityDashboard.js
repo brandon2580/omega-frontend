@@ -109,6 +109,7 @@ const HomeDashboard = (props) => {
   // We're gonna disable animations for just Firefox because of how it handles the charts (causes lag). Every
   // other browser can have animations
   useEffect(() => {
+    am4core.addLicense("ch-custom-attribution");
     if (navigator.userAgent.toLowerCase().indexOf("firefox") > -1) {
       console.log("using firefox, reverting to no animations");
       am4core.useTheme(am4themes_dark);
