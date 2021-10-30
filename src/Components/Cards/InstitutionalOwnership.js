@@ -18,18 +18,18 @@ const InstitutionalOwnership = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const institutional_ownership = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/institutional-ownership?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-nodejs.herokuapp.com/api/institutional-ownership/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(institutional_ownership)
       .then((institutional_ownership) => {
         // First, check to see if the length of the array is 0
         // (meaning no data was returned)
-        if (institutional_ownership.length === 0) {
+        if (institutional_ownership.data.length === 0) {
           setNoData(true);
           setIsLoading(false);
         } else {
-          let dataArray = institutional_ownership.map((el, i) => {
+          let dataArray = institutional_ownership.data.map((el, i) => {
             return {
               entity: el.entityProperName,
               shares_held: el.reportedHolding,

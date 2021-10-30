@@ -27,11 +27,11 @@ const PriceTarget = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const price_target = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/price-target?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-nodejs.herokuapp.com/api/price-target/${props.activeTicker}`
     ).then((res) => res.json());
 
     const prices = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/chart/1y?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-nodejs.herokuapp.com/api/chart/${props.activeTicker}`
     ).then((res) => res.json());
 
     const allReqs = [prices, price_target];
@@ -41,19 +41,19 @@ const PriceTarget = (props) => {
         const [prices, price_target] = allResp;
 
         let priceTargetData = [
-          Object.keys(prices).map(function (key) {
+          Object.keys(prices.data).map(function (key) {
             return {
-              date: prices[key].date,
-              value: prices[key].close,
+              date: prices.data[key].date,
+              value: prices.data[key].close,
               color: "#007bff",
             };
           }),
           {
-            last_updated: price_target.updatedData,
-            average: price_target.priceTargetAverage,
-            high: price_target.priceTargetHigh,
-            low: price_target.priceTargetLow,
-            numOfAnalysts: price_target.numberOfAnalysts,
+            last_updated: price_target.data.updatedData,
+            average: price_target.data.priceTargetAverage,
+            high: price_target.data.priceTargetHigh,
+            low: price_target.data.priceTargetLow,
+            numOfAnalysts: price_target.data.numberOfAnalysts,
           },
         ];
 

@@ -20,18 +20,19 @@ const RevenueToProfit = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const income_statement = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/income/20?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-nodejs.herokuapp.com/api/income/${props.activeTicker}`
+
     ).then((res) => res.json());
 
     Promise.resolve(income_statement)
       .then((income_statement) => {
         // First, check to see if the object has 0 keys,
         // (meaning no data was returned)
-        if (Object.keys(income_statement).length === 0) {
+        if (Object.keys(income_statement.data).length === 0) {
           setNoData(true);
           setIsLoading(false);
         } else {
-          let dataArray = income_statement.income.map((el, i) => {
+          let dataArray = income_statement.data.income.map((el, i) => {
             return {
               date: el.fiscalDate,
               revenue: el.totalRevenue,

@@ -45,18 +45,18 @@ const EarningsRatio = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const earnings = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/earnings/4?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-nodejs.herokuapp.com/api/earnings/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(earnings)
       .then((earnings) => {
         // First, check to see if the object has 0 keys,
         // (meaning no data was returned)
-        if (Object.keys(earnings).length === 0) {
+        if (Object.keys(earnings.data).length === 0) {
           setNoData(true);
           setIsLoading(false);
         } else {
-          let earningsRatioData = earnings.earnings.map((el, i) => {
+          let earningsRatioData = earnings.data.earnings.map((el, i) => {
             return {
               consensus: el.consensusEPS,
               actual: el.actualEPS,

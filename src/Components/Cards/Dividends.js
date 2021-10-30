@@ -29,7 +29,7 @@ const Dividends = (props) => {
     ).then((res) => res.json());
 
     const dividend_raw = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/dividends/5y?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-nodejs.herokuapp.com/api/dividends/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(dividend_yields)
@@ -67,12 +67,12 @@ const Dividends = (props) => {
       .then((dividend_raw) => {
         // First, check to see if the length of the array is 0
         // (meaning no data was returned)
-        if (dividend_raw.length === 0) {
+        if (dividend_raw.data.length === 0) {
           setView("");
           setNoData(true);
           setIsLoading(false);
         } else {
-          let dividendData = dividend_raw.reverse().map((el) => {
+          let dividendData = dividend_raw.data.reverse().map((el) => {
             return {
               x: el.recordDate,
               y: el.amount.toFixed(2),

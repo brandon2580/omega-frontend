@@ -55,11 +55,11 @@ const Earnings = (props) => {
       .then((earnings) => {
         // First, check to see if the object has 0 keys,
         // (meaning no data was returned)
-        if (Object.keys(earnings).length === 0) {
+        if (Object.keys(earnings.data).length === 0) {
           setNoData(true);
           setIsLoading(false);
         } else {
-          let earningsArray = earnings.earnings;
+          let earningsArray = earnings.data.earnings;
 
           let dates = earningsArray.reverse().map((el, i) => {
             return el.fiscalPeriod;

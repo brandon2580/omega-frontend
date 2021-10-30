@@ -25,18 +25,18 @@ const Price = (props) => {
   useLayoutEffect(() => {
     setIsLoading(true);
     const candlestickPrices = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/chart/${priceRange}?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-nodejs.herokuapp.com/api/chart/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(candlestickPrices)
       .then((price) => {
-        let candlestickData = Object.keys(price).map(function (key) {
+        let candlestickData = Object.keys(price.data).map(function (key) {
           return {
-            date: price[key].date,
-            open: price[key].open,
-            high: price[key].high,
-            low: price[key].low,
-            close: price[key].close,
+            date: price.data[key].date,
+            open: price.data[key].open,
+            high: price.data[key].high,
+            low: price.data[key].low,
+            close: price.data[key].close,
           };
         });
         setNoData(false);
@@ -50,15 +50,15 @@ const Price = (props) => {
       });
 
     const areaPrices = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/chart/${priceRange}?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-nodejs.herokuapp.com/api/chart/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(areaPrices)
       .then((price) => {
-        let areaData = Object.keys(price).map(function (key) {
+        let areaData = Object.keys(price.data).map(function (key) {
           return {
-            x: price[key].date,
-            y: price[key].close,
+            x: price.data[key].date,
+            y: price.data[key].close,
             color: "#007bff",
           };
         });

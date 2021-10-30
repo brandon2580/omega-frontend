@@ -20,18 +20,18 @@ const DebtToAssets = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const balance_sheet = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/balance-sheet/20?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-nodejs.herokuapp.com/api/balance-sheet/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(balance_sheet)
       .then((balance_sheet) => {
         // First, check to see if the object has 0 keys,
         // (meaning no data was returned)
-        if (Object.keys(balance_sheet).length === 0) {
+        if (Object.keys(balance_sheet.data).length === 0) {
           setNoData(true);
           setIsLoading(false);
         } else {
-          let dataArray = balance_sheet.balancesheet.map((el, i) => {
+          let dataArray = balance_sheet.data.balancesheet.map((el, i) => {
             return {
               date: el.fiscalDate,
               assets: el.totalAssets,
