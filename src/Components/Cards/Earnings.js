@@ -48,7 +48,7 @@ const Earnings = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const earnings = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/earnings/4?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-nodejs.herokuapp.com/api/earnings/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(earnings)

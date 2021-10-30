@@ -14,7 +14,7 @@ const CompanyHeader = (props) => {
     ).then((res) => res.json());
 
     const price = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/price?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-nodejs.herokuapp.com/api/price/${props.activeTicker}`
     ).then((res) => res.json());
 
     // We use this function to add necessary commas (when needed) to large numbers such as market cap
@@ -23,6 +23,7 @@ const CompanyHeader = (props) => {
     }
 
     Promise.all([company, price]).then((company) => {
+      console.log(company)
       setCompanyData({
         company_name: company[0].companyName,
         ticker: props.activeTicker,
@@ -34,7 +35,7 @@ const CompanyHeader = (props) => {
         ceo: company.ceo,
         market_cap: numberWithCommas(company[0].marketcap),
         totalReturn: company[0].maxChangePercent,
-        price: company[1],
+        price: company[1].data,
       });
       setIsLoading(false);
     });

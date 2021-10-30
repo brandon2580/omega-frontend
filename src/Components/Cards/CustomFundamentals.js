@@ -22,9 +22,7 @@ const CustomFundamentals = (props) => {
 
   useEffect(() => {
     setIsLoading(true);
-    const balance_sheet = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/balance-sheet/20?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
-    ).then((res) => res.json());
+    const balance_sheet = fetch(``).then((res) => res.json());
 
     Promise.resolve(balance_sheet)
       .then((balance_sheet) => {

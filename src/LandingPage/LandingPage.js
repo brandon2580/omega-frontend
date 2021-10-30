@@ -46,6 +46,10 @@ const LandingPage = () => {
       );
   }
 
+  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+    console.log("MOBIIIIIIILE")
+   }
+
   return (
     <React.Fragment>
       <header className="header-style5" id="header-section12">

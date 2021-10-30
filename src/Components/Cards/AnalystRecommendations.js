@@ -22,25 +22,25 @@ const AnalystRecommendations = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const analyst_recs = fetch(
-      `https://cloud.iexapis.com/stable/stock/${props.activeTicker}/recommendation-trends?token=pk_6fdc6387a2ae4f8e9783b029fc2a3774`
+      `https://sigma7-nodejs.herokuapp.com/api/recommendation-trends/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(analyst_recs)
       .then((analyst_recs) => {
         // First, check to see if the length of the array is 0
         // (meaning no data was returned)
-        if (analyst_recs.length === 0) {
+        if (analyst_recs.data.length === 0) {
           setView("");
           setNoData(true);
           setIsLoading(false);
         } else {
           let seriesData = [
             {
-              "Strong Buy": analyst_recs[0].ratingOverweight,
-              Buy: analyst_recs[0].ratingBuy,
-              Hold: analyst_recs[0].ratingHold,
-              Sell: analyst_recs[0].ratingSell,
-              "Strong Sell": analyst_recs[0].ratingUnderweight,
+              "Strong Buy": analyst_recs.data[0].ratingOverweight,
+              Buy: analyst_recs.data[0].ratingBuy,
+              Hold: analyst_recs.data[0].ratingHold,
+              Sell: analyst_recs.data[0].ratingSell,
+              "Strong Sell": analyst_recs.data[0].ratingUnderweight,
             },
           ];
 
