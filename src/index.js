@@ -23,6 +23,7 @@ ReactDOM.render(
     clientId="nhoaYEy41X2uaON17iw4eKpD0ZXB0wBG"
     // After a user signs in or creates an account, redirect them to the equity dashboard
     redirectUri={window.location.origin + "/"}
+    useRefreshTokens={true}
   >
     <App />
   </Auth0Provider>,
