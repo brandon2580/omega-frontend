@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import emailjs from "emailjs-com";
 import logo from "./images/logo.png";
 import fullLogo from "./images/fullLogo.png";
@@ -14,13 +14,14 @@ import "./css/responsive.css";
 import "./css/themify-icons.css";
 import LoginButton from "../Auth/Buttons/LoginButton";
 import LogoutButton from "../Auth/Buttons/LogoutButton";
-import { Menu } from "antd";
+import { Menu, notification } from "antd";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import { MenuOutlined } from "@ant-design/icons";
 
 const LandingPage = () => {
   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
+  const [isMobileUser, setIsMobileUser] = useState(false);
   const [wasEmailSent, setWasEmailSent] = useState(false);
   const [wasEmailFailed, setWasEmailFailed] = useState(false);
   const ref = useRef(null);
@@ -46,16 +47,65 @@ const LandingPage = () => {
       );
   }
 
-  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-    console.log("MOBIIIIIIILE")
-   }
+  const desktopNotification = () => {
+    notification.open({
+      message: "Notice",
+      description: (
+        <div>
+          We are working on a mobile app! Join the waitlist at{" "}
+          <a target="_blank" href={"//" + "join.sigma7.io"}>
+            join.sigma7.io
+          </a>
+        </div>
+      ),
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+      duration: 8,
+    });
+  };
 
+  const mobileNotification = () => {
+    notification.open({
+      message: "Notice",
+      description: (
+        <div>
+          We noticed you are using a mobile device. For an optimal experience, please use a desktop/laptop OR check out our upcoming app here - 
+          <a target="_blank" href={"//" + "join.sigma7.io"}>
+            join.sigma7.io
+          </a>
+        </div>
+      ),
+      onClick: () => {
+        console.log("Notification Clicked!");
+      },
+      duration: 8,
+    });
+  };
+
+  useEffect(() => {
+    // Check to see if the user is on a mobile device or not
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
+      mobileNotification();
+    } else {
+      desktopNotification();
+    }
+  }, []);
   return (
     <React.Fragment>
       <header className="header-style5" id="header-section12">
         {/* nav */}
         <div className="landing-navbar">
-          <Menu overflowedIndicator={<MenuOutlined className="collapse-icon-antd" />} mode="horizontal">
+          <Menu
+            overflowedIndicator={
+              <MenuOutlined className="collapse-icon-antd" />
+            }
+            mode="horizontal"
+          >
             <Menu.Item style={{ marginTop: "7px" }}>
               <img
                 src={logo}
@@ -79,6 +129,7 @@ const LandingPage = () => {
 
         {/* end nav */}
       </header>
+
       <section
         className="position-relative hero-style19 cover-background tz-builder-bg-image hero-style19 hero-style2 border-none bg-img-one"
         id="home"
@@ -95,7 +146,12 @@ const LandingPage = () => {
                 <div className="slider-text-middle text-center xs-padding-fifteen xs-no-padding-lr">
                   <div className="col-md-9 col-sm-12 col-xs-12 center-col ">
                     {/* title */}
-                    <img className="full-logo" src={fullLogo} style={{marginTop: "50px"}} width="50%" />
+                    <img
+                      className="full-logo"
+                      src={fullLogo}
+                      style={{ marginTop: "50px" }}
+                      width="50%"
+                    />
                     {/* end title */}
                     <div className="btn-dual">
                       {isAuthenticated ? (
@@ -122,6 +178,7 @@ const LandingPage = () => {
                         onClick={scroll}
                       >
                         <span className="tz-text text-white">Read More</span>
+
                         <i className="fa fa-angle-right text-extra-medium tz-icon-color text-white" />
                       </a>
                     </div>
