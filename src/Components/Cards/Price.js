@@ -4,6 +4,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import "../../App.scss";
 import { Card } from "antd";
 import Loader from "react-loader-spinner";
+import Iframe from 'react-iframe'
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 
@@ -331,6 +332,7 @@ const Price = (props) => {
   } else if (view === "area") {
     return (
       <Card
+        id="price"
         className="hide-overflow price-card card"
         title={props.header}
         extra={areaExtraHeader}
