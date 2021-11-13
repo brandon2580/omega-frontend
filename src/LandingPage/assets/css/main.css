@@ -74,7 +74,6 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 700;
   margin: 0px;
 }
 
@@ -85,14 +84,6 @@ h4 a,
 h5 a,
 h6 a {
   color: inherit;
-}
-
-h1 {
-  font-size: 55px;
-}
-
-h2 {
-  font-size: 40px;
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
@@ -186,6 +177,27 @@ p {
   border: 2px solid transparent;
   background: rgba(0, 188, 221, 1) !important;
   overflow: hidden;
+}
+
+.demo-btn{
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  padding: 17px 35px;
+  font-size: 18px;
+  line-height: 1;
+  border-radius: 50px;
+  color: black;
+  cursor: pointer;
+  z-index: 5;
+  transition: all .4s ease-in-out;
+  border: 2px solid transparent;
+  background: white !important;
+  overflow: hidden;
+  margin-left: 10px;
 }
 
 .main-btn:hover {

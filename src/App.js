@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import $ from 'jquery';
 import Popper from 'popper.js';
@@ -9,19 +9,20 @@ import "antd/dist/antd.css";
 import "../node_modules/react-grid-layout/css/styles.css";
 import "../node_modules/react-resizable/css/styles.css";
 import EquityDashboard from "./Components/EquityDashboard/EquityDashboard";
+import DemoEquityDashboard from "./Components/DemoEquityDashboard/DemoEquityDashboard";
 import Portfolio from "./Components/Portfolio/Portfolio";
 import ErrorNotFound from "./Components/ErrorNotFound";
 import LandingPage from "./LandingPage/LandingPage";
 import Profile from "./Auth/Profile/Profile";
 import Loader from "react-loader-spinner";
-import {useAuth0} from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 import db from "./firebase";
 
- import Explore from "./Components/Explore/Explore";
+import Explore from "./Components/Explore/Explore";
 import FinancialDisclaimer from "./Components/Disclaimers/FinancialDisclaimer";
 
 function App() {
-  const {isLoading, isAuthenticated, loginWithRedirect, user} = useAuth0();
+  const { isLoading, isAuthenticated, loginWithRedirect, user } = useAuth0();
   const [activeTicker, setActiveTicker] = useState("");
   // The values in the state array represent the id's of the cards that render on the dashboard by default.
   // These are the initial "selected" cards that render by default.
@@ -360,6 +361,19 @@ function App() {
               <FinancialDisclaimer />
             </Route>
 
+            <Route path="/demo/">
+              <div className="dashboard">
+                <DemoEquityDashboard
+                  availableCards={availableCards}
+                  setAvailableCards={setAvailableCards}
+                  selectedCardsIndex={selectedCardsIndex}
+                  setSelectedCardsIndex={setSelectedCardsIndex}
+                  setActiveTicker={setActiveTicker}
+                  activeTicker={activeTicker}
+                />
+              </div>
+            </Route>
+
             <Route
               path={`/dashboard/:userID/:dashboardID/:urlTicker`}
             >
@@ -377,9 +391,9 @@ function App() {
             <Route path="/portfolio">
               <Portfolio />
             </Route>
-             <Route component={Explore} path={`/explore/:userID`}>
+            <Route component={Explore} path={`/explore/:userID`}>
               <Explore />
-            </Route> 
+            </Route>
             <Route path="/profile">
               {/* 
                 Is the page loading? Show loading icon. Then make sure

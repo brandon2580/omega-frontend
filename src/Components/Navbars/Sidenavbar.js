@@ -205,7 +205,7 @@ const Sidenavbar = (props) => {
       <a href="/">
         <img
           src={logo}
-          width="80"
+          width="65"
           className="d-inline-block align-top"
           alt="sigma7"
           style={{ marginLeft: logoStyle }}

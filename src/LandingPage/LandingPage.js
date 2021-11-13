@@ -2,8 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import emailjs from "emailjs-com";
 import logo from "./images/logo.png";
 import fullLogo from "./images/fullLogo.png";
-import dashboard from "./images/BigDashboard.png";
+import macImage from "./images/macImage.png";
 import sigma7_1 from "./images/sigma7_1.png";
+import debtAssets from "./images/debt-assets.png";
+import ceoPie from "./images/ceo-pie.png";
+import compareCeoSmall from "./images/compare-ceo-small.png";
+import compareCeoLarge from "./images/compare-ceo-large.png";
+
 // import "./css/base.css";
 // import "./css/elements.css";
 // import "./css/font-awesome.min.css";
@@ -110,38 +115,14 @@ const LandingPage = () => {
     }
   }, []);
   return (
-    <div>
-      <div className="landing-navbar">
-        <Menu
-          overflowedIndicator={<MenuOutlined className="collapse-icon-antd" />}
-          mode="horizontal"
-        >
-          <Menu.Item style={{ marginTop: "7px" }}>
-            <img
-              src={logo}
-              width="45"
-              className="d-inline-block align-top"
-              alt="sigma7"
-            />
-          </Menu.Item>
-          <Menu.Item>
-            <a className="nav-link nav-text" href="#content-section44">
-              About
-            </a>
-          </Menu.Item>
-          <Menu.Item>
-            <a className="nav-link nav-text" href="#subscribe-section6">
-              Contact
-            </a>
-          </Menu.Item>
-        </Menu>
-      </div>
+    <div style={{ background: "#181818" }}>
+      
       <section id="home" className="hero-section">
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-xxl-5 col-xl-6 col-lg-6 col-md-10">
+            <div className="col-lg-6">
               <div className="hero-content">
-                <h1>Stop wasting time reading boring financial statements</h1>
+                <h1 style={{fontWeight: "700", fontSize: "55px"}}>Stop wasting time reading boring financial statements</h1>
                 <p>
                   sigma7 provides simplified stock research in an easy, visual,
                   and digestible manner.
@@ -165,20 +146,49 @@ const LandingPage = () => {
                     >
                       Login
                     </a>
-
-                    <i className="fa fa-angle-right text-extra-medium tz-icon-color" />
+                    <a
+                      href="/demo/AAPL"
+                      className="demo-btn btn-hover"
+                    >
+                      Demo
+                    </a>
                   </div>
                 )}
               </div>
             </div>
-            <div className="col-xxl-6 col-xl-6 col-lg-6 offset-xxl-1">
+            <div className="col-lg-6">
               <div className="hero-image text-center text-lg-start">
-                <img src={dashboard} style={{ width: "100%" }} alt="" />
+                <img src={macImage} style={{ width: "175%", height: "100%", marginLeft: "-222.5px", marginRight: "-222.5px" }} alt="laptop" />
               </div>
             </div>
           </div>
         </div>
       </section>
+      {/* <section id="second-section" style={{ marginTop: "75px", marginLeft: "50px", marginRight: "50px" }}>
+        <div className="row center">
+          <div className="col-lg-4 landing-box">
+            <p style={{ fontSize: "24px", marginBottom: "40px" }}>Choose from over 20+ widgets to create the perfect dashboard in minutes</p>
+            <img src={ceoPie} alt="ceo-pie" />
+            <img style={{ marginTop: "20px" }} src={debtAssets} alt="debt-assets" />
+
+          </div>
+          <div style={{ marginTop: "40px" }} className="col-lg-4">
+            <h1 className="white">Maximize your efficiency</h1>
+            <p style={{ fontSize: "20px" }}>Design a dashboard that suits every possible need.</p>
+            <div className="landing-box" style={{ marginTop: "40px" }}>
+              <p style={{ fontSize: "24px", marginBottom: "40px" }}>Adjust widgets to fit any layout you can imagine</p>
+              <img src={compareCeoSmall} alt="ceo-pie" />
+              <img src={compareCeoLarge} style={{ width: "100%", marginTop: "40px" }} alt="ceo-pie" />
+            </div>
+          </div>
+          <div className="col-lg-4 landing-box">
+            <p style={{ fontSize: "24px", marginBottom: "40px" }}>Share dashboards across your network of friends</p>
+            <img src={ceoPie} alt="ceo-pie" />
+            <img style={{ marginTop: "20px" }} src={debtAssets} alt="debt-assets" />
+
+          </div>
+        </div>
+      </section> */}
     </div>
     // <React.Fragment>
     //   <header className="header-style5" id="header-section12">

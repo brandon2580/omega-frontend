@@ -20,6 +20,21 @@ body.light-mode {
   z-index: 500;
 }
 
+.landing-box{
+  background-color: #232425;
+  border-radius: 40px;
+  padding: 25px;
+  margin-top: 40px;
+}
+
+body.dark-mode .text{
+  color: white;
+}
+
+body.light-mode .text{
+  color: black;
+}
+
 .ant-menu{
   background-color: #232425 !important;
   border-color: #232425 !important;
@@ -94,7 +109,6 @@ body.light-mode .bottom-sidenav {
 body.dark-mode .navbar {
   background-color: #232425 !important;
   height: 60px;
-  margin-left: 64px;
   border-bottom: 1px solid #0e0e0f !important;
   z-index: 1;
 }
@@ -102,7 +116,6 @@ body.dark-mode .navbar {
 body.light-mode .navbar {
   background-image: linear-gradient(315deg, white 0%, white 74%);
   height: 60px;
-  margin-left: 64px;
   color: black !important;
   z-index: 1;
 }
@@ -173,7 +186,7 @@ body.light-mode .navbar-dark .navbar-toggler {
 }
 
 body.dark-mode .header {
-  margin-top: 100px;
+  margin-top: 35px;
   margin-bottom: 50px;
   color: white;
 }
@@ -892,7 +905,7 @@ body.light-mode .sidenav-misc-hr {
 }
 
 .anticon-close svg{
-  fill: black;
+  fill: rgba(0, 188, 221, 1);
 }
 
 .modal-header {
