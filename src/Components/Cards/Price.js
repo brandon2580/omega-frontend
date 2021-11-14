@@ -51,7 +51,7 @@ const Price = (props) => {
       });
 
     const areaPrices = fetch(
-      `https://sigma7-nodejs.herokuapp.com/api/chart/${props.activeTicker}`
+      `https://sigma7-nodejs.herokuapp.com/api/chart/${props.activeTicker}/${priceRange}`
     ).then((res) => res.json());
 
     Promise.resolve(areaPrices)

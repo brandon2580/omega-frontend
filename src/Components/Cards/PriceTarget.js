@@ -31,7 +31,7 @@ const PriceTarget = (props) => {
     ).then((res) => res.json());
 
     const prices = fetch(
-      `https://sigma7-nodejs.herokuapp.com/api/chart/${props.activeTicker}`
+      `https://sigma7-nodejs.herokuapp.com/api/chart/${props.activeTicker}/1y`
     ).then((res) => res.json());
 
     const allReqs = [prices, price_target];
