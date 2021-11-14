@@ -115,9 +115,9 @@ const LandingPage = () => {
     }
   }, []);
   return (
-    <div style={{ background: "#181818" }}>
+    <div>
       
-      <section id="home" className="hero-section">
+      <section id="home" className="hero-section" style={{minHeight: "100vh"}}>
         <div className="container">
           <div className="row align-items-center">
             <div className="col-lg-6">
