@@ -26,7 +26,7 @@ const Price = (props) => {
   useLayoutEffect(() => {
     setIsLoading(true);
     const candlestickPrices = fetch(
-      `https://sigma7-nodejs.herokuapp.com/api/chart/${props.activeTicker}`
+      `https://sigma7-nodejs.herokuapp.com/api/chart/${props.activeTicker}/${priceRange}`
     ).then((res) => res.json());
 
     Promise.resolve(candlestickPrices)
