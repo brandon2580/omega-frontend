@@ -361,7 +361,7 @@ function App() {
               <FinancialDisclaimer />
             </Route>
 
-            <Route path="/demo/">
+            <Route path="/demo">
               <div className="dashboard">
                 <DemoEquityDashboard
                   availableCards={availableCards}
