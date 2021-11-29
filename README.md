@@ -9,6 +9,9 @@ sigma7 is an equity research platform that focuses on visualizing data on stocks
 ## Link & Pictures
 https://sigma7.io
 
+## Landing Page
 ![Landing Page](https://i.gyazo.com/284b36f9445effdadf4b55aaddca4a39.png)
+## Dashboard
 ![Dashboard Page](https://i.gyazo.com/8d3338c8068ed1038d71168fdd73d8b0.png)
+## Add cards
 ![Add Card Page](https://i.gyazo.com/c83383d6910170d453c724282b96f318.png)
