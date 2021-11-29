@@ -21,7 +21,7 @@ const CompareReturns = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const compare_returns = fetch(
-      `https://sigma7-api.azure-api.net/performance?symbol=${props.activeTicker}&frame=${timeFrame}`
+      `https://sigma7-nodejs.herokuapp.com/api/compare_returns/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(compare_returns)

@@ -19,7 +19,7 @@ const InsiderTrading = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const insider_trading = fetch(
-      `https://sigma7-api.azure-api.net/insider_trx?symbol=${props.activeTicker}`
+      `https://sigma7-nodejs.herokuapp.com/api/insider_trading/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(insider_trading)

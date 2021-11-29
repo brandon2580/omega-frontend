@@ -17,7 +17,7 @@ const TopInsiders = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const top_insiders = fetch(
-      `https://sigma7-api.azure-api.net/top_insiders?symbol=${props.activeTicker}`
+      `https://sigma7-nodejs.herokuapp.com/api/top_insiders/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(top_insiders)

@@ -22,7 +22,7 @@ const News = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const news = fetch(
-      `https://sigma7-api.azure-api.net/sentiment_news?symbol=${props.activeTicker}`
+      `https://sigma7-nodejs.herokuapp.com/api/news/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(news)

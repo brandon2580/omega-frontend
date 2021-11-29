@@ -20,7 +20,7 @@ const InsidersPie = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const insiders_pie = fetch(
-      `https://sigma7-api.azure-api.net/insiders_pie?symbol=${props.activeTicker}&period=${range}`
+      `https://sigma7-nodejs.herokuapp.com/api/insiders_pie/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(insiders_pie)

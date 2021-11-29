@@ -37,19 +37,20 @@ const DashboardNavbar = (props) => {
   }, [props.darkMode]);
 
   useEffect(() => {
-    const allowed_stocks = fetch(
-      `https://sigma7-api.azure-api.net/symbols`
-    ).then((res) => res.json());
+    //   const allowed_stocks = fetch(
+    //     `https://sigma7-api.azure-api.net/symbols`
+    //   ).then((res) => res.json());
 
-    Promise.resolve(allowed_stocks).then((allowed_stocks) => {
-      let mapped = allowed_stocks.symbols.map((el, i) => {
-        return {
-          symbol: el.symbol,
-          name: el.name,
-        };
-      });
-      setAllowedStocks(mapped);
-    });
+    //   Promise.resolve(allowed_stocks).then((allowed_stocks) => {
+    //     let mapped = allowed_stocks.symbols.map((el, i) => {
+    //       return {
+    //         symbol: el.symbol,
+    //         name: el.name,
+    //       };
+    //     });
+    //     setAllowedStocks(mapped);
+    //   });
+    setAllowedStocks([{name: "Apple, Inc.", symbol: "AAPL"}, {name: "Microsoft Corp.", symbol: "MSFT"}]);
   }, [props.activeTicker]);
 
   useEffect(() => {
@@ -110,7 +111,6 @@ const DashboardNavbar = (props) => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark fixed-top bg-dark dashboard-navbar">
-
       <button
         className="navbar-toggler"
         type="button"
@@ -171,34 +171,34 @@ const DashboardNavbar = (props) => {
 
         <div className="ml-auto row dashboard-nav-buttons">
           <div className="dashboard-nav-button ">
-              <AddCardModal
-                availableCards={props.availableCards}
-                setAvailableCards={props.setAvailableCards}
-                selectedCardsIndex={props.selectedCardsIndex}
-                setSelectedCardsIndex={props.setSelectedCardsIndex}
-                darkMode={props.darkMode}
-                activeTicker={props.activeTicker}
-              />
+            <AddCardModal
+              availableCards={props.availableCards}
+              setAvailableCards={props.setAvailableCards}
+              selectedCardsIndex={props.selectedCardsIndex}
+              setSelectedCardsIndex={props.setSelectedCardsIndex}
+              darkMode={props.darkMode}
+              activeTicker={props.activeTicker}
+            />
           </div>
 
           <div className="dashboard-nav-button">
             <SaveLayoutButton
-                wasTaken={props.wasTaken}
-                setNewLayoutName={props.setNewLayoutName}
-                userID={props.userID}
-                dashboardNames={props.dashboardNames}
-                setDashboardNames={props.setDashboardNames}
-                setSelectedLayoutIndex={props.setSelectedLayoutIndex}
-                setWasYourDashboardSelected={props.setWasYourDashboardSelected}
-              />
+              wasTaken={props.wasTaken}
+              setNewLayoutName={props.setNewLayoutName}
+              userID={props.userID}
+              dashboardNames={props.dashboardNames}
+              setDashboardNames={props.setDashboardNames}
+              setSelectedLayoutIndex={props.setSelectedLayoutIndex}
+              setWasYourDashboardSelected={props.setWasYourDashboardSelected}
+            />
           </div>
 
           <div className="dashboard-nav-button">
             <ShareLayoutModal
-                userID={props.userID}
-                mainLayout={props.mainLayout}
-                selectedDashboardName={props.selectedDashboardName}
-              />
+              userID={props.userID}
+              mainLayout={props.mainLayout}
+              selectedDashboardName={props.selectedDashboardName}
+            />
           </div>
         </div>
       </div>

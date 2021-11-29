@@ -18,7 +18,7 @@ const CEOPayBreakdown = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const ceo_pay = fetch(
-      `https://sigma7-api.azure-api.net/ceo_pay?symbol=${props.activeTicker}`
+      `https://sigma7-nodejs.herokuapp.com/api/ceo_pay/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(ceo_pay)

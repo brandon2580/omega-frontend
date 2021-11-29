@@ -17,7 +17,7 @@ const TopPoliticalInsiders = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const top_political_insiders = fetch(
-      `https://sigma7-api.azure-api.net/top_political_traders?symbol=${props.activeTicker}`
+      `https://sigma7-nodejs.herokuapp.com/api/top_political_insiders/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(top_political_insiders)

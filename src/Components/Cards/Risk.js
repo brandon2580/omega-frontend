@@ -20,7 +20,7 @@ const Risk = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const risk = fetch(
-      `https://sigma7-api.azure-api.net/sharpe?symbol=${props.activeTicker}`
+      `https://sigma7-nodejs.herokuapp.com/api/risk/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(risk)

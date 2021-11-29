@@ -18,7 +18,7 @@ const CorrelatedMarkets = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const correlated_markets = fetch(
-      `https://sigma7-api.azure-api.net/corr_metrics/?symbol=${props.activeTicker}&frame=1y`
+      `https://sigma7-nodejs.herokuapp.com/api/correlated_markets/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(correlated_markets)

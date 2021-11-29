@@ -25,7 +25,7 @@ const Dividends = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const dividend_yields = fetch(
-      `https://sigma7-api.azure-api.net/div_yield?symbol=${props.activeTicker}`
+      `https://sigma7-nodejs.herokuapp.com/api/dividend_yields/${props.activeTicker}`
     ).then((res) => res.json());
 
     const dividend_raw = fetch(
@@ -103,7 +103,7 @@ const Dividends = (props) => {
   };
 
   useEffect(() => {
-    am4core.ready(function () {
+    am4core.ready(function() {
       // Create chart instance
       const chart = am4core.create("dividend-yield-div", am4charts.XYChart);
 
@@ -143,7 +143,7 @@ const Dividends = (props) => {
   }, [isLoading, dividendYieldsSeries, view, textColor]);
 
   useEffect(() => {
-    am4core.ready(function () {
+    am4core.ready(function() {
       // Create chart instance
       const chart = am4core.create("dividend-raw-div", am4charts.XYChart);
 

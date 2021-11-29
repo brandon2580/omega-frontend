@@ -10,7 +10,7 @@ const CompanyHeader = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const company = fetch(
-      `https://sigma7-api.azure-api.net/ticker_card?symbol=${props.activeTicker}`
+      `https://sigma7-nodejs.herokuapp.com/api/company/${props.activeTicker}`
     ).then((res) => res.json());
 
     const price = fetch(

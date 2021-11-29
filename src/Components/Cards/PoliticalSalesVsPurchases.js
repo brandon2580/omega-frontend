@@ -20,7 +20,7 @@ const PoliticalSalesVsPurchases = (props) => {
   useEffect(() => {
     setIsLoading(true);
     const political_pie = fetch(
-      `https://sigma7-api.azure-api.net/political_pie?symbol=${props.activeTicker}&period=${range}`
+      `https://sigma7-nodejs.herokuapp.com/api/political_pie/${props.activeTicker}`
     ).then((res) => res.json());
 
     Promise.resolve(political_pie)
