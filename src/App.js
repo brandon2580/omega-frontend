@@ -26,7 +26,7 @@ function App() {
   const [activeTicker, setActiveTicker] = useState("");
   // The values in the state array represent the id's of the cards that render on the dashboard by default.
   // These are the initial "selected" cards that render by default.
-  const [selectedCardsIndex, setSelectedCardsIndex] = useState([4, 2, 7, 5, 6]);
+  const [selectedCardsIndex, setSelectedCardsIndex] = useState([4, 17, 22, 18, 6]);
 
   // These are every single available card throughout the platform, each identified by an id
   // which helps with identifying which cards are rendered on the dashboard and which ones aren't
