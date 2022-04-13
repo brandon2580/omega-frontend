@@ -58,9 +58,9 @@ const DemoHomeDashboard = (props) => {
   // widths, heights, and (x, y) positions on the grid
   const [mainLayout, setMainLayout] = useState([
     { i: "4", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
-    { i: "2", x: 6, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
-    { i: "7", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
-    { i: "5", x: 6, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+    { i: "17", x: 6, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+    { i: "22", x: 0, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
+    { i: "18", x: 6, y: 0, w: 6, h: 1, minW: 3, maxH: 1 },
     { i: "6", x: 0, y: 0, w: 12, h: 1, minW: 3, maxH: 1 },
   ]);
   const [newLayout, setNewLayout] = useState({});
