@@ -7,7 +7,7 @@ Although every effort has been made to provide complete and accurate information
 sigma7 is an equity research platform that focuses on visualizing data on stocks. As of 11/28/2021, the project/company is discontinued and is open source. It has data for AAPL and MSFT only, with the data being last updated 11/28/2021 (with the exception of some widgets which will continue to update themselves).
 
 ## Link & Pictures
-https://sigma7.io
+https://sigma7.io (DEPRECATED)
 
 ## Landing Page
 ![Landing Page](https://i.gyazo.com/284b36f9445effdadf4b55aaddca4a39.png)
